@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    domains: ['example.com'],
     remotePatterns: [
       {
         protocol: "https",
@@ -29,6 +30,18 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "img1.akspic.ru",
+        pathname: "**",
+        port: ""
+      },
+      {
+        protocol: "https",
+        hostname: "krisha-photos.kcdn.online",
+        pathname: "**",
+        port: ""
+      },
+      {
+        protocol: "https",
+        hostname: "krisha.kz",
         pathname: "**",
         port: ""
       }

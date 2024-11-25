@@ -8,3 +8,10 @@ export const formatPrice = (price: number): string => {
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+export const fixImageUrl = (url: string): string => {
+  if (url.startsWith("//")) {
+    return `https:${url}`;
+  }
+  return url;
+};

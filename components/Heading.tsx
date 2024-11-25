@@ -1,24 +1,20 @@
-import React from "react";
-import BackButton from "./BackButton";
+import React from 'react';
+import BackButton from './BackButton';
 
 interface HeadingProps {
   title: string;
   subtitle?: string;
   center?: boolean;
   backBtn?: boolean;
+  city?: string;
 }
 
-const Heading: React.FC<HeadingProps> = ({
-  title,
-  subtitle,
-  center,
-  backBtn = false,
-}) => {
+const Heading: React.FC<HeadingProps> = ({ title, subtitle, center, city, backBtn = false }) => {
   return (
     <div className="flex items-center justify-between">
-      <div className={center ? "text-center" : "text-start"}>
+      <div className={center ? 'text-center' : 'text-start'}>
         <h3 className="text-2xl font-bold leading-[1.25]">{title}</h3>
-        <p className="font-light text-neutral-500 md:mt-1 mt-2">{subtitle}</p>
+        <p className="font-light text-neutral-500 md:mt-1 mt-2">{city}</p>
       </div>
       {backBtn ? <BackButton /> : null}
     </div>

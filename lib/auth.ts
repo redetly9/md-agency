@@ -1,10 +1,12 @@
-import bcrypt from "bcrypt";
-import { AuthOptions } from "next-auth";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
-import GitHubProvider from "next-auth/providers/github";
-import { db } from "./db";
+// @ts-nocheck
+
+import bcrypt from 'bcrypt';
+import { AuthOptions } from 'next-auth';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import GoogleProvider from 'next-auth/providers/google';
+import GitHubProvider from 'next-auth/providers/github';
+import { db } from './db';
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(db),
@@ -18,18 +20,18 @@ export const authOptions: AuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
     CredentialsProvider({
-      name: "credentials",
+      name: 'credentials',
       credentials: {
-        email: { label: "email", type: "text" },
+        email: { label: 'email', type: 'text' },
         password: {
-          label: "password",
-          type: "password",
+          label: 'password',
+          type: 'password',
         },
       },
 
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error("Invalid credentials");
+          throw new Error('Invalid credentials');
         }
 
         const user = await db.user.findUnique({
@@ -38,14 +40,11 @@ export const authOptions: AuthOptions = {
           },
         });
 
-        if (!user || !user?.password) throw new Error("Invalid credentials");
+        if (!user || !user?.password) throw new Error('Invalid credentials');
 
-        const isCorrectPassword = await bcrypt.compare(
-          credentials.password,
-          user.password
-        );
+        const isCorrectPassword = await bcrypt.compare(credentials.password, user.password);
 
-        if (!isCorrectPassword) throw new Error("Invalid credentials");
+        if (!isCorrectPassword) throw new Error('Invalid credentials');
 
         return user;
       },
@@ -70,10 +69,10 @@ export const authOptions: AuthOptions = {
     },
   },
   pages: {
-    signIn: "/",
+    signIn: '/',
   },
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
   },
   secret: process.env.NEXTAUTH_SECRET,
 };

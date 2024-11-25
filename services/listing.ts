@@ -1,13 +1,16 @@
-"use server";
-import { db } from "@/lib/db";
-import { LISTINGS_BATCH } from "@/utils/constants";
-import { getCurrentUser } from "./user";
+// @ts-nocheck
+
+'use server';
+import { db } from '@/lib/db';
+import { LISTINGS_BATCH } from '@/utils/constants';
+import { getCurrentUser } from './user';
+import axios from 'axios';
 
 export const getListings = async (query?: {
   [key: string]: string | string[] | undefined | null;
 }) => {
   console.log('getListings');
-  
+
   try {
     const {
       userId,
@@ -19,6 +22,7 @@ export const getListings = async (query?: {
       endDate,
       category,
       cursor,
+      city, // Добавлено поле для фильтрации по городу
     } = query || {};
 
     let where: any = {};
@@ -53,6 +57,10 @@ export const getListings = async (query?: {
       where.country = country;
     }
 
+    if (city) {
+      where.city = city; // Добавляем фильтрацию по городу
+    }
+
     if (startDate && endDate) {
       where.NOT = {
         reservations: {
@@ -75,7 +83,7 @@ export const getListings = async (query?: {
     const filterQuery: any = {
       where,
       take: LISTINGS_BATCH,
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: 'desc' },
     };
 
     if (cursor) {
@@ -86,12 +94,8 @@ export const getListings = async (query?: {
     const listings = await db.listing.findMany(filterQuery);
 
     console.log('listings 1', listings);
-    
 
-    const nextCursor =
-      listings.length === LISTINGS_BATCH
-        ? listings[LISTINGS_BATCH - 1].id
-        : null;
+    const nextCursor = listings.length === LISTINGS_BATCH ? listings[LISTINGS_BATCH - 1].id : null;
 
     return {
       listings,
@@ -99,7 +103,7 @@ export const getListings = async (query?: {
     };
   } catch (error) {
     console.log('error 1', error);
-    
+
     return {
       listings: [],
       nextCursor: null,
@@ -109,7 +113,7 @@ export const getListings = async (query?: {
 
 export const getListingById = async (id: number) => {
   console.log('id', id);
-  
+
   const listing = await db.listing.findUnique({
     where: {
       id,
@@ -129,6 +133,13 @@ export const getListingById = async (id: number) => {
       },
     },
   });
+  try {
+    const response = await axios.get(`http://localhost:3010/api/parse/show/${id}`);
+    return response.data; // Возвращаем данные объявления
+  } catch (error) {
+    console.error('Ошибка при получении объявления по ID:', error);
+    return null; // Возвращаем null в случае ошибки
+  }
 
   return listing;
 };
@@ -148,12 +159,12 @@ export const createListing = async (data: { [x: string]: any }) => {
 
   Object.keys(data).forEach((value: any) => {
     if (!data[value]) {
-      throw new Error("Invalid data");
+      throw new Error('Invalid data');
     }
   });
 
   const user = await getCurrentUser();
-  if (!user) throw new Error("Unauthorized!");
+  if (!user) throw new Error('Unauthorized!');
 
   const listing = await db.listing.create({
     data: {

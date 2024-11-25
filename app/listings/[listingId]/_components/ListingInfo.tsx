@@ -1,9 +1,9 @@
-import React from "react";
-import dynamic from "next/dynamic";
+import React from 'react';
+import dynamic from 'next/dynamic';
 
-import Avatar from "@/components/Avatar";
-import ListingCategory from "./ListingCategory";
-import { Category } from "@/types";
+import Avatar from '@/components/Avatar';
+import ListingCategory from './ListingCategory';
+import { Category } from '@/types';
 
 interface ListingInfoProps {
   user: {
@@ -18,7 +18,7 @@ interface ListingInfoProps {
   latlng: number[];
 }
 
-const Map = dynamic(() => import("@/components/Map"), {
+const Map = dynamic(() => import('@/components/Map'), {
   ssr: false,
 });
 
@@ -40,11 +40,10 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
         </div>
         <div
           className="flex flex-row items-center gap-4 font-light text-neutral-700
-          "
-        >
-          <span>{guestCount} guests</span>
-          <span>{roomCount} rooms</span>
-          <span>{bathroomCount} bathrooms</span>
+          ">
+          <span>Площадь: {guestCount}</span>
+          <span>Тип дома: {roomCount} </span>
+          <span>Санузел: {bathroomCount}</span>
         </div>
       </div>
       <hr />
@@ -52,7 +51,7 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
         <ListingCategory
           icon={category.icon}
           label={category?.label}
-          description={category?.description || ""}
+          description={category?.description || ''}
         />
       )}
       <hr />

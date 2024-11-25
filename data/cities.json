@@ -1,0 +1,86 @@
+[
+  {
+    "value": "astana",
+    "label": "Astana",
+    "latlng": [13, -2],
+    "region": "Kazakhstan"
+  },
+  {
+    "value": "almaty",
+    "label": "Almaty",
+    "latlng": [33, 65],
+    "region": "Kazakhstan"
+  },
+  {
+    "value": "shymkent",
+    "label": "Shymkent",
+    "latlng": [33, 65],
+    "region": "Kazakhstan"
+  },
+  {
+    "value": "semei",
+    "label": "Semei",
+    "latlng": [33, 65],
+    "region": "Kazakhstan"
+  },
+  {
+    "value": "kokshetau",
+    "label": "Kokshetau",
+    "latlng": [33, 65],
+    "region": "Kazakhstan"
+  },
+  {
+    "value": "aktobe",
+    "label": "Aktobe",
+    "latlng": [33, 65],
+    "region": "Kazakhstan"
+  },
+  {
+    "value": "atyrau",
+    "label": "Atyrau",
+    "latlng": [33, 65],
+    "region": "Kazakhstan"
+  },
+  {
+    "value": "pavlodar",
+    "label": "Pavlodar",
+    "latlng": [33, 65],
+    "region": "Kazakhstan"
+  },
+  {
+    "value": "karaganda",
+    "label": "Karaganda",
+    "latlng": [33, 65],
+    "region": "Kazakhstan"
+  },
+  {
+    "value": "kyzylorda",
+    "label": "Kyzylorda",
+    "latlng": [33, 65],
+    "region": "Kazakhstan"
+  },
+  {
+    "value": "taraz",
+    "label": "Taraz",
+    "latlng": [33, 65],
+    "region": "Kazakhstan"
+  },
+  {
+    "value": "kostanay",
+    "label": "Kostanay",
+    "latlng": [33, 65],
+    "region": "Kazakhstan"
+  },
+  {
+    "value": "uralsk",
+    "label": "Uralsk",
+    "latlng": [33, 65],
+    "region": "Kazakhstan"
+  },
+  {
+    "value": "taldykorgan",
+    "label": "Taldykorgan",
+    "latlng": [33, 65],
+    "region": "Kazakhstan"
+  }
+]

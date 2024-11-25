@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 
-import EmptyState from "@/components/EmptyState";
-import ListingHead from "./_components/ListingHead";
-import ListingInfo from "./_components/ListingInfo";
-import ListingClient from "./_components/ListingClient";
+import EmptyState from '@/components/EmptyState';
+import ListingHead from './_components/ListingHead';
+import ListingInfo from './_components/ListingInfo';
+import ListingClient from './_components/ListingClient';
 
-import { getCurrentUser } from "@/services/user";
-import { getListingById } from "@/services/listing";
-import { categories } from "@/utils/constants";
+import { getCurrentUser } from '@/services/user';
+import { getListingById } from '@/services/listing';
+import { categories } from '@/utils/constants';
 
 interface IParams {
   listingId: number;
@@ -33,20 +33,16 @@ const ListingPage = async ({ params: { listingId } }: { params: IParams }) => {
     bathroomCount,
     latlng,
     reservations,
+    additionalDetails,
   } = listing;
 
   const category = categories.find((cate) => cate.label === listing.category);
+  console.log('listinglisting', listing);
 
   return (
     <section className="main-container">
       <div className="flex flex-col gap-6">
-        <ListingHead
-          title={title}
-          image={imageSrc}
-          country={country}
-          region={region}
-          id={id}
-        />
+        <ListingHead title={title} image={imageSrc} country={country} region={region} id={id} />
       </div>
 
       <ListingClient
@@ -54,15 +50,14 @@ const ListingPage = async ({ params: { listingId } }: { params: IParams }) => {
         price={price}
         reservations={reservations}
         user={currentUser}
-        title={title}
-      >
+        title={title}>
         <ListingInfo
           user={owner}
           category={category}
           description={description}
-          roomCount={roomCount}
-          guestCount={guestCount}
-          bathroomCount={bathroomCount}
+          roomCount={additionalDetails?.houseType}
+          guestCount={additionalDetails?.area}
+          bathroomCount={additionalDetails?.bathroom}
           latlng={latlng}
         />
       </ListingClient>

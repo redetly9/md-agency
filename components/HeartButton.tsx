@@ -1,23 +1,22 @@
-"use client";
-import React, { useState, useCallback, useRef } from "react";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { toast } from "react-hot-toast";
-import { useMutation } from "@tanstack/react-query";
-import debounce from "lodash.debounce";
-import { useSession } from "next-auth/react";
+// @ts-nocheck
+'use client';
+import React, { useState, useCallback, useRef } from 'react';
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
+import { toast } from 'react-hot-toast';
+import { useMutation } from '@tanstack/react-query';
 
-import { cn } from "@/utils/helper";
-import { updateFavorite } from "@/services/favorite";
+import debounce from 'lodash.debounce';
+import { useSession } from 'next-auth/react';
+
+import { cn } from '@/utils/helper';
+import { updateFavorite } from '@/services/favorite';
 
 interface HeartButtonProps {
   listingId: string;
   hasFavorited: boolean;
 }
 
-const HeartButton: React.FC<HeartButtonProps> = ({
-  listingId,
-  hasFavorited: initialValue,
-}) => {
+const HeartButton: React.FC<HeartButtonProps> = ({ listingId, hasFavorited: initialValue }) => {
   const { status } = useSession();
   const [hasFavorited, setHasFavorited] = useState(initialValue);
   const hasFavoritedRef = useRef(initialValue);
@@ -26,8 +25,8 @@ const HeartButton: React.FC<HeartButtonProps> = ({
     onError: () => {
       hasFavoritedRef.current = !hasFavoritedRef.current;
       setHasFavorited(hasFavoritedRef.current);
-      toast.error("Failed to favorite");
-    }
+      toast.error('Failed to favorite');
+    },
   });
 
   const debouncedUpdateFavorite = debounce(() => {
@@ -46,8 +45,8 @@ const HeartButton: React.FC<HeartButtonProps> = ({
     e.stopPropagation();
     e.preventDefault();
 
-    if (status !== "authenticated") {
-      toast.error("Please sign in to favorite the listing!");
+    if (status !== 'authenticated') {
+      toast.error('Please sign in to favorite the listing!');
       return;
     }
 
@@ -60,8 +59,7 @@ const HeartButton: React.FC<HeartButtonProps> = ({
     <button
       type="button"
       onClick={handleClick}
-      className=" relative hover:opacity-80 transition cursor-pointer z-[5] "
-    >
+      className=" relative hover:opacity-80 transition cursor-pointer z-[5] ">
       <AiOutlineHeart
         size={28}
         className="
@@ -73,7 +71,7 @@ const HeartButton: React.FC<HeartButtonProps> = ({
       />
       <AiFillHeart
         size={24}
-        className={cn(hasFavorited ? "fill-rose-500" : "fill-neutral-500/70")}
+        className={cn(hasFavorited ? 'fill-rose-500' : 'fill-neutral-500/70')}
       />
     </button>
   );

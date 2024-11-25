@@ -1,22 +1,24 @@
-"use server";
-import { db } from "@/lib/db";
-import { LISTINGS_BATCH } from "@/utils/constants";
-import { getCurrentUser } from "./user";
-import { revalidatePath } from "next/cache";
+// @ts-nocheck
+
+'use server';
+import { db } from '@/lib/db';
+import { LISTINGS_BATCH } from '@/utils/constants';
+import { getCurrentUser } from './user';
+import { revalidatePath } from 'next/cache';
 
 export const getProperties = async (args?: Record<string, string>) => {
   try {
     const { userId, cursor } = args || {};
 
     if (!userId) {
-      throw new Error("Unauthorized");
+      throw new Error('Unauthorized');
     }
     const filterQuery: any = {
       where: {
         userId,
       },
       take: LISTINGS_BATCH,
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: 'desc' },
     };
 
     if (cursor) {
@@ -29,9 +31,7 @@ export const getProperties = async (args?: Record<string, string>) => {
     });
 
     const nextCursor =
-      properties.length === LISTINGS_BATCH
-        ? properties[LISTINGS_BATCH - 1].id
-        : null;
+      properties.length === LISTINGS_BATCH ? properties[LISTINGS_BATCH - 1].id : null;
 
     return {
       listings: properties,
@@ -50,11 +50,11 @@ export const deleteProperty = async (listingId: string) => {
     const currentUser = await getCurrentUser();
 
     if (!currentUser) {
-      throw new Error("Unauthorized");
+      throw new Error('Unauthorized');
     }
 
-    if (!listingId || typeof listingId !== "string") {
-      throw new Error("Invalid ID");
+    if (!listingId || typeof listingId !== 'string') {
+      throw new Error('Invalid ID');
     }
 
     await db.listing.deleteMany({
@@ -64,15 +64,15 @@ export const deleteProperty = async (listingId: string) => {
       },
     });
 
-    revalidatePath("/");
-    revalidatePath("/reservation");
-    revalidatePath("/trips");
-    revalidatePath("/favorites");
-    revalidatePath("/properties");
+    revalidatePath('/');
+    revalidatePath('/reservation');
+    revalidatePath('/trips');
+    revalidatePath('/favorites');
+    revalidatePath('/properties');
     revalidatePath(`/listings/${listingId}`);
 
-    return "success";
+    return 'success';
   } catch (error) {
-    throw new Error("Failed to delete the property!");
+    throw new Error('Failed to delete the property!');
   }
 };

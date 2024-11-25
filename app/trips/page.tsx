@@ -1,13 +1,15 @@
-import React, { Suspense } from "react";
+// @ts-nocheck
 
-import EmptyState from "@/components/EmptyState";
-import Heading from "@/components/Heading";
-import ListingCard from "@/components/ListingCard";
-import LoadMore from "@/components/LoadMore";
+import React, { Suspense } from 'react';
 
-import { getCurrentUser } from "@/services/user";
-import { getReservations } from "@/services/reservation";
-import { getFavorites } from "@/services/favorite";
+import EmptyState from '@/components/EmptyState';
+import Heading from '@/components/Heading';
+import ListingCard from '@/components/ListingCard';
+import LoadMore from '@/components/LoadMore';
+
+import { getCurrentUser } from '@/services/user';
+import { getReservations } from '@/services/reservation';
+import { getFavorites } from '@/services/favorite';
 
 const TripsPage = async () => {
   const user = await getCurrentUser();
@@ -21,20 +23,13 @@ const TripsPage = async () => {
 
   if (listings.length === 0) {
     return (
-      <EmptyState
-        title="No trips found"
-        subtitle="Looks like you haven't reserved any trips."
-      />
+      <EmptyState title="No trips found" subtitle="Looks like you haven't reserved any trips." />
     );
   }
 
   return (
     <section className="main-container">
-      <Heading
-        title="Trips"
-        subtitle="Where you've been and where you're going."
-        backBtn
-      />
+      <Heading title="Trips" subtitle="Where you've been and where you're going." backBtn />
       <div className=" mt-8 md:mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-8">
         {listings.map((listing) => {
           const { reservation, ...data } = listing;
@@ -54,7 +49,7 @@ const TripsPage = async () => {
               nextCursor={nextCursor}
               fnArgs={{ userId: user.id }}
               queryFn={getReservations}
-              queryKey={["trips", user.id]}
+              queryKey={['trips', user.id]}
               favorites={favorites}
             />
           </Suspense>

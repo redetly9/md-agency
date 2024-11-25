@@ -1,24 +1,18 @@
-"use client";
-import React, {
-  ReactNode,
-  useEffect,
-  useMemo,
-  useState,
-  useTransition,
-} from "react";
-import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";
-import { Range } from "react-date-range";
-import { User } from "next-auth";
-import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+'use client';
+import React, { ReactNode, useEffect, useMemo, useState, useTransition } from 'react';
+import { differenceInCalendarDays, eachDayOfInterval } from 'date-fns';
+import { Range } from 'react-date-range';
+import { User } from 'next-auth';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
-import ListingReservation from "./ListingReservation";
-import { createPaymentSession, createReservation } from "@/services/reservation";
+import ListingReservation from './ListingReservation';
+import { createPaymentSession, createReservation } from '@/services/reservation';
 
 const initialDateRange = {
   startDate: new Date(),
   endDate: new Date(),
-  key: "selection",
+  key: 'selection',
 };
 
 interface ListingClientProps {
@@ -64,10 +58,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
 
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {
-      const dayCount = differenceInCalendarDays(
-        dateRange.endDate,
-        dateRange.startDate
-      );
+      const dayCount = differenceInCalendarDays(dateRange.endDate, dateRange.startDate);
 
       if (dayCount && price) {
         setTotalPrice((dayCount + 1) * price);
@@ -78,7 +69,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
   }, [dateRange.endDate, dateRange.startDate, price]);
 
   const onCreateReservation = () => {
-    if (!user) return toast.error("Please log in to reserve listing.");
+    if (!user) return toast.error('Please log in to reserve listing.');
     startTransition(async () => {
       try {
         const { endDate, startDate } = dateRange;
@@ -89,7 +80,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
           totalPrice,
         });
 
-        if(res?.url){
+        if (res?.url) {
           router.push(res.url);
         }
       } catch (error: any) {
