@@ -17,6 +17,8 @@ const ListingPage = async ({ params: { listingId } }: { params: IParams }) => {
   const listing = await getListingById(+listingId);
   const currentUser = await getCurrentUser();
 
+  console.log('ListingPage');
+
   if (!listing) return <EmptyState />;
 
   const {
