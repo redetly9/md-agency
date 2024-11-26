@@ -12,9 +12,12 @@ interface KrishaListProps {
   searchParams?: { [key: string]: string | undefined };
 }
 
+// Берем базовый URL из переменной окружения
+const BASE_URL = process.env.NEXT_PUBLIC_PARSING_SERVER_URL;
+
 const fetchData = async (city: string | null) => {
   if (!city) throw new Error('City is not defined');
-  const response = await axios.get(`http://localhost:3010/api/parse/${city}`);
+  const response = await axios.get(`${BASE_URL}/api/parse/${city}`);
   return response.data;
 };
 

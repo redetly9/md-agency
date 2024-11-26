@@ -6,10 +6,12 @@ import { LISTINGS_BATCH } from '@/utils/constants';
 import { getCurrentUser } from './user';
 import axios from 'axios';
 
+const BASE_URL = process.env.NEXT_PUBLIC_PARSING_SERVER_URL;
 export const getListings = async (query?: {
   [key: string]: string | string[] | undefined | null;
 }) => {
   console.log('getListings');
+  console.log('PARSING_SERVER_URL:', BASE_URL);
 
   try {
     const {
@@ -134,7 +136,7 @@ export const getListingById = async (id: number) => {
     },
   });
   try {
-    const response = await axios.get(`http://localhost:3010/api/parse/show/${id}`);
+    const response = await axios.get(`${BASE_URL}/api/parse/show/${id}`);
     return response.data; // Возвращаем данные объявления
   } catch (error) {
     console.error('Ошибка при получении объявления по ID:', error);

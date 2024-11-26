@@ -1,8 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
+// Используем переменную окружения
+const BASE_URL = process.env.NEXT_PUBLIC_PARSING_SERVER_URL;
+
 const fetchData = async () => {
-  const response = await axios.get('http://localhost:3010/api/parse');
+  const response = await axios.get(`${BASE_URL}/api/parse`);
   return response.data;
 };
 
