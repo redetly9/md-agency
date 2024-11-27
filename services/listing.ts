@@ -116,25 +116,25 @@ export const getListings = async (query?: {
 export const getListingById = async (id: number) => {
   console.log('id', id);
 
-  const listing = await db.listing.findUnique({
-    where: {
-      id,
-    },
-    include: {
-      user: {
-        select: {
-          name: true,
-          image: true,
-        },
-      },
-      reservations: {
-        select: {
-          startDate: true,
-          endDate: true,
-        },
-      },
-    },
-  });
+  // const listing = await db.listing.findUnique({
+  //   where: {
+  //     id,
+  //   },
+  //   include: {
+  //     user: {
+  //       select: {
+  //         name: true,
+  //         image: true,
+  //       },
+  //     },
+  //     reservations: {
+  //       select: {
+  //         startDate: true,
+  //         endDate: true,
+  //       },
+  //     },
+  //   },
+  // });
   try {
     const response = await axios.get(`${BASE_URL}/api/parse/show/${id}`);
     return response.data; // Возвращаем данные объявления
