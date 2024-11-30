@@ -25,7 +25,7 @@ const ListingCard: React.FC<ListingCardProps> = ({ data, reservation, hasFavorit
     const end = new Date(reservation.endDate);
     reservationDate = `${format(start, 'PP')} - ${format(end, 'PP')}`;
   }
-  console.log(data);
+
   return (
     <div className="relative">
       <div className="absolute top-0 left-0 p-3 flex items-center justify-between w-full">

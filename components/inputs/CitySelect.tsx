@@ -2,9 +2,8 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
 import cities from '@/data/cities.json';
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { setCity } from '@/store/store';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
 
 export type CitySelectValue = {
   flag: string;
@@ -15,19 +14,17 @@ export type CitySelectValue = {
 };
 
 interface CitySelectProps {
-  onFilter: (filteredListings: any[]) => void;
+  handleChange: (filteredListings: any[]) => void;
 }
 
-const CitySelect: React.FC<CitySelectProps> = ({ onFilter }) => {
-  const dispatch = useDispatch();
+const CitySelect: React.FC<CitySelectProps> = ({ handleChange }) => {
+  const city = useSelector((state: RootState) => state.city.selectedCity);
 
-  const handleChange = (selectedCity: any) => {
-    dispatch(setCity(selectedCity?.value || null));
-  };
   return (
     <Select
       className="ml-[20px]"
       placeholder="Выберите город"
+      defaultValue={city}
       isClearable
       options={cities}
       onChange={handleChange}

@@ -2,11 +2,15 @@
 
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
+import { RootState, setCity } from '@/store/store';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import ListingCard from '@/components/ListingCard';
 import EmptyState from '@/components/EmptyState';
+import { useDispatch } from 'react-redux';
+import CitySelect from './inputs/CitySelect';
+import Button from './Button';
+import Link from 'next/link';
 
 interface KrishaListProps {
   searchParams?: { [key: string]: string | undefined };
@@ -23,6 +27,7 @@ const fetchData = async (city: string | null) => {
 
 const KrishaList: React.FC<KrishaListProps> = () => {
   const city = useSelector((state: RootState) => state.city.selectedCity);
+  const dispatch = useDispatch();
 
   const { data, isError, isLoading } = useQuery({
     queryKey: ['krishaListings', city],
@@ -34,13 +39,30 @@ const KrishaList: React.FC<KrishaListProps> = () => {
   if (isError) return <EmptyState title="Error" subtitle="Failed to fetch data" />;
   if (!data || data.length === 0)
     return <EmptyState title="No Listings found" subtitle="Looks like you have no properties." />;
+  const handleChange = (selectedCity: any) => {
+    dispatch(setCity(selectedCity?.value || null));
+  };
 
   return (
-    <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-8 mt-[70px] px-[40px]">
-      {data.map((listing: any) => (
-        <ListingCard key={listing.id} data={listing} hasFavorited={false} />
-      ))}
-    </section>
+    <div className="px-[40px] s:px-[10px]">
+      <div className="flex justify-end mb-[25px] gap-[20px] items-center">
+        <div className="flex gap-[10px] items-center s:flex-col md:flex-row">
+          <p>Сортировать по: </p>
+          <CitySelect handleChange={handleChange} />
+        </div>
+        <div>
+          {/* Ссылка на страницу калькулятора */}
+          <Link href="/calculator">
+            <Button className="p-[10px]">Калькулятор</Button>
+          </Link>
+        </div>
+      </div>
+      <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-8 ">
+        {data.map((listing: any) => (
+          <ListingCard key={listing.id} data={listing} hasFavorited={false} />
+        ))}
+      </section>
+    </div>
   );
 };
 

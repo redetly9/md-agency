@@ -13,22 +13,23 @@ interface NavbarProps {}
 const Navbar: React.FC<NavbarProps> = async () => {
   const user = await getCurrentUser();
 
+  // styles for fixed navbar " "
+
   return (
-    <header className="fixed top-0 left-0 w-full bg-white z-10 mb-[64px]">
+    <header className="mb-[32px]">
       <nav className="py-3 border-b-[1px]">
-        <div className="flex main-container flex-row justify-between items-center gap-10 md:gap-0">
+        <div className="flex main-container flex-row justify-between items-center gap-10 s:gap-5 md:gap-0">
           <Logo />
           <Suspense fallback={<></>}>
             <Search />
           </Suspense>
 
           <UserMenu user={user} />
-          <CitySelect />
         </div>
       </nav>
-      <div>
+      {/* <div>
         <Categories />
-      </div>
+      </div> */}
     </header>
   );
 };
