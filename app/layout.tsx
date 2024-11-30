@@ -5,7 +5,6 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import Navbar from '@/components/navbar';
 import Providers from '@/components/Provider';
 import CitySelect from '@/components/inputs/CitySelect';
-import Calculator from '@/components/Calculator';
 
 const nunito = Nunito({ subsets: ['latin'] });
 
