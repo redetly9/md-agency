@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: true,
+  transpilePackages: ['react-image-lightbox'], // Транспиляция пакета
   images: {
     domains: ['example.com'],
     remotePatterns: [
@@ -48,5 +50,7 @@ const nextConfig = {
     ],
   },
 };
+
+
 
 module.exports = nextConfig;
