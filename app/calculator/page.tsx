@@ -1,26 +1,48 @@
 'use client';
-import React, { useState } from 'react';
+
+import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Slider, TextField } from '@mui/material';
 
 const Calculator: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<string>('mortgage'); // Вкладка по умолчанию: "Ипотека"
+  const searchParams = useSearchParams();
+  const totalPriceFromURL = searchParams.get('totalPrice'); // Получение значения из URL
+  const activeTabFromURL = searchParams.get('activeTab'); // Получение значения вкладки из URL
+
   const [propertyValue, setPropertyValue] = useState<number>(4000000); // Стоимость недвижимости
   const [initialPayment, setInitialPayment] = useState<number>(2500000); // Первоначальный взнос
   const [loanTerm, setLoanTerm] = useState<number>(20); // Срок кредита в годах
-  const [interestRate, setInterestRate] = useState<number>(10.5); // Ставка
-  const [results, setResults] = useState<null | {
+  const [interestRate, setInterestRate] = useState<number>(10.5); // Процентная ставка
+  const [activeTab, setActiveTab] = useState<string>('mortgage'); // Активная вкладка
+
+  const [results, setResults] = useState<{
     monthlyPayment: number;
     totalPayment: number;
     overpayment: number;
     recommendedIncome: number;
     taxDeduction: number;
     loanAmount: number;
-  }>(null);
+  } | null>(null); // Результаты расчёта
 
+  // Установка propertyValue и activeTab из URL при загрузке компонента
+  useEffect(() => {
+    if (totalPriceFromURL) {
+      const parsedValue = parseFloat(totalPriceFromURL);
+      if (!isNaN(parsedValue)) {
+        setPropertyValue(parsedValue);
+      }
+    }
+
+    if (activeTabFromURL) {
+      setActiveTab(activeTabFromURL); // Установить вкладку из параметра
+    }
+  }, [totalPriceFromURL, activeTabFromURL]);
+
+  // Функция расчёта ипотеки
   const calculateMortgage = () => {
-    const loanAmount = propertyValue - initialPayment; // Сумма кредита
-    const monthlyRate = interestRate / 100 / 12; // Месячная процентная ставка
-    const numberOfPayments = loanTerm * 12; // Количество месяцев
+    const loanAmount = propertyValue - initialPayment;
+    const monthlyRate = interestRate / 100 / 12;
+    const numberOfPayments = loanTerm * 12;
 
     if (loanAmount > 0 && monthlyRate > 0 && numberOfPayments > 0) {
       const monthlyPayment =
@@ -43,9 +65,9 @@ const Calculator: React.FC = () => {
     }
   };
 
-  const formatCurrency = (value: number) => {
-    return value.toLocaleString('ru-RU', { style: 'currency', currency: 'RUB' }).replace(',00', '');
-  };
+  // Форматирование валюты
+  const formatCurrency = (value: number): string =>
+    value.toLocaleString('ru-RU', { style: 'currency', currency: 'RUB' }).replace(',00', '');
 
   return (
     <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px' }}>
@@ -79,7 +101,6 @@ const Calculator: React.FC = () => {
           {/* Левая часть: Ввод данных */}
           <div style={{ flex: 1 }}>
             <h1>Ипотека</h1>
-            {/* Стоимость недвижимости */}
             <div style={{ marginBottom: '20px' }}>
               <label style={{ display: 'block', marginBottom: '10px' }}>
                 Стоимость недвижимости:
@@ -96,13 +117,12 @@ const Calculator: React.FC = () => {
                 onChange={(e, value) => setPropertyValue(value as number)}
                 step={100000}
                 min={1000000}
-                max={10000000}
+                max={100000000}
                 valueLabelDisplay="auto"
                 valueLabelFormat={(value) => formatCurrency(value)}
               />
             </div>
 
-            {/* Первоначальный взнос */}
             <div style={{ marginBottom: '20px' }}>
               <label style={{ display: 'block', marginBottom: '10px' }}>
                 Первоначальный взнос:
@@ -119,13 +139,12 @@ const Calculator: React.FC = () => {
                 onChange={(e, value) => setInitialPayment(value as number)}
                 step={50000}
                 min={0}
-                max={propertyValue} // Первоначальный взнос не может быть больше стоимости
+                max={propertyValue}
                 valueLabelDisplay="auto"
                 valueLabelFormat={(value) => formatCurrency(value)}
               />
             </div>
 
-            {/* Срок кредита */}
             <div style={{ marginBottom: '20px' }}>
               <label style={{ display: 'block', marginBottom: '10px' }}>
                 Срок кредита (в годах):
@@ -139,7 +158,6 @@ const Calculator: React.FC = () => {
               />
             </div>
 
-            {/* Ставка */}
             <div style={{ marginBottom: '20px' }}>
               <label style={{ display: 'block', marginBottom: '10px' }}>Ставка (%):</label>
               <TextField

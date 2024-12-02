@@ -35,10 +35,12 @@ export default function CustomGallery({ images }: Props) {
           enableImageSelection={false}
         />
       ) : (
+        // Картинки 4 раяда (галлерея)
         <Gallery
           images={!isMobile ? images : images?.filter((v: any, i: any) => !i)}
           onClick={handleClick}
           enableImageSelection={false}
+          rowHeight={175}
         />
       )}
 

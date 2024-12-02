@@ -1,56 +1,37 @@
-import React from 'react';
-import { Range } from 'react-date-range';
-import dynamic from 'next/dynamic';
+'use client';
 
-import Button from '@/components/Button';
-import SpinnerMini from '@/components/Loader';
-import { formatPrice } from '@/utils/helper';
+import React from 'react';
+import Link from 'next/link';
 
 interface ListingReservationProps {
   price: number;
-  dateRange: Range;
   totalPrice: number;
-  onChangeDate: (name: string, value: Range) => void;
-  onSubmit: () => void;
-  isLoading?: boolean;
-  disabledDates: Date[];
 }
 
-const Calendar = dynamic(() => import('@/components/Calender'), {
-  ssr: false,
-});
-
-const ListingReservation: React.FC<ListingReservationProps> = ({
-  price,
-  dateRange,
-  totalPrice,
-  onChangeDate,
-  onSubmit,
-  disabledDates,
-  isLoading,
-}) => {
+const ListingReservation: React.FC<ListingReservationProps> = ({ price, totalPrice }) => {
   return (
     <div className="bg-white rounded-xl border-[1px] border-neutral-200 overflow-hidden">
       <div className="flex flex-row items-center gap-1 p-4">
-        <span className="text-lg font-semibold">{formatPrice(price)} тг.</span>
-        <span className="font-light text-neutral-600">night</span>
+        <span className="text-lg font-semibold">{price} тг.</span>
       </div>
-      <hr />
-      <Calendar value={dateRange} disabledDates={disabledDates} onChange={onChangeDate} />
-      <hr />
-      <div className="p-4">
-        <Button
-          disabled={isLoading}
-          onClick={onSubmit}
-          className="flex flex-row items-center justify-center h-[42px] "
-          size="large">
-          {isLoading ? <SpinnerMini /> : <span>Reserve</span>}
-        </Button>
+      <div className="flex p-4 gap-[8px] justify-center items-center">
+        {/* Ссылка на калькулятор для ипотеки */}
+        <Link
+          href={`/calculator?totalPrice=${totalPrice}&activeTab=mortgage`}
+          className="disabled:opacity-70 disabled:cursor-not-allowed rounded hover:opacity-80 transition w-full bg-blue-500 text-white py-[8px] text-center">
+          <button>В ипотеку</button>
+        </Link>
+        {/* Ссылка на калькулятор для аренды с выкупом */}
+        <Link
+          href={`/calculator?totalPrice=${totalPrice}&activeTab=rent`}
+          className="disabled:opacity-70 disabled:cursor-not-allowed rounded hover:opacity-80 transition w-full bg-blue-500 text-white py-[8px] text-center">
+          <button>Аренда с выкупом</button>
+        </Link>
       </div>
       <hr />
       <div className="p-4 flex flex-row items-center justify-between font-semibold text-lg">
-        <span>Total</span>
-        <span>{formatPrice(totalPrice)} тг.</span>
+        <span>Общая стоимость:</span>
+        <span>{totalPrice} тг.</span>
       </div>
     </div>
   );
