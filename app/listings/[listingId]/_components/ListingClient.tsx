@@ -97,11 +97,11 @@ const ListingClient: React.FC<ListingClientProps> = ({
         <ListingReservation
           price={price}
           totalPrice={totalPrice}
-          onChangeDate={(name, value) => setDateRange(value)}
-          dateRange={dateRange}
-          onSubmit={onCreateReservation}
-          isLoading={isLoading}
-          disabledDates={disabledDates}
+          // onChangeDate={(name, value) => setDateRange(value)}
+          // dateRange={dateRange}
+          // onSubmit={onCreateReservation}
+          // isLoading={isLoading}
+          // disabledDates={disabledDates}
         />
       </div>
     </div>
