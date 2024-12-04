@@ -1,0 +1,31 @@
+.offer__bio-title {
+  margin: 24px 0 8px;
+  color: #1c1819;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 28px;
+}
+
+.offer__parameters {
+ 
+  margin: 8px 0;
+  display: grid;
+grid-template-columns: repeat(4, 1fr);
+grid-template-rows: repeat(3, 1fr);
+grid-column-gap: 60px;
+grid-row-gap: 20px;
+}
+
+.offer__parameters dt {
+  display: block;
+  margin-bottom: 3px;
+  color: #888b94;
+  font-weight: 400;
+  font-size: 13px;
+}
+.offer__parameters dd {
+  display: block;
+  color: #1c1819;
+  font-size: 14px;
+}
+  

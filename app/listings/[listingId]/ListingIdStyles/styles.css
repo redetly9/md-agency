@@ -1,0 +1,86 @@
+/* Основной контейнер */
+.offer__description {
+  padding: 16px;
+  background-color: #f9f9f9; /* Светлый фон */
+  border-radius: 8px; /* Скругленные углы */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Легкая тень */
+}
+
+/* Заголовки разделов */
+.offer__bio-title {
+  font-size: 18px; /* Размер шрифта */
+  font-weight: bold; /* Жирный текст */
+  color: #333; /* Темный цвет текста */
+  margin-bottom: 12px; /* Отступ снизу */
+}
+
+/* Контейнер параметров */
+.offer__parameters {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Сетка с двумя колонками */
+  gap: 8px; /* Промежутки между элементами */
+}
+
+/* Ключи параметров */
+.offer__parameters dt {
+  font-size: 14px; /* Размер текста */
+  font-weight: bold; /* Жирный шрифт */
+  color: #555; /* Темно-серый цвет */
+}
+
+/* Значения параметров */
+.offer__parameters dd {
+  font-size: 14px; /* Размер текста */
+  color: #777; /* Серый цвет */
+  margin-left: 8px; /* Отступ слева */
+}
+
+/* Описание текста */
+.text {
+  font-size: 14px; /* Размер текста */
+  color: #444; /* Средний серый цвет */
+  line-height: 1.6; /* Межстрочный интервал */
+  margin-top: 16px; /* Отступ сверху */
+}
+
+/* Кнопки перевода */
+.a-description__btn {
+  display: inline-block; /* Отображение как кнопки */
+  padding: 8px 12px; /* Внутренний отступ */
+  font-size: 14px; /* Размер текста */
+  background-color: #007bff; /* Синий фон */
+  color: #fff; /* Белый текст */
+  border: none; /* Убираем рамку */
+  border-radius: 4px; /* Скругленные углы */
+  cursor: pointer; /* Курсор указателя */
+  transition: background-color 0.2s ease; /* Анимация при наведении */
+}
+
+.a-description__btn:hover {
+  background-color: #0056b3; /* Темно-синий при наведении */
+}
+
+/* Скрытые элементы */
+.hidden {
+  display: none !important; /* Полное скрытие */
+}
+
+/* Предупреждение о переводе */
+.a-description__translate-warning {
+  margin-top: 8px; /* Отступ сверху */
+  padding: 8px; /* Внутренний отступ */
+  font-size: 12px; /* Размер текста */
+  background-color: #ffeeba; /* Желтый фон */
+  color: #856404; /* Темно-желтый текст */
+  border-radius: 4px; /* Скругленные углы */
+}
+
+/* Кнопка "Показать оригинал" */
+.a-description__btn--show-original {
+  margin-top: 8px; /* Отступ сверху */
+  font-size: 14px; /* Размер текста */
+  color: #007bff; /* Синий цвет текста */
+  background: none; /* Убираем фон */
+  border: none; /* Убираем рамку */
+  cursor: pointer; /* Курсор указателя */
+}
