@@ -69,6 +69,26 @@ const Calculator: React.FC = () => {
   const formatCurrency = (value: number): string =>
     value.toLocaleString('ru-RU', { style: 'currency', currency: 'RUB' }).replace(',00', '');
 
+  const calculateRentToOwn = () => {
+    const rentalPart = propertyValue * 0.01; // Арендная часть (1%)
+    const refundablePart = propertyValue * 0.003; // Возвратная часть (0.3%)
+    const monthlyPayment = rentalPart + refundablePart;
+    const totalPayment = monthlyPayment * 60; // Общая сумма за 60 месяцев
+
+    setRentResults({
+      monthlyPayment: Math.round(monthlyPayment),
+      rentalPart: Math.round(rentalPart),
+      refundablePart: Math.round(refundablePart),
+      totalPayment: Math.round(totalPayment),
+    });
+  };
+  const [rentResults, setRentResults] = useState<{
+    monthlyPayment: number;
+    rentalPart: number;
+    refundablePart: number;
+    totalPayment: number;
+  } | null>(null);
+
   return (
     <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px' }}>
       {/* Навигация по вкладкам */}
@@ -214,8 +234,83 @@ const Calculator: React.FC = () => {
 
       {activeTab === 'rent' && (
         <div>
-          <h1>Аренда с последующим выкупом</h1>
-          <p>Здесь будет контент для аренды с последующим выкупом.</p>
+          <p className="mb-[20px] font-semibold">
+            Покупка недвижимости по Программе "Аренда с выкупом"{' '}
+          </p>
+          <ul style={{ marginBottom: '20px', paddingLeft: '20px', listStyleType: 'disc' }}>
+            <li>Без первоначального взноса</li>
+            <li>Без подтверждения официального дохода</li>
+            <li>Без анализа кредитной истории</li>
+            <li>На срок 60 месяцев с последующей пролонгацией</li>
+            <li>Ежемесячная оплата состоит из суммы аренды и суммы первоначального взноса</li>
+            <li>
+              В ежемесячную сумму оплаты входит (от цены недвижимости): 1% аренда + 0.3% часть
+              возвратного первоначального взноса
+            </li>
+            <li>Вне зависимости от того, есть у вас жильё или нет, одно или несколько</li>
+            <li>Вне зависимости от статуса категории</li>
+          </ul>
+
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{ display: 'block', marginBottom: '10px' }}>
+              Стоимость недвижимости:
+            </label>
+            <TextField
+              type="number"
+              value={propertyValue}
+              onChange={(e) => setPropertyValue(Number(e.target.value))}
+              variant="outlined"
+              fullWidth
+            />
+            <Slider
+              value={propertyValue}
+              onChange={(e, value) => setPropertyValue(value as number)}
+              step={100000}
+              min={1000000}
+              max={100000000}
+              valueLabelDisplay="auto"
+              valueLabelFormat={(value) => formatCurrency(value)}
+            />
+          </div>
+
+          <button
+            onClick={calculateRentToOwn}
+            style={{
+              padding: '10px 20px',
+              backgroundColor: '#007BFF',
+              color: 'white',
+              border: 'none',
+              cursor: 'pointer',
+              width: '100%',
+              marginTop: '10px',
+            }}>
+            Рассчитать
+          </button>
+
+          {rentResults && (
+            <div
+              style={{
+                marginTop: '20px',
+                border: '1px solid #ccc',
+                padding: '20px',
+                borderRadius: '8px',
+              }}>
+              <h2>Результаты</h2>
+              <p>
+                <strong>Ежемесячный платёж:</strong> {formatCurrency(rentResults.monthlyPayment)}
+              </p>
+              <p>
+                <strong>Арендная часть:</strong> {formatCurrency(rentResults.rentalPart)}
+              </p>
+              <p>
+                <strong>Возвратная часть:</strong> {formatCurrency(rentResults.refundablePart)}
+              </p>
+              <p>
+                <strong>Общая сумма за 60 месяцев:</strong>{' '}
+                {formatCurrency(rentResults.totalPayment)}
+              </p>
+            </div>
+          )}
         </div>
       )}
     </div>

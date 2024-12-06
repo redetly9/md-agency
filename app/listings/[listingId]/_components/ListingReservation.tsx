@@ -25,7 +25,19 @@ const ListingReservation: React.FC<ListingReservationProps> = ({ price, totalPri
         <Link
           href={`/calculator?totalPrice=${totalPrice}&activeTab=rent`}
           className="disabled:opacity-70 disabled:cursor-not-allowed rounded hover:opacity-80 transition w-full bg-blue-500 text-white py-[8px] text-center rounded-[18px]">
-          <button>Аренда с выкупом</button>
+          <button
+            title={`Аренда с выкупом:
+- Без первоначального взноса
+- Без подтверждения официального дохода
+- Без анализа кредитной истории
+- На срок 60 месяцев с последующей пролонгацией
+- Ежемесячная оплата состоит из суммы аренды и суммы первоначального взноса
+- В ежемесячную сумму оплаты входит (от цены недвижимости):
+  1% аренда + 0.3% часть возвратного первоначального взноса
+- Вне зависимости от того, есть у вас жильё или нет, одно или несколько.
+- Вне зависимости от статуса категории.`}>
+            Аренда с выкупом
+          </button>
         </Link>
       </div>
       <hr />
