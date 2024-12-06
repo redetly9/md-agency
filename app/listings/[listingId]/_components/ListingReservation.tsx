@@ -18,13 +18,13 @@ const ListingReservation: React.FC<ListingReservationProps> = ({ price, totalPri
         {/* Ссылка на калькулятор для ипотеки */}
         <Link
           href={`/calculator?totalPrice=${totalPrice}&activeTab=mortgage`}
-          className="disabled:opacity-70 disabled:cursor-not-allowed rounded hover:opacity-80 transition w-full bg-blue-500 text-white py-[8px] text-center">
+          className="disabled:opacity-70 disabled:cursor-not-allowed rounded hover:opacity-80 transition w-full bg-blue-500 text-white py-[8px] text-center rounded-[18px]">
           <button>В ипотеку</button>
         </Link>
         {/* Ссылка на калькулятор для аренды с выкупом */}
         <Link
           href={`/calculator?totalPrice=${totalPrice}&activeTab=rent`}
-          className="disabled:opacity-70 disabled:cursor-not-allowed rounded hover:opacity-80 transition w-full bg-blue-500 text-white py-[8px] text-center">
+          className="disabled:opacity-70 disabled:cursor-not-allowed rounded hover:opacity-80 transition w-full bg-blue-500 text-white py-[8px] text-center rounded-[18px]">
           <button>Аренда с выкупом</button>
         </Link>
       </div>

@@ -17,8 +17,6 @@ const ListingPage = async ({ params: { listingId } }: { params: IParams }) => {
   const listing = await getListingById(+listingId);
   const currentUser = await getCurrentUser();
 
-  console.log('ListingPage', listing);
-
   if (!listing) return <EmptyState />;
 
   const {
@@ -27,7 +25,7 @@ const ListingPage = async ({ params: { listingId } }: { params: IParams }) => {
     country,
     region,
     id,
-    user: owner,
+    user: owner, // Данные пользователя
     price,
     description,
     roomCount,
@@ -39,7 +37,6 @@ const ListingPage = async ({ params: { listingId } }: { params: IParams }) => {
   } = listing;
 
   const category = categories.find((cate) => cate.label === listing.category);
-  console.log('listinglisting', listing);
 
   return (
     <section className="main-container">
@@ -52,14 +49,20 @@ const ListingPage = async ({ params: { listingId } }: { params: IParams }) => {
         price={price}
         reservations={reservations}
         user={currentUser}
-        title={title}>
+        title={title}
+        owner={owner} // Передаем данные пользователя
+      >
         <ListingInfo
+          city={additionalDetails?.city}
+          buildYear={additionalDetails?.buildYear}
           user={owner}
           category={category}
           description={description}
           roomCount={additionalDetails?.houseType}
           guestCount={additionalDetails?.area}
           bathroomCount={additionalDetails?.bathroom}
+          floor={additionalDetails?.floor}
+          condition={additionalDetails?.condition}
           latlng={latlng}
         />
       </ListingClient>

@@ -8,9 +8,10 @@ import { Category } from '@/types';
 import './styles.css';
 
 interface ListingInfoProps {
-  user: {
-    image: string | null;
-    name: string | null;
+  user?: {
+    name: string;
+    phone: string;
+    image: string;
   };
   description: string;
   guestCount: number;
@@ -18,6 +19,10 @@ interface ListingInfoProps {
   bathroomCount: number;
   category: Category | undefined;
   latlng: number[];
+  buildYear: number;
+  city: string;
+  condition: string;
+  floor: string;
 }
 
 const Map = dynamic(() => import('@/components/Map'), {
@@ -53,6 +58,10 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
   bathroomCount,
   category,
   latlng,
+  buildYear,
+  city,
+  floor,
+  condition,
 }) => {
   const parsedDetails = parseDescription(description);
 
@@ -69,10 +78,10 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
           <span>Площадь: {guestCount}</span>
           <span>Тип дома: {roomCount} </span>
           <span>Санузел: {bathroomCount}</span>
-          <span>Cостояние: {}</span>
-          <span>Этаж: {}</span>
-          <span>Год посторойки: {}</span>
-          <span>Город: {}</span>
+          <span>Cостояние: {condition}</span>
+          <span>Этаж: {floor} </span>
+          <span>Год посторойки: {buildYear}</span>
+          <span>Город: {city}</span>
         </div>
       </div>
       {category && (

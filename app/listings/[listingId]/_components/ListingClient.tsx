@@ -2,12 +2,11 @@
 import React, { ReactNode, useEffect, useMemo, useState, useTransition } from 'react';
 import { differenceInCalendarDays, eachDayOfInterval } from 'date-fns';
 import { Range } from 'react-date-range';
-import { User } from 'next-auth';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 
 import ListingReservation from './ListingReservation';
-import { createPaymentSession, createReservation } from '@/services/reservation';
+import ListingAuthor from './ListingAuthor';
 
 const initialDateRange = {
   startDate: new Date(),
@@ -24,11 +23,14 @@ interface ListingClientProps {
   id: string;
   title: string;
   price: number;
-  user:
-    | (User & {
-        id: string;
-      })
-    | undefined;
+  user?: {
+    id: string;
+  };
+  owner: {
+    name: string;
+    phone: string;
+    image: string;
+  };
 }
 
 const ListingClient: React.FC<ListingClientProps> = ({
@@ -38,6 +40,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
   user,
   id,
   title,
+  owner,
 }) => {
   const [totalPrice, setTotalPrice] = useState(price);
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
@@ -68,41 +71,34 @@ const ListingClient: React.FC<ListingClientProps> = ({
     }
   }, [dateRange.endDate, dateRange.startDate, price]);
 
-  const onCreateReservation = () => {
-    if (!user) return toast.error('Please log in to reserve listing.');
-    startTransition(async () => {
-      try {
-        const { endDate, startDate } = dateRange;
-        const res = await createPaymentSession({
-          listingId: id,
-          endDate,
-          startDate,
-          totalPrice,
-        });
+  // const onCreateReservation = () => {
+  //   if (!user) return toast.error('Please log in to reserve listing.');
+  //   startTransition(async () => {
+  //     try {
+  //       const { endDate, startDate } = dateRange;
+  //       const res = await createPaymentSession({
+  //         listingId: id,
+  //         endDate,
+  //         startDate,
+  //         totalPrice,
+  //       });
 
-        if (res?.url) {
-          router.push(res.url);
-        }
-      } catch (error: any) {
-        toast.error(error?.message);
-      }
-    });
-  };
+  //       if (res?.url) {
+  //         router.push(res.url);
+  //       }
+  //     } catch (error: any) {
+  //       toast.error(error?.message);
+  //     }
+  //   });
+  // };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-7 md:gap-10 mt-6">
       {children}
 
       <div className="order-first mb-10 md:order-last md:col-span-3">
-        <ListingReservation
-          price={price}
-          totalPrice={totalPrice}
-          // onChangeDate={(name, value) => setDateRange(value)}
-          // dateRange={dateRange}
-          // onSubmit={onCreateReservation}
-          // isLoading={isLoading}
-          // disabledDates={disabledDates}
-        />
+        <ListingReservation price={price} totalPrice={totalPrice} />
+        <ListingAuthor name={owner.name} phone={owner.phone} image={owner.image} />
       </div>
     </div>
   );
