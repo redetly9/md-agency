@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
 
 interface ListingAuthorProps {
   name: string;
@@ -18,12 +17,14 @@ const ListingAuthor: React.FC<ListingAuthorProps> = ({ name, phone, image }) => 
           <p className="text-lg font-semibold">{name}</p>
           <p>Хозяин недвижимости</p>
         </div>
-        <Image
+        <img
           className="h-[36px] w-[36px] rounded-full"
           src={image.startsWith('//') ? `https:${image}` : image}
-          alt={name}
-          width={36}
-          height={36}
+          alt="Изображение"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.src = '/images/placeholder.jpg';
+          }}
         />
       </div>
       <div>

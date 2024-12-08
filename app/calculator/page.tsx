@@ -305,10 +305,10 @@ const Calculator: React.FC = () => {
               <p>
                 <strong>Возвратная часть:</strong> {formatCurrency(rentResults.refundablePart)}
               </p>
-              <p>
+              {/* <p>
                 <strong>Общая сумма за 60 месяцев:</strong>{' '}
                 {formatCurrency(rentResults.totalPayment)}
-              </p>
+              </p> */}
             </div>
           )}
         </div>

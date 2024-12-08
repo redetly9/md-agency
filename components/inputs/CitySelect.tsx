@@ -22,7 +22,7 @@ const CitySelect: React.FC<CitySelectProps> = ({ handleChange }) => {
 
   return (
     <Select
-      className="ml-[20px]"
+      className="ml-[20px] z-10"
       placeholder="Выберите город"
       defaultValue={city}
       isClearable
