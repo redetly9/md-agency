@@ -235,7 +235,7 @@ const Calculator: React.FC = () => {
       {activeTab === 'rent' && (
         <div>
           <p className="mb-[20px] font-semibold">
-            Покупка недвижимости по Программе "Аренда с выкупом"{' '}
+            Покупка недвижимости по Программе &quot;Аренда с выкупом&quot;{' '}
           </p>
           <ul style={{ marginBottom: '20px', paddingLeft: '20px', listStyleType: 'disc' }}>
             <li>Без первоначального взноса</li>
