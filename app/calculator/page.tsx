@@ -65,9 +65,9 @@ const Calculator: React.FC = () => {
     }
   };
 
-  // Форматирование валюты
+  // Форматирование валюты в тенге
   const formatCurrency = (value: number): string =>
-    value.toLocaleString('ru-RU', { style: 'currency', currency: 'RUB' }).replace(',00', '');
+    value.toLocaleString('ru-RU', { style: 'currency', currency: 'KZT' }).replace(',00', '');
 
   const calculateRentToOwn = () => {
     const rentalPart = propertyValue * 0.01; // Арендная часть (1%)
@@ -120,7 +120,7 @@ const Calculator: React.FC = () => {
         <div style={{ display: 'flex', gap: '20px' }}>
           {/* Левая часть: Ввод данных */}
           <div style={{ flex: 1 }}>
-            <h1>Ипотека</h1>
+            <h1 className="font-semibold">Ипотека</h1>
             <div style={{ marginBottom: '20px' }}>
               <label style={{ display: 'block', marginBottom: '10px' }}>
                 Стоимость недвижимости:
