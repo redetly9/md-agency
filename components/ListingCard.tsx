@@ -46,7 +46,7 @@ const ListingCard: React.FC<ListingCardProps> = ({ data, reservation, hasFavorit
                 fill
                 alt={data.title}
                 effect="zoom"
-                className="object-cover"
+                className="object-cover w-full h-full"
                 sizes="100vw"
               />
             </div>
