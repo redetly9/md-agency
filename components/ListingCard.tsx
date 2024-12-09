@@ -41,8 +41,8 @@ const ListingCard: React.FC<ListingCardProps> = ({ data, reservation, hasFavorit
         <div className="flex flex-col gap-1 w-full">
           <div className=" overflow-hidden md:rounded-xl rounded-md">
             <div className="aspect-[1/0.95] relative bg-gray-100">
-              <Image
-                imageSrc={fixImageUrl(data.imageSrc)}
+              <img
+                src={fixImageUrl(data.imageSrc)}
                 fill
                 alt={data.title}
                 effect="zoom"
