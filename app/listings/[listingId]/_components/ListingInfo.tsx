@@ -65,6 +65,13 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
 }) => {
   const parsedDetails = parseDescription(description);
 
+  const cleanDescription = (description: any) => {
+    // Удаляем теги button
+    const withoutButtonTags = description.replace(/<button[\s\S]*?<\/button>/gi, '');
+    // Удаляем слово "Перевести"
+    return withoutButtonTags.replace(/Перевести/g, '');
+  };
+
   return (
     <div className="col-span-4 flex flex-col gap-8">
       <div className="flex flex-col gap-2">
@@ -93,9 +100,9 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
       )}
       <hr />
       <p
-        className=" font-light text-neutral-500 text-[16px] "
+        className="font-light text-neutral-500 text-[16px]"
         dangerouslySetInnerHTML={{
-          __html: description,
+          __html: cleanDescription(description),
         }}
       />
 

@@ -7,13 +7,20 @@
 }
 
 .offer__parameters {
- 
   margin: 8px 0;
   display: grid;
-grid-template-columns: repeat(4, 1fr);
-grid-template-rows: repeat(3, 1fr);
-grid-column-gap: 60px;
-grid-row-gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-column-gap: 60px;
+  grid-row-gap: 20px;
+}
+
+@media (max-width: 600px) { /* Здесь можно выбрать ширину под вашу задачу */
+  .offer__parameters { /* Замените на класс вашей сетки */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 колонки по 1fr */
+    gap: 10px; /* Дополнительно можно добавить отступы между элементами */
+  }
 }
 
 .offer__parameters dt {
@@ -23,9 +30,13 @@ grid-row-gap: 20px;
   font-weight: 400;
   font-size: 13px;
 }
+
 .offer__parameters dd {
   display: block;
   color: #1c1819;
   font-size: 14px;
 }
-  
+
+.js-description {
+  white-space: pre-line;
+}
