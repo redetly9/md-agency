@@ -32,7 +32,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
             <button
               type="button"
               className="hidden md:block text-sm font-bold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer text-[#585858]">
-              Share your home
+              Подать объявление
             </button>
           </Modal.Trigger>
           <Menu>
@@ -58,19 +58,19 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
                   ))}
 
                   <Modal.Trigger name="share">
-                    <MenuItem label="Share your home" />
+                    <MenuItem label="Подать объявление" />
                   </Modal.Trigger>
                   <hr />
-                  <MenuItem label="Log out" onClick={signOut} />
+                  <MenuItem label="Выйти" onClick={signOut} />
                 </>
               ) : (
                 <>
                   <Modal.Trigger name="Login">
-                    <MenuItem label="Log in" />
+                    <MenuItem label="Авторизоваться" />
                   </Modal.Trigger>
 
                   <Modal.Trigger name="Sign up">
-                    <MenuItem label="Sign up" />
+                    <MenuItem label="Регистрация" />
                   </Modal.Trigger>
                 </>
               )}

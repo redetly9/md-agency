@@ -1,86 +1,72 @@
 [
   {
-    "value": "astana",
-    "label": "Astana",
-    "latlng": [13, -2],
-    "region": "Kazakhstan"
-  },
-  {
-    "value": "almaty",
+    "value": "KZ-ALA",
     "label": "Almaty",
-    "latlng": [33, 65],
-    "region": "Kazakhstan"
+    "flag": "🇰🇿",
+    "region": "Казахстан",
+    "latlng": [43.2565, 76.9285]
   },
   {
-    "value": "shymkent",
+    "value": "KZ-NUR",
+    "label": "Astana",
+    "flag": "🇰🇿",
+    "region": "Казахстан",
+    "latlng": [51.1693, 71.4491]
+  },
+  {
+    "value": "KZ-SHY",
     "label": "Shymkent",
-    "latlng": [33, 65],
-    "region": "Kazakhstan"
+    "flag": "🇰🇿",
+    "region": "Казахстан",
+    "latlng": [42.3417, 69.5901]
   },
   {
-    "value": "semei",
-    "label": "Semei",
-    "latlng": [33, 65],
-    "region": "Kazakhstan"
-  },
-  {
-    "value": "kokshetau",
-    "label": "Kokshetau",
-    "latlng": [33, 65],
-    "region": "Kazakhstan"
-  },
-  {
-    "value": "aktobe",
-    "label": "Aktobe",
-    "latlng": [33, 65],
-    "region": "Kazakhstan"
-  },
-  {
-    "value": "atyrau",
-    "label": "Atyrau",
-    "latlng": [33, 65],
-    "region": "Kazakhstan"
-  },
-  {
-    "value": "pavlodar",
-    "label": "Pavlodar",
-    "latlng": [33, 65],
-    "region": "Kazakhstan"
-  },
-  {
-    "value": "karaganda",
+    "value": "KZ-KAR",
     "label": "Karaganda",
-    "latlng": [33, 65],
-    "region": "Kazakhstan"
+    "flag": "🇰🇿",
+    "region": "Казахстан",
+    "latlng": [49.8028, 73.0857]
   },
   {
-    "value": "kyzylorda",
-    "label": "Kyzylorda",
-    "latlng": [33, 65],
-    "region": "Kazakhstan"
+    "value": "KZ-ATY",
+    "label": "Atyrau",
+    "flag": "🇰🇿",
+    "region": "Казахстан",
+    "latlng": [47.0945, 51.9235]
   },
   {
-    "value": "taraz",
-    "label": "Taraz",
-    "latlng": [33, 65],
-    "region": "Kazakhstan"
+    "value": "KZ-AKT",
+    "label": "Aktobe",
+    "flag": "🇰🇿",
+    "region": "Казахстан",
+    "latlng": [50.2839, 57.166]
   },
   {
-    "value": "kostanay",
+    "value": "KZ-KOS",
     "label": "Kostanay",
-    "latlng": [33, 65],
-    "region": "Kazakhstan"
+    "flag": "🇰🇿",
+    "region": "Казахстан",
+    "latlng": [53.2192, 63.6312]
   },
   {
-    "value": "uralsk",
-    "label": "Uralsk",
-    "latlng": [33, 65],
-    "region": "Kazakhstan"
+    "value": "KZ-TAL",
+    "label": "Taraz",
+    "flag": "🇰🇿",
+    "region": "Казахстан",
+    "latlng": [42.9006, 71.3654]
   },
   {
-    "value": "taldykorgan",
-    "label": "Taldykorgan",
-    "latlng": [33, 65],
-    "region": "Kazakhstan"
+    "value": "KZ-PVL",
+    "label": "Pavlodar",
+    "flag": "🇰🇿",
+    "region": "Казахстан",
+    "latlng": [52.2871, 76.9674]
+  },
+  {
+    "value": "KZ-SEM",
+    "label": "Semey",
+    "flag": "🇰🇿",
+    "region": "Казахстан",
+    "latlng": [50.4119, 80.2296]
   }
 ]

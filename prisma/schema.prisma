@@ -47,9 +47,11 @@ model Listing {
   id            Int       @id @default(autoincrement()) // Заменили String и auto() на Int и autoincrement()
   title         String
   description   String
-  imageSrc      String
-  createdAt     DateTime @default(now())
-  category      String
+  imageSrc      String     // Новый столбец
+  street        String?    // Новый столбец (опциональный)
+  category      String     // Новый столбец
+  city          String?    // Новый столбец (опциональный)
+  createdAt     DateTime  @default(now())
   roomCount     Int
   bathroomCount Int
   guestCount    Int
@@ -63,6 +65,7 @@ model Listing {
 
   reservations Reservation[]
 }
+
 
 model Reservation {
   id         Int       @id @default(autoincrement()) // Заменили String и auto() на Int и autoincrement()

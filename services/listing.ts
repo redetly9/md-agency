@@ -116,25 +116,25 @@ export const getListings = async (query?: {
 export const getListingById = async (id: number) => {
   console.log('id', id);
 
-  // const listing = await db.listing.findUnique({
-  //   where: {
-  //     id,
-  //   },
-  //   include: {
-  //     user: {
-  //       select: {
-  //         name: true,
-  //         image: true,
-  //       },
-  //     },
-  //     reservations: {
-  //       select: {
-  //         startDate: true,
-  //         endDate: true,
-  //       },
-  //     },
-  //   },
-  // });
+  const listing = await db.listing.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      user: {
+        select: {
+          name: true,
+          image: true,
+        },
+      },
+      reservations: {
+        select: {
+          startDate: true,
+          endDate: true,
+        },
+      },
+    },
+  });
   try {
     const response = await axios.get(`${BASE_URL}/api/parse/show/${id}`);
     return response.data; // Возвращаем данные объявления
@@ -157,6 +157,8 @@ export const createListing = async (data: { [x: string]: any }) => {
     price,
     title,
     description,
+    city,
+    street,
   } = data;
 
   Object.keys(data).forEach((value: any) => {
@@ -182,6 +184,8 @@ export const createListing = async (data: { [x: string]: any }) => {
       latlng,
       price: parseInt(price, 10),
       userId: user.id,
+      city,
+      street,
     },
   });
 

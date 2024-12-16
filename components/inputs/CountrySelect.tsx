@@ -1,7 +1,7 @@
-"use client";
-import React, { useEffect, useRef } from "react";
-import Select from "react-select";
-import countries from "@/data/countries.json";
+'use client';
+import React, { useEffect, useRef } from 'react';
+import Select from 'react-select';
+import cities from '@/data/cities.json';
 
 export type CountrySelectValue = {
   flag: string;
@@ -29,7 +29,7 @@ const CountrySelect = ({
   }, []);
 
   const handleChange = (value: CountrySelectValue) => {
-    onChange("location", value);
+    onChange('location', value);
   };
 
   return (
@@ -37,30 +37,29 @@ const CountrySelect = ({
       ref={ref}
       placeholder="Anywhere"
       isClearable
-      options={countries}
+      options={cities}
       value={value}
       onChange={handleChange}
       formatOptionLabel={(option: any) => (
         <div className="flex flex-row items-center gap-3 z-[10]">
           <div>{option.flag}</div>
           <div>
-            {option.label},
-            <span className="text-neutral-500 ml-1">{option.region}</span>
+            {option.label},<span className="text-neutral-500 ml-1">{option.region}</span>
           </div>
         </div>
       )}
       classNames={{
-        control: () => "p-[6px] text-[14px] border-1",
-        input: () => "text-[14px]",
-        option: () => "text-[14px]",
+        control: () => 'p-[6px] text-[14px] border-1',
+        input: () => 'text-[14px]',
+        option: () => 'text-[14px]',
       }}
       theme={(theme) => ({
         ...theme,
         borderRadius: 6,
         colors: {
           ...theme.colors,
-          primary: "black",
-          primary25: "#ffe4e6",
+          primary: 'black',
+          primary25: '#ffe4e6',
         },
       })}
     />

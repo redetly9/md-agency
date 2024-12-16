@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState, setCity } from '@/store/store';
 import { useQuery } from '@tanstack/react-query';
@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import CitySelect from './inputs/CitySelect';
 import Button from './Button';
 import Link from 'next/link';
+import { getListings } from '@/services/listing';
 
 interface KrishaListProps {
   searchParams?: { [key: string]: string | undefined };
@@ -35,6 +36,17 @@ const KrishaList: React.FC<KrishaListProps> = () => {
     enabled: !!city,
   });
 
+  const {
+    data: dataFromDB,
+    isError: isErrorOnGettingFromDB,
+    isLoading: isLoadingFromGettingDB,
+  } = useQuery({
+    queryKey: ['krishaListings'],
+    queryFn: () => getListings(),
+  });
+
+  console.log('dataFromDB', dataFromDB);
+
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <EmptyState title="Error" subtitle="Failed to fetch data" />;
   if (!data || data.length === 0)
@@ -58,7 +70,7 @@ const KrishaList: React.FC<KrishaListProps> = () => {
         </div>
       </div>
       <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-8 ">
-        {data.map((listing: any) => (
+        {[...dataFromDB?.listings, ...data].map((listing: any) => (
           <ListingCard key={listing.id} data={listing} hasFavorited={false} />
         ))}
       </section>

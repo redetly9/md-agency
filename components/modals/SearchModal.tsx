@@ -1,23 +1,23 @@
-"use client";
-import React, { useMemo, useState } from "react";
-import dynamic from "next/dynamic";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { useRouter, useSearchParams } from "next/navigation";
-import queryString from "query-string";
-import { formatISO } from "date-fns";
+'use client';
+import React, { useMemo, useState } from 'react';
+import dynamic from 'next/dynamic';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { useRouter, useSearchParams } from 'next/navigation';
+import queryString from 'query-string';
+import { formatISO } from 'date-fns';
 
-import Modal from "./Modal";
-import Button from "../Button";
-import Heading from "../Heading";
-import Counter from "../inputs/Counter";
-import CountrySelect from "../inputs/CountrySelect";
+import Modal from './Modal';
+import Button from '../Button';
+import Heading from '../Heading';
+import Counter from '../inputs/Counter';
+import CountrySelect from '../inputs/CountrySelect';
 
-const Calendar = dynamic(() => import("@/components/Calender"), { ssr: false });
+const Calendar = dynamic(() => import('@/components/Calender'), { ssr: false });
 
 const steps = {
-  "0": "location",
-  "1": "dateRange",
-  "2": "guestCount",
+  '0': 'location',
+  '1': 'dateRange',
+  '2': 'guestCount',
 };
 
 enum STEPS {
@@ -40,22 +40,22 @@ const SearchModal = ({ onCloseModal }: { onCloseModal?: () => void }) => {
       dateRange: {
         startDate: new Date(),
         endDate: new Date(),
-        key: "selection",
+        key: 'selection',
       },
     },
   });
 
-  const location = watch("location");
-  const dateRange = watch("dateRange");
+  const location = watch('location');
+  const dateRange = watch('dateRange');
   const country = location?.label;
 
   const Map = useMemo(
     () =>
-      dynamic(() => import("../Map"), {
+      dynamic(() => import('../Map'), {
         ssr: false,
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [country]
+    [country],
   );
 
   const setCustomValue = (id: string, value: any) => {
@@ -102,10 +102,10 @@ const SearchModal = ({ onCloseModal }: { onCloseModal?: () => void }) => {
 
     const url = queryString.stringifyUrl(
       {
-        url: "/",
+        url: '/',
         query: updatedQuery,
       },
-      { skipNull: true }
+      { skipNull: true },
     );
     onCloseModal?.();
     router.push(url);
@@ -116,10 +116,7 @@ const SearchModal = ({ onCloseModal }: { onCloseModal?: () => void }) => {
       case STEPS.DATE:
         return (
           <div className="flex flex-col gap-3">
-            <Heading
-              title="When do you plan to go?"
-              subtitle="Make sure everyone is free!"
-            />
+            <Heading title="When do you plan to go?" subtitle="Make sure everyone is free!" />
             <div className="h-[348px] w-full">
               <Calendar onChange={setCustomValue} value={dateRange} />
             </div>
@@ -129,10 +126,7 @@ const SearchModal = ({ onCloseModal }: { onCloseModal?: () => void }) => {
       case STEPS.INFO:
         return (
           <div className="flex flex-col gap-6">
-            <Heading
-              title="More information"
-              subtitle="Find your perfect place!"
-            />
+            <Heading title="More information" subtitle="Find your perfect place!" />
             <Counter
               title="Guests"
               subtitle="How many guests do you allow?"
@@ -162,10 +156,7 @@ const SearchModal = ({ onCloseModal }: { onCloseModal?: () => void }) => {
       default:
         return (
           <div className="flex flex-col gap-4">
-            <Heading
-              title="Where is your place located?"
-              subtitle="Help guests find you!"
-            />
+            <Heading title="Где находится ваше жилье?" subtitle="Help guests find you!" />
             <CountrySelect value={location} onChange={setCustomValue} />
             <div className="h-[240px]">
               <Map center={location?.latlng} />
@@ -182,8 +173,7 @@ const SearchModal = ({ onCloseModal }: { onCloseModal?: () => void }) => {
       <Modal.WindowHeader title="Filter" />
       <form
         className="h-auto flex-1 border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none "
-        onSubmit={handleSubmit(onSubmit)}
-      >
+        onSubmit={handleSubmit(onSubmit)}>
         <div className="relative p-6">{body()}</div>
         <div className="flex flex-col gap-2 px-6 pb-6 pt-3">
           <div className="flex flex-row items-center gap-4 w-full">
@@ -192,17 +182,15 @@ const SearchModal = ({ onCloseModal }: { onCloseModal?: () => void }) => {
                 type="button"
                 className="flex items-center gap-2 justify-center"
                 onClick={onBack}
-                outline
-              >
+                outline>
                 Back
               </Button>
             ) : null}
             <Button
               type="submit"
               className="flex items-center gap-2 justify-center"
-              disabled={!isFieldFilled}
-            >
-              {step === STEPS.INFO ? "Search" : "Next"}
+              disabled={!isFieldFilled}>
+              {step === STEPS.INFO ? 'Искать' : 'Далее'}
             </Button>
           </div>
         </div>
