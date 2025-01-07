@@ -13,6 +13,14 @@ const config: Config = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))', // Градиент круговой
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))', // Конусный градиент
       },
+      colors: {
+        primary: '#1e3a8a',
+        secondary: '#f3f4f6',
+        accent: '#2563eb',
+        background: '#f9fafb',
+        textPrimary: '#111827',
+        textSecondary: '#6b7280',
+      },
     },
     screens: {
       // Добавляем кастомные брейкпоинты для адаптивности
