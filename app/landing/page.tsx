@@ -1,95 +1,124 @@
-import KrishaList from '@/components/KrishaList';
+'use client';
+
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 
 interface HomeProps {
   searchParams?: { [key: string]: string | undefined };
 }
 
 const Home: React.FC<HomeProps> = ({ searchParams }) => {
-  return <div className="bg-background text-textPrimary font-sans">
-  {/* Hero Section */}
-  <section className="bg-primary text-white py-20 text-center">
-    <h1 className="text-5xl font-bold">Квартира вашей мечты с минимальной ставкой 12%!</h1>
-    <p className="mt-4 text-lg font-light">
-      Минимальная ставка на рынке – 20% ГЭСВ, у нас всего 12%.<br />
-      Первоначальный взнос на рынке – от 20%, у нас от 5%.
-    </p>
-    <div className="mt-6 space-x-4">
-      <Link href="/" className="bg-accent hover:bg-blue-700 px-8 py-3 rounded-full text-lg font-medium">Подобрать квартиру</Link>
-      <Link href="/calculator-new" className="bg-white text-primary hover:bg-gray-100 px-8 py-3 rounded-full text-lg font-medium">Калькулятор</Link>
-    </div>
-  </section>
+  const [activeProduct, setActiveProduct] = useState('product1');
 
-  {/* Преимущества */}
-  <section className="py-16 text-center bg-secondary">
-    <h2 className="text-4xl font-bold">Наши преимущества – Ваша выгода!</h2>
-    <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-6">
-      {[
-        { title: 'ГЭСВ от 12%', description: 'Минимальная ставка на рынке – 20%, а у нас почти в два раза ниже.' },
-        { title: 'Первоначальный взнос от 5%', description: 'На рынке взносы начинаются от 20%, а с нами жилье становится доступнее.' },
-        { title: 'Огромный выбор квартир', description: 'Более 200 000 вариантов на любой вкус и бюджет.' },
-        { title: 'Удобный фильтр', description: 'Найдите квартиру за несколько секунд, используя наши современные инструменты поиска.' },
-      ].map((item, index) => (
-        <div key={index} className="bg-white shadow-lg p-8 rounded-xl">
-          <h3 className="text-2xl font-semibold text-primary">{item.title}</h3>
-          <p className="mt-4 text-textSecondary">{item.description}</p>
+  const renderProduct = () => {
+    switch (activeProduct) {
+      case 'product1':
+        return (
+          <section className="py-16 bg-gray-100">
+            <div className="container mx-auto">
+              <h2 className="text-3xl font-extrabold text-center mb-8">
+                Наши преимущества — Покупка квартиры
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {[
+                  { title: 'ГЭСВ от 12%', description: 'Минимальная ставка на рынке – 20%, а у нас почти в два раза ниже.' },
+                  { title: 'Первоначальный взнос от 5%', description: 'На рынке взносы начинаются от 20%, а с нами жилье становится доступнее.' },
+                  { title: 'Огромный выбор квартир', description: 'Более 200 000 вариантов на любой вкус и бюджет.' },
+                  { title: 'Удобный фильтр', description: 'Найдите квартиру за несколько секунд, используя наши современные инструменты поиска.' },
+                ].map((item, index) => (
+                  <div key={index} className="p-6 border border-gray-300 shadow-sm hover:shadow-lg transition-shadow">
+                    <h3 className="text-lg font-semibold mb-4 text-gray-800">{item.title}</h3>
+                    <p className="text-sm text-gray-600">{item.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      case 'product2':
+        return (
+          <section className="py-16 bg-gray-100">
+            <div className="container mx-auto">
+              <h2 className="text-3xl font-extrabold text-center mb-8">
+                Наши преимущества — Рефинансирование
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {[
+                  { title: 'Снижение ставки до 10%', description: 'Сократите свои расходы с минимальной ставкой рефинансирования.' },
+                  { title: 'Уменьшение ежемесячного платежа', description: 'Рассчитайте новый график выплат с учетом снижения платежа.' },
+                  { title: 'Простое оформление', description: 'Мы поможем вам легко перенести текущую ипотеку в наш банк.' },
+                  { title: 'Гибкие условия', description: 'Выберите срок кредитования, который подойдет именно вам.' },
+                ].map((item, index) => (
+                  <div key={index} className="p-6 border border-gray-300 shadow-sm hover:shadow-lg transition-shadow">
+                    <h3 className="text-lg font-semibold mb-4 text-gray-800">{item.title}</h3>
+                    <p className="text-sm text-gray-600">{item.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="flex flex-col min-h-screen">
+      {/* Hero Section */}
+      <section className="bg-primary text-white py-20">
+        <div className="container mx-auto text-center">
+          <h1 className="text-5xl font-extrabold mb-4">Квартира вашей мечты с минимальной ставкой 12%!</h1>
+          <p className="text-lg mb-6">
+            Минимальная ставка на рынке – 20% ГЭСВ, у нас всего 12%.<br />
+            Первоначальный взнос на рынке – от 20%, у нас от 5%.
+          </p>
+          <div className="space-x-4">
+            <Link href="/" className="bg-accent text-white py-3 px-6 inline-block text-lg font-medium hover:bg-blue-700 transition">
+              Подобрать квартиру
+            </Link>
+            <Link href="/calculator-new" className="bg-white text-primary py-3 px-6 inline-block text-lg font-medium border border-primary hover:bg-gray-100 transition">
+              Калькулятор
+            </Link>
+          </div>
         </div>
-      ))}
-    </div>
-  </section>
+      </section>
 
-  {/* Фильтр */}
-  <section className="py-16 bg-gray-100 text-center">
-    <h2 className="text-4xl font-bold">Найдите квартиру своей мечты</h2>
-    <p className="mt-4 text-lg text-textSecondary">Выберите параметры ниже:</p>
-    <form className="mt-8 space-y-6 max-w-xl mx-auto">
-      {['Бюджет', 'Площадь', 'Район'].map((placeholder, index) => (
-        <input
-          key={index}
-          type="text"
-          placeholder={placeholder}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
-        />
-      ))}
-      <Link href="/"
-        type="submit"
-        className="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-blue-700">
-        Применить фильтр
-      </Link>
-    </form>
-  </section>
-
-  {/* Рекламный блок */}
-  <section className="bg-accent text-white py-16 text-center">
-    <h2 className="text-4xl font-bold">Доступное жилье – это реальность!</h2>
-    <p className="mt-4 text-lg font-light">Ставка от 12% и первоначальный взнос всего 5%.</p>
-    {/* <Link href="/" className="mt-12 bg-white text-accent hover:bg-gray-100 px-8 py-3 rounded-full font-medium">
-      Оставить заявку на консультацию
-    </Link> */}
-  </section>
-
-  {/* FAQ */}
-  <section className="py-16 bg-secondary text-center">
-    <h2 className="text-4xl font-bold">Часто задаваемые вопросы</h2>
-    <div className="mt-12 space-y-8 max-w-3xl mx-auto">
-      {[
-        { question: 'Как работает ставка 12%?', answer: 'Ответ на вопрос о том, как мы обеспечиваем минимальную ставку.' },
-        { question: 'Что нужно для первоначального взноса 5%?', answer: 'Узнайте, какие документы и условия необходимы.' },
-      ].map((faq, index) => (
-        <div key={index} className="bg-white p-6 rounded-xl shadow">
-          <h3 className="text-xl font-semibold text-primary">{faq.question}</h3>
-          <p className="mt-4 text-textSecondary">{faq.answer}</p>
+      {/* Product Switcher */}
+      <section className="py-8 bg-gray-50">
+        <div className="container mx-auto text-center">
+          <div className="inline-flex space-x-2 bg-gray-200 p-2 rounded-md">
+            <button
+              onClick={() => setActiveProduct('product1')}
+              className={`py-2 px-4 rounded-md text-sm font-medium ${
+                activeProduct === 'product1' ? 'bg-primary text-white' : 'bg-gray-200 text-primary'
+              }`}
+            >
+              Покупка квартиры
+            </button>
+            <button
+              onClick={() => setActiveProduct('product2')}
+              className={`py-2 px-4 rounded-md text-sm font-medium ${
+                activeProduct === 'product2' ? 'bg-primary text-white' : 'bg-gray-200 text-primary'
+              }`}
+            >
+              Рефинансирование
+            </button>
+          </div>
         </div>
-      ))}
-    </div>
-  </section>
+      </section>
 
-  {/* Footer */}
-  <footer className="bg-primary text-white py-8 text-center">
-    <p>&copy; 2025 Ваше Название Компании. Все права защищены.</p>
-  </footer>
-</div>
+      {/* Render Active Product */}
+      {renderProduct()}
+
+      {/* Footer */}
+      <footer className="bg-primary text-white py-6 mt-auto">
+        <div className="container mx-auto text-center">
+          <p className="text-sm">&copy; 2025 Ваше Название Компании. Все права защищены.</p>
+        </div>
+      </footer>
+    </div>
+  );
 };
 
 export default Home;

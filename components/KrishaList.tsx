@@ -36,16 +36,16 @@ const KrishaList: React.FC<KrishaListProps> = () => {
     enabled: !!city,
   });
 
-  const {
-    data: dataFromDB,
-    isError: isErrorOnGettingFromDB,
-    isLoading: isLoadingFromGettingDB,
-  } = useQuery({
-    queryKey: ['krishaListings'],
-    queryFn: () => getListings(),
-  });
+  // const {
+  //   data: dataFromDB,
+  //   isError: isErrorOnGettingFromDB,
+  //   isLoading: isLoadingFromGettingDB,
+  // } = useQuery({
+  //   queryKey: ['krishaListings'],
+  //   queryFn: () => getListings(),
+  // });
 
-  console.log('dataFromDB', dataFromDB);
+  // console.log('dataFromDB', dataFromDB);
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <EmptyState title="Error" subtitle="Failed to fetch data" />;
@@ -70,7 +70,7 @@ const KrishaList: React.FC<KrishaListProps> = () => {
         </div>
       </div>
       <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-8 ">
-        {[...(dataFromDB?.listings || []), ...(data || [])].map((listing: any) => (
+        {[ ...(data || [])].map((listing: any) => (
           <ListingCard key={listing.id} data={listing} hasFavorited={false} />
         ))}
       </section>
