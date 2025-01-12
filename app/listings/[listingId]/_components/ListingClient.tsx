@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 
 import ListingReservation from './ListingReservation';
 import ListingAuthor from './ListingAuthor';
+import { supabase } from '@/lib/supabaseClient';
 
 const initialDateRange = {
   startDate: new Date(),
@@ -71,33 +72,45 @@ const ListingClient: React.FC<ListingClientProps> = ({
     }
   }, [dateRange.endDate, dateRange.startDate, price]);
 
-  // const onCreateReservation = () => {
-  //   if (!user) return toast.error('Please log in to reserve listing.');
-  //   startTransition(async () => {
-  //     try {
-  //       const { endDate, startDate } = dateRange;
-  //       const res = await createPaymentSession({
-  //         listingId: id,
-  //         endDate,
-  //         startDate,
-  //         totalPrice,
-  //       });
+  const onCreateReservation = async (formData: any) => {
+    const { firstName, lastName, phone } = formData
+    const { data, error } = await supabase
+    .from('requests')
+    .insert([
+      {
+        first_name: firstName,
+        last_name: lastName,
+        phone,
+        item_id: id,
+      }
+    ]);
 
-  //       if (res?.url) {
-  //         router.push(res.url);
-  //       }
-  //     } catch (error: any) {
-  //       toast.error(error?.message);
-  //     }
-  //   });
-  // };
+    toast.success('Заявка успешно отправлена!')
+    // startTransition(async () => {
+    //   try {
+    //     const { endDate, startDate } = dateRange;
+    //     const res = await createPaymentSession({
+    //       listingId: id,
+    //       endDate,
+    //       startDate,
+    //       totalPrice,
+    //     });
+
+    //     if (res?.url) {
+    //       router.push(res.url);
+    //     }
+    //   } catch (error: any) {
+    //     toast.error(error?.message);
+    //   }
+    // });
+  };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-7 md:gap-10 mt-6">
       {children}
 
       <div className="order-first mb-10 md:order-last md:col-span-3">
-        <ListingReservation price={price} totalPrice={totalPrice} />
+        <ListingReservation price={price} totalPrice={totalPrice} onCreateReservation={onCreateReservation} />
         <ListingAuthor name={owner.name} phone={owner.phone} image={owner.image} />
       </div>
     </div>
