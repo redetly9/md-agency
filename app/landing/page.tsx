@@ -10,9 +10,9 @@ const Home: React.FC<HomeProps> = ({ searchParams }) => {
   return <div className="bg-background text-textPrimary font-sans">
   {/* Hero Section */}
   <section className="bg-primary text-white py-20 text-center">
-    <h1 className="text-5xl font-bold">Квартира вашей мечты с минимальной ставкой 11%!</h1>
+    <h1 className="text-5xl font-bold">Квартира вашей мечты с минимальной ставкой 12%!</h1>
     <p className="mt-4 text-lg font-light">
-      Минимальная ставка на рынке – 20% ГЭСВ, у нас всего 11%.<br />
+      Минимальная ставка на рынке – 20% ГЭСВ, у нас всего 12%.<br />
       Первоначальный взнос на рынке – от 20%, у нас от 5%.
     </p>
     <div className="mt-6 space-x-4">
@@ -26,7 +26,7 @@ const Home: React.FC<HomeProps> = ({ searchParams }) => {
     <h2 className="text-4xl font-bold">Наши преимущества – Ваша выгода!</h2>
     <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-6">
       {[
-        { title: 'ГЭСВ от 11%', description: 'Минимальная ставка на рынке – 20%, а у нас почти в два раза ниже.' },
+        { title: 'ГЭСВ от 12%', description: 'Минимальная ставка на рынке – 20%, а у нас почти в два раза ниже.' },
         { title: 'Первоначальный взнос от 5%', description: 'На рынке взносы начинаются от 20%, а с нами жилье становится доступнее.' },
         { title: 'Огромный выбор квартир', description: 'Более 200 000 вариантов на любой вкус и бюджет.' },
         { title: 'Удобный фильтр', description: 'Найдите квартиру за несколько секунд, используя наши современные инструменты поиска.' },
@@ -63,10 +63,10 @@ const Home: React.FC<HomeProps> = ({ searchParams }) => {
   {/* Рекламный блок */}
   <section className="bg-accent text-white py-16 text-center">
     <h2 className="text-4xl font-bold">Доступное жилье – это реальность!</h2>
-    <p className="mt-4 text-lg font-light">Ставка от 11% и первоначальный взнос всего 5%.</p>
-    <Link href="/" className="mt-6 bg-white text-accent hover:bg-gray-100 px-8 py-3 rounded-full font-medium">
+    <p className="mt-4 text-lg font-light">Ставка от 12% и первоначальный взнос всего 5%.</p>
+    {/* <Link href="/" className="mt-12 bg-white text-accent hover:bg-gray-100 px-8 py-3 rounded-full font-medium">
       Оставить заявку на консультацию
-    </Link>
+    </Link> */}
   </section>
 
   {/* FAQ */}
@@ -74,7 +74,7 @@ const Home: React.FC<HomeProps> = ({ searchParams }) => {
     <h2 className="text-4xl font-bold">Часто задаваемые вопросы</h2>
     <div className="mt-12 space-y-8 max-w-3xl mx-auto">
       {[
-        { question: 'Как работает ставка 11%?', answer: 'Ответ на вопрос о том, как мы обеспечиваем минимальную ставку.' },
+        { question: 'Как работает ставка 12%?', answer: 'Ответ на вопрос о том, как мы обеспечиваем минимальную ставку.' },
         { question: 'Что нужно для первоначального взноса 5%?', answer: 'Узнайте, какие документы и условия необходимы.' },
       ].map((faq, index) => (
         <div key={index} className="bg-white p-6 rounded-xl shadow">
