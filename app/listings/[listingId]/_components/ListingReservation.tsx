@@ -7,7 +7,7 @@ import Modal from './Modal';
 interface ListingReservationProps {
   price: number;
   totalPrice: number;
-  onCreateReservation: () => void
+  onCreateReservation: any
 }
 
 const ListingReservation: React.FC<ListingReservationProps> = ({ price, totalPrice, onCreateReservation }) => {
