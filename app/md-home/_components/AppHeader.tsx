@@ -54,7 +54,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({ children }) => {
                         <div id="links-group" className="flex flex-col gap-6 tracking-wide lg:flex-row lg:gap-0 lg:text-sm">
                             {
                                 links.map((link) => (
-                                    <a href={link.to} className="hover:text-primary block transition dark:hover:text-white md:px-4">
+                                    <a href={link.to} key={link.to} className="hover:text-primary block transition dark:hover:text-white md:px-4">
                                         <span>{link.label}</span>
                                     </a>
                                 ))
