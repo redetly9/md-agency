@@ -7,11 +7,8 @@ import Testimonials from './_components/Testimonials';
 import CallToAction from './_components/CallToAction';
 import Blog from './_components/Blog';
 
-interface indexProps {
-  children?: ReactNode;
-}
 
-const index: React.FC<indexProps> = ({ children }) => {
+const index: React.FC = () => {
   return (
 
 <Layout>
