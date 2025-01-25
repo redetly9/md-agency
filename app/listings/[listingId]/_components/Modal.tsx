@@ -49,7 +49,7 @@ const Modal = ({ isOpen, openModal, closeModal, onCreateReservation }) => {
                 <div>
                   <label
                     htmlFor="firstName"
-                    className="block text-lg font-medium text-gray-700"
+                    className="block font-medium text-gray-700"
                   >
                     Имя
                   </label>
@@ -59,7 +59,7 @@ const Modal = ({ isOpen, openModal, closeModal, onCreateReservation }) => {
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleChange}
-                    className="mt-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 border-2 border-blue-500 focus:border-blue-500 text-lg p-3"
+                    className="mt-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 border-2 border-blue-500 focus:border-blue-500 p-3"
                     required
                   />
                 </div>
@@ -68,7 +68,7 @@ const Modal = ({ isOpen, openModal, closeModal, onCreateReservation }) => {
                 <div>
                   <label
                     htmlFor="lastName"
-                    className="block text-lg font-medium text-gray-700"
+                    className="block font-medium text-gray-700"
                   >
                     Фамилия
                   </label>
@@ -78,7 +78,7 @@ const Modal = ({ isOpen, openModal, closeModal, onCreateReservation }) => {
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleChange}
-                    className="mt-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 border-2 border-blue-500 focus:border-blue-500 text-lg p-3"
+                    className="mt-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 border-2 border-blue-500 focus:border-blue-500 p-3"
                     required
                   />
                 </div>
@@ -87,7 +87,7 @@ const Modal = ({ isOpen, openModal, closeModal, onCreateReservation }) => {
                 <div>
                   <label
                     htmlFor="phone"
-                    className="block text-lg font-medium text-gray-700"
+                    className="block font-medium text-gray-700"
                   >
                     Телефон
                   </label>
@@ -97,7 +97,7 @@ const Modal = ({ isOpen, openModal, closeModal, onCreateReservation }) => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="mt-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 border-2 border-blue-500 focus:border-blue-500 text-lg p-3"
+                    className="mt-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 border-2 border-blue-500 focus:border-blue-500 p-3"
                     required
                   />
                 </div>

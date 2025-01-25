@@ -25,6 +25,8 @@ const Home: React.FC<HomeProps> = ({ searchParams }) => {
                   { title: 'Первоначальный взнос от 5%', description: 'На рынке взносы начинаются от 20%, а с нами жилье становится доступнее.' },
                   { title: 'Огромный выбор квартир', description: 'Более 200 000 вариантов на любой вкус и бюджет.' },
                   { title: 'Удобный фильтр', description: 'Найдите квартиру за несколько секунд, используя наши современные инструменты поиска.' },
+                  { title: 'На рынке 3 года', description: 'Дополнить текст' },
+                  { title: '128 заявок', description: 'Дополнить текст' },
                 ].map((item, index) => (
                   <div key={index} className="p-6 border border-gray-300 shadow-sm hover:shadow-lg transition-shadow">
                     <h3 className="text-lg font-semibold mb-4 text-gray-800">{item.title}</h3>
@@ -44,10 +46,11 @@ const Home: React.FC<HomeProps> = ({ searchParams }) => {
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {[
-                  { title: 'Снижение ставки до 10%', description: 'Сократите свои расходы с минимальной ставкой рефинансирования.' },
+                  { title: 'Снижение ставки до 12%', description: 'Сократите свои расходы с минимальной ставкой рефинансирования.' },
                   { title: 'Уменьшение ежемесячного платежа', description: 'Рассчитайте новый график выплат с учетом снижения платежа.' },
                   { title: 'Простое оформление', description: 'Мы поможем вам легко перенести текущую ипотеку в наш банк.' },
                   { title: 'Гибкие условия', description: 'Выберите срок кредитования, который подойдет именно вам.' },
+                  { title: 'Аренда с выкупом', description: 'Рефинансирование происходит вместе с арендой выкупом, которая позволит уменьшить ставку до 12%, а не платить банкам 25%' },
                 ].map((item, index) => (
                   <div key={index} className="p-6 border border-gray-300 shadow-sm hover:shadow-lg transition-shadow">
                     <h3 className="text-lg font-semibold mb-4 text-gray-800">{item.title}</h3>
@@ -104,6 +107,22 @@ const Home: React.FC<HomeProps> = ({ searchParams }) => {
             >
               Рефинансирование
             </button>
+            {/* <button
+              onClick={() => setActiveProduct('product3')}
+              className={`py-2 px-4 rounded-md text-sm font-medium ${
+                activeProduct === 'product3' ? 'bg-primary text-white' : 'bg-gray-200 text-primary'
+              }`}
+            >
+              Аренда
+            </button>
+            <button
+              onClick={() => setActiveProduct('product4')}
+              className={`py-2 px-4 rounded-md text-sm font-medium ${
+                activeProduct === 'product4' ? 'bg-primary text-white' : 'bg-gray-200 text-primary'
+              }`}
+            >
+              Аренда с выкупом
+            </button> */}
           </div>
         </div>
       </section>
