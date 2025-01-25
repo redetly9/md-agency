@@ -108,13 +108,13 @@ const Modal = ({ isOpen, openModal, closeModal, onCreateReservation }) => {
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="bg-gray-300 text-gray-700 px-6 py-3 rounded-md mr-3 hover:bg-gray-400 text-lg"
+                  className="bg-gray-300 text-gray-700 px-6 py-3 rounded-md mr-3 hover:bg-gray-400 text-lg w-full"
                 >
                   Отменить
                 </button>
                 <button
                   type="submit"
-                  className="bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 text-lg"
+                  className="bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 text-lg w-full"
                 >
                   Подать
                 </button>
