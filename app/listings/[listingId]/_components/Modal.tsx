@@ -35,7 +35,7 @@ const Modal = ({ isOpen, openModal, closeModal, onCreateReservation }) => {
             {/* Заголовок */}
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold text-gray-800">
-                Submit Your Information
+                Заявка
               </h2>
               <button
                 onClick={closeModal}
@@ -44,17 +44,14 @@ const Modal = ({ isOpen, openModal, closeModal, onCreateReservation }) => {
                 ✕
               </button>
             </div>
-
-            {/* Форма */}
             <form onSubmit={handleSubmit}>
               <div className="space-y-6">
-                {/* Имя */}
                 <div>
                   <label
                     htmlFor="firstName"
                     className="block text-lg font-medium text-gray-700"
                   >
-                    First Name
+                    Имя
                   </label>
                   <input
                     type="text"
@@ -73,7 +70,7 @@ const Modal = ({ isOpen, openModal, closeModal, onCreateReservation }) => {
                     htmlFor="lastName"
                     className="block text-lg font-medium text-gray-700"
                   >
-                    Last Name
+                    Фамилия
                   </label>
                   <input
                     type="text"
@@ -92,7 +89,7 @@ const Modal = ({ isOpen, openModal, closeModal, onCreateReservation }) => {
                     htmlFor="phone"
                     className="block text-lg font-medium text-gray-700"
                   >
-                    Phone
+                    Телефон
                   </label>
                   <input
                     type="tel"
@@ -113,13 +110,13 @@ const Modal = ({ isOpen, openModal, closeModal, onCreateReservation }) => {
                   onClick={closeModal}
                   className="bg-gray-300 text-gray-700 px-6 py-3 rounded-md mr-3 hover:bg-gray-400 text-lg"
                 >
-                  Cancel
+                  Отменить
                 </button>
                 <button
                   type="submit"
                   className="bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 text-lg"
                 >
-                  Submit
+                  Подать
                 </button>
               </div>
             </form>
