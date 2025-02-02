@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Lottie Avatar</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.0/lottie.min.js"></script>
+</head>
+<body>
+  <div id="avatar-container" style="width: 1000px; height: 1000px;"></div>
+
+  <script>
+    // Инициализация Lottie-анимации
+    let avatar = lottie.loadAnimation({
+      container: document.getElementById('avatar-container'), // Контейнер
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      path: 'http://localhost:3001/uv/uv.json' // Начальная анимация
+    });
+  </script>
+</body>
+</html>
