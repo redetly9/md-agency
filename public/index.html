@@ -151,12 +151,78 @@
         .benefit-card {
             text-align: center;
             padding: 2rem;
+            background: var(--light);
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
         }
 
         .benefit-card__icon {
             font-size: 48px;
             color: var(--primary);
             margin-bottom: 1rem;
+            background: var(--gray);
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+        }
+
+        /* FAQ Section */
+        .faq {
+            padding: 4rem 0;
+            background: var(--gray);
+        }
+
+        .faq__grid {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--light);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .faq-item__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            color: var(--text);
+        }
+
+        .faq-item__icon {
+            color: var(--primary);
+            transition: transform 0.3s;
+        }
+
+        .faq-item__content {
+            margin-top: 1rem;
+            display: none;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .faq-item.active .faq-item__icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-item.active .faq-item__content {
+            display: block;
         }
 
         /* Footer */
@@ -263,6 +329,50 @@
         </div>
     </section>
 
+    <section class="faq">
+        <div class="container">
+            <h2 class="section__title">Частые вопросы</h2>
+            <div class="faq__grid">
+                <div class="faq-item">
+                    <div class="faq-item__header">
+                        <span>Какие документы нужны для оформления ипотеки?</span>
+                        <span class="faq-item__icon">▼</span>
+                    </div>
+                    <div class="faq-item__content">
+                        Для оформления ипотеки вам потребуются: удостоверение личности, справка о доходах за последние 6 месяцев, пенсионные отчисления, документы на приобретаемую недвижимость. Полный список документов зависит от конкретной программы.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-item__header">
+                        <span>Как долго рассматривается заявка?</span>
+                        <span class="faq-item__icon">▼</span>
+                    </div>
+                    <div class="faq-item__content">
+                        Предварительное решение по ипотеке вы получите за 5 минут. Полное рассмотрение заявки занимает от 1 до 3 рабочих дней после предоставления полного пакета документов.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-item__header">
+                        <span>Можно ли досрочно погасить ипотеку?</span>
+                        <span class="faq-item__icon">▼</span>
+                    </div>
+                    <div class="faq-item__content">
+                        Да, вы можете досрочно погасить ипотеку частично или полностью без комиссий и штрафов. При частичном погашении вы можете выбрать: уменьшить ежемесячный платеж или срок кредита.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-item__header">
+                        <span>Какие условия рефинансирования?</span>
+                        <span class="faq-item__icon">▼</span>
+                    </div>
+                    <div class="faq-item__content">
+                        Мы предлагаем рефинансирование ипотечных кредитов с пониженной ставкой на 25-35% от текущей. Срок рассмотрения заявки 10-30 дней. Возможно рефинансирование без подтверждения доходов.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <footer class="footer" id="contacts">
         <div class="container">
             <div class="footer__grid">
@@ -282,5 +392,14 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        // FAQ functionality
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.toggle('active');
+            });
+        });
+    </script>
 </body>
 </html> 
