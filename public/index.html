@@ -10,14 +10,20 @@
             --text: #333;
             --light: #fff;
             --gray: #f5f5f5;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             font-size: 14px;
+        }
+
+        body {
+            line-height: 1.6;
+            color: var(--text);
         }
 
         .container {
@@ -34,7 +40,7 @@
             width: 100%;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow);
         }
 
         .header__container {
@@ -67,13 +73,10 @@
 
         /* Hero Section */
         .hero {
-            padding: 8rem 0 4rem;
-            background: linear-gradient(45deg, var(--primary), #2196F3);
+            padding: 10rem 0 6rem;
+            background: var(--primary);
             color: var(--light);
-        }
-
-        .hero__content {
-            max-width: 600px;
+            text-align: center;
         }
 
         .hero__title {
@@ -84,6 +87,24 @@
         .hero__text {
             font-size: 18px;
             margin-bottom: 2rem;
+        }
+
+        .button {
+            background: var(--light);
+            color: var(--primary);
+            padding: 1rem 2rem;
+            border-radius: 1rem;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(66, 133, 244, 0.4);
         }
 
         /* Products Section */
@@ -109,7 +130,12 @@
             background: var(--light);
             border-radius: 1rem;
             padding: 2rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
         }
 
         .product-card__title {
@@ -121,20 +147,6 @@
         .product-card__text {
             margin-bottom: 1.5rem;
             line-height: 1.6;
-        }
-
-        .button {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background: var(--primary);
-            color: var(--light);
-            text-decoration: none;
-            border-radius: 1rem;
-            transition: transform 0.3s;
-        }
-
-        .button:hover {
-            transform: translateY(-2px);
         }
 
         /* Benefits Section */
@@ -153,7 +165,7 @@
             padding: 2rem;
             background: var(--light);
             border-radius: 1rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            box-shadow: var(--shadow);
             transition: transform 0.3s;
         }
 
@@ -194,7 +206,7 @@
         }
 
         .faq-item:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow);
         }
 
         .faq-item__header {
@@ -262,6 +274,7 @@
                 <ul class="nav__list">
                     <li><a href="#products" class="nav__link">Продукты</a></li>
                     <li><a href="#benefits" class="nav__link">Преимущества</a></li>
+                    <li><a href="#faq" class="nav__link">FAQ</a></li>
                     <li><a href="#contacts" class="nav__link">Контакты</a></li>
                 </ul>
             </nav>
@@ -329,7 +342,7 @@
         </div>
     </section>
 
-    <section class="faq">
+    <section class="faq" id="faq">
         <div class="container">
             <h2 class="section__title">Частые вопросы</h2>
             <div class="faq__grid">
