@@ -19,55 +19,75 @@ interface ListingCardProps {
 const ListingCard: React.FC<ListingCardProps> = ({ data, reservation, hasFavorited }) => {
   const price = reservation ? reservation.totalPrice : data?.price;
 
-  let reservationDate;
-  if (reservation) {
-    const start = new Date(reservation.startDate);
-    const end = new Date(reservation.endDate);
-    reservationDate = `${format(start, 'PP')} - ${format(end, 'PP')}`;
-  }
-
   return (
-    <div className="relative">
-      <div className="absolute top-0 left-0 p-3 flex items-center justify-between w-full">
-        <div className="z-5">
-          <ListingMenu id={reservation?.id || data.id} />
+    <div className="bg-white rounded-lg overflow-hidden shadow">
+      <div className="relative">
+        <div className="absolute top-0 left-0 p-3 flex items-center justify-between w-full z-10">
+          <div>
+            <ListingMenu id={reservation?.id || data.id} />
+          </div>
+          <div className="w-[28px] h-[28px] flex items-center justify-center">
+            <HeartButton listingId={data.id} key={data.id} hasFavorited={hasFavorited} />
+          </div>
         </div>
 
-        <div className="w-[28px] h-[28px] flex items-center justify-center">
-          <HeartButton listingId={data.id} key={data.id} hasFavorited={hasFavorited} />
-        </div>
-      </div>
-      <Link href={`/listings/${data.id}`} className="col-span-1 cursor-pointer">
-        <div className="flex flex-col gap-1 w-full">
-          <div className=" overflow-hidden md:rounded-xl rounded-md">
-            <div className="aspect-[1/0.95] relative bg-gray-100">
-              <img
-                src={fixImageUrl(data.imageSrc)}
-                fill
-                alt={data.title}
-                effect="zoom"
-                className="object-cover w-full h-full"
-                sizes="100vw"
-              />
+        <Link href={`/listings/${data.id}`}>
+          <div className="p-4">
+            <div className="flex justify-between items-start mb-3">
+              <h2 className="text-xl font-bold">{formatPrice(price)} ₸</h2>
+            </div>
+
+            <div className="text-primary mb-2">
+              {data.category} · {data.roomCount} м² · {data.bathroomCount}/{data.guestCount} этаж
+            </div>
+
+            <div className="relative mb-3">
+              <div className="aspect-[1/0.95] relative overflow-hidden rounded">
+                <img
+                  src={fixImageUrl(data.imageSrc)}
+                  alt={data.title}
+                  className="object-cover w-full h-full"
+                />
+                <span className="absolute bottom-2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded">
+                  {data.imageCount || 1}
+                </span>
+              </div>
+            </div>
+
+            <div className="mb-2">
+              <h3 className="font-medium">{data.title}</h3>
+              <p className="text-gray-500">{data.street}</p>
+              <p className="text-gray-500">{data.city}</p>
+            </div>
+
+            <div className="flex items-center justify-between text-sm text-gray-500">
+              <div className="flex items-center gap-2">
+                <span className="bg-yellow-100 px-2 py-1 rounded">
+                  {data.user?.type || 'Специалист'}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span>
+                  {new Date(data.createdAt).toLocaleDateString('ru-RU', {
+                    day: 'numeric',
+                    month: 'long',
+                  })}
+                </span>
+                <span>·</span>
+                <span className="flex items-center gap-1">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                  </svg>
+                  {data.viewCount || 0}
+                </span>
+              </div>
             </div>
           </div>
-          <span className="font-semibold text-[16px] mt-[4px]">
-            {data?.title}, {data?.street}
-          </span>
-          <span className="font-light text-neutral-500 text-sm">
-            {data.category},{' '}
-            {new Date(data.createdAt).toLocaleDateString('ru-RU', {
-              day: 'numeric',
-              month: 'long',
-            })}
-          </span>
-
-          <div className="flex flex-row items-baseline gap-1">
-            <span className="font-bold text-[#444] text-[14px]">{formatPrice(price)} тг.</span>
-            {!reservation && <span className="font-light">{data?.city}</span>}
-          </div>
-        </div>
-      </Link>
+        </Link>
+      </div>
     </div>
   );
 };

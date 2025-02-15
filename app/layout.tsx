@@ -19,7 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={nunito.className}>
         <Providers>
           <div></div>
-          <Navbar />
+          {/* <Navbar /> */}
           <main className="">{children}</main>
         </Providers>
       </body>

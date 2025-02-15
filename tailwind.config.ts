@@ -14,9 +14,9 @@ const config: Config = {
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))', // Конусный градиент
       },
       colors: {
-        primary: '#1e3a8a',
+        primary: '#45e7d5',
         secondary: '#f3f4f6',
-        accent: '#2563eb',
+        accent: '#45e7d5',
         background: '#f9fafb',
         textPrimary: '#111827',
         textSecondary: '#6b7280',
@@ -32,9 +32,7 @@ const config: Config = {
       '2xl': '1536px', // Очень большие экраны (оставлено по умолчанию)
     },
   },
-  plugins: [
-    // Можно добавить плагины, если потребуется
-  ],
+  plugins: [],
 };
 
 export default config;
