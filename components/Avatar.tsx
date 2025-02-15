@@ -7,6 +7,7 @@ interface AvatarProps {
 
 const Avatar: React.FC<AvatarProps> = ({ src }) => {
   return (
+    <React.Fragment>
     <Image
       className="rounded-full select-none"
       height="28"
@@ -14,6 +15,10 @@ const Avatar: React.FC<AvatarProps> = ({ src }) => {
       alt="Avatar"
       src={src || "/images/placeholder.jpg"}
     />
+    <div className="absolute bottom-0 right-0">
+      
+    </div>
+    </React.Fragment>
   );
 };
 

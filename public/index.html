@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ипотека и недвижимость</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Блок с основными продуктами -->
+    <section class="products">
+        <div class="container">
+            <h2>Наши продукты</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-icon">🏠</div>
+                    <h3>Ипотека</h3>
+                    <p>Выгодные условия ипотечного кредитования</p>
+                </div>
+                <div class="product-card">
+                    <div class="product-icon">🔑</div>
+                    <h3>Аренда жилья</h3>
+                    <p>Большой выбор объектов для аренды</p>
+                </div>
+                <div class="product-card">
+                    <div class="product-icon">📋</div>
+                    <h3>Аренда с правом выкупа</h3>
+                    <p>Уникальное предложение для будущих собственников</p>
+                </div>
+                <div class="product-card">
+                    <div class="product-icon">💰</div>
+                    <h3>Рефинансирование</h3>
+                    <p>Снижение ставки по текущей ипотеке</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Форма заявки -->
+    <section class="mortgage-form">
+        <div class="container">
+            <h2>Оставить заявку</h2>
+            <form id="applicationForm">
+                <input type="text" placeholder="Ваше имя" required>
+                <input type="tel" placeholder="Телефон" required>
+                <select required>
+                    <option value="">Выберите продукт</option>
+                    <option value="mortgage">Ипотека</option>
+                    <option value="rent">Аренда</option>
+                    <option value="rent-to-own">Аренда с выкупом</option>
+                    <option value="refinance">Рефинансирование</option>
+                </select>
+                <button type="submit">Отправить заявку</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Таблица с ценами -->
+    <section class="pricing">
+        <div class="container">
+            <h2>Условия ипотеки</h2>
+            <table class="pricing-table">
+                <thead>
+                    <tr>
+                        <th>Программа</th>
+                        <th>Ставка</th>
+                        <th>Срок</th>
+                        <th>Первый взнос</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Стандартная</td>
+                        <td>от 8.5%</td>
+                        <td>до 30 лет</td>
+                        <td>от 15%</td>
+                    </tr>
+                    <tr>
+                        <td>Семейная</td>
+                        <td>от 6%</td>
+                        <td>до 30 лет</td>
+                        <td>от 10%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</body>
+</html> 
