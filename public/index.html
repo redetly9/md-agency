@@ -3,87 +3,468 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ипотека и недвижимость</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>MD HOME - Аренда с выкупом и рефинансирование</title>
+    <style>
+        :root {
+            --primary: #4285F4;
+            --text: #333;
+            --light: #fff;
+            --gray: #f5f5f5;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --gradient: linear-gradient(135deg, #4285F4, #34a0ff);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 14px;
+        }
+
+        body {
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--gray);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: var(--light);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+
+        .header__container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .nav__list {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav__link {
+            color: var(--text);
+            text-decoration: none;
+            transition: color 0.3s;
+            position: relative;
+            z-index: 1;
+        }
+
+        .nav__link:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 10rem 0 6rem;
+            background: var(--gradient);
+            color: var(--light);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero:before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 20%, transparent 20%);
+            background-size: 50px 50px;
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero__title {
+            font-size: 48px;
+            margin-bottom: 1rem;
+        }
+
+        .hero__text {
+            font-size: 18px;
+            margin-bottom: 2rem;
+        }
+
+        .button {
+            background: var(--light);
+            color: var(--primary);
+            padding: 1rem 2rem;
+            border-radius: 1rem;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            position: relative;
+            z-index: 1;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(66, 133, 244, 0.4);
+        }
+
+        /* Products Section */
+        .products {
+            padding: 4rem 0;
+            background: var(--gray);
+        }
+
+        .section__title {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--text);
+        }
+
+        .products__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: var(--light);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .product-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .product-card:hover:before {
+            opacity: 0.1;
+        }
+
+        .product-card__title {
+            font-size: 24px;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .product-card__text {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        /* Benefits Section */
+        .benefits {
+            padding: 4rem 0;
+        }
+
+        .benefits__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .benefit-card {
+            text-align: center;
+            padding: 2rem;
+            background: var(--light);
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .benefit-card__icon {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            background: var(--gray);
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            transition: transform 0.3s;
+        }
+
+        .benefit-card:hover .benefit-card__icon {
+            transform: scale(1.1);
+        }
+
+        /* FAQ Section */
+        .faq {
+            padding: 4rem 0;
+            background: var(--gray);
+        }
+
+        .faq__grid {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--light);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .faq-item:hover {
+            box-shadow: var(--shadow);
+        }
+
+        .faq-item__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            color: var(--text);
+        }
+
+        .faq-item__icon {
+            color: var(--primary);
+            transition: transform 0.3s;
+        }
+
+        .faq-item__content {
+            margin-top: 1rem;
+            display: none;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .faq-item.active .faq-item__icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-item.active .faq-item__content {
+            display: block;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--text);
+            color: var(--light);
+            padding: 3rem 0;
+        }
+
+        .footer__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero__title {
+                font-size: 36px;
+            }
+
+            .nav__list {
+                display: none;
+            }
+
+            .section__title {
+                font-size: 28px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Блок с основными продуктами -->
-    <section class="products">
+    <header class="header">
+        <div class="container header__container">
+            <div class="logo">MD HOME</div>
+            <nav class="nav">
+                <ul class="nav__list">
+                    <li><a href="#products" class="nav__link">Продукты</a></li>
+                    <li><a href="#benefits" class="nav__link">Преимущества</a></li>
+                    <li><a href="#faq" class="nav__link">FAQ</a></li>
+                    <li><a href="#contacts" class="nav__link">Контакты</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
         <div class="container">
-            <h2>Наши продукты</h2>
-            <div class="products-grid">
+            <div class="hero__content">
+                <h1 class="hero__title">Ваш путь к новому дому начинается здесь</h1>
+                <p class="hero__text">Выгодные условия ипотеки и рефинансирования от MD HOME</p>
+                <a href="#products" class="button">Узнать больше</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="products" id="products">
+        <div class="container">
+            <h2 class="section__title">Наши продукты</h2>
+            <div class="products__grid">
                 <div class="product-card">
-                    <div class="product-icon">🏠</div>
-                    <h3>Ипотека</h3>
-                    <p>Выгодные условия ипотечного кредитования</p>
+                    <h3 class="product-card__title">Аренда с выкупом</h3>
+                    <p class="product-card__text">
+                        - Ставка от 7% до 13.8%<br>
+                        - Срок до 20 лет<br>
+                        - Первоначальный взнос от 5%<br>
+                        - Сумма до 100 млн ₸
+                    </p>
+                    <a href="/arenda.html" class="button">Подробнее</a>
                 </div>
                 <div class="product-card">
-                    <div class="product-icon">🔑</div>
-                    <h3>Аренда жилья</h3>
-                    <p>Большой выбор объектов для аренды</p>
-                </div>
-                <div class="product-card">
-                    <div class="product-icon">📋</div>
-                    <h3>Аренда с правом выкупа</h3>
-                    <p>Уникальное предложение для будущих собственников</p>
-                </div>
-                <div class="product-card">
-                    <div class="product-icon">💰</div>
-                    <h3>Рефинансирование</h3>
-                    <p>Снижение ставки по текущей ипотеке</p>
+                    <h3 class="product-card__title">Рефинансирование</h3>
+                    <p class="product-card__text">
+                        - ставка от 11.5% до 13.8%<br>
+                        - Срок до 20 лет<br>
+                        - Без подтверждения доходов<br>
+                        - Решение за 10-30 дней
+                    </p>
+                    <a href="/refinance.html" class="button">Подробнее</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Форма заявки -->
-    <section class="mortgage-form">
+    <section class="benefits" id="benefits">
         <div class="container">
-            <h2>Оставить заявку</h2>
-            <form id="applicationForm">
-                <input type="text" placeholder="Ваше имя" required>
-                <input type="tel" placeholder="Телефон" required>
-                <select required>
-                    <option value="">Выберите продукт</option>
-                    <option value="mortgage">Ипотека</option>
-                    <option value="rent">Аренда</option>
-                    <option value="rent-to-own">Аренда с выкупом</option>
-                    <option value="refinance">Рефинансирование</option>
-                </select>
-                <button type="submit">Отправить заявку</button>
-            </form>
+            <h2 class="section__title">Почему выбирают нас</h2>
+            <div class="benefits__grid">
+                <div class="benefit-card">
+                    <div class="benefit-card__icon">⚡</div>
+                    <h3>Быстрое решение</h3>
+                    <p>Одобрение ипотеки за 5 минут</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-card__icon">💰</div>
+                    <h3>Выгодные условия</h3>
+                    <p>Минимальные ставки на рынке</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-card__icon">📱</div>
+                    <h3>Онлайн оформление</h3>
+                    <p>Без визита в банк</p>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Таблица с ценами -->
-    <section class="pricing">
+    <section class="faq" id="faq">
         <div class="container">
-            <h2>Условия ипотеки</h2>
-            <table class="pricing-table">
-                <thead>
-                    <tr>
-                        <th>Программа</th>
-                        <th>Ставка</th>
-                        <th>Срок</th>
-                        <th>Первый взнос</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Стандартная</td>
-                        <td>от 8.5%</td>
-                        <td>до 30 лет</td>
-                        <td>от 15%</td>
-                    </tr>
-                    <tr>
-                        <td>Семейная</td>
-                        <td>от 6%</td>
-                        <td>до 30 лет</td>
-                        <td>от 10%</td>
-                    </tr>
-                </tbody>
-            </table>
+            <h2 class="section__title">Частые вопросы</h2>
+            <div class="faq__grid">
+                <div class="faq-item">
+                    <div class="faq-item__header">
+                        <span>Какие документы нужны для оформления ипотеки?</span>
+                        <span class="faq-item__icon">▼</span>
+                    </div>
+                    <div class="faq-item__content">
+                        Для оформления ипотеки вам потребуются: удостоверение личности, справка о доходах за последние 6 месяцев, пенсионные отчисления, документы на приобретаемую недвижимость. Полный список документов зависит от конкретной программы.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-item__header">
+                        <span>Как долго рассматривается заявка?</span>
+                        <span class="faq-item__icon">▼</span>
+                    </div>
+                    <div class="faq-item__content">
+                        Предварительное решение по ипотеке вы получите за 5 минут. Полное рассмотрение заявки занимает от 1 до 3 рабочих дней после предоставления полного пакета документов.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-item__header">
+                        <span>Можно ли досрочно погасить ипотеку?</span>
+                        <span class="faq-item__icon">▼</span>
+                    </div>
+                    <div class="faq-item__content">
+                        Да, вы можете досрочно погасить ипотеку частично или полностью без комиссий и штрафов. При частичном погашении вы можете выбрать: уменьшить ежемесячный платеж или срок кредита.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-item__header">
+                        <span>Какие условия рефинансирования?</span>
+                        <span class="faq-item__icon">▼</span>
+                    </div>
+                    <div class="faq-item__content">
+                        Мы предлагаем рефинансирование ипотечных кредитов с пониженной ставкой на 25-35% от текущей. Срок рассмотрения заявки 10-30 дней. Возможно рефинансирование без подтверждения доходов.
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
+
+    <footer class="footer" id="contacts">
+        <div class="container">
+            <div class="footer__grid">
+                <div>
+                    <h3>MD HOME</h3>
+                    <p>Ваш надежный партнер в сфере ипотечного кредитования</p>
+                </div>
+                <div>
+                    <h3>Контакты</h3>
+                    <p>Телефон: +7 707 700 4114</p>
+                    <p>Email: info@mdhome.kz</p>
+                </div>
+                <div>
+                    <h3>Адрес</h3>
+                    <p>г. Алматы, ул. Примерная, 123</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ functionality
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.toggle('active');
+            });
+        });
+    </script>
 </body>
 </html> 
