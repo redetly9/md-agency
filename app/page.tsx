@@ -6,7 +6,7 @@ interface HomeProps {
 }
 
 const Home: React.FC<HomeProps> = ({ searchParams }) => {
-  return <KrishaList searchParams={searchParams} />;
+  return <KrishaList />;
 };
 
 export default Home;
