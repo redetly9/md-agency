@@ -2,8 +2,10 @@ import type { Metadata } from 'next';
 import { Nunito } from 'next/font/google';
 import './globals.css';
 import 'react-loading-skeleton/dist/skeleton.css';
-import Navbar from '@/components/navbar';
 import Providers from '@/components/Provider';
+import Header from '@/components/Header';
+import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
 
 const nunito = Nunito({ subsets: ['latin'] });
 
@@ -18,9 +20,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={nunito.className}>
         <Providers>
-          <div></div>
-          {/* <Navbar /> */}
-          <main className="">{children}</main>
+          <Header />
+          {/* <Navigation /> */}
+          <main>{children}</main>
+          <Footer />
         </Providers>
       </body>
     </html>
