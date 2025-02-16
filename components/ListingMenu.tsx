@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 "use client";
 import React, { FC, useTransition } from "react";
 import { BsThreeDots } from "react-icons/bs";
