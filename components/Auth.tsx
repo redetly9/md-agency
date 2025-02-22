@@ -25,7 +25,7 @@ export default function Auth() {
         toast.success('Регистрация успешна');
       }
     } catch (error) {
-      console.error('Auth error:', error);
+      console.error('Auth error:', error); // @ts-ignore
       toast.error(error?.message || 'Произошла ошибка');
     } finally {
       setLoading(false);
