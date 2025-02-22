@@ -40,6 +40,13 @@ const KrishaList: React.FC = () => {
 
   return (
     <>
+        <header className="bg-white border-b px-4 py-3">
+            <div className="max-w-screen-md mx-auto">
+                <Link href="/" className="text-2xl font-bold">
+                    md.kz
+                </Link>
+            </div>
+        </header>
           {/* Меню услуг */}
           <nav className="bg-white px-4">
           <div className="max-w-screen-md mx-auto">

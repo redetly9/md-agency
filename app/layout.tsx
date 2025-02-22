@@ -6,6 +6,7 @@ import Providers from '@/components/Provider';
 import Header from '@/components/Header';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { AuthProvider } from '@/hooks/useAuth';
 
 const nunito = Nunito({ subsets: ['latin'] });
 
@@ -17,14 +18,16 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="ru">
       <body className={nunito.className}>
-        <Providers>
-          <Header />
-          {/* <Navigation /> */}
-          <main>{children}</main>
-          <Footer />
-        </Providers>
+        <AuthProvider>
+          <Providers>
+            {/* <Header /> */}
+            {/* <Navigation /> */}
+            <main>{children}</main>
+            <Footer />
+          </Providers>
+        </AuthProvider>
       </body>
     </html>
   );
