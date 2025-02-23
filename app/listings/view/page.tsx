@@ -1,69 +1,75 @@
-import React from 'react';
+// @ts-nocheck
+'use client';
 
+import { useEffect, useState } from 'react';
 import EmptyState from '@/components/EmptyState';
 import ListingHead from './[id]/_components/ListingHead';
 import ListingInfo from './[id]/_components/ListingInfo';
 import ListingClient from './[id]/_components/ListingClient';
-
-import { getCurrentUser } from '@/services/user';
-import { getListingById } from '@/services/listing';
 import { categories } from '@/utils/constants';
 
 interface IParams {
   listingId: number;
 }
 
-const ListingPage = async ({ params: { listingId } }: { params: IParams }) => {
-  const listing = await getListingById(+listingId);
-  const currentUser = await getCurrentUser();
+const ListingPage = ({ params: { listingId } }: { params: IParams }) => {
+  const [listing, setListing] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchListing = async () => {
+      try {
+        const response = await fetch(`/api/krisha/listings/${listingId}`);
+        const data = await response.json();
+        setListing(data);
+      } catch (error) {
+        console.error('Error fetching listing:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchListing();
+  }, [listingId]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   if (!listing) return <EmptyState />;
-
-  const {
-    title,
-    imageSrc,
-    country,
-    region,
-    id,
-    user: owner, // Данные пользователя
-    price,
-    description,
-    roomCount,
-    guestCount,
-    bathroomCount,
-    latlng,
-    reservations,
-    additionalDetails,
-  } = listing;
 
   const category = categories.find((cate) => cate.label === listing.category);
 
   return (
     <section className="main-container">
       <div className="flex flex-col gap-6">
-        <ListingHead title={title} image={imageSrc} country={country} region={region} id={id} />
+        <ListingHead 
+          title={listing.title} 
+          image={listing.imageSrc} 
+          country={listing.country} 
+          region={listing.region} 
+          id={listing.id} 
+        />
       </div>
 
       <ListingClient
-        id={id}
-        price={price}
-        reservations={reservations}
-        user={currentUser}
-        title={title}
-        owner={owner} // Передаем данные пользователя
+        id={listing.id}
+        price={listing.price}
+        title={listing.title}
+        owner={listing.user}
       >
         <ListingInfo
-          city={additionalDetails?.city}
-          buildYear={additionalDetails?.buildYear}
-          user={owner}
+          city={listing.additionalDetails?.city}
+          buildYear={listing.additionalDetails?.buildYear}
+          user={listing.user}
           category={category}
-          description={description}
-          roomCount={additionalDetails?.houseType}
-          guestCount={additionalDetails?.area}
-          bathroomCount={additionalDetails?.bathroom}
-          floor={additionalDetails?.floor}
-          condition={additionalDetails?.condition}
-          latlng={latlng}
+          description={listing.description}
+          roomCount={listing.additionalDetails?.houseType}
+          guestCount={listing.additionalDetails?.area}
+          bathroomCount={listing.additionalDetails?.bathroom}
+          floor={listing.additionalDetails?.floor}
+          condition={listing.additionalDetails?.condition}
+          latlng={listing.latlng}
         />
       </ListingClient>
     </section>

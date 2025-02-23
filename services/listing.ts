@@ -114,36 +114,14 @@ export const getListings = async (query?: {
 };
 
 export const getListingById = async (id: number) => {
-  console.log('id', id);
-
-  const listing = await db.listing.findUnique({
-    where: {
-      id,
-    },
-    include: {
-      user: {
-        select: {
-          name: true,
-          image: true,
-        },
-      },
-      reservations: {
-        select: {
-          startDate: true,
-          endDate: true,
-        },
-      },
-    },
-  });
   try {
-    const response = await axios.get(`${BASE_URL}/api/parse/show/${id}`);
-    return response.data; // Возвращаем данные объявления
+    const response = await fetch(`/api/krisha/listings/${id}`);
+    const data = await response.json();
+    return data;
   } catch (error) {
-    console.error('Ошибка при получении объявления по ID:', error);
-    return null; // Возвращаем null в случае ошибки
+    console.error('Error fetching listing:', error);
+    return null;
   }
-
-  return listing;
 };
 
 export const createListing = async (data: { [x: string]: any }) => {
