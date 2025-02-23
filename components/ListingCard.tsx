@@ -2,7 +2,6 @@
 import React from 'react';
 import Link from 'next/link';
 import { format } from 'date-fns';
-import { Listing } from '@prisma/client';
 import Skeleton from 'react-loading-skeleton';
 
 import HeartButton from './HeartButton';
@@ -11,7 +10,7 @@ import { fixImageUrl, formatPrice } from '@/utils/helper';
 import ListingMenu from './ListingMenu';
 
 interface ListingCardProps {
-  data: Listing;
+  data: any;
   reservation?: any;
   hasFavorited: boolean;
 }

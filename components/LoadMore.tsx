@@ -1,7 +1,6 @@
 // @ts-nocheck
 'use client';
 import React, { FC } from 'react';
-import { Listing } from '@prisma/client';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 import ListingCard, { ListingSkeleton } from './ListingCard';
@@ -35,7 +34,7 @@ const LoadMore: FC<LoadMoreProps> = ({ nextCursor, fnArgs, queryFn, queryKey, fa
         <React.Fragment key={i}>
           {group?.listings?.map(
             (
-              listing: Listing & {
+              listing: any & {
                 reservation?: {
                   id: string;
                   startDate: Date;
