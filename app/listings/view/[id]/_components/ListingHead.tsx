@@ -46,6 +46,7 @@ const ListingHead: React.FC<ListingHeadProps> = ({
           ))}
         </div> */}
         {/* <Gallery images={images} /> */}
+        {/* @ts-ignore */}
         <CustomGallery images={images} />
         {/* <div className="absolute top-5 right-5">
           <HeartButton listingId={id} hasFavorited={hasFavorited} />
