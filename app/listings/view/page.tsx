@@ -1,9 +1,9 @@
 import React from 'react';
 
 import EmptyState from '@/components/EmptyState';
-import ListingHead from './_components/ListingHead';
-import ListingInfo from './_components/ListingInfo';
-import ListingClient from './_components/ListingClient';
+import ListingHead from './[id]/_components/ListingHead';
+import ListingInfo from './[id]/_components/ListingInfo';
+import ListingClient from './[id]/_components/ListingClient';
 
 import { getCurrentUser } from '@/services/user';
 import { getListingById } from '@/services/listing';

@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { User } from '@supabase/supabase-js';
+import { toast } from 'react-hot-toast';
 
 interface AuthContextType {
   user: User | null;
@@ -44,8 +45,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       
       if (data?.user) {
         setUser(data.user);
-        router.refresh(); // Обновляем состояние приложения
         router.push('/profile');
+        router.refresh();
+        toast.success('Успешный вход');
       }
     } catch (error) {
       console.error('Login error:', error);
@@ -57,9 +59,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
-      router.push('/');
+      
+      // Сначала очищаем состояние пользователя
+      setUser(null);
+      
+      // Добавляем toast уведомление
+      toast.success('Вы успешно вышли');
+      
+      // Делаем редирект и обновляем состояние приложения
+      router.push('/login');
+      router.refresh();
+      
     } catch (error) {
       console.error('Ошибка при выходе:', error);
+      toast.error('Ошибка при выходе из системы');
     }
   };
 
@@ -79,8 +92,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       
       if (data?.user) {
         setUser(data.user);
-        router.refresh(); // Обновляем состояние приложения
         router.push('/profile');
+        router.refresh();
+        toast.success('Регистрация успешна');
       }
     } catch (error) {
       console.error('Register error:', error);

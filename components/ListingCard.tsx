@@ -31,7 +31,7 @@ const ListingCard: React.FC<ListingCardProps> = ({ data, reservation, hasFavorit
           </div>
         </div>
 
-        <Link href={`/listings/${data.id}`}>
+        <Link href={`/listings/view/${data.id}`}>
           <div className="p-4">
             <div className="flex justify-between items-start mb-3">
               <h2 className="text-xl font-bold">{formatPrice(price)} ₸</h2>

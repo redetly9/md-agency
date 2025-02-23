@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -8,11 +8,32 @@ import { useRouter } from 'next/navigation';
 const SettingsPage = () => {
     const { user, logout } = useAuth();
     const router = useRouter();
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
 
     const handleLogout = async () => {
-        await logout();
-        router.push('/');
+        try {
+            setIsLoggingOut(true);
+            await logout();
+        } catch (error) {
+            console.error('Ошибка при выходе:', error);
+        } finally {
+            setIsLoggingOut(false);
+        }
     };
+
+    // Если пользователь не авторизован, редиректим на страницу входа
+    React.useEffect(() => {
+        if (!user && !isLoggingOut) {
+            router.push('/login');
+        }
+    }, [user, router, isLoggingOut]);
+
+    // Показываем загрузку или пустой экран пока идет процесс выхода
+    if (isLoggingOut || !user) {
+        return <div className="flex min-h-screen items-center justify-center">
+            <div className="text-gray-500">Загрузка...</div>
+        </div>;
+    }
 
     return (
         <div className="flex flex-col min-h-screen bg-background">
@@ -111,9 +132,10 @@ const SettingsPage = () => {
                     {/* Выход */}
                     <button 
                         onClick={handleLogout}
-                        className="w-full bg-white text-red-500 py-4 rounded-lg font-medium"
+                        disabled={isLoggingOut}
+                        className="w-full bg-white text-red-500 py-4 rounded-lg font-medium disabled:opacity-50"
                     >
-                        Выйти
+                        {isLoggingOut ? 'Выход...' : 'Выйти'}
                     </button>
                 </div>
             </main>

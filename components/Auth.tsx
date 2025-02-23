@@ -19,13 +19,12 @@ export default function Auth() {
     try {
       if (isLogin) {
         await login(email, password);
-        toast.success('Успешный вход');
       } else {
         await register(name, email, password);
-        toast.success('Регистрация успешна');
       }
     } catch (error) {
-      console.error('Auth error:', error); // @ts-ignore
+      console.error('Auth error:', error);
+      // @ts-ignore
       toast.error(error?.message || 'Произошла ошибка');
     } finally {
       setLoading(false);
