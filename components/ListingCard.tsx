@@ -7,7 +7,6 @@ import Skeleton from 'react-loading-skeleton';
 import HeartButton from './HeartButton';
 import Image from './Image';
 import { fixImageUrl, formatPrice } from '@/utils/helper';
-import ListingMenu from './ListingMenu';
 
 interface ListingCardProps {
   data: any;
@@ -23,7 +22,7 @@ const ListingCard: React.FC<ListingCardProps> = ({ data, reservation, hasFavorit
       <div className="relative">
         <div className="absolute top-0 left-0 p-3 flex items-center justify-between w-full z-10">
           <div>
-            <ListingMenu id={reservation?.id || data.id} />
+            {/* <ListingMenu id={reservation?.id || data.id} /> */}
           </div>
           <div className="w-[28px] h-[28px] flex items-center justify-center">
             <HeartButton listingId={data.id} key={data.id} hasFavorited={hasFavorited} />
