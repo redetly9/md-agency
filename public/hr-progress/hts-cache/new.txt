@@ -1,0 +1,4 @@
+date	size'/'remotesize	flags(request:Update,Range state:File response:Modified,Chunked,gZipped)	statuscode	status ('servermsg')	MIME	Etag|Date	URL	localfile	(from URL)
+14:32:47	159/159	---M-Z	200	added ('OK')	text/plain	etag:%22142-61e020e7e6460-gzip%22	https://hr-progress.kz/robots.txt		(from )
+14:32:48	165989/165989	---M-Z	200	added ('OK')	text/html	etag:%2228865-62ce9faa847e4-gzip%22	https://hr-progress.kz/	./hr-progress/hr-progress.kz/index.html	(from )
+14:32:49	738/738	---MCZ	404	error ('Not%20Found')	text/html	etag:W/%222e2-62ddcd3ac180a%22	https://hr-progress.kz/OPR/	./hr-progress/hr-progress.kz/OPR/index.html	(from https://hr-progress.kz/)
