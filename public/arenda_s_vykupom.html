@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Аренда с выкупом | md.kz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #000000;
+            --secondary-color: #333333;
+            --accent-color: #ff6b6b;
+            --background-color: #fff8eb;
+            --card-color: #ffffff;
+            --text-color: #333333;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Анимации */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-hidden {
+            opacity: 0;
+        }
+        
+        .animate-visible {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        /* Заголовок */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            top: 0;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+        
+        .main-nav {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            margin-right: 25px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--accent-color);
+        }
+        
+        .btn-sm {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+        }
+        
+        /* Герой секция */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            padding: 180px 0 100px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to top, var(--background-color), transparent);
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        /* Кнопки */
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            background-color: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .btn:hover {
+            background-color: #ff5252;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .btn-dark {
+            background-color: var(--primary-color);
+        }
+        
+        .btn-dark:hover {
+            background-color: #333333;
+        }
+        
+        /* Секция преимуществ */
+        .benefits {
+            padding: 100px 0;
+            background-color: var(--background-color);
+            position: relative;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            color: var(--primary-color);
+            position: relative;
+            font-size: 2.2rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--accent-color);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .benefit-card {
+            background-color: var(--card-color);
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            text-align: center;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .benefit-card i {
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+        
+        .benefit-card h3 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            font-size: 1.3rem;
+        }
+        
+        /* Секция дополнительных преимуществ */
+        .extra-benefits {
+            padding: 100px 0;
+            background-color: #f9f9f9;
+            position: relative;
+        }
+        
+        .extra-benefits::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.03), transparent);
+        }
+        
+        /* Секция процесса */
+        .process {
+            padding: 100px 0;
+            background-color: var(--background-color);
+            position: relative;
+        }
+        
+        .process::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.03), transparent);
+        }
+        
+        .process-steps {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 20px;
+            width: 2px;
+            background-color: var(--accent-color);
+        }
+        
+        .step {
+            display: flex;
+            margin-bottom: 50px;
+            align-items: flex-start;
+            position: relative;
+        }
+        
+        .step-number {
+            background-color: var(--accent-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            margin-right: 30px;
+            flex-shrink: 0;
+            z-index: 1;
+            box-shadow: 0 0 0 5px var(--background-color);
+        }
+        
+        .step-content {
+            background-color: var(--card-color);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            flex-grow: 1;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .step-content h3 {
+            margin-bottom: 10px;
+            color: var(--primary-color);
+            font-size: 1.3rem;
+        }
+        
+        /* Секция сравнения */
+        .comparison {
+            padding: 100px 0;
+            background-color: #f9f9f9;
+            position: relative;
+        }
+        
+        .comparison::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.03), transparent);
+        }
+        
+        .comparison-table {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: var(--card-color);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .comparison-table th {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        .comparison-table th:first-child {
+            width: 40%;
+        }
+        
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .comparison-table .highlight {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+        
+        /* Секция CTA */
+        .cta {
+            padding: 100px 0;
+            text-align: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1073&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            position: relative;
+        }
+        
+        .cta::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to top, var(--background-color), transparent);
+        }
+        
+        .cta h2 {
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+        }
+        
+        .cta p {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            font-size: 1.2rem;
+        }
+        
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--card-color);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: left;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.2);
+        }
+        
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+        
+        /* Футер */
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .footer-logo {
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer-logo i {
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+        
+        .footer-links {
+            margin-bottom: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .footer-links a {
+            color: white;
+            margin: 0 15px 10px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .social-links {
+            margin-bottom: 30px;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 50%;
+            margin: 0 10px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .process-steps::before {
+                left: 19px;
+            }
+            
+            .step {
+                flex-direction: column;
+            }
+            
+            .step-number {
+                margin-bottom: 15px;
+            }
+            
+            .footer-links a {
+                margin: 0 10px 10px;
+            }
+            
+            .nav-link {
+                display: none;
+            }
+            
+            .comparison-table {
+                overflow-x: auto;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero {
+                padding: 150px 0 80px;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .btn {
+                padding: 12px 25px;
+                font-size: 0.9rem;
+            }
+            
+            .benefits, .extra-benefits, .process, .comparison, .cta {
+                padding: 70px 0;
+            }
+            
+            .benefit-card {
+                padding: 30px 20px;
+            }
+            
+            .contact-form {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo"><i class="fas fa-home"></i> md.kz</div>
+                <nav class="main-nav">
+                    <a href="#" class="nav-link">Главная</a>
+                    <a href="#" class="nav-link">Услуги</a>
+                    <a href="#" class="nav-link">О нас</a>
+                    <a href="#contact" class="btn btn-sm">Связаться с нами</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <h1>АРЕНДА С ВЫКУПОМ</h1>
+            <p>Ваш путь к собственному жилью без ипотечного бремени и сложных банковских проверок</p>
+            <a href="#contact" class="btn">Получить консультацию</a>
+        </div>
+    </section>
+    
+    <section class="benefits">
+        <div class="container">
+            <h2 class="section-title animate-hidden">Ключевые преимущества аренды с выкупом</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card animate-hidden">
+                    <i class="fas fa-percentage"></i>
+                    <h3>Минимальный первоначальный взнос</h3>
+                    <p>Всего 5% от стоимости жилья вместо 20-30% при ипотеке. Начните путь к собственному жилью с минимальными вложениями.</p>
+                </div>
+                <div class="benefit-card animate-hidden">
+                    <i class="fas fa-file-contract"></i>
+                    <h3>Гибкие условия договора</h3>
+                    <p>Индивидуальный подход к каждому клиенту. Мы согласуем с вами удобный срок аренды и график выкупа.</p>
+                </div>
+                <div class="benefit-card animate-hidden">
+                    <i class="fas fa-home"></i>
+                    <h3>Возможность тестировать жильё</h3>
+                    <p>Поживите в квартире до момента выкупа, чтобы убедиться, что объект действительно вам подходит.</p>
+                </div>
+                <div class="benefit-card animate-hidden">
+                    <i class="fas fa-clipboard-check"></i>
+                    <h3>Простой процесс оформления</h3>
+                    <p>Никаких сложных банковских проверок. Идеально для тех, кто имеет нестабильный доход или плохую кредитную историю.</p>
+                </div>
+                <div class="benefit-card animate-hidden">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <h3>Отсутствие процентной ставки</h3>
+                    <p>В отличие от ипотеки, аренда с выкупом обычно не включает дополнительные процентные начисления.</p>
+                </div>
+                <div class="benefit-card animate-hidden">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Защита от переплат</h3>
+                    <p>Стабильные платежи, не зависящие от колебаний процентных ставок на рынке.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="extra-benefits">
+        <div class="container">
+            <h2 class="section-title animate-hidden">Дополнительные преимущества</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card animate-hidden">
+                    <i class="fas fa-user-tie"></i>
+                    <h3>Подходит для самозанятых</h3>
+                    <p>Идеальное решение для фрилансеров и самозанятых с нестабильным доходом.</p>
+                </div>
+                <div class="benefit-card animate-hidden">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Улучшение кредитной истории</h3>
+                    <p>Используйте время аренды для улучшения кредитной истории и получения более выгодных условий в будущем.</p>
+                </div>
+                <div class="benefit-card animate-hidden">
+                    <i class="fas fa-sync-alt"></i>
+                    <h3>Адаптация к жизненным обстоятельствам</h3>
+                    <p>Если планы изменятся, вы можете выбрать другое жильё без долгосрочных обязательств.</p>
+                </div>
+                <div class="benefit-card animate-hidden">
+                    <i class="fas fa-tools"></i>
+                    <h3>Возможность планировать ремонт</h3>
+                    <p>Начните готовиться к ремонту, зная, что жильё станет вашей собственностью.</p>
+                </div>
+                <div class="benefit-card animate-hidden">
+                    <i class="fas fa-users"></i>
+                    <h3>Удобство для молодых семей</h3>
+                    <p>Получите жильё сейчас и накапливайте средства для его выкупа постепенно.</p>
+                </div>
+                <div class="benefit-card animate-hidden">
+                    <i class="fas fa-heart"></i>
+                    <h3>Повышение личной уверенности</h3>
+                    <p>Движение к собственному жилью создаёт чувство безопасности и стабильности.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="process">
+        <div class="container">
+            <h2 class="section-title animate-hidden">Как работает аренда с выкупом</h2>
+            <div class="process-steps">
+                <div class="step animate-hidden">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Выбор объекта недвижимости</h3>
+                        <p>Выберите подходящий объект из нашей базы или предложите свой вариант для рассмотрения.</p>
+                    </div>
+                </div>
+                <div class="step animate-hidden">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Внесение первоначального взноса</h3>
+                        <p>Внесите первоначальный взнос в размере 5% от стоимости объекта.</p>
+                    </div>
+                </div>
+                <div class="step animate-hidden">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Заключение договора</h3>
+                        <p>Подписание договора аренды с правом выкупа, где фиксируются все условия сделки.</p>
+                    </div>
+                </div>
+                <div class="step animate-hidden">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Проживание и выплаты</h3>
+                        <p>Вы въезжаете в квартиру и вносите ежемесячные платежи, часть которых идет в счет будущего выкупа.</p>
+                    </div>
+                </div>
+                <div class="step animate-hidden">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h3>Полный выкуп объекта</h3>
+                        <p>По окончании срока договора или досрочно вы становитесь полноправным владельцем недвижимости.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="comparison">
+        <div class="container">
+            <h2 class="section-title animate-hidden">Сравнение с ипотекой</h2>
+            <div class="comparison-table animate-hidden">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Параметр</th>
+                            <th>Аренда с выкупом</th>
+                            <th>Ипотека</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Первоначальный взнос</td>
+                            <td class="highlight">От 5%</td>
+                            <td>От 20-30%</td>
+                        </tr>
+                        <tr>
+                            <td>Проверка кредитной истории</td>
+                            <td class="highlight">Минимальная</td>
+                            <td>Строгая</td>
+                        </tr>
+                        <tr>
+                            <td>Процентная ставка</td>
+                            <td class="highlight">Отсутствует</td>
+                            <td>От 7% до 15%</td>
+                        </tr>
+                        <tr>
+                            <td>Возможность тестировать жильё</td>
+                            <td class="highlight">Да</td>
+                            <td>Нет</td>
+                        </tr>
+                        <tr>
+                            <td>Гибкость условий</td>
+                            <td class="highlight">Высокая</td>
+                            <td>Низкая</td>
+                        </tr>
+                        <tr>
+                            <td>Подходит для нестабильного дохода</td>
+                            <td class="highlight">Да</td>
+                            <td>Нет</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    
+    <section class="cta" id="contact">
+        <div class="container">
+            <h2>Начните путь к собственному жилью сегодня</h2>
+            <p>Наши специалисты помогут подобрать оптимальные условия аренды с выкупом, учитывая ваши финансовые возможности и пожелания</p>
+            <div class="contact-form">
+                <h3 style="margin-bottom: 25px; color: var(--primary-color); text-align: center; font-size: 1.5rem;">Оставьте заявку на консультацию</h3>
+                <form>
+                    <div class="form-group">
+                        <label for="name">Ваше имя</label>
+                        <input type="text" id="name" required placeholder="Введите ваше имя">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Номер телефона</label>
+                        <input type="tel" id="phone" required placeholder="Введите ваш номер телефона">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Сообщение (необязательно)</label>
+                        <textarea id="message" placeholder="Расскажите о ваших пожеланиях к жилью"></textarea>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">Отправить заявку</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo"><i class="fas fa-home"></i> md.kz</div>
+                <div class="footer-links">
+                    <a href="#">Главная</a>
+                    <a href="#">Услуги</a>
+                    <a href="#">О нас</a>
+                    <a href="#">Контакты</a>
+                    <a href="#">Блог</a>
+                    <a href="#">Отзывы</a>
+                </div>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+                <p class="copyright">&copy; 2023 md.kz. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Анимация элементов при прокрутке
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateElements = document.querySelectorAll('.animate-hidden');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            animateElements.forEach(element => {
+                observer.observe(element);
+            });
+            
+            // Плавная прокрутка для якорных ссылок
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
