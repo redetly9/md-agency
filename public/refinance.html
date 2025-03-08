@@ -1,49 +1,3 @@
-<!-- Если вы испытываете финансовые  трудности по ежемесячной оплате  ипотечного  займа перед банком, то обращайтесь к нам  за рефинансированием. И мы предоставим вам условия с пониженной ежемесячной оплатой на  25 - 35% . Это позволит вам  высвободившиеся средства расходовать на свои нужды или  взять дополнительно ещё одну квартиру в рассрочку по одной из наших программ. -->
-
-<!-- Условия рефинансирования: – ставки варьируются от 7% до 13,8%.
-
-Годовая эффективная ставка и вознаграждение:  –  от 7 до 13.8%
-
-Срок:: от  60 мес.  до 240 месяцев.
-
-Требования к заёмщикам:
-
-- Гражданство Республики Казахстан.
-- Возраст от 21 до 60 лет.
-
-Финансовые условия:
-- Первоначальный взнос – 5%.
-- Ежемесячная оплата аренды и ежемесячное погашение основного долга по накопительной системе.
-
-Погашение ипотеки:
-- Закрываем/выкупаем   ваш ипотечный  займ  из любого  банка РК и конвертируем в "ДОГОВОР С ВЫКУПОМ" между ТОО "MD home" и Вами, по сниженным ставкам от 7 до 13.8%.
-
-Процедура оформления  включает несколько шагов:
-- Подача заявки с предоставлением сканированного Вашего договора ипотечного займа с банком. 
-- одобрение или отказ.
-- в случае одобрения подготовка НОТАРИУСОМ документов и договоров с Вашим банком и между нами.
-- подписание документов  у нотариуса.
-
-Упрощённый процесс рефинансирования – без подтверждения доходов, занимает от 10 до 30 дней.
-
-Стоимость наших услуг:
-- консультация - 35000 тг  
-- оплата оценки квартиры  - покупатель
-- страховка - покупатель
-- нотариальные услуги - покупатель.
-- комиссия за рефинансирование составляет - 10% от суммы рефинансирования (данная оплата производиться при расторжении договора) -->
-
-<!-- Добрый день, Начни лендинг по рефинансированию с вопросов :
-- Устраивает ли вас текущая ставка по ипотеке ?
-- Хотели бы вы снизить ежемесячный  платёж ?
-- Есть ли у вас другие кредиты, которые вы хотели бы объединить ?
-
-Вы можете уменьшить переплату по ипотечному кредиту.
-
-Многие клиенты сэкономили благодаря рефинансированию.
-
-Рефинансирование помогает снизить финансовую нагрузку и освободить средства. -->
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -53,14 +7,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-            --light-color: #ecf0f1;
-            --dark-color: #2c3e50;
-            --success-color: #27ae60;
+            --primary-color: #000000;
+            --secondary-color: #333333;
+            --accent-color: #ff6b00;
+            --background-color: #fff8eb;
+            --card-color: #ffffff;
+            --text-color: #333333;
         }
         
         * {
@@ -72,8 +27,8 @@
         body {
             font-family: 'Montserrat', sans-serif;
             line-height: 1.6;
-            color: #333;
-            background-color: #f9f9f9;
+            color: var(--text-color);
+            background-color: var(--background-color);
         }
         
         .container {
@@ -82,11 +37,36 @@
             padding: 0 20px;
         }
         
+        /* Анимации */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-hidden {
+            opacity: 0;
+        }
+        
+        .animate-visible {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        /* Заголовок */
         header {
             background-color: var(--primary-color);
             color: white;
-            padding: 20px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            top: 0;
         }
         
         .header-content {
@@ -98,85 +78,174 @@
         .logo {
             font-size: 24px;
             font-weight: 700;
+            display: flex;
+            align-items: center;
         }
         
+        .logo i {
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+        
+        .main-nav {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            margin-right: 25px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--accent-color);
+        }
+        
+        .btn-sm {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+        }
+        
+        /* Герой секция */
         .hero {
-            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1073&q=80');
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1560520031-3a4dc4e9de0c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1073&q=80');
             background-size: cover;
             background-position: center;
+            background-attachment: fixed;
             color: white;
-            padding: 100px 0;
+            padding: 180px 0 100px;
             text-align: center;
+            position: relative;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to top, var(--background-color), transparent);
         }
         
         .hero h1 {
-            font-size: 2.5rem;
+            font-size: 3rem;
             margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
         
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             max-width: 800px;
-            margin: 0 auto 30px;
+            margin: 0 auto 40px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
         
+        /* Кнопки */
         .btn {
             display: inline-block;
-            padding: 12px 30px;
-            background-color: var(--secondary-color);
+            padding: 14px 32px;
+            background-color: var(--accent-color);
             color: white;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 50px;
             font-weight: 600;
             transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
         }
         
         .btn:hover {
-            background-color: #2980b9;
+            background-color: #e05e00;
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
         
-        .btn-accent {
-            background-color: var(--accent-color);
+        .btn-dark {
+            background-color: var(--primary-color);
         }
         
-        .btn-accent:hover {
-            background-color: #c0392b;
+        .btn-dark:hover {
+            background-color: #333333;
         }
         
+        /* Секция вопросов */
         .questions {
-            background-color: var(--light-color);
-            padding: 80px 0;
-            text-align: center;
+            background-color: var(--background-color);
+            padding: 100px 0;
+            position: relative;
         }
         
-        .questions h2 {
-            margin-bottom: 40px;
-            color: var(--dark-color);
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            color: var(--primary-color);
+            position: relative;
+            font-size: 2.2rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--accent-color);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+        
+        .questions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
         }
         
         .question-box {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            background-color: var(--card-color);
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        
+        .question-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .question-box i {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
         }
         
         .question-box h3 {
             color: var(--primary-color);
             margin-bottom: 15px;
+            font-size: 1.3rem;
         }
         
+        /* Секция преимуществ */
         .benefits {
-            padding: 80px 0;
+            padding: 100px 0;
+            background-color: var(--background-color);
+            position: relative;
         }
         
-        .benefits h2 {
-            text-align: center;
-            margin-bottom: 50px;
-            color: var(--dark-color);
+        .benefits::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.03), transparent);
         }
         
         .benefits-grid {
@@ -186,33 +255,47 @@
         }
         
         .benefit-card {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            background-color: var(--card-color);
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
             text-align: center;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
         
         .benefit-card i {
             font-size: 3rem;
-            color: var(--secondary-color);
+            color: var(--accent-color);
             margin-bottom: 20px;
         }
         
         .benefit-card h3 {
             margin-bottom: 15px;
             color: var(--primary-color);
+            font-size: 1.3rem;
         }
         
+        /* Секция условий */
         .conditions {
-            background-color: var(--light-color);
-            padding: 80px 0;
+            background-color: var(--background-color);
+            padding: 100px 0;
+            position: relative;
         }
         
-        .conditions h2 {
-            text-align: center;
-            margin-bottom: 50px;
-            color: var(--dark-color);
+        .conditions::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.03), transparent);
         }
         
         .conditions-grid {
@@ -222,50 +305,87 @@
         }
         
         .condition-card {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            background-color: var(--card-color);
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .condition-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
         }
         
         .condition-card h3 {
             color: var(--primary-color);
             margin-bottom: 20px;
             text-align: center;
+            font-size: 1.3rem;
         }
         
         .condition-card ul {
-            list-style-position: inside;
-            margin-left: 20px;
+            list-style-type: none;
         }
         
         .condition-card li {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            position: relative;
+            padding-left: 25px;
         }
         
+        .condition-card li:before {
+            content: '\f00c';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            color: var(--accent-color);
+            position: absolute;
+            left: 0;
+        }
+        
+        /* Секция процесса */
         .process {
-            padding: 80px 0;
+            padding: 100px 0;
+            background-color: var(--background-color);
+            position: relative;
         }
         
-        .process h2 {
-            text-align: center;
-            margin-bottom: 50px;
-            color: var(--dark-color);
+        .process::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.03), transparent);
         }
         
         .process-steps {
             max-width: 800px;
             margin: 0 auto;
+            position: relative;
+        }
+        
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 20px;
+            width: 2px;
+            background-color: var(--accent-color);
         }
         
         .step {
             display: flex;
-            margin-bottom: 30px;
+            margin-bottom: 50px;
             align-items: flex-start;
+            position: relative;
         }
         
         .step-number {
-            background-color: var(--secondary-color);
+            background-color: var(--accent-color);
             color: white;
             width: 40px;
             height: 40px;
@@ -274,55 +394,98 @@
             justify-content: center;
             align-items: center;
             font-weight: bold;
-            margin-right: 20px;
+            margin-right: 30px;
             flex-shrink: 0;
+            z-index: 1;
+            box-shadow: 0 0 0 5px var(--background-color);
+        }
+        
+        .step-content {
+            background-color: var(--card-color);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            flex-grow: 1;
+            border: 1px solid rgba(0,0,0,0.05);
         }
         
         .step-content h3 {
             margin-bottom: 10px;
             color: var(--primary-color);
+            font-size: 1.3rem;
         }
         
+        /* Секция стоимости */
         .costs {
-            background-color: var(--light-color);
-            padding: 80px 0;
+            background-color: var(--background-color);
+            padding: 100px 0;
+            position: relative;
         }
         
-        .costs h2 {
-            text-align: center;
-            margin-bottom: 50px;
-            color: var(--dark-color);
+        .costs::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.03), transparent);
         }
         
         .costs-list {
             max-width: 800px;
             margin: 0 auto;
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            background-color: var(--card-color);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.05);
         }
         
         .costs-list ul {
-            list-style-position: inside;
-            margin-left: 20px;
+            list-style-type: none;
         }
         
         .costs-list li {
             margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
         }
         
+        .costs-list li:before {
+            content: '\f3d1';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            color: var(--accent-color);
+            position: absolute;
+            left: 0;
+        }
+        
+        /* Секция CTA */
         .cta {
             padding: 100px 0;
             text-align: center;
-            background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9)), url('https://images.unsplash.com/photo-1560520031-3a4dc4e9de0c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1073&q=80');
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1073&q=80');
             background-size: cover;
             background-position: center;
+            background-attachment: fixed;
             color: white;
+            position: relative;
+        }
+        
+        .cta::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to top, var(--background-color), transparent);
         }
         
         .cta h2 {
             margin-bottom: 30px;
+            font-size: 2.2rem;
         }
         
         .cta p {
@@ -331,11 +494,57 @@
             font-size: 1.2rem;
         }
         
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--card-color);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: left;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.2);
+        }
+        
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+        
+        /* Футер */
         footer {
-            background-color: var(--dark-color);
+            background-color: var(--primary-color);
             color: white;
-            padding: 40px 0;
-            text-align: center;
+            padding: 60px 0 30px;
         }
         
         .footer-content {
@@ -345,69 +554,80 @@
         }
         
         .footer-logo {
-            margin-bottom: 20px;
-            font-size: 24px;
+            margin-bottom: 30px;
+            font-size: 28px;
             font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer-logo i {
+            margin-right: 10px;
+            color: var(--accent-color);
         }
         
         .footer-links {
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
         }
         
         .footer-links a {
             color: white;
-            margin: 0 10px;
+            margin: 0 15px 10px;
             text-decoration: none;
+            transition: all 0.3s ease;
         }
         
         .footer-links a:hover {
-            text-decoration: underline;
+            color: var(--accent-color);
         }
         
-        .contact-form {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        .social-links {
+            margin-bottom: 30px;
         }
         
-        .form-group {
-            margin-bottom: 20px;
+        .social-links a {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 50%;
+            margin: 0 10px;
+            text-decoration: none;
+            transition: all 0.3s ease;
         }
         
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 500;
+        .social-links a:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-3px);
         }
         
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-family: inherit;
+        .copyright {
+            font-size: 0.9rem;
+            opacity: 0.8;
         }
         
-        .form-group textarea {
-            height: 120px;
-        }
-        
+        /* Адаптивность */
         @media (max-width: 768px) {
             .hero h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
             
             .hero p {
-                font-size: 1rem;
+                font-size: 1.1rem;
             }
             
-            .benefits-grid,
-            .conditions-grid {
-                grid-template-columns: 1fr;
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .process-steps::before {
+                left: 19px;
             }
             
             .step {
@@ -415,7 +635,42 @@
             }
             
             .step-number {
-                margin-bottom: 10px;
+                margin-bottom: 15px;
+            }
+            
+            .footer-links a {
+                margin: 0 10px 10px;
+            }
+            
+            .nav-link {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero {
+                padding: 150px 0 80px;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .btn {
+                padding: 12px 25px;
+                font-size: 0.9rem;
+            }
+            
+            .questions, .benefits, .conditions, .process, .costs {
+                padding: 70px 0;
+            }
+            
+            .question-box, .benefit-card, .condition-card {
+                padding: 30px 20px;
+            }
+            
+            .contact-form {
+                padding: 30px 20px;
             }
         }
     </style>
@@ -424,9 +679,12 @@
     <header>
         <div class="container">
             <div class="header-content">
-                <div class="logo">MD home</div>
-                <nav>
-                    <a href="#" class="btn">Связаться с нами</a>
+                <div class="logo"><i class="fas fa-home"></i> md.kz</div>
+                <nav class="main-nav">
+                    <a href="#" class="nav-link">Главная</a>
+                    <a href="#" class="nav-link">Услуги</a>
+                    <a href="#" class="nav-link">О нас</a>
+                    <a href="#contact" class="btn btn-sm">Связаться с нами</a>
                 </nav>
             </div>
         </div>
@@ -436,44 +694,49 @@
         <div class="container">
             <h1>Снизьте ежемесячный платеж по ипотеке на 25-35%</h1>
             <p>Если вы испытываете финансовые трудности по ежемесячной оплате ипотечного займа перед банком, мы предоставим вам условия с пониженной ежемесячной оплатой, что позволит высвободить средства на ваши нужды.</p>
-            <a href="#contact" class="btn btn-accent">Получить консультацию</a>
+            <a href="#contact" class="btn">Получить консультацию</a>
         </div>
     </section>
     
     <section class="questions">
         <div class="container">
-            <h2>Задайте себе эти вопросы</h2>
-            <div class="question-box">
-                <h3>Устраивает ли вас текущая ставка по ипотеке?</h3>
-                <p>Мы предлагаем ставки от 7% до 13,8% годовых, что может быть значительно ниже вашей текущей ставки.</p>
-            </div>
-            <div class="question-box">
-                <h3>Хотели бы вы снизить ежемесячный платёж?</h3>
-                <p>Наша программа рефинансирования позволяет снизить ежемесячный платеж на 25-35%.</p>
-            </div>
-            <div class="question-box">
-                <h3>Есть ли у вас другие кредиты, которые вы хотели бы объединить?</h3>
-                <p>Мы можем помочь вам объединить несколько кредитов в один с более выгодными условиями.</p>
+            <h2 class="section-title animate-hidden">Задайте себе эти вопросы</h2>
+            <div class="questions-grid">
+                <div class="question-box animate-hidden">
+                    <i class="fas fa-percentage"></i>
+                    <h3>Устраивает ли вас текущая ставка по ипотеке?</h3>
+                    <p>Мы предлагаем ставки от 7% до 13,8% годовых, что может быть значительно ниже вашей текущей ставки.</p>
+                </div>
+                <div class="question-box animate-hidden">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <h3>Хотели бы вы снизить ежемесячный платёж?</h3>
+                    <p>Наша программа рефинансирования позволяет снизить ежемесячный платеж на 25-35%.</p>
+                </div>
+                <div class="question-box animate-hidden">
+                    <i class="fas fa-credit-card"></i>
+                    <h3>Есть ли у вас другие кредиты, которые вы хотели бы объединить?</h3>
+                    <p>Мы можем помочь вам объединить несколько кредитов в один с более выгодными условиями.</p>
+                </div>
             </div>
         </div>
     </section>
     
     <section class="benefits">
         <div class="container">
-            <h2>Преимущества рефинансирования</h2>
+            <h2 class="section-title animate-hidden">Преимущества рефинансирования</h2>
             <div class="benefits-grid">
-                <div class="benefit-card">
-                    <i>💰</i>
+                <div class="benefit-card animate-hidden">
+                    <i class="fas fa-coins"></i>
                     <h3>Снижение ежемесячного платежа</h3>
                     <p>Уменьшите свой ежемесячный платеж на 25-35% и освободите средства для других нужд.</p>
                 </div>
-                <div class="benefit-card">
-                    <i>📉</i>
+                <div class="benefit-card animate-hidden">
+                    <i class="fas fa-chart-line"></i>
                     <h3>Выгодные процентные ставки</h3>
                     <p>Получите доступ к ставкам от 7% до 13,8% годовых, что может быть значительно ниже вашей текущей ставки.</p>
                 </div>
-                <div class="benefit-card">
-                    <i>🏠</i>
+                <div class="benefit-card animate-hidden">
+                    <i class="fas fa-building"></i>
                     <h3>Возможность приобретения дополнительной недвижимости</h3>
                     <p>Высвободившиеся средства можно направить на приобретение еще одной квартиры в рассрочку по одной из наших программ.</p>
                 </div>
@@ -483,9 +746,9 @@
     
     <section class="conditions">
         <div class="container">
-            <h2>Условия рефинансирования</h2>
+            <h2 class="section-title animate-hidden">Условия рефинансирования</h2>
             <div class="conditions-grid">
-                <div class="condition-card">
+                <div class="condition-card animate-hidden">
                     <h3>Основные параметры</h3>
                     <ul>
                         <li>Ставки: от 7% до 13,8% годовых</li>
@@ -494,7 +757,7 @@
                         <li>Первоначальный взнос: 5%</li>
                     </ul>
                 </div>
-                <div class="condition-card">
+                <div class="condition-card animate-hidden">
                     <h3>Требования к заёмщикам</h3>
                     <ul>
                         <li>Гражданство Республики Казахстан</li>
@@ -502,7 +765,7 @@
                         <li>Без подтверждения доходов</li>
                     </ul>
                 </div>
-                <div class="condition-card">
+                <div class="condition-card animate-hidden">
                     <h3>Погашение ипотеки</h3>
                     <p>Мы закрываем/выкупаем ваш ипотечный займ из любого банка РК и конвертируем в "ДОГОВОР С ВЫКУПОМ" между ТОО "MD home" и Вами по сниженным ставкам от 7% до 13,8%.</p>
                 </div>
@@ -512,30 +775,30 @@
     
     <section class="process">
         <div class="container">
-            <h2>Процедура оформления</h2>
+            <h2 class="section-title animate-hidden">Процедура оформления</h2>
             <div class="process-steps">
-                <div class="step">
+                <div class="step animate-hidden">
                     <div class="step-number">1</div>
                     <div class="step-content">
                         <h3>Подача заявки</h3>
                         <p>Предоставление сканированного договора ипотечного займа с банком.</p>
                     </div>
                 </div>
-                <div class="step">
+                <div class="step animate-hidden">
                     <div class="step-number">2</div>
                     <div class="step-content">
                         <h3>Рассмотрение заявки</h3>
                         <p>Одобрение или отказ по вашей заявке.</p>
                     </div>
                 </div>
-                <div class="step">
+                <div class="step animate-hidden">
                     <div class="step-number">3</div>
                     <div class="step-content">
                         <h3>Подготовка документов</h3>
                         <p>В случае одобрения нотариус подготовит все необходимые документы и договоры с вашим банком и между нами.</p>
                     </div>
                 </div>
-                <div class="step">
+                <div class="step animate-hidden">
                     <div class="step-number">4</div>
                     <div class="step-content">
                         <h3>Подписание документов</h3>
@@ -543,14 +806,14 @@
                     </div>
                 </div>
             </div>
-            <p style="text-align: center; margin-top: 30px;">Упрощённый процесс рефинансирования – без подтверждения доходов, занимает от 10 до 30 дней.</p>
+            <p style="text-align: center; margin-top: 40px; font-weight: 500;">Упрощённый процесс рефинансирования – без подтверждения доходов, занимает от 10 до 30 дней.</p>
         </div>
     </section>
     
     <section class="costs">
         <div class="container">
-            <h2>Стоимость наших услуг</h2>
-            <div class="costs-list">
+            <h2 class="section-title animate-hidden">Стоимость наших услуг</h2>
+            <div class="costs-list animate-hidden">
                 <ul>
                     <li>Консультация - 35000 тг</li>
                     <li>Оплата оценки квартиры - оплачивает покупатель</li>
@@ -567,21 +830,21 @@
             <h2>Начните экономить уже сегодня</h2>
             <p>Многие клиенты уже сэкономили благодаря рефинансированию. Рефинансирование помогает снизить финансовую нагрузку и освободить средства для ваших целей.</p>
             <div class="contact-form">
-                <h3 style="margin-bottom: 20px; color: #333;">Оставьте заявку на консультацию</h3>
+                <h3 style="margin-bottom: 25px; color: var(--primary-color); text-align: center; font-size: 1.5rem;">Оставьте заявку на консультацию</h3>
                 <form>
                     <div class="form-group">
                         <label for="name">Ваше имя</label>
-                        <input type="text" id="name" required>
+                        <input type="text" id="name" required placeholder="Введите ваше имя">
                     </div>
                     <div class="form-group">
                         <label for="phone">Номер телефона</label>
-                        <input type="tel" id="phone" required>
+                        <input type="tel" id="phone" required placeholder="Введите ваш номер телефона">
                     </div>
                     <div class="form-group">
                         <label for="message">Сообщение (необязательно)</label>
-                        <textarea id="message"></textarea>
+                        <textarea id="message" placeholder="Расскажите о вашей текущей ипотеке"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-accent" style="width: 100%;">Отправить заявку</button>
+                    <button type="submit" class="btn" style="width: 100%;">Отправить заявку</button>
                 </form>
             </div>
         </div>
@@ -590,16 +853,63 @@
     <footer>
         <div class="container">
             <div class="footer-content">
-                <div class="footer-logo">MD home</div>
+                <div class="footer-logo"><i class="fas fa-home"></i> MD home</div>
                 <div class="footer-links">
                     <a href="#">Главная</a>
                     <a href="#">Услуги</a>
                     <a href="#">О нас</a>
                     <a href="#">Контакты</a>
+                    <a href="#">Блог</a>
+                    <a href="#">Отзывы</a>
                 </div>
-                <p>&copy; 2023 MD home. Все права защищены.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+                <p class="copyright">&copy; 2023 MD home. Все права защищены.</p>
             </div>
         </div>
     </footer>
+
+    <script>
+        // Анимация элементов при прокрутке
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateElements = document.querySelectorAll('.animate-hidden');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            animateElements.forEach(element => {
+                observer.observe(element);
+            });
+            
+            // Плавная прокрутка для якорных ссылок
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
