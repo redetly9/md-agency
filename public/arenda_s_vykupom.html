@@ -132,13 +132,13 @@
         }
         
         .hero h1 {
-            font-size: 3rem;
+            font-size: 2.8rem;
             margin-bottom: 20px;
             text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
         
         .hero p {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             max-width: 800px;
             margin: 0 auto 40px;
             text-shadow: 0 2px 4px rgba(0,0,0,0.3);
@@ -185,7 +185,7 @@
             margin-bottom: 60px;
             color: var(--primary-color);
             position: relative;
-            font-size: 2.2rem;
+            font-size: 2rem;
         }
         
         .section-title::after {
@@ -228,7 +228,7 @@
         .benefit-card h3 {
             margin-bottom: 15px;
             color: var(--primary-color);
-            font-size: 1.3rem;
+            font-size: 1.2rem;
         }
         
         /* Секция дополнительных преимуществ */
@@ -316,7 +316,7 @@
         .step-content h3 {
             margin-bottom: 10px;
             color: var(--primary-color);
-            font-size: 1.3rem;
+            font-size: 1.2rem;
         }
         
         /* Секция сравнения */
@@ -375,6 +375,52 @@
             font-weight: 600;
         }
         
+        /* Секция стоимости */
+        .costs {
+            background-color: var(--background-color);
+            padding: 100px 0;
+            position: relative;
+        }
+        
+        .costs::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.03), transparent);
+        }
+        
+        .costs-list {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--card-color);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .costs-list ul {
+            list-style-type: none;
+        }
+        
+        .costs-list li {
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .costs-list li:before {
+            content: '\f3d1';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            color: var(--accent-color);
+            position: absolute;
+            left: 0;
+        }
+        
         /* Секция CTA */
         .cta {
             padding: 100px 0;
@@ -399,13 +445,13 @@
         
         .cta h2 {
             margin-bottom: 30px;
-            font-size: 2.2rem;
+            font-size: 2rem;
         }
         
         .cta p {
             max-width: 800px;
             margin: 0 auto 40px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
         
         .contact-form {
@@ -529,15 +575,15 @@
         /* Адаптивность */
         @media (max-width: 768px) {
             .hero h1 {
-                font-size: 2.2rem;
+                font-size: 2rem;
             }
             
             .hero p {
-                font-size: 1.1rem;
+                font-size: 1rem;
             }
             
             .section-title {
-                font-size: 1.8rem;
+                font-size: 1.7rem;
             }
             
             .process-steps::before {
@@ -563,6 +609,19 @@
             .comparison-table {
                 overflow-x: auto;
             }
+            
+            .hero-buttons {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero-buttons .btn {
+                width: 100%;
+                max-width: 300px;
+                margin: 0 0 15px 0 !important;
+                text-align: center;
+            }
         }
         
         @media (max-width: 480px) {
@@ -571,7 +630,7 @@
             }
             
             .hero h1 {
-                font-size: 1.8rem;
+                font-size: 1.7rem;
             }
             
             .btn {
@@ -612,7 +671,10 @@
         <div class="container">
             <h1>АРЕНДА С ВЫКУПОМ</h1>
             <p>Ваш путь к собственному жилью без ипотечного бремени и сложных банковских проверок</p>
-            <a href="#contact" class="btn">Получить консультацию</a>
+            <div class="hero-buttons" style="margin-top: 30px;">
+                <a href="#contact" class="btn">Получить консультацию</a>
+                <a href="/" class="btn btn-dark" style="margin-left: 20px;">Смотреть каталог</a>
+            </div>
         </div>
     </section>
     
@@ -780,6 +842,21 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </section>
+    
+    <section class="costs">
+        <div class="container">
+            <h2 class="section-title animate-hidden">Стоимость наших услуг</h2>
+            <div class="costs-list animate-hidden">
+                <ul>
+                    <li>Консультация - 35000 тг</li>
+                    <li>Оплата оценки квартиры - оплачивает арендатор</li>
+                    <li>Страховка - оплачивает арендатор</li>
+                    <li>Нотариальные услуги - оплачивает арендатор</li>
+                    <li>Комиссия за оформление - 10% от стоимости объекта (данная оплата производится при расторжении договора)</li>
+                </ul>
             </div>
         </div>
     </section>
