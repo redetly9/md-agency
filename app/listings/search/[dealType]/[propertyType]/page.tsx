@@ -5,6 +5,8 @@ import { useParams, useSearchParams } from 'next/navigation';
 import ListingCard from '@/components/ListingCard';
 import Pagination from '@/components/Pagination';
 import Link from 'next/link';
+import FilterModal from '@/components/FilterModal';
+import { Filter } from 'lucide-react';
 
 interface Listing {
   id: string;
@@ -35,14 +37,35 @@ export default function ListingsPage() {
   const [listings, setListings] = useState<Listing[]>([]);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchListings = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(
-          `/api/krisha/listings?dealType=${params.dealType}&propertyType=${params.propertyType}&page=${page}`
-        );
+        // Создаем URL с параметрами фильтрации
+        const url = new URL(`/api/krisha/listings`, window.location.origin);
+        
+        // Базовые параметры
+        url.searchParams.set('dealType', params.dealType as string);
+        url.searchParams.set('propertyType', params.propertyType as string);
+        url.searchParams.set('page', page);
+        
+        // Добавляем параметры фильтрации
+        const filterParams = [
+          'region', 'complex', 'rooms', 'priceFrom', 'priceTo', 
+          'areaFrom', 'areaTo', 'floorFrom', 'floorTo', 
+          'notFirstFloor', 'notLastFloor', 'fromDeveloper', 'fromAgents'
+        ];
+        
+        filterParams.forEach(param => {
+          const value = searchParams.get(param);
+          if (value) {
+            url.searchParams.set(param, value);
+          }
+        });
+        
+        const response = await fetch(url);
         const data = await response.json();
         setListings(data.listings);
         setTotalPages(data.pagination.totalPages);
@@ -54,21 +77,29 @@ export default function ListingsPage() {
     };
 
     fetchListings();
-  }, [params.dealType, params.propertyType, page]);
+  }, [params.dealType, params.propertyType, page, searchParams]);
 
   if (isLoading) {
     return (
       <>
         <header className="bg-white border-b px-4 py-3">
-          <div className="max-w-screen-md mx-auto flex items-center gap-3">
-            <Link href="/" className="text-gray-500">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"/>
-              </svg>
-            </Link>
-            <h1 className="text-xl font-medium">
-              {params.dealType === 'arenda' ? 'Аренда' : 'Продажа'}
-            </h1>
+          <div className="max-w-screen-md mx-auto flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Link href="/" className="text-gray-500">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+              </Link>
+              <h1 className="text-xl font-medium">
+                {params.dealType === 'arenda' ? 'Аренда' : 'Продажа'}
+              </h1>
+            </div>
+            <button 
+              className="text-gray-500 p-2"
+              onClick={() => setIsFilterModalOpen(true)}
+            >
+              <Filter size={24} />
+            </button>
           </div>
         </header>
 
@@ -96,6 +127,13 @@ export default function ListingsPage() {
             </div>
           </main>
         </div>
+        
+        <FilterModal 
+          isOpen={isFilterModalOpen}
+          onClose={() => setIsFilterModalOpen(false)}
+          dealType={params.dealType as string}
+          propertyType={params.propertyType as string}
+        />
       </>
     );
   }
@@ -103,15 +141,23 @@ export default function ListingsPage() {
   return (
     <>
       <header className="bg-white border-b px-4 py-3">
-        <div className="max-w-screen-md mx-auto flex items-center gap-3">
-          <Link href="/" className="text-gray-500">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"/>
-            </svg>
-          </Link>
-          <h1 className="text-xl font-medium">
-            {params.dealType === 'arenda' ? 'Аренда' : 'Продажа'}
-          </h1>
+        <div className="max-w-screen-md mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Link href="/" className="text-gray-500">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"/>
+              </svg>
+            </Link>
+            <h1 className="text-xl font-medium">
+              {params.dealType === 'arenda' ? 'Аренда' : 'Продажа'}
+            </h1>
+          </div>
+          <button 
+            className="text-gray-500 p-2"
+            onClick={() => setIsFilterModalOpen(true)}
+          >
+            <Filter size={24} />
+          </button>
         </div>
       </header>
 
@@ -134,6 +180,13 @@ export default function ListingsPage() {
           </div>
         </main>
       </div>
+      
+      <FilterModal 
+        isOpen={isFilterModalOpen}
+        onClose={() => setIsFilterModalOpen(false)}
+        dealType={params.dealType as string}
+        propertyType={params.propertyType as string}
+      />
     </>
   );
 } 

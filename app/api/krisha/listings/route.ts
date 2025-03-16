@@ -40,8 +40,61 @@ export async function GET(request: Request) {
   const propertyType = searchParams.get('propertyType') || 'kvartiry';
   const page = searchParams.get('page') || '1';
   
+  // Получаем параметры фильтрации
+  const region = searchParams.get('region') || 'astana';
+  const rooms = searchParams.get('rooms');
+  const priceFrom = searchParams.get('priceFrom');
+  const priceTo = searchParams.get('priceTo');
+  const areaFrom = searchParams.get('areaFrom');
+  const areaTo = searchParams.get('areaTo');
+  const floorFrom = searchParams.get('floorFrom');
+  const floorTo = searchParams.get('floorTo');
+  const notFirstFloor = searchParams.get('notFirstFloor');
+  const notLastFloor = searchParams.get('notLastFloor');
+  const fromDeveloper = searchParams.get('fromDeveloper');
+  const fromAgents = searchParams.get('fromAgents');
+  
   try {
-    const URL = `https://krisha.kz/${dealType}/${propertyType}/?page=${page}`;
+    // Формируем URL для запроса к Krisha.kz с учетом фильтров
+    let URL = `https://krisha.kz/${dealType}/${propertyType}/${region}/?page=${page}`;
+    
+    // Добавляем параметры фильтрации в формате das[параметр]
+    const filterParams = new URLSearchParams();
+    
+    // Комнаты
+    if (rooms) {
+      const roomsArray = rooms.split(',');
+      roomsArray.forEach(room => {
+        filterParams.append('das[live.rooms]', room);
+      });
+    }
+    
+    // Цена
+    if (priceFrom) filterParams.append('das[price][from]', priceFrom);
+    if (priceTo) filterParams.append('das[price][to]', priceTo);
+    
+    // Площадь
+    if (areaFrom) filterParams.append('das[live.square][from]', areaFrom);
+    if (areaTo) filterParams.append('das[live.square][to]', areaTo);
+    
+    // Этаж
+    if (floorFrom) filterParams.append('das[flat.floor][from]', floorFrom);
+    if (floorTo) filterParams.append('das[flat.floor][to]', floorTo);
+    
+    // Не первый/последний этаж
+    if (notFirstFloor === '1') filterParams.append('das[floor_not_first]', '1');
+    if (notLastFloor === '1') filterParams.append('das[floor_not_last]', '1');
+    
+    // От застройщика/агентов
+    if (fromDeveloper === '1') filterParams.append('das[_sys.frombuilder]', '1');
+    if (fromAgents === '1') filterParams.append('das[_sys.fromagent]', '1');
+    
+    // Добавляем параметры к URL
+    const filterParamsString = filterParams.toString();
+    if (filterParamsString) {
+      URL += `&${filterParamsString}`;
+    }
+    
     console.log('Fetching URL:', URL);
 
     const axiosResponse = await axios.get(URL, {
@@ -62,9 +115,7 @@ export async function GET(request: Request) {
 
     // Проверяем ответ
     console.log('Response status:', axiosResponse.status);
-    console.log('Response type:', typeof axiosResponse.data);
-    console.log('Response data preview:', axiosResponse.data.substring(0, 200));
-
+    
     if (!axiosResponse.data || typeof axiosResponse.data !== 'string') {
       throw new Error('Invalid response data from Krisha');
     }
@@ -114,6 +165,9 @@ export async function GET(request: Request) {
 
     const pagination = $('.paginator');
     const lastPage = pagination.find('a').last().prev().text() || '1';
+    
+    // Получаем общее количество объявлений
+    const totalCount = $('.search-results-nb').text().match(/\d+/g)?.join('') || '0';
     
     const apiResponse: ApiResponse = {
       listings,
