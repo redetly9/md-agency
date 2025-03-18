@@ -157,7 +157,7 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
   if (!isOpen) return null;
   
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-start justify-center overflow-hidden">
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-[100] flex items-start justify-center overflow-hidden">
       <div className="bg-white w-full max-w-md rounded-lg shadow-lg flex flex-col h-[100vh]">
         <div className="p-4 border-b flex justify-between items-center">
           <div className="flex items-center">
