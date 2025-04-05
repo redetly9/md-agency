@@ -104,7 +104,7 @@ export default function ListingsPage() {
         </header>
 
         <div className="flex flex-col min-h-screen bg-gray-100">
-          <main className="flex-grow px-4 py-4">
+          <main className="flex-grow py-4">
             <div className="max-w-screen-md mx-auto">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[1,2,3,4,5,6].map((i) => (
@@ -163,7 +163,7 @@ export default function ListingsPage() {
 
       <div className="flex flex-col min-h-screen bg-gray-100">
         {/* Список объявлений */}
-        <main className="flex-grow px-4 py-4">
+        <main className="flex-grow py-4">
           <div className="max-w-screen-md mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {listings.map((listing) => ( // @ts-ignore
