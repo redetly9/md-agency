@@ -219,14 +219,14 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
             </div>
           </div>
           
-          {/* Жилой комплекс */}
+          {/* Жилой комплекс
           <div className="mb-4">
             <label className="block text-gray-700 mb-2">Жилой комплекс</label>
             <div className="flex justify-between items-center border rounded-lg p-3">
               <div className="text-gray-500">Выбрать</div>
               <div className="text-gray-400">›</div>
             </div>
-          </div>
+          </div> */}
           
           {/* Количество комнат */}
           <div className="mb-4">
