@@ -1003,13 +1003,6 @@
                                 <input type="range" id="fund-addition" min="0" max="1000000" step="10000" value="0">
                             </div>
                         </div>
-                        <div class="calculator-col">
-                            <label for="loan-amount">Сумма займа:</label>
-                            <div class="range-slider">
-                                <output id="loan-amount-value">0</output>
-                                <input type="range" id="loan-amount" min="0" max="100000000" step="500000" value="0">
-                            </div>
-                        </div>
                     </div>
                     
                     <div class="calculator-row">
@@ -1018,13 +1011,6 @@
                             <div class="range-slider">
                                 <output id="savings-period-value">59</output>
                                 <input type="range" id="savings-period" min="0" max="120" step="1" value="59">
-                            </div>
-                        </div>
-                        <div class="calculator-col">
-                            <label for="loan-period">Срок займа, мес:</label>
-                            <div class="range-slider">
-                                <output id="loan-period-value">0</output>
-                                <input type="range" id="loan-period" min="0" max="360" step="1" value="0">
                             </div>
                         </div>
                     </div>
@@ -1036,30 +1022,30 @@
                     <div class="calculator-results">
                         <div class="results-row">
                             <div class="results-col">
+                                <h3>Первый накопительный взнос</h3>
+                                <p id="initial-deposit">5 %</p>
+                            </div>
+                            <div class="results-col">
                                 <h3>Сумма накоплений</h3>
                                 <p id="savings-amount">0.00 ₸</p>
                             </div>
                             <div class="results-col">
-                                <h3>Сумма займа</h3>
-                                <p id="loan-total">0.00 ₸</p>
+                                <h3>Срок накопления, мес:</h3>
+                                <p id="housing-loan-period">0</p>
                             </div>
                         </div>
                         
                         <div class="results-row">
                             <div class="results-col">
-                                <h3>Срок жилищного займа, мес:</h3>
-                                <p id="housing-loan-period">0</p>
+                                <h3>Ежемесячная аренда:</h3>
+                                <p id="interest-rate">1 %</p>
                             </div>
                             <div class="results-col">
-                                <h3>Ставка в год:</h3>
-                                <p id="interest-rate">3.5 %</p>
-                            </div>
-                            <div class="results-col">
-                                <h3>Буду погашать по кредиту:</h3>
+                                <h3>Ежемесячный платеж:</h3>
                                 <p id="monthly-payment">0.00 ₸/мес</p>
                             </div>
                             <div class="results-col">
-                                <h3>Переплата:</h3>
+                                <h3>Итоговая стоимость:</h3>
                                 <p id="overpayment">0.00 ₸</p>
                             </div>
                         </div>
@@ -1172,19 +1158,12 @@
             const fundAddition = document.getElementById('fund-addition');
             const fundAdditionValue = document.getElementById('fund-addition-value');
             
-            const loanAmount = document.getElementById('loan-amount');
-            const loanAmountValue = document.getElementById('loan-amount-value');
-            
             const savingsPeriod = document.getElementById('savings-period');
             const savingsPeriodValue = document.getElementById('savings-period-value');
-            
-            const loanPeriod = document.getElementById('loan-period');
-            const loanPeriodValue = document.getElementById('loan-period-value');
             
             const saveAndBuyBtn = document.getElementById('save-and-buy');
             
             const savingsAmount = document.getElementById('savings-amount');
-            const loanTotal = document.getElementById('loan-total');
             const housingLoanPeriod = document.getElementById('housing-loan-period');
             const interestRate = document.getElementById('interest-rate');
             const monthlyPayment = document.getElementById('monthly-payment');
@@ -1201,18 +1180,8 @@
                 calculateResults();
             });
             
-            loanAmount.addEventListener('input', function() {
-                loanAmountValue.textContent = formatNumber(this.value);
-                calculateResults();
-            });
-            
             savingsPeriod.addEventListener('input', function() {
                 savingsPeriodValue.textContent = this.value;
-                calculateResults();
-            });
-            
-            loanPeriod.addEventListener('input', function() {
-                loanPeriodValue.textContent = this.value;
                 calculateResults();
             });
             
@@ -1225,31 +1194,24 @@
             function calculateResults() {
                 const price = parseInt(propertyPrice.value) || 0;
                 const monthlyAddition = parseInt(fundAddition.value) || 0;
-                const loan = parseInt(loanAmount.value) || 0;
                 const savingsMonths = parseInt(savingsPeriod.value) || 0;
-                const loanMonths = parseInt(loanPeriod.value) || 0;
-                const rate = 3.5 / 100; // 3.5%
+                const rate = 1.0 / 100; // 1% ежемесячная аренда
                 
                 // Расчет суммы накоплений
                 const savings = monthlyAddition * savingsMonths;
                 
-                // Расчет ежемесячного платежа по кредиту
-                let payment = 0;
-                if (loan > 0 && loanMonths > 0) {
-                    const monthlyRate = rate / 12;
-                    payment = loan * (monthlyRate * Math.pow(1 + monthlyRate, loanMonths)) / (Math.pow(1 + monthlyRate, loanMonths) - 1);
-                }
+                // Расчет ежемесячного платежа (примерно равен ежемесячному пополнению)
+                const monthlyPayment = monthlyAddition;
                 
-                // Расчет переплаты
-                const totalPayment = payment * loanMonths;
-                const overPay = totalPayment - loan;
+                // Расчет итоговой стоимости
+                const totalCost = price;
                 
                 // Обновление результатов
                 savingsAmount.textContent = formatNumber(savings.toFixed(0)) + ' ₸';
-                loanTotal.textContent = formatNumber(loan.toFixed(0)) + ' ₸';
-                housingLoanPeriod.textContent = loanMonths;
-                monthlyPayment.textContent = formatNumber(payment.toFixed(0)) + ' ₸/мес';
-                overpayment.textContent = formatNumber(overPay.toFixed(0)) + ' ₸';
+                housingLoanPeriod.textContent = savingsMonths;
+                interestRate.textContent = (rate * 100).toFixed(0) + ' %';
+                monthlyPayment.textContent = formatNumber(monthlyPayment.toFixed(0)) + ' ₸/мес';
+                overpayment.textContent = formatNumber(totalCost.toFixed(0)) + ' ₸';
             }
             
             // Инициализация с начальными значениями
