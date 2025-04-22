@@ -988,6 +988,11 @@
             <h2 class="section-title animate-hidden">Рассчитайте свой вариант аренды с выкупом</h2>
             <div class="calculator-container animate-hidden">
                 <div class="calculator-wrapper">
+                    <div class="result-info" style="text-align: center; margin-bottom: 30px; padding: 15px; background-color: #f8f8f8; border-radius: 10px;">
+                        <h3 style="font-size: 1.2rem; color: var(--primary-color); margin-bottom: 10px;">Первоначальный накопительный взнос</h3>
+                        <p style="font-size: 1.5rem; font-weight: 700;">5 %</p>
+                    </div>
+                    
                     <div class="calculator-row">
                         <div class="calculator-col">
                             <label for="property-price">Стоимость жилья:</label>
@@ -1010,7 +1015,7 @@
                             <label for="savings-period">Срок накопления, мес:</label>
                             <div class="range-slider">
                                 <output id="savings-period-value">59</output>
-                                <input type="range" id="savings-period" min="0" max="120" step="1" value="59">
+                                <input type="range" id="savings-period" min="0" max="240" step="1" value="59">
                             </div>
                         </div>
                     </div>
@@ -1022,27 +1027,12 @@
                     <div class="calculator-results">
                         <div class="results-row">
                             <div class="results-col">
-                                <h3>Первый накопительный взнос</h3>
-                                <p id="initial-deposit">5 %</p>
-                            </div>
-                            <div class="results-col">
                                 <h3>Сумма накоплений</h3>
                                 <p id="savings-amount">0.00 ₸</p>
                             </div>
                             <div class="results-col">
-                                <h3>Срок накопления, мес:</h3>
-                                <p id="housing-loan-period">0</p>
-                            </div>
-                        </div>
-                        
-                        <div class="results-row">
-                            <div class="results-col">
-                                <h3>Ежемесячная аренда:</h3>
-                                <p id="interest-rate">1 %</p>
-                            </div>
-                            <div class="results-col">
-                                <h3>Ежемесячный платеж:</h3>
-                                <p id="monthly-payment">0.00 ₸/мес</p>
+                                <h3>Ежемесячная аренда (1%)</h3>
+                                <p id="monthly-rent">0.00 ₸/мес</p>
                             </div>
                             <div class="results-col">
                                 <h3>Итоговая стоимость:</h3>
@@ -1164,9 +1154,7 @@
             const saveAndBuyBtn = document.getElementById('save-and-buy');
             
             const savingsAmount = document.getElementById('savings-amount');
-            const housingLoanPeriod = document.getElementById('housing-loan-period');
-            const interestRate = document.getElementById('interest-rate');
-            const monthlyPayment = document.getElementById('monthly-payment');
+            const monthlyRent = document.getElementById('monthly-rent');
             const overpayment = document.getElementById('overpayment');
             
             // Обновление значений слайдеров
@@ -1195,22 +1183,19 @@
                 const price = parseInt(propertyPrice.value) || 0;
                 const monthlyAddition = parseInt(fundAddition.value) || 0;
                 const savingsMonths = parseInt(savingsPeriod.value) || 0;
-                const rate = 1.0 / 100; // 1% ежемесячная аренда
                 
                 // Расчет суммы накоплений
                 const savings = monthlyAddition * savingsMonths;
                 
-                // Расчет ежемесячного платежа (примерно равен ежемесячному пополнению)
-                const monthlyPayment = monthlyAddition;
+                // Расчет ежемесячной арендной платы (1% от стоимости жилья)
+                const rentPayment = price * 0.01;
                 
                 // Расчет итоговой стоимости
                 const totalCost = price;
                 
                 // Обновление результатов
                 savingsAmount.textContent = formatNumber(savings.toFixed(0)) + ' ₸';
-                housingLoanPeriod.textContent = savingsMonths;
-                interestRate.textContent = (rate * 100).toFixed(0) + ' %';
-                monthlyPayment.textContent = formatNumber(monthlyPayment.toFixed(0)) + ' ₸/мес';
+                monthlyRent.textContent = formatNumber(rentPayment.toFixed(0)) + ' ₸/мес';
                 overpayment.textContent = formatNumber(totalCost.toFixed(0)) + ' ₸';
             }
             

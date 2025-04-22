@@ -952,6 +952,11 @@
             <h2 class="section-title animate-hidden">Рассчитайте выгоду от рефинансирования</h2>
             <div class="calculator-container animate-hidden">
                 <div class="calculator-wrapper">
+                    <div class="result-info" style="text-align: center; margin-bottom: 30px; padding: 15px; background-color: #f8f8f8; border-radius: 10px;">
+                        <h3 style="font-size: 1.2rem; color: var(--primary-color); margin-bottom: 10px;">Первоначальный накопительный взнос</h3>
+                        <p style="font-size: 1.5rem; font-weight: 700;">5 %</p>
+                    </div>
+                    
                     <div class="calculator-row">
                         <div class="calculator-col">
                             <label for="property-price">Сумма ипотеки:</label>
@@ -986,10 +991,6 @@
                     <div class="calculator-results">
                         <div class="results-row">
                             <div class="results-col">
-                                <h3>Первый накопительный взнос</h3>
-                                <p id="initial-deposit">5 %</p>
-                            </div>
-                            <div class="results-col">
                                 <h3>Ваша ипотека</h3>
                                 <p id="savings-amount">0.00 ₸</p>
                             </div>
@@ -997,17 +998,13 @@
                                 <h3>Текущий платеж</h3>
                                 <p id="current-payment">0.00 ₸/мес</p>
                             </div>
-                        </div>
-                        
-                        <div class="results-row">
-                            <div class="results-col">
-                                <h3>Оставшийся срок:</h3>
-                                <p id="housing-loan-period">0 мес</p>
-                            </div>
                             <div class="results-col">
                                 <h3>Новая ставка:</h3>
                                 <p id="interest-rate">7.0 %</p>
                             </div>
+                        </div>
+                        
+                        <div class="results-row">
                             <div class="results-col">
                                 <h3>Новый ежемесячный платёж:</h3>
                                 <p id="monthly-payment">0.00 ₸/мес</p>
@@ -1133,7 +1130,6 @@
             
             const savingsAmount = document.getElementById('savings-amount');
             const currentPayment = document.getElementById('current-payment');
-            const housingLoanPeriod = document.getElementById('housing-loan-period');
             const interestRate = document.getElementById('interest-rate');
             const monthlyPayment = document.getElementById('monthly-payment');
             const monthlySavings = document.getElementById('monthly-savings');
@@ -1179,7 +1175,6 @@
                 // Обновление результатов
                 savingsAmount.textContent = formatNumber(loanAmount) + ' ₸';
                 currentPayment.textContent = formatNumber(currentMonthlyPayment) + ' ₸/мес';
-                housingLoanPeriod.textContent = remainingMonths + ' мес';
                 interestRate.textContent = '7.0 %';
                 monthlyPayment.textContent = formatNumber(newMonthlyPayment.toFixed(0)) + ' ₸/мес';
                 monthlySavings.textContent = formatNumber(monthlySaving.toFixed(0)) + ' ₸';
