@@ -1,15 +1,16 @@
 // @ts-nocheck
 
-import bcrypt from 'bcrypt';
 import { AuthOptions } from 'next-auth';
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import GitHubProvider from 'next-auth/providers/github';
-import { db } from './db';
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 export const authOptions: AuthOptions = {
-  adapter: PrismaAdapter(db),
   providers: [
     GitHubProvider({
       clientId: process.env.GITHUB_CLIENT_ID as string,
@@ -18,36 +19,6 @@ export const authOptions: AuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-    }),
-    CredentialsProvider({
-      name: 'credentials',
-      credentials: {
-        email: { label: 'email', type: 'text' },
-        password: {
-          label: 'password',
-          type: 'password',
-        },
-      },
-
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          throw new Error('Invalid credentials');
-        }
-
-        const user = await db.user.findUnique({
-          where: {
-            email: credentials.email,
-          },
-        });
-
-        if (!user || !user?.password) throw new Error('Invalid credentials');
-
-        const isCorrectPassword = await bcrypt.compare(credentials.password, user.password);
-
-        if (!isCorrectPassword) throw new Error('Invalid credentials');
-
-        return user;
-      },
     }),
   ],
   callbacks: {
@@ -67,12 +38,51 @@ export const authOptions: AuthOptions = {
       }
       return token;
     },
+
+    async signIn({ user }) {
+      if (!user.email) return false;
+
+      try {
+        // Проверяем существует ли пользователь в Supabase
+        const { data, error } = await supabase
+          .from('users')
+          .select()
+          .eq('email', user.email)
+          .single();
+
+        if (error || !data) {
+          // Если пользователя нет, создаем его
+          const { error: insertError } = await supabase
+            .from('users')
+            .insert([
+              {
+                email: user.email,
+                name: user.name,
+                avatar_url: user.image,
+              },
+            ]);
+
+          if (insertError) {
+            console.error('Error creating user in Supabase:', insertError);
+            return false;
+          }
+        }
+
+        return true;
+      } catch (error) {
+        console.error('Error in signIn callback:', error);
+        return false;
+      }
+    },
   },
   pages: {
-    signIn: '/',
+    signIn: '/login',
   },
+  debug: process.env.NODE_ENV === 'development',
   session: {
     strategy: 'jwt',
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
+
+export default authOptions;

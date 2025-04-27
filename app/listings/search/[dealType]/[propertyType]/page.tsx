@@ -6,6 +6,7 @@ import ListingCard from '@/components/ListingCard';
 import Pagination from '@/components/Pagination';
 import Link from 'next/link';
 import FilterModal from '@/components/FilterModal';
+import FilterBar from '@/components/FilterBar';
 import { Filter } from 'lucide-react';
 
 interface Listing {
@@ -103,6 +104,12 @@ export default function ListingsPage() {
           </div>
         </header>
 
+        <FilterBar
+          onOpenModal={() => setIsFilterModalOpen(true)}
+          dealType={params.dealType as string}
+          propertyType={params.propertyType as string}
+        />
+
         <div className="flex flex-col min-h-screen bg-gray-100">
           <main className="flex-grow py-4">
             <div className="max-w-screen-md mx-auto">
@@ -160,6 +167,12 @@ export default function ListingsPage() {
           </button>
         </div>
       </header>
+
+      <FilterBar
+        onOpenModal={() => setIsFilterModalOpen(true)}
+        dealType={params.dealType as string}
+        propertyType={params.propertyType as string}
+      />
 
       <div className="flex flex-col min-h-screen bg-gray-100">
         {/* Список объявлений */}
