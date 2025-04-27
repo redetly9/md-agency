@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import ListingCard from '@/components/ListingCard';
 import Pagination from '@/components/Pagination';
@@ -31,7 +31,7 @@ interface Listing {
   latlng: { lat: number; lng: number; };
 }
 
-export default function Home() {
+function HomeContent() {
   const searchParams = useSearchParams();
   const [listings, setListings] = useState<Listing[]>([]);
   const [totalPages, setTotalPages] = useState(1);
@@ -252,5 +252,36 @@ export default function Home() {
         propertyType="kvartiry"
       />
     </>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={
+      <div className="flex flex-col min-h-screen bg-gray-100">
+        <header className="bg-white border-b px-4 py-3">
+          <div className="max-w-screen-md mx-auto">
+            <div className="h-8 bg-gray-200 rounded w-24 animate-pulse"></div>
+          </div>
+        </header>
+        <main className="flex-grow py-4">
+          <div className="max-w-screen-md mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[1,2,3,4,5,6].map((i) => (
+                <div key={i} className="bg-white rounded-lg shadow animate-pulse">
+                  <div className="h-48 bg-gray-200 rounded-t-lg"></div>
+                  <div className="p-4">
+                    <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                    <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </main>
+      </div>
+    }>
+      <HomeContent />
+    </Suspense>
   );
 }
