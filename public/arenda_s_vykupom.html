@@ -1004,10 +1004,10 @@
                         <div class="calculator-col">
                             <label for="fund-addition">Буду пополнять ежемесячно накопительный фонд</label>
                             <div class="range-slider">
-                                <output id="fund-addition-value">80 000</output>
-                                <input type="range" id="fund-addition" min="100000" max="1000000" step="10000" value="100000">
+                                <output id="fund-addition-value">100 000</output>
+                                <input type="range" id="fund-addition" min="100000" max="10000000" step="10000" value="100000">
                             </div>
-                            <p style="font-size: 0.9rem; color: var(--text-color); margin-top: 5px;">Минимальная сумма пополнения: 80 000 ₸</p>
+                            <p style="font-size: 0.9rem; color: var(--text-color); margin-top: 5px;">Минимальная сумма пополнения: 100 000 ₸</p>
                         </div>
                     </div>
                     
@@ -1182,8 +1182,32 @@
             // Функция расчета
             function calculateResults() {
                 const price = parseInt(propertyPrice.value) || 0;
-                const monthlyAddition = parseInt(fundAddition.value) || 100000; // Минимальная сумма 80 000 тенге
+                const monthlyAddition = parseInt(fundAddition.value) || 100000;
                 const savingsMonths = parseInt(savingsPeriod.value) || 0;
+                
+                // Расчет 30% от стоимости жилья
+                const targetAmount = price * 0.3;
+                
+                // Автоматический расчет минимальных значений
+                if (price > 0) {
+                    // Минимальный ежемесячный взнос для достижения 30% за выбранный срок
+                    const minMonthlyAddition = Math.ceil(targetAmount / savingsMonths);
+                    
+                    // Минимальный срок для достижения 30% при текущем ежемесячном взносе
+                    const minMonths = Math.ceil(targetAmount / monthlyAddition);
+                    
+                    // Если текущий ежемесячный взнос меньше минимального, обновляем его
+                    if (monthlyAddition < minMonthlyAddition && savingsMonths > 0) {
+                        fundAddition.value = minMonthlyAddition;
+                        fundAdditionValue.textContent = formatNumber(minMonthlyAddition);
+                    }
+                    
+                    // Если текущий срок меньше минимального, обновляем его
+                    if (savingsMonths < minMonths && monthlyAddition > 0) {
+                        savingsPeriod.value = minMonths;
+                        savingsPeriodValue.textContent = minMonths;
+                    }
+                }
                 
                 // Расчет суммы накоплений
                 const savings = monthlyAddition * savingsMonths;
@@ -1195,6 +1219,34 @@
                 savingsAmount.textContent = formatNumber(savings.toFixed(0)) + ' ₸';
                 monthlyRent.textContent = formatNumber(rentPayment.toFixed(0)) + ' ₸/мес';
                 monthlySavings.textContent = formatNumber(monthlyAddition.toFixed(0)) + ' ₸/мес';
+                
+                // Добавляем информацию о 30%
+                const targetInfo = document.getElementById('target-info');
+                if (!targetInfo) {
+                    const infoDiv = document.createElement('div');
+                    infoDiv.id = 'target-info';
+                    infoDiv.style.textAlign = 'center';
+                    infoDiv.style.marginTop = '20px';
+                    infoDiv.style.padding = '10px';
+                    infoDiv.style.backgroundColor = '#f8f8f8';
+                    infoDiv.style.borderRadius = '8px';
+                    infoDiv.innerHTML = `
+                        <p style="font-size: 0.9rem; color: var(--text-color);">
+                            Для накопления 30% от стоимости жилья (${formatNumber(targetAmount.toFixed(0))} ₸) 
+                            ${savingsMonths > 0 ? `необходимо вносить минимум ${formatNumber(Math.ceil(targetAmount / savingsMonths))} ₸ ежемесячно` : ''}
+                            ${monthlyAddition > 0 ? `или накапливать в течение ${Math.ceil(targetAmount / monthlyAddition)} месяцев` : ''}
+                        </p>
+                    `;
+                    document.querySelector('.calculator-results').appendChild(infoDiv);
+                } else {
+                    targetInfo.innerHTML = `
+                        <p style="font-size: 0.9rem; color: var(--text-color);">
+                            Для накопления 30% от стоимости жилья (${formatNumber(targetAmount.toFixed(0))} ₸) 
+                            ${savingsMonths > 0 ? `необходимо вносить минимум ${formatNumber(Math.ceil(targetAmount / savingsMonths))} ₸ ежемесячно` : ''}
+                            ${monthlyAddition > 0 ? `или накапливать в течение ${Math.ceil(targetAmount / monthlyAddition)} месяцев` : ''}
+                        </p>
+                    `;
+                }
             }
             
             // Инициализация с начальными значениями
