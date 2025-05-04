@@ -1,4 +1,6 @@
 import { NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@/lib/auth';
 import { createClient } from '@supabase/supabase-js';
 import axios from 'axios';
 
@@ -21,18 +23,18 @@ interface Listing {
 
 export async function GET(request: Request) {
   try {
-    const { searchParams } = new URL(request.url);
-    const userEmail = searchParams.get('userEmail');
-
-    if (!userEmail) {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.email) {
       return NextResponse.json([]);
     }
+
+    const { searchParams } = new URL(request.url);
 
     // Получаем избранные ID из Supabase
     const { data: favorites, error } = await supabase
       .from('favorites')
       .select('listing_id')
-      .eq('user_email', userEmail);
+      .eq('user_email', session.user.email);
 
     if (error) {
       console.error('Error fetching favorites:', error);
