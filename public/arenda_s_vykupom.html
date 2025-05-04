@@ -1005,7 +1005,7 @@
                             <label for="fund-addition">Буду пополнять ежемесячно накопительный фонд</label>
                             <div class="range-slider">
                                 <output id="fund-addition-value">80 000</output>
-                                <input type="range" id="fund-addition" min="80000" max="1000000" step="10000" value="80000">
+                                <input type="range" id="fund-addition" min="100000" max="1000000" step="10000" value="100000">
                             </div>
                             <p style="font-size: 0.9rem; color: var(--text-color); margin-top: 5px;">Минимальная сумма пополнения: 80 000 ₸</p>
                         </div>
@@ -1028,16 +1028,16 @@
                     <div class="calculator-results">
                         <div class="results-row">
                             <div class="results-col">
-                                <h3>Сумма накоплений</h3>
+                                <h3>Общая сумма накоплений</h3>
                                 <p id="savings-amount">0.00 ₸</p>
+                            </div>
+                            <div class="results-col">
+                                <h3>Ежемесячная сумма накоплений</h3>
+                                <p id="monthly-savings">0.00 ₸/мес</p>
                             </div>
                             <div class="results-col">
                                 <h3>Ежемесячная аренда (1%)</h3>
                                 <p id="monthly-rent">0.00 ₸/мес</p>
-                            </div>
-                            <div class="results-col">
-                                <h3>Итоговая стоимость:</h3>
-                                <p id="overpayment">0.00 ₸</p>
                             </div>
                         </div>
                     </div>
@@ -1156,7 +1156,7 @@
             
             const savingsAmount = document.getElementById('savings-amount');
             const monthlyRent = document.getElementById('monthly-rent');
-            const overpayment = document.getElementById('overpayment');
+            const monthlySavings = document.getElementById('monthly-savings');
             
             // Обновление значений слайдеров
             propertyPrice.addEventListener('input', function() {
@@ -1182,7 +1182,7 @@
             // Функция расчета
             function calculateResults() {
                 const price = parseInt(propertyPrice.value) || 0;
-                const monthlyAddition = parseInt(fundAddition.value) || 80000; // Минимальная сумма 80 000 тенге
+                const monthlyAddition = parseInt(fundAddition.value) || 100000; // Минимальная сумма 80 000 тенге
                 const savingsMonths = parseInt(savingsPeriod.value) || 0;
                 
                 // Расчет суммы накоплений
@@ -1191,13 +1191,10 @@
                 // Расчет ежемесячной арендной платы (1% от стоимости жилья)
                 const rentPayment = price * 0.01;
                 
-                // Расчет итоговой стоимости
-                const totalCost = price;
-                
                 // Обновление результатов
                 savingsAmount.textContent = formatNumber(savings.toFixed(0)) + ' ₸';
                 monthlyRent.textContent = formatNumber(rentPayment.toFixed(0)) + ' ₸/мес';
-                overpayment.textContent = formatNumber(totalCost.toFixed(0)) + ' ₸';
+                monthlySavings.textContent = formatNumber(monthlyAddition.toFixed(0)) + ' ₸/мес';
             }
             
             // Инициализация с начальными значениями
