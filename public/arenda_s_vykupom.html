@@ -1004,9 +1004,10 @@
                         <div class="calculator-col">
                             <label for="fund-addition">Буду пополнять ежемесячно накопительный фонд</label>
                             <div class="range-slider">
-                                <output id="fund-addition-value">0</output>
-                                <input type="range" id="fund-addition" min="0" max="1000000" step="10000" value="0">
+                                <output id="fund-addition-value">80 000</output>
+                                <input type="range" id="fund-addition" min="80000" max="1000000" step="10000" value="80000">
                             </div>
+                            <p style="font-size: 0.9rem; color: var(--text-color); margin-top: 5px;">Минимальная сумма пополнения: 80 000 ₸</p>
                         </div>
                     </div>
                     
@@ -1181,7 +1182,7 @@
             // Функция расчета
             function calculateResults() {
                 const price = parseInt(propertyPrice.value) || 0;
-                const monthlyAddition = parseInt(fundAddition.value) || 0;
+                const monthlyAddition = parseInt(fundAddition.value) || 80000; // Минимальная сумма 80 000 тенге
                 const savingsMonths = parseInt(savingsPeriod.value) || 0;
                 
                 // Расчет суммы накоплений
