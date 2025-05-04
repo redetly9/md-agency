@@ -221,6 +221,7 @@ export default function ListingViewPage() {
               options={{
                 disableDefaultUI: true,
                 zoomControl: true,
+                gestureHandling: 'greedy',
                 styles: [
                   {
                     featureType: "poi",
