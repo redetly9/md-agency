@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import Gallery from './_components/Gallery';
+import { GoogleMap, LoadScript, Marker, useJsApiLoader } from '@react-google-maps/api';
 
 interface DetailedListing {
   id: string;
@@ -62,6 +63,17 @@ const cleanDescription = (description: string) => {
   return withoutButtonTags.replace(/Перевести/g, '');
 };
 
+const mapContainerStyle = {
+  width: '100%',
+  height: '200px',
+  borderRadius: '0 0 12px 12px'
+};
+
+const defaultCenter = {
+  lat: 43.2220,
+  lng: 76.8512
+};
+
 export default function ListingViewPage() {
   const params = useParams();
   const [listing, setListing] = useState<DetailedListing | null>(null);
@@ -72,6 +84,15 @@ export default function ListingViewPage() {
   const [touchEnd, setTouchEnd] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [dragPosition, setDragPosition] = useState(0);
+  const [mapCenter, setMapCenter] = useState(defaultCenter);
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: "AIzaSyCqVpS-EXUupXT-NHrv4cvvK6LyaKE_cvw",
+    libraries: ['places']
+  });
+
+  console.log('listing', listing);
+  
 
   useEffect(() => {
     const handleScroll = () => {
@@ -98,9 +119,29 @@ export default function ListingViewPage() {
     fetchListing();
   }, [params.id]);
 
-  console.log('cleanDescription(listing.description)', cleanDescription(listing?.description || ''));
-  
+  useEffect(() => {
+    const geocodeAddress = async () => {
+      if (!listing || !isLoaded) return;
+      
+      const address = `${listing.street}, ${listing.district}, Алматы`;
+      const geocoder = new window.google.maps.Geocoder();
+      
+      try {
+        const response = await geocoder.geocode({ address });
+        if (response.results[0]) {
+          const location = response.results[0].geometry.location;
+          setMapCenter({
+            lat: location.lat(),
+            lng: location.lng()
+          });
+        }
+      } catch (error) {
+        console.error('Error geocoding address:', error);
+      }
+    };
 
+    geocodeAddress();
+  }, [listing, isLoaded]);
 
   if (isLoading) {
     return (
@@ -172,16 +213,42 @@ export default function ListingViewPage() {
           <div className="p-4 border-b">
             <h2 className="text-xl font-medium">Расположение</h2>
           </div>
-          <div className="h-[200px] bg-gray-100">
-            {/* Здесь будет карта */}
-          </div>
+          {isLoaded ? (
+            <GoogleMap
+              mapContainerStyle={mapContainerStyle}
+              center={mapCenter}
+              zoom={15}
+              options={{
+                disableDefaultUI: true,
+                zoomControl: true,
+                styles: [
+                  {
+                    featureType: "poi",
+                    elementType: "labels",
+                    stylers: [{ visibility: "off" }]
+                  }
+                ]
+              }}
+            >
+              <Marker 
+                position={mapCenter}
+                icon={{
+                  url: '/marker.svg',
+                  scaledSize: new window.google.maps.Size(32, 32),
+                  anchor: new window.google.maps.Point(16, 32)
+                }}
+              />
+            </GoogleMap>
+          ) : (
+            <div className="h-[200px] bg-gray-100 animate-pulse"></div>
+          )}
           <div className="p-4">
             <div className="flex items-center gap-2 text-gray-500">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
               </svg>
-              <span>{listing.district}, {listing.street}</span>
+              <span>{listing?.district}, {listing?.street}</span>
             </div>
           </div>
         </div>

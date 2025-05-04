@@ -40,15 +40,24 @@ export async function GET(
       }
     });
 
+    // Парсим основную информацию
+    const title = $('h1').text().trim();
+    const roomCount = title.match(/\d+/)?.[0] || '';
+    const area = additionalDetails['live.square']?.match(/\d+\.?\d*/)?.[0] || '';
+    const floor = additionalDetails['flat.floor']?.match(/\d+/)?.[0] || '';
+
     const listing = {
       id: params.id,
-      title: $('h1').text().trim(),
+      title,
       description: $('.offer__description .text').html() || '',
       imageSrc,
       price: parseInt($('.offer__price').text().replace(/[^\d]/g, '') || '0'),
       city: $('.offer__location').first().text().trim(),
       district: $('.offer__location span').first().text().trim(),
       street: $('.offer__location span').last().text().trim(),
+      roomCount,
+      area,
+      floor,
       additionalDetails: {
         city: additionalDetails['city'] || '',
         houseType: additionalDetails['flat.building'] || '',
