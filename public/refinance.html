@@ -959,59 +959,52 @@
                     
                     <div class="calculator-row">
                         <div class="calculator-col">
-                            <label for="property-price">Сумма займа:</label>
+                            <label for="property-price">Стоимость жилья:</label>
                             <div class="range-slider">
                                 <output id="property-price-value">0</output>
                                 <input type="range" id="property-price" min="0" max="100000000" step="500000" value="0">
                             </div>
                         </div>
                         <div class="calculator-col">
-                            <label for="fund-addition">Ваш текущий ежемесячный платеж:</label>
+                            <label for="fund-addition">Буду пополнять ежемесячно накопительный фонд</label>
                             <div class="range-slider">
-                                <output id="fund-addition-value">0</output>
-                                <input type="range" id="fund-addition" min="0" max="1000000" step="10000" value="0">
+                                <output id="fund-addition-value">100 000</output>
+                                <input type="range" id="fund-addition" min="100000" max="10000000" step="10000" value="100000">
                             </div>
+                            <p style="font-size: 0.9rem; color: var(--text-color); margin-top: 5px;">Минимальная сумма пополнения: 100 000 ₸</p>
                         </div>
                     </div>
                     
                     <div class="calculator-row">
                         <div class="calculator-col">
-                            <label for="savings-period">Оставшийся срок, мес:</label>
+                            <label for="savings-period">Срок накопления, мес:</label>
                             <div class="range-slider">
-                                <output id="savings-period-value">59</output>
-                                <input type="range" id="savings-period" min="0" max="240" step="1" value="59">
+                                <output id="savings-period-value">60</output>
+                                <input type="range" id="savings-period" min="60" max="240" step="1" value="60">
                             </div>
                         </div>
                     </div>
                     
                     <div class="calculator-buttons">
-                        <button id="save-and-buy" class="btn">Рассчитать выгоду</button>
+                        <button id="save-and-buy" class="btn">Накопить и купить</button>
                     </div>
                     
                     <div class="calculator-results">
                         <div class="results-row">
                             <div class="results-col">
-                                <h3>Ваша ипотека</h3>
+                                <h3>Общая сумма накоплений</h3>
                                 <p id="savings-amount">0.00 ₸</p>
+                                <p style="font-size: 0.8rem; color: var(--text-color); margin-top: 5px; opacity: 0.8;">
+                                    Это ваши денежные средства, которые вы можете использовать для выкупа
+                                </p>
                             </div>
                             <div class="results-col">
-                                <h3>Текущий платеж</h3>
-                                <p id="current-payment">0.00 ₸/мес</p>
+                                <h3>Ежемесячная сумма накоплений</h3>
+                                <p id="monthly-savings">0.00 ₸/мес</p>
                             </div>
                             <div class="results-col">
-                                <h3>Новая ставка:</h3>
-                                <p id="interest-rate">7.0 %</p>
-                            </div>
-                        </div>
-                        
-                        <div class="results-row">
-                            <div class="results-col">
-                                <h3>Новый ежемесячный платёж:</h3>
-                                <p id="monthly-payment">0.00 ₸/мес</p>
-                            </div>
-                            <div class="results-col">
-                                <h3>Экономия в месяц:</h3>
-                                <p id="monthly-savings">0.00 ₸</p>
+                                <h3>Ежемесячная аренда (1%)</h3>
+                                <p id="monthly-rent">0.00 ₸/мес</p>
                             </div>
                         </div>
                     </div>
@@ -1129,9 +1122,7 @@
             const saveAndBuyBtn = document.getElementById('save-and-buy');
             
             const savingsAmount = document.getElementById('savings-amount');
-            const currentPayment = document.getElementById('current-payment');
-            const interestRate = document.getElementById('interest-rate');
-            const monthlyPayment = document.getElementById('monthly-payment');
+            const monthlyRent = document.getElementById('monthly-rent');
             const monthlySavings = document.getElementById('monthly-savings');
             
             // Обновление значений слайдеров
@@ -1150,34 +1141,51 @@
                 calculateResults();
             });
             
-            // Кнопка расчета
+            // Кнопки выбора режима
             saveAndBuyBtn.addEventListener('click', function() {
                 calculateResults();
             });
             
             // Функция расчета
             function calculateResults() {
-                const loanAmount = parseInt(propertyPrice.value) || 0;
-                const currentMonthlyPayment = parseInt(fundAddition.value) || 0;
-                const remainingMonths = parseInt(savingsPeriod.value) || 0;
-                const newRate = 7.0 / 100; // 7.0% минимальная ставка для рефинансирования
+                const price = parseInt(propertyPrice.value) || 0;
+                const monthlyAddition = parseInt(fundAddition.value) || 100000;
+                const savingsMonths = parseInt(savingsPeriod.value) || 0;
                 
-                // Расчет нового ежемесячного платежа
-                let newMonthlyPayment = 0;
-                if (loanAmount > 0 && remainingMonths > 0) {
-                    const monthlyRate = newRate / 12;
-                    newMonthlyPayment = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, remainingMonths)) / (Math.pow(1 + monthlyRate, remainingMonths) - 1);
+                // Расчет 30% от стоимости жилья
+                const targetAmount = price * 0.3;
+                
+                // Автоматический расчет минимальных значений
+                if (price > 0) {
+                    // Минимальный ежемесячный взнос для достижения 30% за выбранный срок
+                    const minMonthlyAddition = Math.ceil(targetAmount / savingsMonths);
+                    
+                    // Минимальный срок для достижения 30% при текущем ежемесячном взносе
+                    const minMonths = Math.ceil(targetAmount / monthlyAddition);
+                    
+                    // Если текущий ежемесячный взнос меньше минимального, обновляем его
+                    if (monthlyAddition < minMonthlyAddition && savingsMonths > 0) {
+                        fundAddition.value = minMonthlyAddition;
+                        fundAdditionValue.textContent = formatNumber(minMonthlyAddition);
+                    }
+                    
+                    // Если текущий срок меньше минимального, обновляем его
+                    if (savingsMonths < minMonths && monthlyAddition > 0) {
+                        savingsPeriod.value = minMonths;
+                        savingsPeriodValue.textContent = minMonths;
+                    }
                 }
                 
-                // Расчет экономии
-                const monthlySaving = currentMonthlyPayment - newMonthlyPayment;
+                // Расчет суммы накоплений
+                const savings = monthlyAddition * savingsMonths;
+                
+                // Расчет ежемесячной арендной платы (1% от стоимости жилья)
+                const rentPayment = price * 0.01;
                 
                 // Обновление результатов
-                savingsAmount.textContent = formatNumber(loanAmount) + ' ₸';
-                currentPayment.textContent = formatNumber(currentMonthlyPayment) + ' ₸/мес';
-                interestRate.textContent = '7.0 %';
-                monthlyPayment.textContent = formatNumber(newMonthlyPayment.toFixed(0)) + ' ₸/мес';
-                monthlySavings.textContent = formatNumber(monthlySaving.toFixed(0)) + ' ₸';
+                savingsAmount.textContent = formatNumber(savings.toFixed(0)) + ' ₸';
+                monthlyRent.textContent = formatNumber(rentPayment.toFixed(0)) + ' ₸/мес';
+                monthlySavings.textContent = formatNumber(monthlyAddition.toFixed(0)) + ' ₸/мес';
             }
             
             // Инициализация с начальными значениями
