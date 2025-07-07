@@ -20,6 +20,13 @@ body {
   overflow-x: hidden;
   overflow-y: scroll;
   scroll-behavior: smooth;
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
 }
 
 .no-scroll {
@@ -51,27 +58,48 @@ body {
   font-size: 16px !important;
 }
 
-
 ::-webkit-scrollbar {
-  @apply w-2;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply bg-blue-400 transition-all duration-300 rounded-[25px];
-}
-
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-blue-500 ;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-blue-100 rounded-[25px];
+  background: #f1f1f1;
 }
 
-::-webkit-scrollbar-corner {
-  @apply rounded-[25px];
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
 }
 
 .hide-scrollbar::-webkit-scrollbar {
   width: 0;
+}
+
+.min-h-screen {
+  min-height: 100vh;
+}
+
+.leaflet-control-container {
+  z-index: 0 !important;
+}
+
+.leaflet-control {
+  z-index: 0 !important;
+}
+
+footer {
+  z-index: 9999 !important;
+  pointer-events: auto !important;
+}
+
+footer a {
+  pointer-events: auto !important;
+}
+
+main {
+  padding-bottom: 80px;
 }

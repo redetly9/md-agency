@@ -1,223 +1,231 @@
 'use client';
 
-import React, { useEffect, useState, Suspense } from 'react';
-import { useFavorites } from '@/hooks/useFavorites';
-import ListingCard from '@/components/ListingCard';
-import { useQueries } from '@tanstack/react-query';
-import axios from 'axios';
-import EmptyState from '@/components/EmptyState';
-import { adaptListing } from '@/utils/adapter';
-import { useSearchParams } from 'next/navigation';
-import FilterModal from '@/components/FilterModal';
-import FilterBar from '@/components/FilterBar';
-import { Filter } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { Heart } from 'lucide-react';
 
-const BASE_URL = process.env.NEXT_PUBLIC_PARSING_SERVER_URL;
-
-interface Listing {
+interface FavoriteListing {
   id: string;
   title: string;
-  description: string;
-  imageSrc: string;
   price: number;
-  city: string;
-  district: string;
+  rooms: number;
+  area: number;
+  floor: number;
+  totalFloors: number;
   street: string;
-  link: string;
-  category: string;
-  createdAt: string;
-  roomCount: number;
-  bathroomCount: number;
-  guestCount: number;
-  region: string | null;
-  userId: string | null;
-  country: string;
-  latlng: { lat: number; lng: number; };
+  imageSrc: string;
+  priceTag?: 'снижена' | 'выросла';
 }
 
-function FavoritesContent() {
-  const { favorites, loading: favoritesLoading } = useFavorites();
-  const [isLoading, setIsLoading] = useState(true);
-  const [listings, setListings] = useState<Listing[]>([]);
-  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
-  const searchParams = useSearchParams();
+// Моковые данные для демонстрации
+const mockFavorites: FavoriteListing[] = [
+  {
+    id: '1',
+    title: 'Элитная недвижимость',
+    price: 15900000,
+    rooms: 3,
+    area: 78,
+    floor: 9,
+    totalFloors: 12,
+    street: 'ул. Ленина, 45',
+    imageSrc: '/images/placeholder.jpg',
+    priceTag: 'снижена'
+  },
+  {
+    id: '2',
+    title: 'Современная квартира',
+    price: 12500000,
+    rooms: 2,
+    area: 65,
+    floor: 5,
+    totalFloors: 9,
+    street: 'пр. Гагарина, 12',
+    imageSrc: '/images/placeholder.jpg'
+  },
+  {
+    id: '3',
+    title: 'Квартира с видом',
+    price: 18300000,
+    rooms: 4,
+    area: 95,
+    floor: 3,
+    totalFloors: 16,
+    street: 'ул. Пушкина, 28',
+    imageSrc: '/images/placeholder.jpg',
+    priceTag: 'выросла'
+  }
+];
 
-  const favoriteQueries = useQueries({
-    queries: favorites.map(id => ({
-      queryKey: ['listing', id],
-      queryFn: async () => {
-        const response = await axios.get(`${BASE_URL}/api/parse/show/${id}`);
-        return adaptListing(response.data);
-      },
-      staleTime: 1000 * 60 * 5, // Кэшируем на 5 минут
-    })), // @ts-ignore
-    enabled: !favoritesLoading && favorites.length > 0,
-  });
+export default function FavoritesPage() {
+  const [favorites, setFavorites] = useState<FavoriteListing[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchFavorites = async () => {
+    // Симулируем загрузку избранного
+    const loadFavorites = async () => {
       try {
-        setIsLoading(true);
-        
-        // Создаем URL с параметрами фильтрации
-        const url = new URL('/api/favorites', window.location.origin);
-        
-        // Добавляем параметры фильтрации
-        const filterParams = [
-          'region', 'complex', 'rooms', 'priceFrom', 'priceTo', 
-          'areaFrom', 'areaTo', 'floorFrom', 'floorTo', 
-          'notFirstFloor', 'notLastFloor', 'fromDeveloper', 'fromAgents'
-        ];
-        
-        filterParams.forEach(param => {
-          const value = searchParams.get(param);
-          if (value) {
-            url.searchParams.set(param, value);
-          }
-        });
-
-        const response = await fetch(url.toString());
-        const data = await response.json();
-        setListings(data);
+        // В реальном приложении здесь будет запрос к API
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        setFavorites(mockFavorites);
       } catch (error) {
-        console.error('Error fetching favorites:', error);
+        console.error('Error loading favorites:', error);
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchFavorites();
-  }, [searchParams]);
+    loadFavorites();
+  }, []);
 
-  const isLoadingFavorites = favoritesLoading || favoriteQueries.some(query => query.isLoading);
-  const favoriteListings = favoriteQueries
-    .filter(query => query.isSuccess)
-    .map(query => query.data);
+  const removeFavorite = (id: string) => {
+    setFavorites(prev => prev.filter(item => item.id !== id));
+  };
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('ru-RU').format(price);
+  };
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-100">
-        <header className="bg-white border-b px-4 py-3">
+      <>
+        {/* Header */}
+        <header className="bg-white px-4 py-4">
           <div className="max-w-screen-md mx-auto flex items-center justify-between">
-            <h1 className="text-xl font-medium">Избранное</h1>
-            <button 
-              className="text-gray-500 p-2"
-              onClick={() => setIsFilterModalOpen(true)}
-            >
-              <Filter size={24} />
-            </button>
+            <h1 className="text-xl font-semibold">Избранное</h1>
+            <div className="h-6 w-20 bg-gray-200 rounded animate-pulse"></div>
           </div>
         </header>
 
-        <FilterBar
-          onOpenModal={() => setIsFilterModalOpen(true)}
-          dealType="all"
-          propertyType="all"
-        />
-
-        <div className="max-w-screen-md mx-auto p-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[1,2,3,4,5,6].map((i) => (
-              <div key={i} className="bg-white rounded-lg shadow animate-pulse">
-                <div className="h-48 bg-gray-200 rounded-t-lg"></div>
-                <div className="p-4">
-                  <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-                  <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+        {/* Loading cards */}
+        <div className="bg-gray-50 min-h-screen pb-20">
+          <div className="max-w-screen-md mx-auto">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="bg-white border-b animate-pulse">
+                <div className="p-4 flex gap-4">
+                  <div className="w-24 h-20 bg-gray-200 rounded"></div>
+                  <div className="flex-1">
+                    <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                    <div className="h-3 bg-gray-200 rounded w-1/2 mb-2"></div>
+                    <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+                  </div>
+                  <div className="w-8 h-8 bg-gray-200 rounded-full"></div>
                 </div>
               </div>
             ))}
           </div>
         </div>
-      </div>
+      </>
     );
   }
 
-  if (listings.length === 0) {
+  if (favorites.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-100">
-        <header className="bg-white border-b px-4 py-3">
-          <div className="max-w-screen-md mx-auto">
-            <h1 className="text-xl font-medium">Избранное</h1>
+      <>
+        {/* Header */}
+        <header className="bg-white px-4 py-4">
+          <div className="max-w-screen-md mx-auto flex items-center justify-between">
+            <h1 className="text-xl font-semibold">Избранное</h1>
+            <span className="text-gray-500">0 объектов</span>
           </div>
         </header>
-        <EmptyState
-          title="Избранное пусто"
-          subtitle="Сохраняйте понравившиеся объявления, чтобы не потерять их"
-          showReset={false}
-        />
-      </div>
+
+        {/* Empty state */}
+        <div className="bg-gray-50 min-h-screen pb-20 flex items-center justify-center">
+          <div className="text-center px-4">
+            <div className="w-16 h-16 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center">
+              <Heart size={24} className="text-gray-400" />
+            </div>
+            <h2 className="text-lg font-medium text-gray-900 mb-2">Избранное пусто</h2>
+            <p className="text-gray-500 mb-4">
+              Сохраняйте понравившиеся объявления, чтобы не потерять их
+            </p>
+            <Link 
+              href="/"
+              className="inline-block bg-blue-500 text-white px-6 py-2 rounded-lg font-medium"
+            >
+              Найти жилье
+            </Link>
+          </div>
+        </div>
+      </>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <header className="bg-white border-b px-4 py-3">
+    <>
+      {/* Header */}
+      <header className="bg-white px-4 py-4">
         <div className="max-w-screen-md mx-auto flex items-center justify-between">
-          <h1 className="text-xl font-medium">Избранное</h1>
-          <button 
-            className="text-gray-500 p-2"
-            onClick={() => setIsFilterModalOpen(true)}
-          >
-            <Filter size={24} />
-          </button>
+          <h1 className="text-xl font-semibold">Избранное</h1>
+          <span className="text-gray-500">{favorites.length} объектов</span>
         </div>
       </header>
 
-      <FilterBar
-        onOpenModal={() => setIsFilterModalOpen(true)}
-        dealType="all"
-        propertyType="all"
-      />
+      {/* Favorites list */}
+      <div className="bg-gray-50 min-h-screen pb-20">
+        <div className="max-w-screen-md mx-auto">
+          {favorites.map((listing) => (
+            <div key={listing.id} className="bg-white border-b">
+              <Link href={`/listings/view/${listing.id}`} className="block">
+                <div className="p-4">
+                  {/* Price and heart */}
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                      <h2 className="text-xl font-semibold text-gray-900">
+                        {formatPrice(listing.price)} ₽
+                      </h2>
+                      {listing.priceTag && (
+                        <span 
+                          className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            listing.priceTag === 'снижена' 
+                              ? 'bg-teal-100 text-teal-700' 
+                              : 'bg-red-100 text-red-700'
+                          }`}
+                        >
+                          Цена {listing.priceTag}
+                        </span>
+                      )}
+                    </div>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        removeFavorite(listing.id);
+                      }}
+                      className="text-teal-500 hover:text-teal-600 transition-colors"
+                    >
+                      <Heart size={24} fill="currentColor" />
+                    </button>
+                  </div>
 
-      <main className="max-w-screen-md mx-auto p-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {listings.map((listing) => (
-            <ListingCard
-              key={listing.id}
-              data={listing}
-              hasFavorited={true}
-            />
-          ))}
-        </div>
-      </main>
+                  {/* Property info */}
+                  <div className="text-blue-600 mb-3 text-sm">
+                    {listing.rooms} комн. • {listing.area} м² • {listing.floor}/{listing.totalFloors} эт.
+                  </div>
 
-      <FilterModal
-        isOpen={isFilterModalOpen}
-        onClose={() => setIsFilterModalOpen(false)}
-        dealType="all"
-        propertyType="all"
-      />
-    </div>
-  );
-}
-
-export default function FavoritesPage() {
-  return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-gray-100">
-        <header className="bg-white border-b px-4 py-3">
-          <div className="max-w-screen-md mx-auto">
-            <div className="h-8 bg-gray-200 rounded w-24 animate-pulse"></div>
-          </div>
-        </header>
-        <main className="flex-grow py-4">
-          <div className="max-w-screen-md mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {[1,2,3,4,5,6].map((i) => (
-                <div key={i} className="bg-white rounded-lg shadow animate-pulse">
-                  <div className="h-48 bg-gray-200 rounded-t-lg"></div>
-                  <div className="p-4">
-                    <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-                    <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+                  {/* Image and address */}
+                  <div className="flex gap-4">
+                    <div className="relative w-24 h-20 rounded overflow-hidden flex-shrink-0">
+                      <img
+                        src={listing.imageSrc}
+                        alt={listing.title}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute bottom-1 right-1 bg-black/60 text-white px-1.5 py-0.5 rounded text-xs">
+                        1
+                      </div>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-gray-900 font-medium mb-1 truncate">
+                        {listing.street}
+                      </div>
+                    </div>
                   </div>
                 </div>
-              ))}
+              </Link>
             </div>
-          </div>
-        </main>
+          ))}
+        </div>
       </div>
-    }>
-      <FavoritesContent />
-    </Suspense>
+    </>
   );
 }
