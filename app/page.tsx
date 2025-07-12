@@ -344,43 +344,45 @@ function HomeContent() {
         </div>
       </div>
 
-      {/* Listings grid */}
-      <div className="px-4 pb-4">
-        <div className="max-w-screen-md mx-auto">
-          <div className="grid grid-cols-2 gap-3">
-            {listings.map((listing) => (
-              <div key={listing.id} className="bg-white rounded-lg shadow-sm overflow-hidden">
-                <Link href={`/listings/view/${listing.id}`} className="block">
-                  <div className="relative">
-                    <img
-                      src={listing.imageSrc || '/images/placeholder.jpg'}
-                      alt={listing.title}
-                      className="w-full h-32 object-cover"
-                    />
-                    <div className="absolute bottom-2 right-2 bg-black/50 text-white px-2 py-0.5 rounded text-xs">
-                      1
+                           {/* Listings grid */}
+        <div className="px-4 pb-4">
+          <div className="max-w-screen-md mx-auto">
+            <div className="grid grid-cols-2 gap-3">
+              {listings.map((listing) => (
+                <div key={listing.id} className="bg-white rounded-lg shadow-sm overflow-hidden">
+                  <Link href={`/listings/view/${listing.id}`} className="block">
+                    <div className="relative">
+                      <img
+                        src={listing.imageSrc || '/images/placeholder.jpg'}
+                        alt={listing.title}
+                        className="w-full h-24 object-cover"
+                      />
                     </div>
-                  </div>
-                  <div className="p-3">
-                    <div className="text-lg font-semibold mb-1">
-                      {new Intl.NumberFormat('ru-RU').format(listing.price)} ₸
+                    <div className="p-2">
+                      <div className="text-sm font-bold text-gray-900 mb-1">
+                        {listing.roomCount}-комнатная квартира
+                      </div>
+                      <div className="flex items-center text-xs text-gray-600 mb-1">
+                        <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                        <span>ул. {listing.street || listing.district}, {listing.roomCount}</span>
+                        <span className="ml-auto">{listing.guestCount || 120} м²</span>
+                      </div>
+                      <div className="text-sm font-semibold text-teal-600 mb-1">
+                        {new Intl.NumberFormat('ru-RU').format(listing.price)} ₸/мес
+                      </div>
+                      <button className="text-xs text-teal-600 bg-teal-50 px-2 py-1 rounded-full border border-teal-200 hover:bg-teal-100 transition-colors">
+                        Подробнее
+                      </button>
                     </div>
-                    <div className="text-sm text-blue-600 mb-1">
-                      {listing.roomCount}-комнатная квартира · м²
-                    </div>
-                    <div className="text-sm text-gray-600 truncate">
-                      {listing.street || listing.district}
-                    </div>
-                    <div className="text-xs text-gray-500 mt-1">
-                      {listing.city}, {listing.district}
-                    </div>
-                  </div>
-                </Link>
-              </div>
-            ))}
+                  </Link>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
     </>
   );
 }
