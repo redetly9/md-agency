@@ -11,8 +11,7 @@ import {
   Link as LinkIcon,
   Search,
   HelpCircle,
-  ChevronRight,
-  Camera
+  ChevronRight
 } from 'lucide-react';
 
 const ProfileSettingsPage = () => {
@@ -24,34 +23,31 @@ const ProfileSettingsPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
-      {/* Шапка */}
-      <header className="bg-white px-4 py-3 border-b border-gray-200">
+      {/* Header */}
+      <header className="bg-white px-4 py-4 border-b border-gray-200">
         <div className="max-w-screen-md mx-auto flex items-center">
-          <Link href="/profile" className="mr-4">
+          <Link href="/profiles" className="mr-4">
             <ArrowLeft size={24} className="text-gray-700" />
           </Link>
           <h1 className="text-xl font-semibold text-gray-900">Настройки профиля</h1>
         </div>
       </header>
 
-      {/* Основной контент */}
+      {/* Main content */}
       <main className="flex-grow px-4 py-6 pb-20">
         <div className="max-w-screen-md mx-auto space-y-6">
           
-          {/* Профиль пользователя */}
-          <div className="bg-white rounded-lg p-6">
+          {/* User Profile */}
+          <div className="bg-white rounded-xl p-6">
             <div className="flex flex-col items-center text-center">
-              {/* Аватар */}
+              {/* Avatar */}
               <div className="relative mb-4">
                 <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center">
                   <User size={40} className="text-gray-500" />
                 </div>
-                <button className="absolute -bottom-1 -right-1 w-8 h-8 bg-teal-500 rounded-full flex items-center justify-center">
-                  <Camera size={16} className="text-white" />
-                </button>
               </div>
               
-              {/* Информация о пользователе */}
+              {/* User Info */}
               <button className="text-teal-500 font-medium mb-3">
                 Изменить фото
               </button>
@@ -64,11 +60,11 @@ const ProfileSettingsPage = () => {
             </div>
           </div>
 
-          {/* Настройки */}
-          <div className="bg-white rounded-lg overflow-hidden">
+          {/* Settings */}
+          <div className="bg-white rounded-xl overflow-hidden">
             
-            {/* Личные данные */}
-            <Link href="/profile/settings/personal" className="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors">
+            {/* Personal Data */}
+            <Link href="/profiles/settings/personal" className="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors">
               <div className="flex items-center gap-3">
                 <User size={20} className="text-gray-600" />
                 <span className="text-gray-900">Личные данные</span>
@@ -76,8 +72,8 @@ const ProfileSettingsPage = () => {
               <ChevronRight size={20} className="text-gray-400" />
             </Link>
 
-            {/* Настройки уведомлений */}
-            <Link href="/profile/settings/notifications" className="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors">
+            {/* Notifications */}
+            <Link href="/profiles/settings/notifications" className="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors">
               <div className="flex items-center gap-3">
                 <Bell size={20} className="text-gray-600" />
                 <span className="text-gray-900">Настройки уведомлений</span>
@@ -85,8 +81,8 @@ const ProfileSettingsPage = () => {
               <ChevronRight size={20} className="text-gray-400" />
             </Link>
 
-            {/* Настройки приватности */}
-            <Link href="/profile/settings/privacy" className="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors">
+            {/* Privacy */}
+            <Link href="/profiles/settings/privacy" className="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors">
               <div className="flex items-center gap-3">
                 <Shield size={20} className="text-gray-600" />
                 <span className="text-gray-900">Настройки приватности</span>
@@ -94,8 +90,8 @@ const ProfileSettingsPage = () => {
               <ChevronRight size={20} className="text-gray-400" />
             </Link>
 
-            {/* Безопасность */}
-            <Link href="/profile/settings/security" className="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors">
+            {/* Security */}
+            <Link href="/profiles/settings/security" className="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors">
               <div className="flex items-center gap-3">
                 <Lock size={20} className="text-gray-600" />
                 <span className="text-gray-900">Безопасность</span>
@@ -103,8 +99,8 @@ const ProfileSettingsPage = () => {
               <ChevronRight size={20} className="text-gray-400" />
             </Link>
 
-            {/* Привязка соцсетей */}
-            <Link href="/profile/settings/social" className="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors">
+            {/* Social Networks */}
+            <Link href="/profiles/settings/social" className="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors">
               <div className="flex items-center gap-3">
                 <LinkIcon size={20} className="text-gray-600" />
                 <span className="text-gray-900">Привязка соцсетей</span>
@@ -112,8 +108,8 @@ const ProfileSettingsPage = () => {
               <ChevronRight size={20} className="text-gray-400" />
             </Link>
 
-            {/* Настройки поиска */}
-            <Link href="/profile/settings/search" className="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors">
+            {/* Search Settings */}
+            <Link href="/profiles/settings/search" className="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors">
               <div className="flex items-center gap-3">
                 <Search size={20} className="text-gray-600" />
                 <span className="text-gray-900">Настройки поиска</span>
@@ -121,8 +117,8 @@ const ProfileSettingsPage = () => {
               <ChevronRight size={20} className="text-gray-400" />
             </Link>
 
-            {/* Служба поддержки */}
-            <Link href="/profile/settings/support" className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors">
+            {/* Support */}
+            <Link href="/profiles/settings/support" className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors">
               <div className="flex items-center gap-3">
                 <HelpCircle size={20} className="text-gray-600" />
                 <span className="text-gray-900">Служба поддержки</span>
@@ -131,7 +127,7 @@ const ProfileSettingsPage = () => {
             </Link>
           </div>
 
-          {/* Социальные сети */}
+          {/* Social Media Icons */}
           <div className="flex justify-center gap-6 py-6">
             <button className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm">
               <svg className="w-6 h-6 text-gray-600" viewBox="0 0 24 24" fill="currentColor">
@@ -148,14 +144,14 @@ const ProfileSettingsPage = () => {
             </button>
           </div>
 
-          {/* Выйти из аккаунта */}
-          <div className="bg-white rounded-lg p-4">
+          {/* Logout */}
+          <div className="bg-white rounded-xl p-4">
             <button className="w-full text-red-500 font-medium py-3 text-center">
               Выйти из аккаунта
             </button>
           </div>
 
-          {/* Версия */}
+          {/* Version */}
           <div className="text-center py-4">
             <p className="text-gray-400 text-sm">Версия 2.1.0</p>
           </div>

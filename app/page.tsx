@@ -6,6 +6,26 @@ import ListingCard from '@/components/ListingCard';
 import Link from 'next/link';
 import { Search, User, Filter } from 'lucide-react';
 
+const arr = [
+  {
+    id: 1,
+    text: "Аренда",
+    icon: "/arenda.svg",
+    href: "/rent-to-own"
+  },
+  {
+    id: 2,
+    text: "Рефинансирование",
+    icon: "/refinance.svg",
+    href: "/refinance"
+  },
+  {
+    id: 3,
+    text: "Аренда с выкупом",
+    icon: "/arenda_s_vykupom.svg",
+    href: "/arenda-s-vykupom"
+  }
+]
 interface Listing {
   id: string;
   title: string;
@@ -60,7 +80,7 @@ function HomeContent() {
         {/* Header */}
         <header className="bg-white px-4 py-3">
           <div className="max-w-screen-md mx-auto flex items-center justify-between">
-            <div className="text-2xl font-bold">md.kz</div>
+            <div className="text-md font-light">md.kz</div>
             <div className="w-10 h-10 bg-gray-200 rounded-full animate-pulse"></div>
           </div>
         </header>
@@ -102,7 +122,7 @@ function HomeContent() {
       </>
     );
   }
-
+console.log(listings)
   return (
     <>
       {/* Header */}
@@ -131,7 +151,7 @@ function HomeContent() {
               onClick={() => setIsFilterModalOpen(true)}
               className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
             >
-              <Filter size={20} />
+              <img src="/filter_icon.svg" alt="filter" className="w-5 h-5" />
             </button>
           </div>
         </div>
@@ -141,18 +161,18 @@ function HomeContent() {
       {isFilterModalOpen && (
         <div className="fixed inset-0 z-50 overflow-hidden">
           {/* Backdrop */}
-          <div 
+          <div
             className="absolute inset-0 bg-black bg-opacity-50 transition-opacity"
             onClick={() => setIsFilterModalOpen(false)}
           ></div>
-          
+
           {/* Modal Panel */}
           <div className="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-xl transform transition-transform">
             <div className="flex flex-col h-full">
               {/* Header */}
               <div className="flex items-center justify-between p-4 border-b">
                 <div className="flex items-center gap-3">
-                  <button 
+                  <button
                     onClick={() => setIsFilterModalOpen(false)}
                     className="text-gray-500 hover:text-gray-700"
                   >
@@ -160,12 +180,12 @@ function HomeContent() {
                   </button>
                   <h2 className="text-lg font-semibold">Фильтры</h2>
                 </div>
-                <button 
+                <button
                   onClick={() => setIsFilterModalOpen(false)}
                   className="text-gray-500 hover:text-gray-700"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
               </div>
@@ -195,14 +215,14 @@ function HomeContent() {
                     </div>
                   </div>
                   <div className="flex gap-3">
-                    <input 
-                      type="text" 
-                      placeholder="От 0" 
+                    <input
+                      type="text"
+                      placeholder="От 0"
                       className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm"
                     />
-                    <input 
-                      type="text" 
-                      placeholder="До ∞" 
+                    <input
+                      type="text"
+                      placeholder="До ∞"
                       className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm"
                     />
                   </div>
@@ -276,7 +296,7 @@ function HomeContent() {
 
               {/* Footer */}
               <div className="p-4 border-t">
-                <button 
+                <button
                   onClick={() => setIsFilterModalOpen(false)}
                   className="w-full py-3 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors"
                 >
@@ -289,100 +309,85 @@ function HomeContent() {
       )}
 
       {/* Hero Banner */}
-      <div className="mx-4 mb-6">
-        <div className="max-w-screen-md mx-auto">
-          <div 
-            className="relative h-48 rounded-xl overflow-hidden bg-cover bg-center"
-            style={{
-              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/images/placeholder.jpg')`
-            }}
-          >
-            <div className="absolute inset-0 flex flex-col justify-center items-start p-6 text-white">
-              <h1 className="text-2xl font-bold mb-2">
-                Найдите свою идеальную квартиру
-              </h1>
-              <p className="text-sm opacity-90">
-                Более 10 000 вариантов жилья в базе
-              </p>
-            </div>
-          </div>
+      <div
+        className="relative h-48 overflow-hidden bg-cover bg-center mb-2"
+        style={{
+          backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6)), url('/main_img.png')`
+        }}
+      >
+        <div className="absolute inset-0 flex flex-col justify-center items-start p-6 text-white">
+          <h1 className="text-2xl font-bold mb-2">
+            Найдите свою идеальную квартиру
+          </h1>
+          <p className="text-sm opacity-90">
+            Более 10 000 вариантов жилья в базе
+          </p>
         </div>
       </div>
 
       {/* Service buttons */}
-      <div className="px-4 mb-6">
-        <div className="max-w-screen-md mx-auto grid grid-cols-3 gap-4">
+      <div className="px-2 mb-2">
+        <div className="flex justify-center">
+          <div className="grid grid-cols-3 gap-4">
           {/* Аренда */}
-          <Link href="/rent-to-own" className="flex flex-col items-center p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow">
-            <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-2">
-              <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-              </svg>
-            </div>
-            <span className="text-sm font-medium text-center text-gray-700">Аренда</span>
-          </Link>
+          {arr.map((item) => {
 
-          {/* Рефинансирование */}
-          <Link href="/refinance.html" className="flex flex-col items-center p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow">
-            <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-2">
-              <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
-            </div>
-            <span className="text-sm font-medium text-center text-gray-700">Рефинансирование</span>
-          </Link>
-
-          {/* Аренда с выкупом */}
-          <Link href="/arenda_s_vykupom.html" className="flex flex-col items-center p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow">
-            <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-2">
-              <svg className="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
-            </div>
-            <span className="text-sm font-medium text-center text-gray-700">Аренда с выкупом</span>
-          </Link>
+            return (
+              <Link key={item.id} href={item.href} className="flex flex-col items-center">
+                <div className="flex items-center justify-center mb-2">
+                  <img src={item.icon} alt="Logo" />
+                </div>
+                <span className="text-xs font-sm text-center text-[#4FD1C5]">{item.text}</span>
+              </Link>
+            )
+          })}
+          </div>
         </div>
       </div>
 
-                           {/* Listings grid */}
-        <div className="px-4 pb-4">
-          <div className="max-w-screen-md mx-auto">
-            <div className="grid grid-cols-2 gap-3">
-              {listings.map((listing) => (
-                <div key={listing.id} className="bg-white rounded-lg shadow-sm overflow-hidden">
-                  <Link href={`/listings/view/${listing.id}`} className="block">
-                    <div className="relative">
-                      <img
-                        src={listing.imageSrc || '/images/placeholder.jpg'}
-                        alt={listing.title}
-                        className="w-full h-24 object-cover"
-                      />
+      {/* Listings grid */}
+      <div className="px-4 pb-4 ">
+        <div className="max-w-screen-md mx-auto">
+          <div className="grid grid-cols-2 gap-3">
+            {/* <div 
+            className='border border-[#9CA3AF] rounded-xl'
+            >
+asd
+            </div> */}
+            {listings.map((listing) => (
+              <div key={listing.id} className="bg-white rounded-xl border border-[#F3F4F6] p-1">
+                <Link href={`/listings/view/${listing.id}`} className="block">
+                  <div className="relative">
+                    <img
+                      src={listing.imageSrc || '/images/placeholder.jpg'}
+                      alt={listing.title}
+                      className="w-full h-24 object-cover"
+                    />
+                  </div>
+                  <div className="p-2">
+                    <div className="text-sm font-bold text-gray-900 mb-1">
+                      {listing.roomCount}-комнатная квартира
                     </div>
-                    <div className="p-2">
-                      <div className="text-sm font-bold text-gray-900 mb-1">
-                        {listing.roomCount}-комнатная квартира
-                      </div>
-                      <div className="flex items-center text-xs text-gray-600 mb-1">
-                        <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                        </svg>
-                        <span>ул. {listing.street || listing.district}, {listing.roomCount}</span>
-                        <span className="ml-auto">{listing.guestCount || 120} м²</span>
-                      </div>
-                      <div className="text-sm font-semibold text-teal-600 mb-1">
-                        {new Intl.NumberFormat('ru-RU').format(listing.price)} ₸/мес
-                      </div>
-                      <button className="text-xs text-teal-600 bg-teal-50 px-2 py-1 rounded-full border border-teal-200 hover:bg-teal-100 transition-colors">
-                        Подробнее
-                      </button>
+                    <div className="flex items-center text-xs text-gray-600 mb-1">
+                      <img src="/location_icon.svg" alt="location" />
+                      <span className='text-[#6B7280]'>ул. {listing.street || listing.district}, {listing.roomCount}</span>
+                      <span>{listing.guestCount || 120} м²</span>
                     </div>
-                  </Link>
-                </div>
-              ))}
-            </div>
+                    <div className='flex justify-between items-center'>
+                    <div className="text-xs font-semibold text-[#2DD4BF] mb-1">
+                      {new Intl.NumberFormat('ru-RU').format(listing.price)} ₸/мес
+                    </div>
+                    <button className="text-xs text-[#2DD4BF] px-2 py-1 rounded-full border border-teal-200 hover:bg-teal-100 transition-colors">
+                      Подробнее
+                    </button>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            ))}
           </div>
         </div>
+      </div>
     </>
   );
 }
@@ -400,7 +405,7 @@ export default function Home() {
           <div className="px-4 py-4">
             <div className="max-w-screen-md mx-auto">
               <div className="grid grid-cols-2 gap-4">
-                {[1,2,3,4].map((i) => (
+                {[1, 2, 3, 4].map((i) => (
                   <div key={i} className="bg-white rounded-lg shadow animate-pulse">
                     <div className="h-32 bg-gray-200 rounded-t-lg"></div>
                     <div className="p-4">

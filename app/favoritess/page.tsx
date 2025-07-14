@@ -89,7 +89,7 @@ export default function FavoritesPage() {
     return (
       <>
         {/* Header */}
-        <header className="bg-white px-4 py-4">
+        <header className="bg-white px-4 py-4 border-b border-gray-200">
           <div className="max-w-screen-md mx-auto flex items-center justify-between">
             <h1 className="text-xl font-semibold">Избранное</h1>
             <div className="h-6 w-20 bg-gray-200 rounded animate-pulse"></div>
@@ -122,7 +122,7 @@ export default function FavoritesPage() {
     return (
       <>
         {/* Header */}
-        <header className="bg-white px-4 py-4">
+        <header className="bg-white px-4 py-4 border-b border-gray-200">
           <div className="max-w-screen-md mx-auto flex items-center justify-between">
             <h1 className="text-xl font-semibold">Избранное</h1>
             <span className="text-gray-500">0 объектов</span>
@@ -154,7 +154,7 @@ export default function FavoritesPage() {
   return (
     <>
       {/* Header */}
-      <header className="bg-white px-4 py-4">
+      <header className="bg-white px-4 py-4 border-b border-gray-200">
         <div className="max-w-screen-md mx-auto flex items-center justify-between">
           <h1 className="text-xl font-semibold">Избранное</h1>
           <span className="text-gray-500">{favorites.length} объектов</span>
@@ -165,27 +165,51 @@ export default function FavoritesPage() {
       <div className="bg-gray-50 min-h-screen pb-20">
         <div className="max-w-screen-md mx-auto">
           {favorites.map((listing) => (
-            <div key={listing.id} className="bg-white border-b">
+            <div key={listing.id} className="bg-white border-b border-gray-200">
               <Link href={`/listings/view/${listing.id}`} className="block">
-                <div className="p-4">
-                  {/* Price and heart */}
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex items-center gap-2">
-                      <h2 className="text-xl font-semibold text-gray-900">
-                        {formatPrice(listing.price)} ₽
-                      </h2>
-                      {listing.priceTag && (
-                        <span 
-                          className={`px-2 py-1 rounded-full text-xs font-medium ${
-                            listing.priceTag === 'снижена' 
-                              ? 'bg-teal-100 text-teal-700' 
-                              : 'bg-red-100 text-red-700'
-                          }`}
-                        >
-                          Цена {listing.priceTag}
-                        </span>
-                      )}
+                <div className="p-4 flex gap-4">
+                  {/* Image */}
+                  <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
+                    <img
+                      src={listing.imageSrc}
+                      alt={listing.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  {/* Content */}
+                  <div className="flex-1 min-w-0">
+                    {/* Price */}
+                    <div className="text-xl font-semibold text-gray-900 mb-1">
+                      {formatPrice(listing.price)} ₽
                     </div>
+
+                    {/* Property info */}
+                    <div className="text-[#666666] mb-2 text-sm font-light">
+                      {listing.rooms} комн. • {listing.area} м² • {listing.floor}/{listing.totalFloors} эт.
+                    </div>
+
+                    {/* Address */}
+                    <div className="text-[#999999] font-light mb-2 text-sm">
+                      {listing.street}
+                    </div>
+
+                    {/* Price tag */}
+                    {listing.priceTag && (
+                      <span 
+                        className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
+                          listing.priceTag === 'снижена' 
+                            ? 'bg-teal-500 text-white' 
+                            : 'bg-red-500 text-white'
+                        }`}
+                      >
+                        Цена {listing.priceTag}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Heart button */}
+                  <div className="flex-shrink-0">
                     <button
                       onClick={(e) => {
                         e.preventDefault();
@@ -195,30 +219,6 @@ export default function FavoritesPage() {
                     >
                       <Heart size={24} fill="currentColor" />
                     </button>
-                  </div>
-
-                  {/* Property info */}
-                  <div className="text-blue-600 mb-3 text-sm">
-                    {listing.rooms} комн. • {listing.area} м² • {listing.floor}/{listing.totalFloors} эт.
-                  </div>
-
-                  {/* Image and address */}
-                  <div className="flex gap-4">
-                    <div className="relative w-24 h-20 rounded overflow-hidden flex-shrink-0">
-                      <img
-                        src={listing.imageSrc}
-                        alt={listing.title}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute bottom-1 right-1 bg-black/60 text-white px-1.5 py-0.5 rounded text-xs">
-                        1
-                      </div>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="text-gray-900 font-medium mb-1 truncate">
-                        {listing.street}
-                      </div>
-                    </div>
                   </div>
                 </div>
               </Link>

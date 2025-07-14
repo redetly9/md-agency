@@ -24,9 +24,9 @@ const Footer: React.FC = () => {
                     </Link>
                     
                     <Link 
-                        href="/favorites" 
+                        href="/favoritess" 
                         className={`flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-colors h-16 ${
-                            isActive('/favorites') ? 'text-primary' : 'text-gray-600'
+                            isActive('/favoritess') ? 'text-primary' : 'text-gray-600'
                         }`}
                     >
                         <Heart size={24} />
@@ -54,9 +54,9 @@ const Footer: React.FC = () => {
                     </Link>
                     
                     <Link 
-                        href="/profile" 
+                        href="/profiles" 
                         className={`flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-colors h-16 ${
-                            isActive('/profile') ? 'text-primary' : 'text-gray-600'
+                            isActive('/profiles') ? 'text-primary' : 'text-gray-600'
                         }`}
                     >
                         <User size={24} />

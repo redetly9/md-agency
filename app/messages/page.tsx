@@ -21,30 +21,30 @@ const mockMessages: Message[] = [
   {
     id: '1',
     name: 'Анна Петрова',
-    avatar: '/images/avatar1.jpg',
+    avatar: 'https://images.unsplash.com/photo-1494790108755-2616b2e0c4fb?w=100&h=100&fit=crop&crop=face',
     lastMessage: 'Когда можно посмотреть квартиру?',
     time: '14:22',
     isOnline: true,
     isRead: true,
     unreadCount: 2,
     hasImage: true,
-    imagePreview: '/images/apartment1.jpg'
+    imagePreview: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=60&h=60&fit=crop'
   },
   {
     id: '2',
     name: 'Михаил Иванов',
-    avatar: '/images/avatar2.jpg',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face',
     lastMessage: 'Здравствуйте, интересует стоимость...',
     time: '12:45',
     isOnline: false,
     isRead: true,
     hasImage: true,
-    imagePreview: '/images/apartment2.jpg'
+    imagePreview: 'https://images.unsplash.com/photo-1560448075-bb485b067938?w=60&h=60&fit=crop'
   },
   {
     id: '3',
     name: 'Елена Сидорова',
-    avatar: '/images/avatar3.jpg',
+    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face',
     lastMessage: 'Спасибо за информацию!',
     time: 'Вчера',
     isOnline: false,
@@ -53,19 +53,19 @@ const mockMessages: Message[] = [
   {
     id: '4',
     name: 'Дмитрий Козлов',
-    avatar: '/images/avatar4.jpg',
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face',
     lastMessage: 'Можно узнать адрес объекта?',
     time: 'Вчера',
     isOnline: true,
     isRead: false,
     unreadCount: 1,
     hasImage: true,
-    imagePreview: '/images/apartment3.jpg'
+    imagePreview: 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=60&h=60&fit=crop'
   },
   {
     id: '5',
     name: 'Ольга Новикова',
-    avatar: '/images/avatar5.jpg',
+    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop&crop=face',
     lastMessage: 'Договорились, до встреч!',
     time: 'Пн',
     isOnline: false,
@@ -83,14 +83,14 @@ export default function MessagesPage() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white px-4 py-4 border-b border-gray-200">
+      <header className="bg-white px-4 py-4">
         <div className="max-w-screen-md mx-auto">
           <h1 className="text-2xl font-bold text-gray-900">Сообщения</h1>
         </div>
       </header>
 
       {/* Search */}
-      <div className="bg-white px-4 pb-4">
+      <div className="bg-white px-4 pb-4 border-b border-gray-200">
         <div className="max-w-screen-md mx-auto">
           <div className="relative">
             <Search size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -99,7 +99,7 @@ export default function MessagesPage() {
               placeholder="Поиск по чатам..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 bg-gray-50 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-colors"
+              className="w-full pl-10 pr-4 py-3 bg-[#F5F5F5] rounded-[38px] text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-colors"
             />
           </div>
         </div>
@@ -129,11 +129,11 @@ export default function MessagesPage() {
                   {/* Avatar */}
                   <div className="relative flex-shrink-0 mr-3">
                     <div className="w-12 h-12 bg-gray-300 rounded-full overflow-hidden">
-                      <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
-                        <span className="text-white font-medium text-sm">
-                          {message.name.split(' ').map(n => n[0]).join('')}
-                        </span>
-                      </div>
+                      <img 
+                        src={message.avatar} 
+                        alt={message.name}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     {message.isOnline && (
                       <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 border-2 border-white rounded-full"></div>
@@ -147,9 +147,9 @@ export default function MessagesPage() {
                         {message.name}
                       </h3>
                       <div className="flex items-center space-x-2">
-                        <span className="text-sm text-gray-500">{message.time}</span>
+                        <span className="text-sm text-[#999999] font-light">{message.time}</span>
                         {message.unreadCount && (
-                          <div className="w-5 h-5 bg-primary rounded-full flex items-center justify-center">
+                          <div className="w-5 h-5 bg-teal-500 rounded-full flex items-center justify-center">
                             <span className="text-xs text-white font-medium">
                               {message.unreadCount}
                             </span>
@@ -162,7 +162,7 @@ export default function MessagesPage() {
                       {/* Read indicator */}
                       <div className="flex-shrink-0">
                         <svg 
-                          className={`w-4 h-4 ${message.isRead ? 'text-blue-500' : 'text-gray-400'}`} 
+                          className={`w-4 h-4 ${message.isRead ? 'text-teal-500' : 'text-gray-400'}`} 
                           fill="none" 
                           stroke="currentColor" 
                           viewBox="0 0 24 24"
@@ -178,18 +178,23 @@ export default function MessagesPage() {
                       
                       {/* Message preview */}
                       <p className={`text-sm truncate flex-1 ${
-                        message.unreadCount ? 'text-gray-900 font-medium' : 'text-gray-600'
+                        message.unreadCount ? 'text-gray-900 font-light' : 'text-[#666666] font-light'
+                      
                       }`}>
                         {message.lastMessage}
                       </p>
-                      
-                      {/* Image preview */}
-                      {message.hasImage && (
-                        <div className="w-8 h-8 bg-gray-200 rounded flex-shrink-0 overflow-hidden">
-                          <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400"></div>
-                        </div>
-                      )}
                     </div>
+                    
+                    {/* Image preview under message */}
+                    {message.hasImage && (
+                      <div className="mt-2 ml-6">
+                        <img 
+                          src={message.imagePreview} 
+                          alt="preview"
+                          className="w-12 h-12 rounded object-cover"
+                        />
+                      </div>
+                    )}
                   </div>
                 </Link>
               ))}
