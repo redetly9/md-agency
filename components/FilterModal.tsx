@@ -154,27 +154,35 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
     setShowRegionDropdown(false);
   };
   
-  if (!isOpen) return null;
-  
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-[100] flex items-start justify-center overflow-hidden">
-      <div className="bg-white w-full max-w-md rounded-lg shadow-lg flex flex-col h-[100vh]">
-        <div className="p-4 border-b flex justify-between items-center">
+    <div 
+      className={`fixed inset-0 z-[100] overflow-hidden transition-opacity duration-300 ${
+        isOpen 
+          ? 'bg-black bg-opacity-50 pointer-events-auto' 
+          : 'bg-transparent bg-opacity-0 pointer-events-none'
+      }`}
+      onClick={onClose}
+    >
+      <div 
+        className={`fixed right-0 top-0 h-full w-[80%] bg-white shadow-xl transform transition-transform duration-300 ease-in-out flex flex-col ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="p-3 border-b flex justify-between items-center">
           <div className="flex items-center">
             <button onClick={onClose} className="mr-2 text-gray-500">
-              <X size={24} />
+              <X size={20} />
             </button>
-            <h2 className="text-xl font-medium">Фильтр</h2>
+            <h2 className="text-base font-medium">Фильтр</h2>
           </div>
           <button 
             onClick={handleReset} 
-            className="text-blue-500 font-medium"
+            className="text-blue-500 font-medium text-sm"
           >
             Сбросить
           </button>
         </div>
         
-        <div className="p-4 overflow-y-auto flex-grow" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+        <div className="p-3 overflow-y-auto flex-grow scrollbar-hide">
           <style jsx global>{`
             ::-webkit-scrollbar {
               display: none;
@@ -183,10 +191,10 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
           
           {/* Регион */}
           <div className="mb-4" ref={regionRef}>
-            <label className="block text-gray-700 mb-2">Регион</label>
+            <label className="block text-gray-700 mb-2 text-sm">Регион</label>
             <div className="relative">
               <div 
-                className="w-full p-3 border rounded-lg flex justify-between items-center cursor-pointer"
+                className="w-full p-2 border rounded flex justify-between items-center cursor-pointer text-xs"
                 onClick={() => setShowRegionDropdown(!showRegionDropdown)}
               >
                 <span>{getRegionName(region)}</span>
@@ -198,17 +206,17 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
                     }}
                     className="text-gray-400"
                   >
-                    <X size={16} />
+                    <X size={14} />
                   </button>
                 )}
               </div>
               
               {showRegionDropdown && (
-                <div className="absolute z-10 mt-1 w-full bg-white border rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                <div className="absolute z-10 mt-1 w-full bg-white border rounded shadow-lg max-h-48 overflow-y-auto">
                   {regions.map((r) => (
                     <div 
                       key={r.id}
-                      className={`p-3 cursor-pointer hover:bg-gray-100 ${region === r.id ? 'bg-blue-50 text-blue-500' : ''}`}
+                      className={`p-2 cursor-pointer hover:bg-gray-100 text-xs ${region === r.id ? 'bg-blue-50 text-blue-500' : ''}`}
                       onClick={() => selectRegion(r.id)}
                     >
                       {r.name}
@@ -230,13 +238,13 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
           
           {/* Количество комнат */}
           <div className="mb-4">
-            <label className="block text-gray-700 mb-2">Количество комнат</label>
-            <div className="grid grid-cols-5 gap-2">
+            <label className="block text-gray-700 mb-2 text-sm">Количество комнат</label>
+            <div className="grid grid-cols-5 gap-1.5">
               {[1, 2, 3, 4, '5+'].map((room, index) => (
                 <button
                   key={index}
                   onClick={() => toggleRoom(typeof room === 'string' ? 5 : room as number)}
-                  className={`py-3 border rounded-lg ${
+                  className={`py-2 border rounded text-xs min-h-[28px] flex items-center justify-center ${
                     rooms.includes(typeof room === 'string' ? 5 : room as number)
                       ? 'bg-blue-500 text-white border-blue-500'
                       : 'bg-white text-gray-700'
@@ -250,67 +258,67 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
           
           {/* Цена */}
           <div className="mb-4">
-            <label className="block text-gray-700 mb-2">Цена, тг</label>
+            <label className="block text-gray-700 mb-2 text-sm">Цена, тг</label>
             <div className="grid grid-cols-2 gap-2">
               <input
                 type="number"
                 placeholder="от"
                 value={priceFrom}
                 onChange={(e) => setPriceFrom(e.target.value)}
-                className="p-3 border rounded-lg"
+                className="p-2 border rounded text-xs"
               />
               <input
                 type="number"
                 placeholder="до"
                 value={priceTo}
                 onChange={(e) => setPriceTo(e.target.value)}
-                className="p-3 border rounded-lg"
+                className="p-2 border rounded text-xs"
               />
             </div>
           </div>
           
           {/* Общая площадь */}
           <div className="mb-4">
-            <label className="block text-gray-700 mb-2">Общая площадь, м²</label>
+            <label className="block text-gray-700 mb-2 text-sm">Общая площадь, м²</label>
             <div className="grid grid-cols-2 gap-2">
               <input
                 type="number"
                 placeholder="от"
                 value={areaFrom}
                 onChange={(e) => setAreaFrom(e.target.value)}
-                className="p-3 border rounded-lg"
+                className="p-2 border rounded text-xs"
               />
               <input
                 type="number"
                 placeholder="до"
                 value={areaTo}
                 onChange={(e) => setAreaTo(e.target.value)}
-                className="p-3 border rounded-lg"
+                className="p-2 border rounded text-xs"
               />
             </div>
           </div>
           
           {/* Этаж */}
           <div className="mb-4">
-            <label className="block text-gray-700 mb-2">Этаж</label>
+            <label className="block text-gray-700 mb-2 text-sm">Этаж</label>
             <div className="grid grid-cols-2 gap-2 mb-2">
               <input
                 type="number"
                 placeholder="от"
                 value={floorFrom}
                 onChange={(e) => setFloorFrom(e.target.value)}
-                className="p-3 border rounded-lg"
+                className="p-2 border rounded text-xs"
               />
               <input
                 type="number"
                 placeholder="до"
                 value={floorTo}
                 onChange={(e) => setFloorTo(e.target.value)}
-                className="p-3 border rounded-lg"
+                className="p-2 border rounded text-xs"
               />
             </div>
             <div className="grid grid-cols-2 gap-2">
-              <div className="p-3 border rounded-lg flex items-center">
+              <div className="p-2 border rounded flex items-center">
                 <input
                   type="checkbox"
                   id="notFirstFloor"
@@ -318,9 +326,9 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
                   onChange={(e) => setNotFirstFloor(e.target.checked)}
                   className="mr-2"
                 />
-                <label htmlFor="notFirstFloor">Не первый</label>
+                <label htmlFor="notFirstFloor" className="text-xs">Не первый</label>
               </div>
-              <div className="p-3 border rounded-lg flex items-center">
+              <div className="p-2 border rounded flex items-center">
                 <input
                   type="checkbox"
                   id="notLastFloor"
@@ -328,38 +336,38 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
                   onChange={(e) => setNotLastFloor(e.target.checked)}
                   className="mr-2"
                 />
-                <label htmlFor="notLastFloor">Не последний</label>
+                <label htmlFor="notLastFloor" className="text-xs">Не последний</label>
               </div>
             </div>
           </div>
           
           {/* От застройщика */}
-          <div className="mb-4 flex items-center">
-            <label className="flex-grow text-gray-700">От застройщика</label>
+          <div className="mb-3 flex items-center">
+            <label className="flex-grow text-gray-700 text-sm">От застройщика</label>
             <input
               type="checkbox"
               checked={fromDeveloper}
               onChange={(e) => setFromDeveloper(e.target.checked)}
-              className="w-5 h-5"
+              className="w-4 h-4"
             />
           </div>
           
           {/* От Крыша Агентов */}
-          <div className="mb-4 flex items-center">
-            <label className="flex-grow text-gray-700">От Крыша Агентов</label>
+          <div className="mb-3 flex items-center">
+            <label className="flex-grow text-gray-700 text-sm">От Крыша Агентов</label>
             <input
               type="checkbox"
               checked={fromAgents}
               onChange={(e) => setFromAgents(e.target.checked)}
-              className="w-5 h-5"
+              className="w-4 h-4"
             />
           </div>
         </div>
         
-        <div className="p-4 border-t sticky bottom-0 bg-white">
+        <div className="p-3 border-t sticky bottom-0 bg-white">
           <button
             onClick={applyFilters}
-            className="w-full py-3 bg-blue-500 text-white rounded-lg font-medium"
+            className="w-full py-2.5 bg-blue-500 text-white rounded-lg font-medium text-sm"
           >
             Показать результаты
           </button>

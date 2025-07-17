@@ -99,7 +99,7 @@ export default function MessagesPage() {
               placeholder="Поиск по чатам..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 bg-[#F5F5F5] rounded-[38px] text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-colors"
+              className="w-full pl-10 pr-4 py-3 bg-[#F5F5F5] rounded-[38px] text-[#999999] text-sm font-light placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-colors"
             />
           </div>
         </div>
@@ -191,7 +191,7 @@ export default function MessagesPage() {
                         <img 
                           src={message.imagePreview} 
                           alt="preview"
-                          className="w-12 h-12 rounded object-cover"
+                          className="w-[32px] h-[24px] rounded object-cover"
                         />
                       </div>
                     )}

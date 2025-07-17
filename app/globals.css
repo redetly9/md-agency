@@ -49,6 +49,16 @@ body {
   z-index: 0 !important;
 }
 
+/* Скрытие скроллбара */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
+}
+
 .rdrMonth {
   width: 100% !important;
 }

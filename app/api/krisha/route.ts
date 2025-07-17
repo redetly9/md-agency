@@ -27,6 +27,13 @@ export async function GET(request: Request) {
       const [district, street] = subtitle.split(',').map(item => item.trim());
       const link = $(element).find('a').attr('href');
       const id = link ? link.match(/\/show\/(\d+)/)?.[1] : null;
+      
+      // Парсим площадь из заголовка или описания
+      const roomCount = title.match(/\d+/)?.[0] || '';
+      const area = $(element).find('.a-card__subtitle-additional').text().match(/(\d+\.?\d*)\s*м²/)?.[1] ||
+                   title.match(/(\d+\.?\d*)\s*м²/)?.[1] ||
+                   $(element).find('.a-card__stats-item').text().match(/(\d+\.?\d*)\s*м²/)?.[1] || 
+                   '60'; // значение по умолчанию
 
       listings.push({
         id,
@@ -37,6 +44,8 @@ export async function GET(request: Request) {
         city,
         district: district || 'Неизвестный район',
         street: street || 'Неизвестная улица',
+        roomCount: parseInt(roomCount) || 1,
+        area: area + ' м²',
         link: link ? `https://krisha.kz${link}` : null,
       });
     });

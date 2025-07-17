@@ -41,6 +41,7 @@ interface Listing {
   roomCount: number;
   bathroomCount: number;
   guestCount: number;
+  area: string;
   region: string | null;
   userId: string | null;
   country: string;
@@ -74,13 +75,31 @@ function HomeContent() {
     fetchListings();
   }, []);
 
+  // Логирование данных listings
+  useEffect(() => {
+    if (listings.length > 0) {
+      console.log('=== LISTINGS ARRAY ===');
+      console.log('Количество объявлений:', listings.length);
+      console.log('Полный массив listings:', listings);
+      console.log('=== ПЕРВОЕ ОБЪЯВЛЕНИЕ ===');
+      console.log('Первое объявление:', listings[0]);
+      console.log('=== СТРУКТУРА ОБЪЯВЛЕНИЯ ===');
+      if (listings[0]) {
+        Object.entries(listings[0]).forEach(([key, value]) => {
+          console.log(`${key}:`, value);
+        });
+      }
+      console.log('=== КОНЕЦ ВЫВОДА ===');
+    }
+  }, [listings]);
+
   if (isLoading) {
     return (
       <>
         {/* Header */}
         <header className="bg-white px-4 py-3">
           <div className="max-w-screen-md mx-auto flex items-center justify-between">
-            <div className="text-md font-light">md.kz</div>
+            <div className="text-2xl font-medium">md.kz</div>
             <div className="w-10 h-10 bg-gray-200 rounded-full animate-pulse"></div>
           </div>
         </header>
@@ -128,7 +147,7 @@ console.log(listings)
       {/* Header */}
       <header className="bg-white px-4 py-3">
         <div className="max-w-screen-md mx-auto flex items-center justify-between">
-          <Link href="/" className="text-2xl font-bold">
+          <Link href="/" className="text-2xl font-medium">
             md.kz
           </Link>
           <button className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
@@ -145,7 +164,7 @@ console.log(listings)
             <input
               type="text"
               placeholder="Поиск недвижимости..."
-              className="w-full pl-10 pr-12 py-3 bg-gray-50 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full pl-10 pr-12 py-3 bg-gray-50 rounded-2xl text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <button
               onClick={() => setIsFilterModalOpen(true)}
@@ -158,77 +177,80 @@ console.log(listings)
       </div>
 
       {/* Filter Modal */}
-      {isFilterModalOpen && (
-        <div className="fixed inset-0 z-50 overflow-hidden">
-          {/* Backdrop */}
-          <div
-            className="absolute inset-0 bg-black bg-opacity-50 transition-opacity"
-            onClick={() => setIsFilterModalOpen(false)}
-          ></div>
+      <div className={`fixed inset-0 z-50 overflow-hidden transition-opacity duration-300 ${
+        isFilterModalOpen 
+          ? 'bg-black bg-opacity-50 pointer-events-auto' 
+          : 'bg-transparent bg-opacity-0 pointer-events-none'
+      }`}>
+        {/* Backdrop */}
+        <div
+          className="absolute inset-0"
+          onClick={() => setIsFilterModalOpen(false)}
+        ></div>
 
-          {/* Modal Panel */}
-          <div className="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-xl transform transition-transform">
+        {/* Modal Panel */}
+        <div className={`absolute right-0 top-0 h-full w-[80%] bg-white shadow-xl transform transition-transform duration-300 ease-in-out ${isFilterModalOpen ? 'translate-x-0' : 'translate-x-full'}`}>
             <div className="flex flex-col h-full">
               {/* Header */}
-              <div className="flex items-center justify-between p-4 border-b">
-                <div className="flex items-center gap-3">
+              <div className="flex items-center justify-between p-3 border-b">
+                <div className="flex items-center gap-2">
                   <button
                     onClick={() => setIsFilterModalOpen(false)}
-                    className="text-gray-500 hover:text-gray-700"
+                    className="text-gray-500 hover:text-gray-700 text-sm"
                   >
                     Сбросить
                   </button>
-                  <h2 className="text-lg font-semibold">Фильтры</h2>
+                  <h2 className="text-base font-semibold">Фильтры</h2>
                 </div>
                 <button
                   onClick={() => setIsFilterModalOpen(false)}
                   className="text-gray-500 hover:text-gray-700"
                 >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
               </div>
 
               {/* Filter Content */}
-              <div className="flex-1 overflow-y-auto p-4">
+              <div className="flex-1 overflow-y-auto p-3">
                 {/* Property Type */}
-                <div className="mb-6">
-                  <h3 className="text-base font-medium mb-3">Тип недвижимости</h3>
-                  <div className="space-y-2">
+                <div className="mb-4">
+                  <h3 className="text-sm font-medium mb-2">Тип недвижимости</h3>
+                  <div className="space-y-1.5">
                     {['Квартиры', 'Дома', 'Комнаты', 'Офисы', 'Коммерческая недвижимость'].map((type) => (
                       <label key={type} className="flex items-center">
-                        <input type="checkbox" className="mr-3 rounded border-gray-300" />
-                        <span className="text-sm">{type}</span>
+                        <input type="checkbox" className="mr-2 rounded border-gray-300" />
+                        <span className="text-xs">{type}</span>
                       </label>
                     ))}
                   </div>
                 </div>
 
                 {/* Price Range */}
-                <div className="mb-6">
-                  <h3 className="text-base font-medium mb-3">Цена, ₸</h3>
-                  <div className="mb-3">
-                    <div className="h-2 bg-teal-500 rounded-full relative">
-                      <div className="absolute left-0 top-1/2 w-4 h-4 bg-teal-500 rounded-full transform -translate-y-1/2 -translate-x-1/2 border-2 border-white shadow"></div>
-                      <div className="absolute right-0 top-1/2 w-4 h-4 bg-teal-500 rounded-full transform -translate-y-1/2 translate-x-1/2 border-2 border-white shadow"></div>
+                <div className="mb-4">
+                  <h3 className="text-sm font-medium mb-2">Цена, ₸</h3>
+                  <div className="mb-2">
+                    <div className="h-1.5 bg-teal-500 rounded-full relative">
+                      <div className="absolute left-0 top-1/2 w-3 h-3 bg-teal-500 rounded-full transform -translate-y-1/2 -translate-x-1/2 border-2 border-white shadow"></div>
+                      <div className="absolute right-0 top-1/2 w-3 h-3 bg-teal-500 rounded-full transform -translate-y-1/2 translate-x-1/2 border-2 border-white shadow"></div>
                     </div>
                   </div>
-                  <div className="flex gap-3">
+                  <div className="flex gap-2 mb-2">
                     <input
                       type="text"
                       placeholder="От 0"
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                      className="flex-1 px-2 py-1.5 border border-gray-300 rounded-lg text-xs"
                     />
                     <input
                       type="text"
                       placeholder="До ∞"
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                      className="flex-1 px-2 py-1.5 border border-gray-300 rounded-lg text-xs"
                     />
                   </div>
-                  <div className="flex gap-2 mt-2">
+                  <div className="flex gap-1.5">
                     {['До 50К', '50-100К', '100-200К', '200К+'].map((range) => (
-                      <button key={range} className="px-3 py-1 text-xs bg-gray-100 rounded-full hover:bg-gray-200">
+                      <button key={range} className="px-2 py-1 text-xs bg-gray-100 rounded-full hover:bg-gray-200">
                         {range}
                       </button>
                     ))}
@@ -236,11 +258,11 @@ console.log(listings)
                 </div>
 
                 {/* Rooms */}
-                <div className="mb-6">
-                  <h3 className="text-base font-medium mb-3">Комнаты</h3>
-                  <div className="flex gap-2">
+                <div className="mb-4">
+                  <h3 className="text-sm font-medium mb-2">Комнаты</h3>
+                  <div className="grid grid-cols-6 gap-1">
                     {['Студия', '1', '2', '3', '4', '5+'].map((room) => (
-                      <button key={room} className="px-4 py-2 border border-gray-300 rounded-lg text-sm hover:border-blue-500 hover:text-blue-500">
+                      <button key={room} className="px-1 py-1 border border-gray-300 rounded text-xs hover:border-blue-500 hover:text-blue-500 min-h-[28px] flex items-center justify-center">
                         {room}
                       </button>
                     ))}
@@ -248,33 +270,33 @@ console.log(listings)
                 </div>
 
                 {/* Area */}
-                <div className="mb-6">
-                  <h3 className="text-base font-medium mb-3">Площадь, м²</h3>
-                  <div className="mb-3">
-                    <div className="h-2 bg-teal-500 rounded-full relative">
-                      <div className="absolute left-0 top-1/2 w-4 h-4 bg-teal-500 rounded-full transform -translate-y-1/2 -translate-x-1/2 border-2 border-white shadow"></div>
-                      <div className="absolute right-0 top-1/2 w-4 h-4 bg-teal-500 rounded-full transform -translate-y-1/2 translate-x-1/2 border-2 border-white shadow"></div>
+                <div className="mb-4">
+                  <h3 className="text-sm font-medium mb-2">Площадь, м²</h3>
+                  <div className="mb-2">
+                    <div className="h-1.5 bg-teal-500 rounded-full relative">
+                      <div className="absolute left-0 top-1/2 w-3 h-3 bg-teal-500 rounded-full transform -translate-y-1/2 -translate-x-1/2 border-2 border-white shadow"></div>
+                      <div className="absolute right-0 top-1/2 w-3 h-3 bg-teal-500 rounded-full transform -translate-y-1/2 translate-x-1/2 border-2 border-white shadow"></div>
                     </div>
                   </div>
                 </div>
 
                 {/* Floor */}
-                <div className="mb-6">
-                  <h3 className="text-base font-medium mb-3">Этаж</h3>
-                  <div className="space-y-2">
+                <div className="mb-4">
+                  <h3 className="text-sm font-medium mb-2">Этаж</h3>
+                  <div className="space-y-1.5">
                     {['Не первый этаж', 'Не последний этаж', 'Только первый этаж'].map((option) => (
                       <label key={option} className="flex items-center">
-                        <input type="checkbox" className="mr-3 rounded border-gray-300" />
-                        <span className="text-sm">{option}</span>
+                        <input type="checkbox" className="mr-2 rounded border-gray-300" />
+                        <span className="text-xs">{option}</span>
                       </label>
                     ))}
                   </div>
                 </div>
 
                 {/* Amenities */}
-                <div className="mb-6">
-                  <h3 className="text-base font-medium mb-3">Удобства</h3>
-                  <div className="space-y-3">
+                <div className="mb-4">
+                  <h3 className="text-sm font-medium mb-2">Удобства</h3>
+                  <div className="space-y-2">
                     {[
                       { name: 'Балкон/Лоджия', enabled: true },
                       { name: 'Лифт', enabled: false },
@@ -284,9 +306,9 @@ console.log(listings)
                       { name: 'Интернет Wi-Fi', enabled: false }
                     ].map((amenity) => (
                       <div key={amenity.name} className="flex items-center justify-between">
-                        <span className="text-sm">{amenity.name}</span>
-                        <div className={`w-12 h-6 rounded-full p-1 transition-colors ${amenity.enabled ? 'bg-teal-500' : 'bg-gray-300'}`}>
-                          <div className={`w-4 h-4 bg-white rounded-full transition-transform ${amenity.enabled ? 'translate-x-6' : 'translate-x-0'}`}></div>
+                        <span className="text-xs">{amenity.name}</span>
+                        <div className={`w-10 h-5 rounded-full p-0.5 transition-colors ${amenity.enabled ? 'bg-teal-500' : 'bg-gray-300'}`}>
+                          <div className={`w-4 h-4 bg-white rounded-full transition-transform ${amenity.enabled ? 'translate-x-5' : 'translate-x-0'}`}></div>
                         </div>
                       </div>
                     ))}
@@ -295,10 +317,10 @@ console.log(listings)
               </div>
 
               {/* Footer */}
-              <div className="p-4 border-t">
+              <div className="p-3 border-t">
                 <button
                   onClick={() => setIsFilterModalOpen(false)}
-                  className="w-full py-3 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors"
+                  className="w-full py-2.5 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors text-sm"
                 >
                   Показать результаты
                 </button>
@@ -306,27 +328,32 @@ console.log(listings)
             </div>
           </div>
         </div>
-      )}
 
       {/* Hero Banner */}
       <div
-        className="relative h-48 overflow-hidden bg-cover bg-center mb-2"
+        className="relative h-44 overflow-hidden bg-cover bg-center bg-no-repeat mb-2"
         style={{
-          backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6)), url('/main_img.png')`
+          backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6)), url('/main_img.jpeg')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center center',
+          imageRendering: 'crisp-edges',
+          WebkitBackgroundSize: 'cover',
+          MozBackgroundSize: 'cover',
+          OBackgroundSize: 'cover'
         }}
       >
-        <div className="absolute inset-0 flex flex-col justify-center items-start p-6 text-white">
-          <h1 className="text-2xl font-bold mb-2">
+        <div className="absolute inset-0 flex flex-col justify-center items-start pb-12 px-4 text-white">
+          <h1 className="text-2xl font-medium mb-1">
             Найдите свою идеальную квартиру
           </h1>
-          <p className="text-sm opacity-90">
+          <p className="text-base opacity-90 font-light">
             Более 10 000 вариантов жилья в базе
           </p>
         </div>
       </div>
 
       {/* Service buttons */}
-      <div className="px-2 mb-2">
+      <div className="px-6 mb-2">
         <div className="flex justify-center">
           <div className="grid grid-cols-3 gap-4">
           {/* Аренда */}
@@ -337,7 +364,7 @@ console.log(listings)
                 <div className="flex items-center justify-center mb-2">
                   <img src={item.icon} alt="Logo" />
                 </div>
-                <span className="text-xs font-sm text-center text-[#4FD1C5]">{item.text}</span>
+                <span className="text-[10px] font-normal text-center text-[#4FD1C5]">{item.text}</span>
               </Link>
             )
           })}
@@ -348,7 +375,7 @@ console.log(listings)
       {/* Listings grid */}
       <div className="px-4 pb-4 ">
         <div className="max-w-screen-md mx-auto">
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-2">
             {/* <div 
             className='border border-[#9CA3AF] rounded-xl'
             >
@@ -365,19 +392,19 @@ asd
                     />
                   </div>
                   <div className="p-2">
-                    <div className="text-sm font-bold text-gray-900 mb-1">
+                    <div className="text-xs font-medium text-gray-900 mb-1">
                       {listing.roomCount}-комнатная квартира
                     </div>
                     <div className="flex items-center text-xs text-gray-600 mb-1">
-                      <img src="/location_icon.svg" alt="location" />
-                      <span className='text-[#6B7280]'>ул. {listing.street || listing.district}, {listing.roomCount}</span>
-                      <span>{listing.guestCount || 120} м²</span>
+                      <img className='pr-2' src="/location_icon.svg" alt="location" />
+                      <span className='text-[#6B7280] text-xs font-light'>ул. {listing.street || listing.district}, {listing.roomCount}</span>
+                      <span className=''>{listing.area} м²</span>
                     </div>
                     <div className='flex justify-between items-center'>
                     <div className="text-xs font-semibold text-[#2DD4BF] mb-1">
                       {new Intl.NumberFormat('ru-RU').format(listing.price)} ₸/мес
                     </div>
-                    <button className="text-xs text-[#2DD4BF] px-2 py-1 rounded-full border border-teal-200 hover:bg-teal-100 transition-colors">
+                    <button className="text-xs text-[#2DD4BF] px-1 rounded-full border border-[#2DD4BF] hover:bg-teal-100 transition-colors">
                       Подробнее
                     </button>
                     </div>

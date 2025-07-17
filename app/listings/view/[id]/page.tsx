@@ -3,8 +3,10 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import Gallery from './_components/Gallery';
-import { GoogleMap, LoadScript, Marker, useJsApiLoader } from '@react-google-maps/api';
+import { ArrowLeft, User, Camera } from 'lucide-react';
+import { IoMdShare } from 'react-icons/io';
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
+
 
 interface DetailedListing {
   id: string;
@@ -37,70 +39,13 @@ interface DetailedListing {
   };
 }
 
-const parseDescription = (description: string) => {
-  const lines = description.split('\n').filter((line) => line.trim() !== '');
-  const details: { key: string; value: string }[] = [];
-
-  let currentKey = '';
-  lines.forEach((line) => {
-    const trimmedLine = line.trim();
-
-    if (currentKey === '') {
-      currentKey = trimmedLine;
-    } else {
-      details.push({ key: currentKey, value: trimmedLine });
-      currentKey = '';
-    }
-  });
-
-  return details;
-};
-
-const cleanDescription = (description: string) => {
-  // Удаляем теги button
-  const withoutButtonTags = description.replace(/<button[\s\S]*?<\/button>/gi, '');
-  // Удаляем слово "Перевести"
-  return withoutButtonTags.replace(/Перевести/g, '');
-};
-
-const mapContainerStyle = {
-  width: '100%',
-  height: '200px',
-  borderRadius: '0 0 12px 12px'
-};
-
-const defaultCenter = {
-  lat: 43.2220,
-  lng: 76.8512
-};
-
 export default function ListingViewPage() {
   const params = useParams();
   const [listing, setListing] = useState<DetailedListing | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [currentImage, setCurrentImage] = useState(0);
-  const [showHeader, setShowHeader] = useState(false);
-  const [touchStart, setTouchStart] = useState(0);
-  const [touchEnd, setTouchEnd] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragPosition, setDragPosition] = useState(0);
-  const [mapCenter, setMapCenter] = useState(defaultCenter);
-  const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: "AIzaSyCqVpS-EXUupXT-NHrv4cvvK6LyaKE_cvw",
-    libraries: ['places']
-  });
-
-  console.log('listing', listing);
-  
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowHeader(window.scrollY > 300);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const [showFullDescription, setShowFullDescription] = useState(false);
+  const [isFavorited, setIsFavorited] = useState(false);
 
   useEffect(() => {
     const fetchListing = async () => {
@@ -119,37 +64,12 @@ export default function ListingViewPage() {
     fetchListing();
   }, [params.id]);
 
-  useEffect(() => {
-    const geocodeAddress = async () => {
-      if (!listing || !isLoaded) return;
-      
-      const address = `${listing.street}, ${listing.district}, Алматы`;
-      const geocoder = new window.google.maps.Geocoder();
-      
-      try {
-        const response = await geocoder.geocode({ address });
-        if (response.results[0]) {
-          const location = response.results[0].geometry.location;
-          setMapCenter({
-            lat: location.lat(),
-            lng: location.lng()
-          });
-        }
-      } catch (error) {
-        console.error('Error geocoding address:', error);
-      }
-    };
-
-    geocodeAddress();
-  }, [listing, isLoaded]);
-
   if (isLoading) {
     return (
-      <div className="animate-pulse">
-        <div className="h-[50vh] bg-gray-200"></div>
-        <div className="p-4 space-y-4">
-          <div className="h-8 bg-gray-200 rounded w-3/4"></div>
-          <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-red-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Загрузка...</p>
         </div>
       </div>
     );
@@ -157,195 +77,227 @@ export default function ListingViewPage() {
 
   if (!listing) {
     return (
-      <div className="p-4">
-        <h1>Объявление не найдено</h1>
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-gray-600">Объявление не найдено</p>
+          <Link href="/" className="mt-4 inline-block text-red-600 hover:text-red-700">
+            Вернуться на главную
+          </Link>
+        </div>
       </div>
     );
   }
 
+  const cleanDescription = (description: string) => {
+    const withoutButtonTags = description.replace(/<button[\s\S]*?<\/button>/gi, '');
+    return withoutButtonTags.replace(/Перевести/g, '').trim();
+  };
+
+  const displayDescription = cleanDescription(listing.description);
+  const shortDescription = displayDescription.length > 150 
+    ? displayDescription.substring(0, 150) + '...'
+    : displayDescription;
+
   return (
-    <div className="bg-gray-100 min-h-screen pb-16">
-      {/* Плавающая шапка */}
-      <div 
-        className={`fixed top-0 left-0 right-0 bg-white z-50 border-b transform transition-transform duration-300 ${
-          showHeader ? 'translate-y-0' : '-translate-y-full'
-        }`}
-      >
-        <div className="max-w-screen-md mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Link href="/" className="text-gray-500">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"/>
-              </svg>
+    <div className="min-h-screen bg-white">
+      {/* Header */}
+      <header className="sticky top-0 bg-[#ABABAB] z-50 px-4 py-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-6">
+            <Link href="/" className="text-white bg-[#787878] rounded-full p-1.5">
+              <ArrowLeft size={20} />
             </Link>
             <div>
-              <div className="font-medium">{listing.price.toLocaleString()} ₸</div>
-              <div className="text-sm text-gray-500">
-                {listing.roomCount}-комнатная · {listing.area} м²
-              </div>
+              <h1 className="font-medium text-white">{listing.roomCount}-комн. квартира, {listing.area} м²</h1>
             </div>
           </div>
-          <button className="p-2 hover:bg-gray-100 rounded-full">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
-                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      {/* Галерея */}
-      <Gallery images={listing.imageSrc} />
-
-      <div className="p-4">
-        {/* Основная информация */}
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold mb-2">{listing.price.toLocaleString()} ₸</h1>
-          <div className="text-lg mb-1">
-            {listing.roomCount}-комнатная квартира · {listing.area} м² · {listing.floor} этаж
-          </div>
-          <div className="text-gray-500">{listing.district}, {listing.street}</div>
-        </div>
-
-        {/* Расположение */}
-        <div className="bg-white rounded-xl mb-4">
-          <div className="p-4 border-b">
-            <h2 className="text-xl font-medium">Расположение</h2>
-          </div>
-          {isLoaded ? (
-            <GoogleMap
-              mapContainerStyle={mapContainerStyle}
-              center={mapCenter}
-              zoom={15}
-              options={{
-                disableDefaultUI: true,
-                zoomControl: true,
-                gestureHandling: 'greedy',
-                styles: [
-                  {
-                    featureType: "poi",
-                    elementType: "labels",
-                    stylers: [{ visibility: "off" }]
-                  }
-                ]
-              }}
+          <div className="flex items-center gap-3">
+            <button className="text-white bg-[#787878] rounded-full p-1.5">
+              <IoMdShare size={24} />
+            </button>
+            <button 
+              onClick={() => setIsFavorited(!isFavorited)}
+              className={`${isFavorited ? 'text-white bg-[#787878] rounded-full p-1.5' : 'text-white bg-[#787878] rounded-full p-1.5'}`}
             >
-              <Marker 
-                position={mapCenter}
-                icon={{
-                  url: '/marker.svg',
-                  scaledSize: new window.google.maps.Size(32, 32),
-                  anchor: new window.google.maps.Point(16, 32)
-                }}
-              />
-            </GoogleMap>
-          ) : (
-            <div className="h-[200px] bg-gray-100 animate-pulse"></div>
-          )}
-          <div className="p-4">
-            <div className="flex items-center gap-2 text-gray-500">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-              </svg>
-              <span>{listing?.district}, {listing?.street}</span>
-            </div>
+              {isFavorited ? <AiFillHeart size={24} /> : <AiOutlineHeart size={24} />}
+            </button>
           </div>
         </div>
+      </header>
 
-        {/* О квартире */}
-        <div className="bg-white rounded-xl mb-4">
-          <div className="p-4 border-b">
-            <h2 className="text-xl font-medium">О квартире</h2>
-          </div>
-          <div className="p-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <div className="text-gray-500 mb-1">Площадь</div>
-                <div>{listing.additionalDetails.area}</div>
-              </div>
-              <div>
-                <div className="text-gray-500 mb-1">Этаж</div>
-                <div>{listing.additionalDetails.floor}</div>
-              </div>
-              <div>
-                <div className="text-gray-500 mb-1">Санузел</div>
-                <div>{listing.additionalDetails.bathroom}</div>
-              </div>
-              <div>
-                <div className="text-gray-500 mb-1">Состояние</div>
-                <div>{listing.additionalDetails.condition}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* О доме */}
-        <div className="bg-white rounded-xl mb-4">
-          <div className="p-4 border-b">
-            <h2 className="text-xl font-medium">О доме</h2>
-          </div>
-          <div className="p-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <div className="text-gray-500 mb-1">Тип строения</div>
-                <div>{listing.additionalDetails.houseType}</div>
-              </div>
-              <div>
-                <div className="text-gray-500 mb-1">Год постройки</div>
-                <div>{listing.additionalDetails.buildYear}</div>
-              </div>
-              <div>
-                <div className="text-gray-500 mb-1">Высота потолков</div>
-                <div>{listing.additionalDetails.ceilingHeight}</div>
-              </div>
-              {listing.additionalDetails.complex && (
-                <div>
-                  <div className="text-gray-500 mb-1">Жилой комплекс</div>
-                  <div>{listing.additionalDetails.complex}</div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Описание */}
-        <div className="bg-white rounded-xl mb-4">
-          <div className="p-4 border-b">
-            <h2 className="text-xl font-medium">Описание</h2>
-          </div>
-          <div 
-            className="p-4 space-y-4"
-            dangerouslySetInnerHTML={{
-              __html: cleanDescription(listing.description)
-            }}
+      {/* Image Gallery */}
+      <div className="relative">
+        <div className="aspect-[4/3] bg-gray-200 overflow-hidden">
+          <img
+            src={listing.imageSrc[currentImage] || '/images/placeholder.jpg'}
+            alt={listing.title}
+            className="w-full h-full object-cover"
           />
         </div>
+        
+        {/* Image Counter */}
+        <div className="absolute top-4 right-4 bg-black/60 text-white px-2 py-1 rounded text-sm flex items-center gap-1">
+          <Camera size={14} />
+          <span>{currentImage + 1}/{listing.imageSrc.length || 1}</span>
+        </div>
 
-        {/* Контакты */}
-        <div className="bg-white rounded-xl">
-          <div className="p-4">
-            <div className="flex items-center gap-4 mb-4">
-              <img 
-                src={listing.user.image} 
-                alt={listing.user.name}
-                className="w-12 h-12 rounded-full"
-              />
-              <div>
-                <div className="font-medium">{listing.user.name}</div>
-                <div className="text-gray-500">Владелец</div>
-              </div>
-            </div>
-            <a 
-              href={`tel:${listing.user.phone}`}
-              className="block w-full bg-blue-600 text-white text-center py-3 rounded-lg font-medium"
+        {/* Thumbnail Navigation */}
+        <div className="flex gap-2 p-4 overflow-x-auto scrollbar-hide pb-12">
+          {listing.imageSrc.map((image, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentImage(index)}
+              className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 ${
+                currentImage === index ? 'border-red-600' : 'border-transparent'
+              }`}
             >
-              {listing.user.phone}
-            </a>
+              <img
+                src={image}
+                alt=""
+                className="w-full h-full object-cover"
+              />
+            </button>
+          ))}
+        </div>
+      </div>
+
+     
+
+      {/* Main Content */}
+      <div className="px-4 pb-4">
+        {/* Price and Status */}
+        <div className="flex items-center justify-between py-4">
+          <h2 className="text-3xl font-bold">{listing.price.toLocaleString()} ₽</h2>
+          <span className="bg-[#4dcdc4] text-white px-4 py-1 rounded-full text-xs">
+            В продаже
+          </span>
+        </div>
+         {/* Divider */}
+      <div className="h-[1px] bg-[#E0E0E0]"></div>
+
+        {/* Property Stats */}
+        <div className="grid grid-cols-4 gap-4 py-6">
+          <div className="text-center">
+            <div className="w-12 h-12 flex items-center justify-center mx-auto mb-2">
+              <img src="/general.svg" alt="Площадь" className="w-5 h-5" />
+            </div>
+            <div className="font-semibold">{listing.area} м²</div>
+            <div className="text-xs font-light text-[#666666]">Общая</div>
+          </div>
+          <div className="text-center">
+            <div className="w-12 h-12 flex items-center justify-center mx-auto mb-2">
+              <img src="/rooms.svg" alt="Комнаты" className="w-5 h-5" />
+            </div>
+            <div className="font-semibold">{listing.roomCount}</div>
+            <div className="text-xs font-light text-[#666666]">Комнаты</div>
+          </div>
+          <div className="text-center">
+            <div className="w-12 h-12 flex items-center justify-center mx-auto mb-2">
+              <img src="/floor.svg" alt="Этаж" className="w-5 h-5" />
+            </div>
+            <div className="font-semibold">{listing.floor || '8/12'}</div>
+            <div className="text-xs font-light text-[#666666]">Этаж</div>
+          </div>
+          <div className="text-center">
+            <div className="w-12 h-12 flex items-center justify-center mx-auto mb-2">
+              <img src="/calendar.svg" alt="Год" className="w-5 h-5" />
+            </div>
+            <div className="font-semibold">{listing.additionalDetails.buildYear || '2020'}</div>
+            <div className="text-xs font-light text-[#666666]">Год</div>
+          </div>
+        </div>
+         {/* Divider */}
+      <div className="h-[1px] bg-[#E0E0E0]"></div>
+
+        {/* Description */}
+        <div className="py-6">
+          <h3 className="text-xl font-semibold mb-3">Описание</h3>
+          <div 
+            className="text-gray-700 leading-relaxed"
+            dangerouslySetInnerHTML={{
+              __html: showFullDescription ? displayDescription : shortDescription
+            }}
+          />
+          {displayDescription.length > 150 && (
+            <button
+              onClick={() => setShowFullDescription(!showFullDescription)}
+              className="text-[#4ECDC4] font-light mt-2"
+            >
+              {showFullDescription ? 'Скрыть' : 'Показать полностью'}
+            </button>
+          )}
+        </div>
+        
+
+        {/* Amenities */}
+        <div className="pb-6">
+          <div className="flex flex-wrap gap-2">
+            <span className="bg-[#F5F5F5] text-[#666666] font-light px-3 py-1 rounded-full text-sm flex items-center gap-1">
+              <img src="/parking.svg" alt="Парковка" className="w-3.5 h-3.5" />
+              Парковка
+            </span>
+            <span className="bg-[#F5F5F5] text-[#666666] font-light px-3 py-1 rounded-full text-sm flex items-center gap-1">
+              <img src="/defence.svg" alt="Охрана" className="w-3.5 h-3.5" />
+              Охрана
+            </span>
+            <span className="bg-[#F5F5F5] text-[#666666] font-light px-3 py-1 rounded-full text-sm flex items-center gap-1">
+              <img src="/lift.svg" alt="Лифт" className="w-3.5 h-3.5" />
+              Лифт
+            </span>
+            <span className="bg-[#F5F5F5] text-[#666666] font-light px-3 py-1 rounded-full text-sm flex items-center gap-1">
+              <User size={14} />
+              Консьерж
+            </span>
+            <span className="bg-[#F5F5F5] text-[#666666] font-light px-3 py-1 rounded-full text-sm flex items-center gap-1">
+              <Camera size={14} />
+              Видеонаблюдение
+            </span>
+          </div>
+        </div>
+        {/* Divider */}
+      <div className="h-[1px] bg-[#E0E0E0]"></div>
+
+        {/* Location */}
+        <div className="pt-6">
+          <h3 className="text-xl font-semibold mb-3">Расположение</h3>
+          <div className="flex items-center gap-2 text-gray-600">
+            <img src="/location_color.svg" alt="Местоположение" className="w-[12.5px] h-[17.5px] mr-2" />
+            <span className='text-[#333333] font-light'>
+              {listing.street && `ул. ${listing.district}`}
+              {listing.street && listing.district && ', '}
+              {listing.district}
+              {(listing.street || listing.district) && listing.city && ', '}
+              {listing.city}
+            </span>
+          </div>
+        </div>
+
+        {/* Service Buttons */}
+        <div className="flex justify-center">
+          <div className="grid grid-cols-3 gap-4 w-full max-w-sm">
+            <Link href="/rent-to-own" className="text-center">
+              <div className="w-16 h-16 flex items-center justify-center mx-auto">
+                <img src="/arenda.svg" alt="Аренда" className="w-10 h-10" />
+              </div>
+              <span className="text-xs text-[#4FD1C5] font-light">Аренда</span>
+            </Link>
+            <Link href="/refinance" className="text-center">
+              <div className="w-16 h-16 flex items-center justify-center mx-auto">
+                <img src="/refinance.svg" alt="Рефинансирование" className="w-10 h-10" />
+              </div>
+              <span className="text-xs text-[#4FD1C5] font-light">Рефинансирование</span>
+            </Link>
+            <Link href="/arenda-s-vykupom" className="text-center">
+              <div className="w-16 h-16 flex items-center justify-center mx-auto">
+                <img src="/arenda_s_vykupom.svg" alt="Аренда с выкупом" className="w-10 h-10" />
+              </div>
+              <span className="text-xs text-[#4FD1C5] font-light">Аренда с выкупом</span>
+            </Link>
           </div>
         </div>
       </div>
+
+
     </div>
   );
 }

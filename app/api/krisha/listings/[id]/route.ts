@@ -62,7 +62,7 @@ export async function GET(
         city: additionalDetails['city'] || '',
         houseType: additionalDetails['flat.building'] || '',
         complex: additionalDetails['map.complex'] || '',
-        buildYear: additionalDetails['house.year'] || '',
+        buildYear: additionalDetails['house.year']?.match(/\d{4}/)?.[0] || '',
         area: additionalDetails['live.square'] || '',
         bathroom: additionalDetails['flat.toilet'] || '',
         ceilingHeight: additionalDetails['ceiling'] || '',

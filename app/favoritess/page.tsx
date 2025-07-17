@@ -156,8 +156,8 @@ export default function FavoritesPage() {
       {/* Header */}
       <header className="bg-white px-4 py-4 border-b border-gray-200">
         <div className="max-w-screen-md mx-auto flex items-center justify-between">
-          <h1 className="text-xl font-semibold">Избранное</h1>
-          <span className="text-gray-500">{favorites.length} объектов</span>
+          <h1 className="text-2xl font-semibold">Избранное</h1>
+          <span className="text-[#666666] font-light">{favorites.length} объектов</span>
         </div>
       </header>
 
@@ -199,8 +199,8 @@ export default function FavoritesPage() {
                       <span 
                         className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
                           listing.priceTag === 'снижена' 
-                            ? 'bg-teal-500 text-white' 
-                            : 'bg-red-500 text-white'
+                            ? 'bg-[#4dcdc4] text-white font-light' 
+                            : 'bg-[#ff6b6b] text-white font-light'
                         }`}
                       >
                         Цена {listing.priceTag}
