@@ -164,21 +164,19 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
       onClick={onClose}
     >
       <div 
-        className={`fixed right-0 top-0 h-full w-[80%] bg-white shadow-xl transform transition-transform duration-300 ease-in-out flex flex-col ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`fixed right-0 top-0 h-full w-[80%] bg-white shadow-xl transform transition-transform duration-300 ease-in-out flex flex-col rounded-l-2xl overflow-hidden ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="p-3 border-b flex justify-between items-center">
-          <div className="flex items-center">
-            <button onClick={onClose} className="mr-2 text-gray-500">
-              <X size={20} />
-            </button>
-            <h2 className="text-base font-medium">Фильтр</h2>
-          </div>
+        <div className="p-3 border-b flex justify-between items-center relative">
           <button 
             onClick={handleReset} 
             className="text-blue-500 font-medium text-sm"
           >
             Сбросить
+          </button>
+          <h2 className="text-base font-medium absolute left-1/2 transform -translate-x-1/2">Фильтр</h2>
+          <button onClick={onClose} className="text-gray-500">
+            <X size={20} />
           </button>
         </div>
         
@@ -259,20 +257,20 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
           {/* Цена */}
           <div className="mb-4">
             <label className="block text-gray-700 mb-2 text-sm">Цена, тг</label>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="flex gap-2">
               <input
                 type="number"
                 placeholder="от"
                 value={priceFrom}
                 onChange={(e) => setPriceFrom(e.target.value)}
-                className="p-2 border rounded text-xs"
+                className="w-20 p-2 border rounded text-xs"
               />
               <input
                 type="number"
                 placeholder="до"
                 value={priceTo}
                 onChange={(e) => setPriceTo(e.target.value)}
-                className="p-2 border rounded text-xs"
+                className="w-20 p-2 border rounded text-xs"
               />
             </div>
           </div>
@@ -280,20 +278,20 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
           {/* Общая площадь */}
           <div className="mb-4">
             <label className="block text-gray-700 mb-2 text-sm">Общая площадь, м²</label>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="flex gap-2">
               <input
                 type="number"
                 placeholder="от"
                 value={areaFrom}
                 onChange={(e) => setAreaFrom(e.target.value)}
-                className="p-2 border rounded text-xs"
+                className="w-20 p-2 border rounded text-xs"
               />
               <input
                 type="number"
                 placeholder="до"
                 value={areaTo}
                 onChange={(e) => setAreaTo(e.target.value)}
-                className="p-2 border rounded text-xs"
+                className="w-20 p-2 border rounded text-xs"
               />
             </div>
           </div>
@@ -301,20 +299,20 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
           {/* Этаж */}
           <div className="mb-4">
             <label className="block text-gray-700 mb-2 text-sm">Этаж</label>
-            <div className="grid grid-cols-2 gap-2 mb-2">
+            <div className="flex gap-2 mb-2">
               <input
                 type="number"
                 placeholder="от"
                 value={floorFrom}
                 onChange={(e) => setFloorFrom(e.target.value)}
-                className="p-2 border rounded text-xs"
+                className="w-20 p-2 border rounded text-xs"
               />
               <input
                 type="number"
                 placeholder="до"
                 value={floorTo}
                 onChange={(e) => setFloorTo(e.target.value)}
-                className="p-2 border rounded text-xs"
+                className="w-20 p-2 border rounded text-xs"
               />
             </div>
             <div className="grid grid-cols-2 gap-2">

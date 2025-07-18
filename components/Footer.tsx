@@ -8,6 +8,20 @@ const Footer: React.FC = () => {
     const pathname = usePathname();
 
     const isActive = (path: string) => pathname === path;
+    
+    // Специальный футер для страницы добавления объявления
+    if (pathname === '/add-listing') {
+        return (
+            <footer className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 h-20">
+                <div className="max-w-screen-md mx-auto h-full flex items-center justify-center px-4">
+                    <button className="w-full max-w-sm bg-[#4ECDC4] text-white py-4 rounded-2xl font-medium text-lg flex items-center justify-center gap-2">
+                        <Plus size={24} />
+                        Подать объявление
+                    </button>
+                </div>
+            </footer>
+        );
+    }
 
     return (
         <footer className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 h-20">

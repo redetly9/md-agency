@@ -17,6 +17,7 @@ interface Listing {
   roomCount: number;
   bathroomCount: number;
   guestCount: number;
+  area: string;
   region: string | null;
   userId: string | null;
   country: string;
@@ -137,6 +138,11 @@ export async function GET(request: Request) {
       const link = $(element).find('a').attr('href');
       const id = link ? link.match(/\/show\/(\d+)/)?.[1] : null;
       const roomCount = parseInt(title.match(/\d+/)?.[0] || '0');
+      
+      // Парсим площадь из статистики карточки
+      const area = $(element).find('.a-card__stats-item').toArray()
+        .map(item => $(item).text().trim())
+        .find(text => text.includes('м²'))?.match(/\d+\.?\d*/)?.[0] || '';
 
       listings.push({
         id: id || '',
@@ -153,6 +159,7 @@ export async function GET(request: Request) {
         roomCount,
         bathroomCount: 1,
         guestCount: roomCount * 2,
+        area,
         region: null,
         userId: null,
         country: 'Казахстан',
