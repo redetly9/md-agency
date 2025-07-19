@@ -454,12 +454,12 @@ asd
                                           <img
                         src={listing.imageSrc || '/images/placeholder.jpg'}
                         alt={listing.title}
-                        className="w-full h-20 object-cover rounded-lg"
+                        className="w-full h-20 object-cover"
                       />
                   </div>
                                       <div className="p-1.5">
                       <div className="text-xs font-medium text-gray-900 mb-0.5">
-                        {listing.roomCount}-комнатная квартира
+                        {listing.roomCount}-комнатная
                       </div>
                       <div className="flex items-center text-xs text-gray-600 mb-0.5">
                         <img className='pr-1 flex-shrink-0' src="/location_icon.svg" alt="location" />
@@ -470,9 +470,9 @@ asd
                       <div className="text-xs font-semibold text-[#2DD4BF] pr-1">
                         {new Intl.NumberFormat('ru-RU').format(listing.price)}
                       </div>
-                      <button className="text-xs text-[#2DD4BF] px-1 rounded-full border border-[#2DD4BF] hover:bg-teal-100 transition-colors">
-                        Подробнее
-                      </button>
+                      <div className="text-xs text-[#6B7280] font-light">
+                        {listing.city}
+                      </div>
                       </div>
                     </div>
                 </Link>
