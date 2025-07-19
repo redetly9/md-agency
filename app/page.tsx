@@ -468,7 +468,7 @@ asd
                       </div>
                       <div className='flex justify-between items-center'>
                       <div className="text-xs font-semibold text-[#2DD4BF] pr-1">
-                        {new Intl.NumberFormat('ru-RU').format(listing.price)}
+                        {new Intl.NumberFormat('ru-RU').format(listing.price)} ₸
                       </div>
                       <div className="text-xs text-[#6B7280] font-light">
                         {listing.city}
