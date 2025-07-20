@@ -15,7 +15,7 @@ const arr = [
   },
   {
     id: 2,
-    text: "Рефинансирование",
+    text: "Рефинансирование ипотечных кредитов",
     icon: "/refinance.svg",
     href: "/refinance"
   },
@@ -454,7 +454,7 @@ asd
                                           <img
                         src={listing.imageSrc || '/images/placeholder.jpg'}
                         alt={listing.title}
-                        className="w-full h-20 object-cover"
+                        className="w-full h-16 object-cover"
                       />
                   </div>
                                       <div className="p-1.5">
