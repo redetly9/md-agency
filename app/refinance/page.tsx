@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, X, Percent, TrendingDown, Shield, Clock, CheckCircle, Facebook, Instagram, Twitter } from 'lucide-react';
+import { ArrowLeft, X, Percent, TrendingDown, Shield, Clock, CheckCircle, Facebook, Instagram, Twitter, CreditCard, Banknote } from 'lucide-react';
 
 export default function RefinancePage() {
   const [formData, setFormData] = useState({
@@ -32,7 +32,7 @@ export default function RefinancePage() {
           <div className="flex items-center">
             <Link href="/" className="mr-4">
               <ArrowLeft size={24} className="text-gray-700" />
-            </Link>
+          </Link>
             <h1 className="text-xl font-semibold text-gray-900">Рефинансирование</h1>
           </div>
         </div>
@@ -47,10 +47,10 @@ export default function RefinancePage() {
       >
         <div className="absolute inset-0 flex items-center">
           <div className="max-w-screen-md mx-auto px-4 text-white">
-            <h1 className="text-2xl font-bold mb-4 leading-tight">
+            <h1 className="text-xl font-bold mb-4 leading-tight">
               Снизьте ежемесячный платеж по ипотеке на 25-35%
             </h1>
-            <p className="text-gray-200 mb-6 text-sm leading-relaxed">
+            <p className="text-gray-200 mb-6 text-sm leading-relaxed font-light">
               Если вы испытываете финансовые трудности по ежемесячной оплате ипотечного займа перед банком, 
               мы предоставим вам условия с пониженной ежемесячной оплатой, что позволит высвободить средства на ваши нужды.
             </p>
@@ -65,16 +65,16 @@ export default function RefinancePage() {
       </section>
 
       {/* Questions Section */}
-      <section className="px-4 py-12 bg-gray-50">
+      <section className="px-4 py-6 bg-gray-50">
         <div className="max-w-screen-md mx-auto">
-          <h2 className="text-2xl font-bold text-center mb-8 text-gray-900">
+          <h2 className="text-xl font-bold text-center mb-8 text-gray-900">
             Задайте себе эти вопросы
           </h2>
           <div className="space-y-4">
-            <div className="bg-white rounded-lg p-6 shadow-sm">
+            <div className="bg-white rounded-lg p-4 shadow-sm">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                  <X size={24} className="text-red-600" />
+                  <Percent size={24} className="text-red-600" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-2">
@@ -87,10 +87,10 @@ export default function RefinancePage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-lg p-6 shadow-sm">
+            <div className="bg-white rounded-lg p-4 shadow-sm">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                  <X size={24} className="text-red-600" />
+                  <Banknote size={24} className="text-red-600" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-2">
@@ -103,10 +103,10 @@ export default function RefinancePage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-lg p-6 shadow-sm">
+            <div className="bg-white rounded-lg p-4 shadow-sm">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                  <X size={24} className="text-red-600" />
+                  <CreditCard size={24} className="text-red-600" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-2">
@@ -123,13 +123,13 @@ export default function RefinancePage() {
       </section>
 
       {/* Benefits Section */}
-      <section className="px-4 py-12 bg-white">
+      <section className="px-4 py-4 bg-white">
         <div className="max-w-screen-md mx-auto">
-          <h2 className="text-2xl font-bold text-center mb-8 text-gray-900">
+          <h2 className="text-xl font-bold text-center mb-8 text-gray-900">
             Преимущества рефинансирования
           </h2>
           <div className="space-y-4">
-            <div className="bg-white border border-gray-200 rounded-lg p-6">
+            <div className="bg-white shadow-lg rounded-lg p-3">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
                   <TrendingDown size={24} className="text-red-600" />
@@ -143,7 +143,7 @@ export default function RefinancePage() {
               </div>
             </div>
 
-            <div className="bg-white border border-gray-200 rounded-lg p-6">
+            <div className="bg-white shadow-lg rounded-lg p-6">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
                   <Percent size={24} className="text-red-600" />
@@ -157,7 +157,7 @@ export default function RefinancePage() {
               </div>
             </div>
 
-            <div className="bg-white border border-gray-200 rounded-lg p-6">
+            <div className="bg-white shadow-lg rounded-lg p-6">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
                   <Shield size={24} className="text-red-600" />
@@ -175,9 +175,9 @@ export default function RefinancePage() {
       </section>
 
       {/* Conditions Section */}
-      <section className="px-4 py-12 bg-gray-50">
+      <section className="px-4 py-6 bg-gray-50">
         <div className="max-w-screen-md mx-auto">
-          <h2 className="text-2xl font-bold text-center mb-8 text-gray-900">
+          <h2 className="text-xl font-bold text-center mb-8 text-gray-900">
             Условия рефинансирования
           </h2>
           
@@ -242,13 +242,19 @@ export default function RefinancePage() {
       </section>
 
       {/* Contact Form */}
-      <section id="contact" className="px-4 py-12 bg-white">
+      <section 
+        id="contact" 
+        className="relative px-4 py-12 bg-cover bg-center"
+        style={{
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/ekonpmit.jpeg')`
+        }}
+      >
         <div className="max-w-screen-md mx-auto">
-          <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">
+          <div className="text-left mb-8">
+            <h2 className="text-xl font-bold text-white mb-4">
               Начните экономить уже сегодня
             </h2>
-            <p className="text-gray-600">
+            <p className="text-gray-200 font-light">
               Многие клиенты уже сумели снизить свои ежемесячные выплаты по рефинансированию
             </p>
           </div>
