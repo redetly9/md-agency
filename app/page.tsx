@@ -434,17 +434,19 @@ console.log(listings)
                     ))}
                   </div>
                 </div>
-              </div>
-
-              {/* Footer */}
-              <div className="p-3 border-t">
+                <div className="p-3 border-t">
                 <button
                   onClick={() => setIsFilterModalOpen(false)}
-                  className="w-full py-2.5 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors text-sm"
+                  className="w-full py-2.5 text-white rounded-lg font-medium transition-colors text-sm"
+                  style={{ backgroundColor: '#016a80' }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#015a70'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#016a80'}
                 >
-                  Показать результаты
+                  Применить
                 </button>
               </div>
+              </div>
+              
             </div>
           </div>
         </div>
