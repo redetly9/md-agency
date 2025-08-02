@@ -98,7 +98,7 @@ export default function ArendaSVykupomPage() {
           outline: none;
         }
       `}</style>
-      <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white px-4 py-3">
         <div className="max-w-screen-md mx-auto flex items-center justify-between">
@@ -177,7 +177,7 @@ export default function ArendaSVykupomPage() {
               <span>0 ₸</span>
               <span>50 000 000 ₸</span>
             </div>
-          </div>
+            </div>
 
           {/* Monthly Payment Slider */}
           <div className="mb-8">
@@ -201,7 +201,7 @@ export default function ArendaSVykupomPage() {
             <p className="text-sm text-[#6B7280] font-light">
               Минимальная сумма пополнения: 100 000 ₸
             </p>
-          </div>
+            </div>
 
           {/* Duration Slider */}
           <div className="mb-8">
@@ -227,7 +227,7 @@ export default function ArendaSVykupomPage() {
               <span>12 мес</span>
               <span>120 мес</span>
             </div>
-          </div>
+        </div>
 
           {/* Results */}
           <div className="bg-white rounded-lg p-2 mb-6">
@@ -265,15 +265,15 @@ export default function ArendaSVykupomPage() {
             </button>
           </div>
         </div>
-              </section>
- 
+      </section>
+
         {/* Advantages Section */}
         <section className="px-4 py-4 bg-gray-50">
           <div className="max-w-screen-md mx-auto">
             <h2 className="text-2xl font-medium text-black text-center mb-8">
               Преимущества аренды с выкупом
-            </h2>
-            
+          </h2>
+          
             <div className="grid gap-4">
               {/* Первоначальный накопительный взнос */}
               <div className="bg-white rounded-xl p-4 shadow-sm">
@@ -323,9 +323,9 @@ export default function ArendaSVykupomPage() {
                       Поживите в квартире до момента выкупа
                     </p>
                   </div>
-                </div>
-              </div>
-
+            </div>
+            </div>
+            
               {/* Простой процесс оформления */}
               <div className="bg-white rounded-xl p-4 shadow-sm">
                 <div className="">
@@ -377,14 +377,146 @@ export default function ArendaSVykupomPage() {
             </div>
           </div>
                   </section>
+                                     {/* Comparison Table */}
+                   <section className="px-4 py-4 bg-white">
+                    <h3 className="text-2xl font-medium text-black text-center mb-4">Сравнение условий</h3>
+                     <div className="max-w-screen-md mx-auto">
+                       <div className="overflow-hidden rounded-lg shadow-sm">
+                         {/* Table Header */}
+                         <div className="bg-gray-900 text-white">
+                           <div className="grid grid-cols-3 py-4 px-4">
+                             <div className="font-medium">Параметр</div>
+                             <div className="font-medium text-center">Аренда с выкупом</div>
+                             <div className="font-medium text-center">Ипотека</div>
+                           </div>
+                         </div>
+                         
+                         {/* Table Body */}
+                         <div className="bg-gray-50">
+                           {/* Первоначальный накопительный взнос */}
+                           <div className="grid grid-cols-3 py-4 px-4 border-b border-gray-200">
+                             <div className="text-gray-900 text-sm font-light">Первоначальный накопительный взнос</div>
+                             <div className="text-red-500 font-light text-center text-sm">От 5%</div>
+                             <div className="text-gray-900 text-center text-sm font-light">От 20-30%</div>
+                           </div>
+                           
+                           {/* Проверка кредитной истории */}
+                           <div className="grid grid-cols-3 py-4 px-4 border-b border-gray-200">
+                             <div className="text-gray-900 text-sm font-light">Проверка кредитной истории</div>
+                             <div className="text-red-500 font-light text-center text-sm">Минимальная</div>
+                             <div className="text-gray-900 text-center text-sm font-light">Строгая</div>
+                           </div>
+                           
+                           {/* Процентная ставка */}
+                           <div className="grid grid-cols-3 py-4 px-4 border-b border-gray-200">
+                             <div className="text-gray-900 text-sm font-light">Процентная ставка</div>
+                             <div className="text-red-500 font-light text-center text-sm">От 7% до 13.8%</div>
+                             <div className="text-gray-900 text-center text-sm font-light">От 19% до 24.5%</div>
+                           </div>
+                           
+                           {/* Возможность тестировать жильё */}
+                           <div className="grid grid-cols-3 py-4 px-4 border-b border-gray-200">
+                             <div className="text-gray-900 text-sm font-light">Возможность тестировать жильё</div>
+                             <div className="text-red-500 font-light text-center text-sm">Да</div>
+                             <div className="text-gray-900 text-center text-sm font-light">Нет</div>
+                           </div>
+                           
+                           {/* Гибкость условий */}
+                           <div className="grid grid-cols-3 py-4 px-4 border-b border-gray-200">
+                             <div className="text-gray-900 text-sm font-light">Гибкость условий</div>
+                             <div className="text-red-500 font-light text-center text-sm">Высокая</div>
+                             <div className="text-gray-900 text-center text-sm font-light">Низкая</div>
+                           </div>
+                           
+                           {/* Подходит для нестабильного дохода */}
+                           <div className="grid grid-cols-3 py-4 px-4">
+                             <div className="text-gray-900 text-sm font-light">Подходит для нестабильного дохода</div>
+                             <div className="text-red-500 font-light text-center text-sm">Да</div>
+                             <div className="text-gray-900 text-center text-sm font-light">Нет</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-          {/* How It Works Section */}
+                   {/* Services Cost Section */}
+      <section className="px-4 py-8 bg-gray-50">
+        <div className="max-w-screen-md mx-auto">
+                       <h2 className="text-2xl font-medium text-black text-center mb-8">
+                         Стоимость наших услуг
+          </h2>
+          
+                       <div className="grid md:grid-cols-2 gap-8">
+                         {/* Services List */}
+                         <div className="space-y-4">
+                           <div className="flex items-center gap-3">
+                             <div className="w-6 h-6 bg-red-500 rounded flex items-center justify-center flex-shrink-0">
+                               <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                 <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                               </svg>
+                             </div>
+                             <span className="text-gray-800 text-sm">Консультация - 35000 тг</span>
+                           </div>
+                           
+                           <div className="flex items-center gap-3">
+                             <div className="w-6 h-6 bg-red-500 rounded flex items-center justify-center flex-shrink-0">
+                               <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                 <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                               </svg>
+                             </div>
+                             <span className="text-gray-800 text-sm">Оплата оценки квартиры - оплачивает арендатор</span>
+                           </div>
+                           
+                           <div className="flex items-center gap-3">
+                             <div className="w-6 h-6 bg-red-500 rounded flex items-center justify-center flex-shrink-0">
+                               <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                 <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                               </svg>
+                             </div>
+                             <span className="text-gray-800 text-sm">Страховка - оплачивает арендатор</span>
+                           </div>
+                           
+                           <div className="flex items-center gap-3">
+                             <div className="w-6 h-6 bg-red-500 rounded flex items-center justify-center flex-shrink-0">
+                               <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                 <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                               </svg>
+                             </div>
+                             <span className="text-gray-800 text-sm">Нотариальные услуги - оплачивает арендатор</span>
+                           </div>
+                           
+                           <div className="flex items-start gap-3">
+                             <div className="w-6 h-6 bg-red-500 rounded flex items-center justify-center flex-shrink-0 mt-1">
+                               <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                 <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                               </svg>
+                             </div>
+                             <div>
+                               <div className="text-gray-800 text-sm font-medium">Комиссия за оформление - 10% от стоимости объекта</div>
+                               <div className="text-gray-600 text-xs">(данная оплата производится при расторжении договора или ежемесячной оплатой)</div>
+                             </div>
+                           </div>
+                         </div>
+                         
+                                                  {/* Interior Image */}
+                         <div className="rounded-lg overflow-hidden h-64">
+                           <img 
+                             src="/price_uslug.png" 
+                             alt="Интерьер квартиры" 
+                             className="w-full h-full object-cover"
+                           />
+                         </div>
+          </div>
+        </div>
+      </section>
+
+           {/* How It Works Section */}
           <section className="px-4 py-4 bg-white">
-            <div className="max-w-screen-md mx-auto">
+        <div className="max-w-screen-md mx-auto">
               <h2 className="text-2xl font-medium text-black text-center mb-8">
                 Как работает аренда с выкупом
-              </h2>
-              
+          </h2>
+          
               <div className="space-y-8">
                 {/* Выбор объекта недвижимости */}
                 <div className="flex items-start gap-4">
@@ -447,7 +579,7 @@ export default function ArendaSVykupomPage() {
                       <path fillRule="evenodd" d="M18 8a6 6 0 01-9.12 5.19L3 17a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707L5.88 9.12A6 6 0 1118 8zm-6 0a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd"/>
                     </svg>
                   </div>
-                  <div>
+              <div>
                     <h3 className="text-lg font-semibold text-black mb-2">
                       Проживание и выплаты
                     </h3>
@@ -455,8 +587,8 @@ export default function ArendaSVykupomPage() {
                       Вы въезжаете в квартиру и вносите ежемесячные платежи
                     </p>
                   </div>
-                </div>
-
+              </div>
+              
                 {/* Полный выкуп объекта */}
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0">
@@ -464,18 +596,18 @@ export default function ArendaSVykupomPage() {
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                     </svg>
                   </div>
-                  <div>
+              <div>
                     <h3 className="text-lg font-semibold text-black mb-2">
                       Полный выкуп объекта
                     </h3>
                     <p className="text-gray-600 text-sm">
                       По окончании срока договора вы становитесь владельцем недвижимости
                     </p>
-                  </div>
-                </div>
               </div>
             </div>
-          </section>
+          </div>
+        </div>
+      </section>
 
        {/* CTA Section with Background */}
        <section 
@@ -498,7 +630,7 @@ export default function ArendaSVykupomPage() {
            <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-2xl p-8 max-w-lg mx-auto">
              <h3 className="text-xl font-semibold mb-6 text-left">
                Оставьте заявку на консультацию
-             </h3>
+            </h3>
              
              <form onSubmit={handleSubmit} className="space-y-4">
                <div>
@@ -539,11 +671,11 @@ export default function ArendaSVykupomPage() {
                  className="w-full bg-red-500 hover:bg-red-600 text-white py-3 px-6 rounded-lg font-semibold transition-colors mt-6"
                >
                  Отправить заявку
-               </button>
+            </button>
              </form>
-           </div>
-         </div>
-       </section>
+          </div>
+        </div>
+      </section>
 
 
       {/* Footer */}
