@@ -1,30 +1,33 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from '@/lib/auth';
-import { createClient } from '@supabase/supabase-js';
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
 import axios from 'axios';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
 
 interface Listing {
   id: string;
-  region: string;
-  roomCount: number;
+  title: string;
+  description: string;
+  imageSrc: string[];
   price: number;
-  area: number;
-  floor: number;
-  totalFloors: number;
-  isFromDeveloper: boolean;
-  isFromAgent: boolean;
+  city: string;
+  district: string;
+  street: string;
+  category: string;
+  roomCount: number;
+  area: string;
+  region: string | null;
+  isFromDeveloper?: boolean;
+  isFromAgent?: boolean;
 }
 
 export async function GET(request: Request) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user?.email) {
+    const supabase = createRouteHandlerClient({ cookies });
+    
+    // Получаем пользователя из Supabase Auth
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    
+    if (authError || !user) {
       return NextResponse.json([]);
     }
 
@@ -34,10 +37,14 @@ export async function GET(request: Request) {
     const { data: favorites, error } = await supabase
       .from('favorites')
       .select('listing_id')
-      .eq('user_email', session.user.email);
+      .eq('user_id', user.id);
 
     if (error) {
       console.error('Error fetching favorites:', error);
+      return NextResponse.json([]);
+    }
+
+    if (!favorites || favorites.length === 0) {
       return NextResponse.json([]);
     }
 
@@ -61,7 +68,7 @@ export async function GET(request: Request) {
       .filter((listing: Listing) => {
         // Фильтр по региону
         const region = searchParams.get('region');
-        if (region && listing.region !== region) {
+        if (region && listing.region && listing.region !== region) {
           return false;
         }
 
@@ -87,32 +94,11 @@ export async function GET(request: Request) {
         // Фильтр по площади
         const areaFrom = searchParams.get('areaFrom');
         const areaTo = searchParams.get('areaTo');
-        if (areaFrom && listing.area < parseInt(areaFrom)) {
+        const listingArea = parseFloat(listing.area) || 0;
+        if (areaFrom && listingArea < parseInt(areaFrom)) {
           return false;
         }
-        if (areaTo && listing.area > parseInt(areaTo)) {
-          return false;
-        }
-
-        // Фильтр по этажу
-        const floorFrom = searchParams.get('floorFrom');
-        const floorTo = searchParams.get('floorTo');
-        if (floorFrom && listing.floor < parseInt(floorFrom)) {
-          return false;
-        }
-        if (floorTo && listing.floor > parseInt(floorTo)) {
-          return false;
-        }
-
-        // Фильтр "не первый этаж"
-        const notFirstFloor = searchParams.get('notFirstFloor');
-        if (notFirstFloor === '1' && listing.floor === 1) {
-          return false;
-        }
-
-        // Фильтр "не последний этаж"
-        const notLastFloor = searchParams.get('notLastFloor');
-        if (notLastFloor === '1' && listing.floor === listing.totalFloors) {
+        if (areaTo && listingArea > parseInt(areaTo)) {
           return false;
         }
 
@@ -134,6 +120,63 @@ export async function GET(request: Request) {
     return NextResponse.json(filteredListings);
   } catch (error) {
     console.error('[FAVORITES_GET]', error);
+    return new NextResponse('Internal Error', { status: 500 });
+  }
+}
+
+export async function POST(request: Request) {
+  try {
+    const supabase = createRouteHandlerClient({ cookies });
+    
+    // Получаем пользователя из Supabase Auth
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    
+    if (authError || !user) {
+      return new NextResponse('Unauthorized', { status: 401 });
+    }
+
+    const { listingId } = await request.json();
+
+    if (!listingId) {
+      return new NextResponse('Listing ID is required', { status: 400 });
+    }
+
+    // Проверяем, есть ли уже в избранном
+    const { data: existing } = await supabase
+      .from('favorites')
+      .select('id')
+      .eq('user_id', user.id)
+      .eq('listing_id', listingId)
+      .single();
+
+    if (existing) {
+      // Удаляем из избранного
+      const { error } = await supabase
+        .from('favorites')
+        .delete()
+        .eq('user_id', user.id)
+        .eq('listing_id', listingId);
+
+      if (error) throw error;
+
+      return NextResponse.json({ action: 'removed' });
+    } else {
+      // Добавляем в избранное
+      const { error } = await supabase
+        .from('favorites')
+        .insert([
+          {
+            user_id: user.id,
+            listing_id: listingId,
+          },
+        ]);
+
+      if (error) throw error;
+
+      return NextResponse.json({ action: 'added' });
+    }
+  } catch (error) {
+    console.error('[FAVORITES_POST]', error);
     return new NextResponse('Internal Error', { status: 500 });
   }
 } 

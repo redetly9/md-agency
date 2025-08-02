@@ -3,87 +3,105 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Heart } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+import { useFavorites } from '@/hooks/useFavorites';
+import { toast } from 'react-hot-toast';
 
 interface FavoriteListing {
   id: string;
   title: string;
   price: number;
-  rooms: number;
-  area: number;
-  floor: number;
-  totalFloors: number;
-  street: string;
-  imageSrc: string;
-  priceTag?: 'снижена' | 'выросла';
+  roomCount: number;
+  area: string;
+  city?: string;
+  district?: string;
+  street?: string;
+  region?: string;
+  imageSrc: string[];
+  description?: string;
 }
-
-// Моковые данные для демонстрации
-const mockFavorites: FavoriteListing[] = [
-  {
-    id: '1',
-    title: 'Элитная недвижимость',
-    price: 15900000,
-    rooms: 3,
-    area: 78,
-    floor: 9,
-    totalFloors: 12,
-    street: 'ул. Ленина, 45',
-    imageSrc: '/images/placeholder.jpg',
-    priceTag: 'снижена'
-  },
-  {
-    id: '2',
-    title: 'Современная квартира',
-    price: 12500000,
-    rooms: 2,
-    area: 65,
-    floor: 5,
-    totalFloors: 9,
-    street: 'пр. Гагарина, 12',
-    imageSrc: '/images/placeholder.jpg'
-  },
-  {
-    id: '3',
-    title: 'Квартира с видом',
-    price: 18300000,
-    rooms: 4,
-    area: 95,
-    floor: 3,
-    totalFloors: 16,
-    street: 'ул. Пушкина, 28',
-    imageSrc: '/images/placeholder.jpg',
-    priceTag: 'выросла'
-  }
-];
 
 export default function FavoritesPage() {
   const [favorites, setFavorites] = useState<FavoriteListing[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { user } = useAuth();
+  const { toggleFavorite } = useFavorites();
 
   useEffect(() => {
-    // Симулируем загрузку избранного
     const loadFavorites = async () => {
+      if (!user) {
+        setIsLoading(false);
+        return;
+      }
+
       try {
-        // В реальном приложении здесь будет запрос к API
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        setFavorites(mockFavorites);
+        setIsLoading(true);
+        const response = await fetch('/api/favorites');
+        
+        if (!response.ok) {
+          throw new Error('Failed to load favorites');
+        }
+        
+        const data = await response.json();
+        setFavorites(data);
       } catch (error) {
         console.error('Error loading favorites:', error);
+        toast.error('Ошибка при загрузке избранного');
       } finally {
         setIsLoading(false);
       }
     };
 
     loadFavorites();
-  }, []);
+  }, [user]);
 
-  const removeFavorite = (id: string) => {
-    setFavorites(prev => prev.filter(item => item.id !== id));
+  const removeFavorite = async (id: string) => {
+    try {
+      await toggleFavorite(id);
+      setFavorites(prev => prev.filter(item => item.id !== id));
+      toast.success('Удалено из избранного');
+    } catch (error) {
+      console.error('Error removing favorite:', error);
+      toast.error('Ошибка при удалении');
+    }
   };
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('ru-RU').format(price);
   };
+
+  // Если пользователь не авторизован
+  if (!user) {
+    return (
+      <>
+        {/* Header */}
+        <header className="bg-white px-4 py-4 border-b border-gray-200">
+          <div className="max-w-screen-md mx-auto flex items-center justify-between">
+            <h1 className="text-xl font-semibold">Избранное</h1>
+          </div>
+        </header>
+
+        {/* Not authenticated state */}
+        <div className="bg-gray-50 min-h-screen pb-20 flex items-center justify-center">
+          <div className="text-center px-4">
+            <div className="w-16 h-16 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center">
+              <Heart size={24} className="text-gray-400" />
+            </div>
+            <h2 className="text-lg font-medium text-gray-900 mb-2">Войдите в систему</h2>
+            <p className="text-gray-500 mb-4">
+              Чтобы просматривать избранные объявления, необходимо войти в систему
+            </p>
+            <Link 
+              href="/login"
+              className="inline-block bg-blue-500 text-white px-6 py-2 rounded-lg font-medium"
+            >
+              Войти
+            </Link>
+          </div>
+        </div>
+      </>
+    );
+  }
 
   if (isLoading) {
     return (
@@ -171,7 +189,7 @@ export default function FavoritesPage() {
                   {/* Image */}
                   <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
                     <img
-                      src={listing.imageSrc}
+                      src={listing.imageSrc?.[0] || '/images/placeholder.jpg'}
                       alt={listing.title}
                       className="w-full h-full object-cover"
                     />
@@ -181,31 +199,22 @@ export default function FavoritesPage() {
                   <div className="flex-1 min-w-0">
                     {/* Price */}
                     <div className="text-xl font-semibold text-gray-900 mb-1">
-                      {formatPrice(listing.price)} ₽
+                      {formatPrice(listing.price)} ₸
                     </div>
 
                     {/* Property info */}
                     <div className="text-[#666666] mb-2 text-sm font-light">
-                      {listing.rooms} комн. • {listing.area} м² • {listing.floor}/{listing.totalFloors} эт.
+                      {listing.roomCount} комн. • {listing.area} м²
                     </div>
 
                     {/* Address */}
                     <div className="text-[#999999] font-light mb-2 text-sm">
+                      {listing.district && `${listing.district}`}
+                      {listing.street && listing.district && ', '}
                       {listing.street}
+                      {(listing.district || listing.street) && listing.city && ', '}
+                      {listing.city}
                     </div>
-
-                    {/* Price tag */}
-                    {listing.priceTag && (
-                      <span 
-                        className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
-                          listing.priceTag === 'снижена' 
-                            ? 'bg-[#4dcdc4] text-white font-light' 
-                            : 'bg-[#ff6b6b] text-white font-light'
-                        }`}
-                      >
-                        Цена {listing.priceTag}
-                      </span>
-                    )}
                   </div>
 
                   {/* Heart button */}
@@ -215,7 +224,7 @@ export default function FavoritesPage() {
                         e.preventDefault();
                         removeFavorite(listing.id);
                       }}
-                      className="text-teal-500 hover:text-teal-600 transition-colors"
+                      className="text-red-500 hover:text-red-600 transition-colors"
                     >
                       <Heart size={24} fill="currentColor" />
                     </button>
