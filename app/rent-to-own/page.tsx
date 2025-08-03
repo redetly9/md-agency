@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useMoveBack } from '@/hooks/useMoveBack';
 
 const propertyTypes = [
   { id: 'kvartiry', name: 'Квартиры', count: '214 925' },
@@ -13,15 +14,17 @@ const propertyTypes = [
 ];
 
 export default function RentToOwnPage() {
+  const moveBack = useMoveBack();
+
   return (
     <>
       <header className="bg-white border-b px-4 py-3">
         <div className="max-w-screen-md mx-auto flex items-center gap-3">
-          <Link href="/" className="text-gray-500">
+          <button onClick={moveBack} className="text-gray-500">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"/>
             </svg>
-          </Link>
+          </button>
           <h1 className="text-xl font-medium">Аренда с выкупом</h1>
         </div>
       </header>

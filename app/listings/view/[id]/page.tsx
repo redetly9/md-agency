@@ -184,8 +184,8 @@ export default function ListingViewPage() {
       <div className="px-4 pb-4">
         {/* Price and Status */}
         <div className="flex items-center justify-between py-4">
-          <h2 className="text-3xl font-bold">{listing.price.toLocaleString()} ₽</h2>
-          <span className="bg-[#4dcdc4] text-white px-4 py-1 rounded-full text-xs">
+          <h2 className="text-3xl font-bold">{listing.price.toLocaleString()} ₸</h2>
+          <span className="bg-[#016a80] text-white px-4 py-1 rounded-full text-xs">
             В продаже
           </span>
         </div>
@@ -238,7 +238,7 @@ export default function ListingViewPage() {
           {displayDescription.length > 150 && (
             <button
               onClick={() => setShowFullDescription(!showFullDescription)}
-              className="text-[#4ECDC4] font-light mt-2"
+              className="text-[#016a80] font-light mt-2"
             >
               {showFullDescription ? 'Скрыть' : 'Показать полностью'}
             </button>

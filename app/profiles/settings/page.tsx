@@ -48,7 +48,7 @@ const ProfileSettingsPage = () => {
               </div>
               
               {/* User Info */}
-              <button className="text-teal-500 font-medium mb-3">
+              <button className="text-[#016a80] font-medium mb-3">
                 Изменить фото
               </button>
               <h2 className="text-xl font-semibold text-gray-900 mb-1">

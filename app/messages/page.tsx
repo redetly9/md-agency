@@ -149,7 +149,7 @@ export default function MessagesPage() {
                       <div className="flex items-center space-x-2">
                         <span className="text-sm text-[#999999] font-light">{message.time}</span>
                         {message.unreadCount && (
-                          <div className="w-5 h-5 bg-teal-500 rounded-full flex items-center justify-center">
+                          <div className="w-5 h-5 bg-[#016a80] rounded-full flex items-center justify-center">
                             <span className="text-xs text-white font-medium">
                               {message.unreadCount}
                             </span>
@@ -162,7 +162,7 @@ export default function MessagesPage() {
                       {/* Read indicator */}
                       <div className="flex-shrink-0">
                         <svg 
-                          className={`w-4 h-4 ${message.isRead ? 'text-teal-500' : 'text-gray-400'}`} 
+                          className={`w-4 h-4 ${message.isRead ? 'text-[#016a80]' : 'text-gray-400'}`} 
                           fill="none" 
                           stroke="currentColor" 
                           viewBox="0 0 24 24"

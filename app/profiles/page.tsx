@@ -44,7 +44,7 @@ const ProfilePage = () => {
                             <div>
                                 <h3 className="text-3xl font-bold text-gray-900">0 ед.</h3>
                             </div>
-                            <button className="bg-teal-500 text-white px-6 py-2 rounded-lg font-medium hover:bg-teal-600 transition-colors">
+                            <button className="bg-[#016a80] text-white px-6 py-2 rounded-lg font-medium hover:bg-teal-600 transition-colors">
                                 Пополнить
                             </button>
                         </div>
@@ -65,7 +65,7 @@ const ProfilePage = () => {
                             <button 
                                 className={`flex-1 py-3 rounded-xl text-center font-medium ${
                                     activeTab === 'active' 
-                                    ? 'bg-teal-500 text-white' 
+                                    ? 'bg-[#016a80] text-white' 
                                     : 'bg-gray-100 text-gray-600'
                                 }`}
                                 onClick={() => setActiveTab('active')}
@@ -75,7 +75,7 @@ const ProfilePage = () => {
                             <button 
                                 className={`flex-1 py-3 rounded-xl text-center font-medium ${
                                     activeTab === 'inactive' 
-                                    ? 'bg-teal-500 text-white' 
+                                    ? 'bg-[#016a80] text-white' 
                                     : 'bg-gray-100 text-gray-600'
                                 }`}
                                 onClick={() => setActiveTab('inactive')}
@@ -97,7 +97,7 @@ const ProfilePage = () => {
                         </div>
 
                         {/* Add listing button */}
-                        <Link href="/add-listing" className="w-full bg-teal-500 text-white py-3 rounded-xl flex items-center justify-center gap-2 font-medium hover:bg-teal-600 transition-colors">
+                        <Link href="/add-listing" className="w-full bg-[#016a80] text-white py-3 rounded-xl flex items-center justify-center gap-2 font-medium hover:bg-teal-600 transition-colors">
                             <Plus size={20} />
                             Подать объявление
                         </Link>

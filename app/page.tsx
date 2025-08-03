@@ -525,7 +525,7 @@ console.log(listings)
                     />
                   </div>
                   <div className="space-y-1 ">
-                    <div className="text-xs font-medium text-gray-900 mb-0.5">
+                    <div className="text-xs font-medium text-[#6B7280] mb-0.5">
                       {listing.roomCount}-комнатная
                     </div>
                     <div className="flex items-center text-xs text-gray-600 mb-0.5">
@@ -540,6 +540,9 @@ console.log(listings)
                       </div>
                       <div className="text-xs text-[#6B7280] font-light">
                         {listing.area}
+                      </div>
+                      <div className="text-xs text-[#6B7280] font-light">
+                        {listing.city}
                       </div>
                     </div>
                   </div>

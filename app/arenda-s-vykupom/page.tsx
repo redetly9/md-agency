@@ -3,8 +3,11 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, X, Phone, Mail, MapPin, Instagram, Facebook, Twitter, Linkedin } from 'lucide-react';
+import { useMoveBack } from '@/hooks/useMoveBack';
 
 export default function ArendaSVykupomPage() {
+  const moveBack = useMoveBack();
+  
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -67,7 +70,7 @@ export default function ArendaSVykupomPage() {
           width: 20px;
           border-radius: 50%;
           background: white;
-          border: 2px solid #2D6BFF;
+          border: 2px solid #016a80;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
           cursor: pointer;
         }
@@ -77,7 +80,7 @@ export default function ArendaSVykupomPage() {
           width: 20px;
           border-radius: 50%;
           background: white;
-          border: 2px solid #2D6BFF
+          border: 2px solid #016a80;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
           cursor: pointer;
         }
@@ -102,10 +105,13 @@ export default function ArendaSVykupomPage() {
       {/* Header */}
       <header className="bg-white px-4 py-3">
         <div className="max-w-screen-md mx-auto flex items-center justify-between">
-          <Link href="/" className="text-2xl font-medium">
-            md.kz
-          </Link>
-          <button className="bg-red-500 text-white px-5 py-2 rounded-lg font-light hover:bg-red-600 transition-colors text-sm">
+          <div className="flex items-center gap-3">
+            <button onClick={moveBack} className="text-gray-500">
+              <ArrowLeft size={24} className="text-gray-700" />
+            </button>
+            <span className="text-2xl font-medium text-[#016a80]">md.kz</span>
+          </div>
+          <button className="bg-[#016a80] text-white px-5 py-2 rounded-lg font-light hover:bg-[#016a80] transition-colors text-sm">
             Связаться с нами
           </button>
         </div>
@@ -132,7 +138,7 @@ export default function ArendaSVykupomPage() {
             Ваш путь к собственному жилью без ипотечного бремени и сложных банковских проверок
           </p>
           <div className="flex flex-col gap-4 max-w-md">
-            <button className="bg-red-500 text-white px-8 py-4 rounded-lg font-semibold hover:bg-red-600 transition-colors">
+            <button className="bg-[#016a80] text-white px-8 py-4 rounded-lg font-semibold hover:bg-[#016a80] transition-colors">
               Получить консультацию
             </button>
             <Link 
@@ -169,7 +175,7 @@ export default function ArendaSVykupomPage() {
                 onChange={handleCalculatorChange}
                 className="w-full h-[3px] bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
                 style={{
-                  background: `linear-gradient(to right, #2D6BFF 0%, #2D6BFF ${((calculator.propertyValue - 1000000) / (50000000 - 1000000)) * 100}%, #E5E7EB ${((calculator.propertyValue - 1000000) / (50000000 - 1000000)) * 100}%, #E5E7EB 100%)`
+                  background: `linear-gradient(to right, #016a80 0%, #016a80 ${((calculator.propertyValue - 1000000) / (50000000 - 1000000)) * 100}%, #E5E7EB ${((calculator.propertyValue - 1000000) / (50000000 - 1000000)) * 100}%, #E5E7EB 100%)`
                 }}
               />
             </div>
@@ -194,7 +200,7 @@ export default function ArendaSVykupomPage() {
                 onChange={(e) => setCalculator(prev => ({ ...prev, monthlyPayment: parseInt(e.target.value) }))}
                 className="w-full h-[3px] bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
                 style={{
-                  background: `linear-gradient(to right, #2D6BFF 0%, #2D6BFF ${(calculator.monthlyPayment / 1000000) * 100}%, #E5E7EB ${(calculator.monthlyPayment / 1000000) * 100}%, #E5E7EB 100%)`
+                  background: `linear-gradient(to right, #016a80 0%, #016a80 ${(calculator.monthlyPayment / 1000000) * 100}%, #E5E7EB ${(calculator.monthlyPayment / 1000000) * 100}%, #E5E7EB 100%)`
                 }}
               />
             </div>
@@ -219,7 +225,7 @@ export default function ArendaSVykupomPage() {
                 onChange={(e) => setCalculator(prev => ({ ...prev, duration: parseInt(e.target.value) }))}
                 className="w-full h-[3px] bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
                 style={{
-                  background: `linear-gradient(to right, #2D6BFF 0%, #2D6BFF ${((calculator.duration - 12) / (120 - 12)) * 100}%, #E5E7EB ${((calculator.duration - 12) / (120 - 12)) * 100}%, #E5E7EB 100%)`
+                  background: `linear-gradient(to right, #016a80 0%, #016a80 ${((calculator.duration - 12) / (120 - 12)) * 100}%, #E5E7EB ${((calculator.duration - 12) / (120 - 12)) * 100}%, #E5E7EB 100%)`
                 }}
               />
             </div>
@@ -236,7 +242,7 @@ export default function ArendaSVykupomPage() {
             <div className="space-y-4">
               <div>
                 <p className="text-gray-700 mb-2">Общая сумма накоплений:</p>
-                <p className="text-3xl font-bold text-red-500">
+                <p className="text-3xl font-bold text-[#016a80]">
                   {(calculator.monthlyPayment * calculator.duration).toLocaleString('ru-RU')} ₸
                 </p>
                 <p className="text-sm text-[#6B7280] font-light mt-1">
@@ -260,7 +266,7 @@ export default function ArendaSVykupomPage() {
 
           {/* Action Button */}
           <div className="text-center">
-            <button className="bg-[#FF4B55] text-white px-8 py-4 rounded-lg font-medium text-base hover:bg-red-600 transition-colors w-full">
+            <button className="bg-[#016a80] text-white px-8 py-4 rounded-lg font-medium text-base hover:bg-red-600 transition-colors w-full">
               Накопить и купить
             </button>
           </div>
@@ -278,7 +284,7 @@ export default function ArendaSVykupomPage() {
               {/* Первоначальный накопительный взнос */}
               <div className="bg-white rounded-xl p-4 shadow-sm">
                 <div className="">
-                    <span className="text-red-500 text-2xl font-bold">%</span>
+                    <span className="text-[#016a80] text-2xl font-bold">%</span>
                   <div>
                     <h3 className="text-base font-semibold text-black mb-2">
                       Первоначальный накопительный взнос
@@ -293,7 +299,7 @@ export default function ArendaSVykupomPage() {
               {/* Гибкие условия договора */}
               <div className="bg-white rounded-xl p-4 shadow-sm">
                 <div className="">
-                    <svg className="w-8 h-8 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-8 h-8 text-[#016a80]" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm0 2h12v8H4V6z"/>
                       <path d="M6 8h8v2H6V8z"/>
                       <path d="M6 11h8v1H6v-1z"/>
@@ -312,7 +318,7 @@ export default function ArendaSVykupomPage() {
               {/* Возможность тестировать жильё */}
               <div className="bg-white rounded-xl p-4 shadow-sm">
                 <div className="">
-                    <svg className="w-8 h-8 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-8 h-8 text-[#016a80]" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M9.243 3.03a1 1 0 01.727 1.213L9.53 6h2.94l.56-2.243a1 1 0 111.94.486L14.53 6H16a1 1 0 110 2h-1.265l-1.5 6H15a1 1 0 110 2h-1.735l-.552 2.207a1 1 0 11-1.94-.486L11.265 16H8.735l-.552 2.207a1 1 0 11-1.94-.486L6.735 16H5a1 1 0 110-2h1.265l1.5-6H6a1 1 0 010-2h1.735l.552-2.207a1 1 0 011.213-.727zM8.97 8l-1.5 6h2.56l1.5-6H8.97z" clipRule="evenodd"/>
                     </svg>
                   <div>
@@ -329,7 +335,7 @@ export default function ArendaSVykupomPage() {
               {/* Простой процесс оформления */}
               <div className="bg-white rounded-xl p-4 shadow-sm">
                 <div className="">
-                    <svg className="w-8 h-8 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-8 h-8 text-[#016a80]" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                     </svg>
                   <div>
@@ -346,7 +352,7 @@ export default function ArendaSVykupomPage() {
               {/* Отсутствие процентной ставки */}
               <div className="bg-white rounded-xl p-4 shadow-sm">
                 <div className="">
-                    <span className="text-red-500 text-2xl font-bold">$</span>
+                    <span className="text-[#016a80] text-2xl font-bold">$</span>
                   <div>
                     <h3 className="text-base font-semibold text-black mb-2">
                       Отсутствие процентной ставки
@@ -361,7 +367,7 @@ export default function ArendaSVykupomPage() {
               {/* Защита от переплат */}
               <div className="bg-white rounded-xl p-4 shadow-sm">
                 <div className="">
-                    <svg className="w-8 h-8 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-8 h-8 text-[#016a80]" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
                     </svg>
                   <div>
@@ -396,42 +402,42 @@ export default function ArendaSVykupomPage() {
                            {/* Первоначальный накопительный взнос */}
                            <div className="grid grid-cols-3 py-4 px-4 border-b border-gray-200">
                              <div className="text-gray-900 text-sm font-light">Первоначальный накопительный взнос</div>
-                             <div className="text-red-500 font-light text-center text-sm">От 5%</div>
+                             <div className="text-[#016a80] font-light text-center text-sm">От 5%</div>
                              <div className="text-gray-900 text-center text-sm font-light">От 20-30%</div>
                            </div>
                            
                            {/* Проверка кредитной истории */}
                            <div className="grid grid-cols-3 py-4 px-4 border-b border-gray-200">
                              <div className="text-gray-900 text-sm font-light">Проверка кредитной истории</div>
-                             <div className="text-red-500 font-light text-center text-sm">Минимальная</div>
+                             <div className="text-[#016a80] font-light text-center text-sm">Минимальная</div>
                              <div className="text-gray-900 text-center text-sm font-light">Строгая</div>
                            </div>
                            
                            {/* Процентная ставка */}
                            <div className="grid grid-cols-3 py-4 px-4 border-b border-gray-200">
                              <div className="text-gray-900 text-sm font-light">Процентная ставка</div>
-                             <div className="text-red-500 font-light text-center text-sm">От 7% до 13.8%</div>
+                             <div className="text-[#016a80] font-light text-center text-sm">От 7% до 13.8%</div>
                              <div className="text-gray-900 text-center text-sm font-light">От 19% до 24.5%</div>
                            </div>
                            
                            {/* Возможность тестировать жильё */}
                            <div className="grid grid-cols-3 py-4 px-4 border-b border-gray-200">
                              <div className="text-gray-900 text-sm font-light">Возможность тестировать жильё</div>
-                             <div className="text-red-500 font-light text-center text-sm">Да</div>
+                             <div className="text-[#016a80] font-light text-center text-sm">Да</div>
                              <div className="text-gray-900 text-center text-sm font-light">Нет</div>
                            </div>
                            
                            {/* Гибкость условий */}
                            <div className="grid grid-cols-3 py-4 px-4 border-b border-gray-200">
                              <div className="text-gray-900 text-sm font-light">Гибкость условий</div>
-                             <div className="text-red-500 font-light text-center text-sm">Высокая</div>
+                             <div className="text-[#016a80] font-light text-center text-sm">Высокая</div>
                              <div className="text-gray-900 text-center text-sm font-light">Низкая</div>
                            </div>
                            
                            {/* Подходит для нестабильного дохода */}
                            <div className="grid grid-cols-3 py-4 px-4">
                              <div className="text-gray-900 text-sm font-light">Подходит для нестабильного дохода</div>
-                             <div className="text-red-500 font-light text-center text-sm">Да</div>
+                             <div className="text-[#016a80] font-light text-center text-sm">Да</div>
                              <div className="text-gray-900 text-center text-sm font-light">Нет</div>
               </div>
             </div>
@@ -450,7 +456,7 @@ export default function ArendaSVykupomPage() {
                          {/* Services List */}
                          <div className="space-y-4">
                            <div className="flex items-center gap-3">
-                             <div className="w-6 h-6 bg-red-500 rounded flex items-center justify-center flex-shrink-0">
+                             <div className="w-6 h-6 bg-[#016a80] rounded flex items-center justify-center flex-shrink-0">
                                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                </svg>
@@ -459,7 +465,7 @@ export default function ArendaSVykupomPage() {
                            </div>
                            
                            <div className="flex items-center gap-3">
-                             <div className="w-6 h-6 bg-red-500 rounded flex items-center justify-center flex-shrink-0">
+                             <div className="w-6 h-6 bg-[#016a80] rounded flex items-center justify-center flex-shrink-0">
                                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                </svg>
@@ -468,7 +474,7 @@ export default function ArendaSVykupomPage() {
                            </div>
                            
                            <div className="flex items-center gap-3">
-                             <div className="w-6 h-6 bg-red-500 rounded flex items-center justify-center flex-shrink-0">
+                             <div className="w-6 h-6 bg-[#016a80] rounded flex items-center justify-center flex-shrink-0">
                                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                </svg>
@@ -477,7 +483,7 @@ export default function ArendaSVykupomPage() {
                            </div>
                            
                            <div className="flex items-center gap-3">
-                             <div className="w-6 h-6 bg-red-500 rounded flex items-center justify-center flex-shrink-0">
+                             <div className="w-6 h-6 bg-[#016a80] rounded flex items-center justify-center flex-shrink-0">
                                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                </svg>
@@ -486,7 +492,7 @@ export default function ArendaSVykupomPage() {
                            </div>
                            
                            <div className="flex items-start gap-3">
-                             <div className="w-6 h-6 bg-red-500 rounded flex items-center justify-center flex-shrink-0 mt-1">
+                             <div className="w-6 h-6 bg-[#016a80] rounded flex items-center justify-center flex-shrink-0 mt-1">
                                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                </svg>
@@ -520,7 +526,7 @@ export default function ArendaSVykupomPage() {
               <div className="space-y-8">
                 {/* Выбор объекта недвижимости */}
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-[#016a80] rounded-full flex items-center justify-center flex-shrink-0">
                     <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
                     </svg>
@@ -537,7 +543,7 @@ export default function ArendaSVykupomPage() {
 
                 {/* Внесение первоначального взноса */}
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-[#016a80] rounded-full flex items-center justify-center flex-shrink-0">
                     <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"/>
                     </svg>
@@ -554,7 +560,7 @@ export default function ArendaSVykupomPage() {
 
                 {/* Заключение договора */}
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-[#016a80] rounded-full flex items-center justify-center flex-shrink-0">
                     <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/>
                       <path d="M8 8h4v1H8V8z"/>
@@ -574,7 +580,7 @@ export default function ArendaSVykupomPage() {
 
                 {/* Проживание и выплаты */}
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-[#016a80] rounded-full flex items-center justify-center flex-shrink-0">
                     <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M18 8a6 6 0 01-9.12 5.19L3 17a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707L5.88 9.12A6 6 0 1118 8zm-6 0a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd"/>
                     </svg>
@@ -591,7 +597,7 @@ export default function ArendaSVykupomPage() {
               
                 {/* Полный выкуп объекта */}
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-[#016a80] rounded-full flex items-center justify-center flex-shrink-0">
                     <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                     </svg>
@@ -668,7 +674,7 @@ export default function ArendaSVykupomPage() {
 
                <button
                  type="submit"
-                 className="w-full bg-red-500 hover:bg-red-600 text-white py-3 px-6 rounded-lg font-semibold transition-colors mt-6"
+                 className="w-full bg-[#016a80] hover:bg-[#016a80] text-white py-3 px-6 rounded-lg font-semibold transition-colors mt-6"
                >
                  Отправить заявку
             </button>

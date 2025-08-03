@@ -14,9 +14,9 @@ const config: Config = {
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))', // Конусный градиент
       },
       colors: {
-        primary: '#45e7d5',
+        primary: '#016a80',
         secondary: '#f3f4f6',
-        accent: '#45e7d5',
+        accent: '#016a80',
         background: '#f9fafb',
         textPrimary: '#111827',
         textSecondary: '#6b7280',

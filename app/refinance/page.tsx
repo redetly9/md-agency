@@ -3,8 +3,11 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, X, Percent, TrendingDown, Shield, Clock, CheckCircle, Facebook, Instagram, Twitter, CreditCard, Banknote } from 'lucide-react';
+import { useMoveBack } from '@/hooks/useMoveBack';
 
 export default function RefinancePage() {
+  const moveBack = useMoveBack();
+  
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -30,9 +33,9 @@ export default function RefinancePage() {
       <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-screen-md mx-auto px-4 py-4">
           <div className="flex items-center">
-            <Link href="/" className="mr-4">
+            <button onClick={moveBack} className="mr-4">
               <ArrowLeft size={24} className="text-gray-700" />
-          </Link>
+          </button>
             <h1 className="text-xl font-semibold text-gray-900">Рефинансирование</h1>
           </div>
         </div>
@@ -56,7 +59,7 @@ export default function RefinancePage() {
             </p>
             <a 
               href="#contact" 
-              className="inline-block bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors"
+              className="inline-block bg-[#016a80] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#016a80] transition-colors"
             >
               Получить консультацию
             </a>
@@ -73,8 +76,8 @@ export default function RefinancePage() {
           <div className="space-y-4">
             <div className="bg-white rounded-lg p-4 shadow-sm">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Percent size={24} className="text-red-600" />
+                <div className="w-12 h-12 bg-[#016a80] rounded-full flex items-center justify-center flex-shrink-0">
+                  <Percent size={24} className="text-white" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-2">
@@ -89,8 +92,8 @@ export default function RefinancePage() {
 
             <div className="bg-white rounded-lg p-4 shadow-sm">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Banknote size={24} className="text-red-600" />
+                <div className="w-12 h-12 bg-[#016a80] rounded-full flex items-center justify-center flex-shrink-0">
+                  <Banknote size={24} className="text-white" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-2">
@@ -105,8 +108,8 @@ export default function RefinancePage() {
 
             <div className="bg-white rounded-lg p-4 shadow-sm">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                  <CreditCard size={24} className="text-red-600" />
+                <div className="w-12 h-12 bg-[#016a80] rounded-full flex items-center justify-center flex-shrink-0">
+                  <CreditCard size={24} className="text-white" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-2">
@@ -131,8 +134,8 @@ export default function RefinancePage() {
           <div className="space-y-4">
             <div className="bg-white shadow-lg rounded-lg p-3">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                  <TrendingDown size={24} className="text-red-600" />
+                <div className="w-12 h-12 bg-[#016a80] rounded-full flex items-center justify-center flex-shrink-0">
+                  <TrendingDown size={24} className="text-white" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-2">Снижение ежемесячного платежа</h3>
@@ -145,8 +148,8 @@ export default function RefinancePage() {
 
             <div className="bg-white shadow-lg rounded-lg p-6">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Percent size={24} className="text-red-600" />
+                <div className="w-12 h-12 bg-[#016a80] rounded-full flex items-center justify-center flex-shrink-0">
+                  <Percent size={24} className="text-white" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-2">Выгодные процентные ставки</h3>
@@ -159,8 +162,8 @@ export default function RefinancePage() {
 
             <div className="bg-white shadow-lg rounded-lg p-6">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Shield size={24} className="text-red-600" />
+                <div className="w-12 h-12 bg-[#016a80] rounded-full flex items-center justify-center flex-shrink-0">
+                  <Shield size={24} className="text-white" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-2">Дополнительные возможности</h3>
@@ -185,19 +188,19 @@ export default function RefinancePage() {
             <h3 className="font-semibold text-gray-900 mb-4">Основные параметры</h3>
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-red-600 rounded-full"></div>
+                <div className="w-2 h-2 bg-[#016a80] rounded-full"></div>
                 <span className="text-gray-700">Сумма от 1 000 000 ₸</span>
               </div>
               <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-red-600 rounded-full"></div>
+                <div className="w-2 h-2 bg-[#016a80] rounded-full"></div>
                 <span className="text-gray-700">Срок до 20 лет</span>
               </div>
               <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-red-600 rounded-full"></div>
+                <div className="w-2 h-2 bg-[#016a80] rounded-full"></div>
                 <span className="text-gray-700">Ставка от 7% годовых</span>
               </div>
               <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-red-600 rounded-full"></div>
+                <div className="w-2 h-2 bg-[#016a80] rounded-full"></div>
                 <span className="text-gray-700">Досрочное погашение без комиссий</span>
               </div>
             </div>
@@ -225,15 +228,15 @@ export default function RefinancePage() {
             <h3 className="font-semibold text-gray-900 mb-4">Погашение ипотеки</h3>
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-red-600 rounded-full"></div>
+                <div className="w-2 h-2 bg-[#016a80] rounded-full"></div>
                 <span className="text-gray-700">Аннуитетные платежи</span>
               </div>
               <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-red-600 rounded-full"></div>
+                <div className="w-2 h-2 bg-[#016a80] rounded-full"></div>
                 <span className="text-gray-700">Гибкий график погашения</span>
               </div>
               <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-red-600 rounded-full"></div>
+                <div className="w-2 h-2 bg-[#016a80] rounded-full"></div>
                 <span className="text-gray-700">Досрочное погашение</span>
               </div>
             </div>
@@ -297,7 +300,7 @@ export default function RefinancePage() {
             
             <button
               type="submit"
-              className="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors"
+              className="w-full bg-[#016a80] text-white py-3 rounded-lg font-semibold hover:bg-[#016a80] transition-colors"
             >
               Отправить заявку
             </button>

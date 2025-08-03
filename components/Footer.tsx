@@ -9,19 +9,7 @@ const Footer: React.FC = () => {
 
     const isActive = (path: string) => pathname === path;
     
-    // Специальный футер для страницы добавления объявления
-    if (pathname === '/add-listing') {
-        return (
-            <footer className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 h-20">
-                <div className="max-w-screen-md mx-auto h-full flex items-center justify-center px-4">
-                    <button className="w-full max-w-sm bg-[#4ECDC4] text-white py-4 rounded-2xl font-medium text-lg flex items-center justify-center gap-2">
-                        <Plus size={24} />
-                        Подать объявление
-                    </button>
-                </div>
-            </footer>
-        );
-    }
+
 
     return (
         <footer className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 h-20">
@@ -30,7 +18,7 @@ const Footer: React.FC = () => {
                     <Link 
                         href="/" 
                         className={`flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-colors h-16 ${
-                            isActive('/') ? 'text-[#086072]' : 'text-gray-600'
+                            isActive('/') ? 'text-[#016a80]' : 'text-gray-600'
                         }`}
                     >
                         <Home size={24} />
@@ -40,7 +28,7 @@ const Footer: React.FC = () => {
                     <Link 
                         href="/favoritess" 
                         className={`flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-colors h-16 ${
-                            isActive('/favoritess') ? 'text-primary' : 'text-gray-600'
+                            isActive('/favoritess') ? 'text-[#016a80]' : 'text-gray-600'
                         }`}
                     >
                         <Heart size={24} />
@@ -51,7 +39,7 @@ const Footer: React.FC = () => {
                         href="/add-listing" 
                         className="flex flex-col items-center justify-center py-2 px-3 h-16"
                     >
-                        <div className="w-12 h-12 bg-[#086072] rounded-full flex items-center justify-center flex-shrink-0" style={{ borderRadius: '50%', minWidth: '48px', minHeight: '48px', maxWidth: '48px', maxHeight: '48px' }}>
+                        <div className="w-12 h-12 bg-[#016a80] rounded-full flex items-center justify-center flex-shrink-0" style={{ borderRadius: '50%', minWidth: '48px', minHeight: '48px', maxWidth: '48px', maxHeight: '48px' }}>
                             <Plus size={24} className="text-white" />
                         </div>
                         <span className="text-xs text-gray-600 mt-1 text-[#4B5563] font-light">Подать</span>
@@ -60,7 +48,7 @@ const Footer: React.FC = () => {
                     <Link 
                         href="/messages" 
                         className={`flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-colors h-16 ${
-                            isActive('/messages') ? 'text-primary' : 'text-gray-600'
+                            isActive('/messages') ? 'text-[#016a80]' : 'text-gray-600'
                         }`}
                     >
                         <MessageCircle size={24} />
@@ -70,7 +58,7 @@ const Footer: React.FC = () => {
                     <Link 
                         href="/profiles" 
                         className={`flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-colors h-16 ${
-                            isActive('/profiles') ? 'text-primary' : 'text-gray-600'
+                            isActive('/profiles') ? 'text-[#016a80]' : 'text-gray-600'
                         }`}
                     >
                         <User size={24} />

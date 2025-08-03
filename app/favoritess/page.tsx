@@ -187,7 +187,7 @@ export default function FavoritesPage() {
               <Link href={`/listings/view/${listing.id}`} className="block">
                 <div className="p-4 flex gap-4">
                   {/* Image */}
-                  <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
+                  <div className="relative w-[96px] h-[80px] rounded-lg overflow-hidden flex-shrink-0">
                     <img
                       src={listing.imageSrc?.[0] || '/images/placeholder.jpg'}
                       alt={listing.title}

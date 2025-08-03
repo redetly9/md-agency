@@ -8,8 +8,11 @@ import {
   Camera, 
   ChevronDown
 } from 'lucide-react';
+import { useMoveBack } from '@/hooks/useMoveBack';
 
 const AddListingPage = () => {
+  const moveBack = useMoveBack();
+  
   const [listingType, setListingType] = useState('sell'); // 'sell' или 'rent'
   const [formData, setFormData] = useState({
     rooms: '1',
@@ -24,19 +27,19 @@ const AddListingPage = () => {
   });
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <div className="bg-gray-50">
       {/* Шапка */}
       <header className="bg-white px-4 py-3 border-b border-gray-200">
         <div className="max-w-screen-md mx-auto flex items-center">
-          <Link href="/profile" className="mr-4">
+          <button onClick={moveBack} className="mr-4">
             <ArrowLeft size={24} className="text-gray-700" />
-          </Link>
+          </button>
           <h1 className="text-xl font-semibold text-gray-900">Подать объявление</h1>
         </div>
       </header>
 
       {/* Основной контент */}
-      <main className="flex-grow px-4 py-6 pb-20">
+      <div className="px-4 py-6">
         <div className="max-w-screen-md mx-auto space-y-6">
           
           {/* Переключатель типа объявления */}
@@ -45,7 +48,7 @@ const AddListingPage = () => {
               <button 
                 className={`flex-1 py-3 px-4 rounded-lg text-center font-medium transition-colors ${
                   listingType === 'sell' 
-                  ? 'bg-teal-500 text-white' 
+                  ? 'bg-[#016a80] text-white' 
                   : 'text-gray-600'
                 }`}
                 onClick={() => setListingType('sell')}
@@ -55,7 +58,7 @@ const AddListingPage = () => {
               <button 
                 className={`flex-1 py-3 px-4 rounded-lg text-center font-medium transition-colors ${
                   listingType === 'rent' 
-                  ? 'bg-teal-500 text-white' 
+                  ? 'bg-[#016a80] text-white' 
                   : 'text-gray-600'
                 }`}
                 onClick={() => setListingType('rent')}
@@ -74,7 +77,7 @@ const AddListingPage = () => {
               <select 
                 value={formData.rooms}
                 onChange={(e) => setFormData({...formData, rooms: e.target.value})}
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg appearance-none bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg appearance-none bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#016a80]"
               >
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -97,7 +100,7 @@ const AddListingPage = () => {
                 placeholder="Например, 12 000 000"
                 value={formData.price}
                 onChange={(e) => setFormData({...formData, price: e.target.value})}
-                className="flex-1 px-4 py-3 border border-gray-200 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="flex-1 px-4 py-3 border border-gray-200 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-[#016a80]"
               />
               <div className="px-4 py-3 bg-gray-100 border border-l-0 border-gray-200 rounded-r-lg text-gray-600">
                 тенге
@@ -117,7 +120,7 @@ const AddListingPage = () => {
                   name="mortgage"
                   checked={formData.isInMortgage === true}
                   onChange={() => setFormData({...formData, isInMortgage: true})}
-                  className="mr-2 w-4 h-4 text-teal-500 focus:ring-teal-500"
+                  className="mr-2 w-4 h-4 text-[#016a80] focus:ring-[#016a80]"
                 />
                 <span className="text-gray-900">да</span>
               </label>
@@ -127,7 +130,7 @@ const AddListingPage = () => {
                   name="mortgage"
                   checked={formData.isInMortgage === false}
                   onChange={() => setFormData({...formData, isInMortgage: false})}
-                  className="mr-2 w-4 h-4 text-teal-500 focus:ring-teal-500"
+                  className="mr-2 w-4 h-4 text-[#016a80] focus:ring-[#016a80]"
                 />
                 <span className="text-gray-900">нет</span>
               </label>
@@ -145,14 +148,14 @@ const AddListingPage = () => {
                 placeholder="Общая"
                 value={formData.totalArea}
                 onChange={(e) => setFormData({...formData, totalArea: e.target.value})}
-                className="flex-1 px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="flex-1 px-4 py-3 w-1/2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#016a80]"
               />
               <input 
                 type="text"
                 placeholder="Кухня"
                 value={formData.kitchenArea}
                 onChange={(e) => setFormData({...formData, kitchenArea: e.target.value})}
-                className="flex-1 px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="flex-1 px-4 py-3 w-1/2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#016a80]"
               />
             </div>
           </div>
@@ -169,10 +172,10 @@ const AddListingPage = () => {
                 placeholder="Поиск по городу, району, микрорайо..."
                 value={formData.location}
                 onChange={(e) => setFormData({...formData, location: e.target.value})}
-                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#016a80]"
               />
             </div>
-            <button className="w-full bg-teal-500 text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2">
+            <button className="w-full bg-[#016a80] text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2">
               <MapPin size={20} />
               Указать на карте
             </button>
@@ -216,7 +219,7 @@ const AddListingPage = () => {
                     value={condition}
                     checked={formData.condition === condition}
                     onChange={(e) => setFormData({...formData, condition: e.target.value})}
-                    className="mr-3 w-4 h-4 text-teal-500 focus:ring-teal-500"
+                    className="mr-3 w-4 h-4 text-[#016a80] focus:ring-[#016a80]"
                   />
                   <span className="text-gray-900">{condition}</span>
                 </label>
@@ -245,7 +248,7 @@ const AddListingPage = () => {
                     value={type}
                     checked={formData.contactType === type}
                     onChange={(e) => setFormData({...formData, contactType: e.target.value})}
-                    className="mr-3 w-4 h-4 text-teal-500 focus:ring-teal-500"
+                    className="mr-3 w-4 h-4 text-[#016a80] focus:ring-[#016a80]"
                   />
                   <span className="text-gray-900">{type}</span>
                 </label>
@@ -261,14 +264,14 @@ const AddListingPage = () => {
               placeholder="+7 (___) ___-__-__"
               value={formData.phone}
               onChange={(e) => setFormData({...formData, phone: e.target.value})}
-              className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 mb-4"
+              className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#016a80] mb-4"
             />
             
             {/* Согласие */}
             <label className="flex items-start gap-3">
               <input 
                 type="checkbox"
-                className="mt-1 w-4 h-4 text-teal-500 focus:ring-teal-500 rounded"
+                className="mt-1 w-4 h-4 text-[#016a80] focus:ring-[#016a80] rounded"
               />
               <span className="text-gray-600 text-sm">
                 Согласен с правилами размещения объявлений
@@ -277,11 +280,11 @@ const AddListingPage = () => {
           </div>
 
           {/* Кнопка продолжить */}
-          <button className="w-full bg-teal-500 text-white py-4 rounded-lg font-medium text-lg">
+          <button className="w-full bg-[#016a80] text-white py-4 rounded-lg font-medium text-lg">
             Продолжить
           </button>
         </div>
-      </main>
+      </div>
     </div>
   );
 };
