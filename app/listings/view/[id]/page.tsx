@@ -48,10 +48,60 @@ export default function ListingViewPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentImage, setCurrentImage] = useState(0);
   const [showFullDescription, setShowFullDescription] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: ''
+  });
   
   // Хуки для работы с избранным и аутентификацией
   const { user } = useAuth();
   const { isFavorite, toggleFavorite, loading: favoritesLoading } = useFavorites();
+
+  // Обработчики для модального окна и формы
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('Form submitted:', formData);
+    toast.success('Заявка отправлена!');
+    setShowModal(false);
+    setFormData({ name: '', phone: '', email: '' });
+  };
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  // Закрытие модалки по клавише Escape
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    };
+
+    if (showModal) {
+      document.addEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'hidden'; // Блокируем скролл
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'unset'; // Возвращаем скролл
+    };
+  }, [showModal]);
 
   useEffect(() => {
     const fetchListing = async () => {
@@ -320,8 +370,89 @@ export default function ListingViewPage() {
             </Link>
           </div>
         </div>
+        <button
+                 type="button"
+                 onClick={openModal}
+                 className="w-full bg-[#016a80] hover:bg-[#014d5e] text-white py-3 px-6 rounded-lg font-semibold transition-colors mt-6"
+               >
+                 Отправить заявку
+            </button>
       </div>
 
+      {/* Модальное окно с формой */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          {/* Фон модалки */}
+          <div 
+            className="absolute inset-0 bg-black bg-opacity-50"
+            onClick={closeModal}
+          ></div>
+          
+          {/* Содержимое модалки */}
+          <div className="relative bg-white rounded-lg p-8 m-4 max-w-md w-full max-h-[90vh] overflow-y-auto">
+            {/* Кнопка закрытия */}
+            <button
+              onClick={closeModal}
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Заголовок */}
+            <h3 className="text-xl font-semibold mb-6 text-gray-900">
+              Оставьте заявку на консультацию
+            </h3>
+            
+            {/* Форма */}
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#016a80] focus:border-transparent text-gray-900 placeholder-gray-500"
+                  placeholder="Ваше имя"
+                  required
+                />
+              </div>
+              
+              <div>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#016a80] focus:border-transparent text-gray-900 placeholder-gray-500"
+                  placeholder="Номер телефона"
+                  required
+                />
+              </div>
+
+              <div>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#016a80] focus:border-transparent text-gray-900 placeholder-gray-500"
+                  placeholder="E-mail"
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-[#016a80] hover:bg-[#014d5e] text-white py-3 px-6 rounded-lg font-semibold transition-colors mt-6"
+              >
+                Отправить заявку
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
 
     </div>
   );
