@@ -42,7 +42,7 @@ export async function GET(request: Request) {
   const page = searchParams.get('page') || '1';
   
   // Получаем параметры фильтрации
-  const region = searchParams.get('region') || 'astana';
+  const region = searchParams.get('region') || 'almaty';
   const rooms = searchParams.get('rooms');
   const priceFrom = searchParams.get('priceFrom');
   const priceTo = searchParams.get('priceTo');
@@ -57,6 +57,8 @@ export async function GET(request: Request) {
   
   try {
     // Формируем URL для запроса к Krisha.kz с учетом фильтров
+    console.log('regionregion', region);
+    
     let URL = `https://krisha.kz/${dealType}/${propertyType}/${region}/?page=${page}`;
     
     // Добавляем параметры фильтрации в формате das[параметр]

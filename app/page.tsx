@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState, Suspense, useRef, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import ListingCard from '@/components/ListingCard';
 import Link from 'next/link';
@@ -65,6 +65,40 @@ function HomeContent() {
     { name: 'Можно с животными', enabled: false },
     { name: 'Интернет Wi-Fi', enabled: false }
   ]);
+  const [searchValue, setSearchValue] = useState('');
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [selectedCity, setSelectedCity] = useState<string | null>(null);
+  const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
+
+  // const regions = [
+  //   'Астана', 'Алматы', 'Шымкент', 'Караганда', 'Актобе', 'Тараз', 'Павлодар', 'Усть-Каменогорск', 'Семей', 'Костанай'
+  // ];
+  const regions = [
+    { id: 'astana', name: 'Астана' },
+    { id: 'almaty', name: 'Алматы' },
+    { id: 'shymkent', name: 'Шымкент' },
+    { id: 'abay-obl', name: 'Абайская обл.' },
+    { id: 'akmola-obl', name: 'Акмолинская обл.' },
+    { id: 'aktobe-obl', name: 'Актюбинская обл.' },
+    { id: 'almaty-obl', name: 'Алматинская обл.' },
+    { id: 'atyrau-obl', name: 'Атырауская обл.' },
+    { id: 'vko-obl', name: 'Восточно-Казахстанская обл.' },
+    { id: 'zhambyl-obl', name: 'Жамбылская обл.' },
+    { id: 'zhetisu-obl', name: 'Жетысуская обл.' },
+    { id: 'zko-obl', name: 'Западно-Казахстанская обл.' },
+    { id: 'karaganda-obl', name: 'Карагандинская обл.' },
+    { id: 'kostanay-obl', name: 'Костанайская обл.' },
+    { id: 'kyzylorda-obl', name: 'Кызылординская обл.' },
+    { id: 'mangystau-obl', name: 'Мангистауская обл.' },
+    { id: 'pavlodar-obl', name: 'Павлодарская обл.' },
+    { id: 'sko-obl', name: 'Северо-Казахстанская обл.' },
+    { id: 'turkestan-obl', name: 'Туркестанская обл.' },
+    { id: 'ulytau-obl', name: 'Улытауская обл.' }
+  ];
+
+  const filteredRegions = searchValue
+    ? regions.filter(region => region.name.toLowerCase().includes(searchValue.toLowerCase()))
+    : regions;
 
   const toggleAmenity = (index: number) => {
     const newAmenities = [...amenities];
@@ -72,30 +106,38 @@ function HomeContent() {
     setAmenities(newAmenities);
   };
 
-  const fetchListings = async (page: number, append: boolean = false) => {
+  const fetchListings = async (page: number, append: boolean = false, region?: string | null) => {
     if (append) {
       setIsLoadingMore(true);
     } else {
       setIsLoading(true);
     }
-    
+
     try {
       const url = new URL('/api/krisha/listings', window.location.origin);
       url.searchParams.set('dealType', 'prodazha');
       url.searchParams.set('propertyType', 'kvartiry');
       url.searchParams.set('page', page.toString());
+      console.log('regionregion', region);
+      
+      if (region) {
+        url.searchParams.set('region', region);
+      }
 
       const response = await fetch(url);
       const data = await response.json();
-      
+
       if (append) {
-        setListings(prev => [...prev, ...data.listings]);
+        setListings(prev => [
+          ...prev,
+          ...(Array.isArray(data.listings) ? data.listings : [])
+        ]);
       } else {
-        setListings(data.listings);
+        setListings(Array.isArray(data.listings) ? data.listings : []);
       }
-      
-      // Проверяем, есть ли еще данные (предполагаем, что если пришло меньше данных, то это последняя страница)
+
       setHasMore(data.listings.length > 0 && data.listings.length >= 10);
+      setCurrentPage(page);
     } catch (error) {
       console.error('Error fetching listings:', error);
     } finally {
@@ -106,38 +148,42 @@ function HomeContent() {
 
   const loadMore = () => {
     if (!isLoadingMore && hasMore) {
-      const nextPage = currentPage + 1;
-      setCurrentPage(nextPage);
-      fetchListings(nextPage, true);
+      fetchListings(currentPage + 1, true, selectedRegion);
     }
   };
 
-  // Intersection Observer для бесконечной прокрутки
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasMore && !isLoadingMore) {
-          loadMore();
-        }
-      },
-      { threshold: 0.1 }
-    );
+  const observerRef = useRef<IntersectionObserver | null>(null);
 
-    const sentinel = document.getElementById('scroll-sentinel');
-    if (sentinel) {
-      observer.observe(sentinel);
+  // Колбэк для привязки sentinel
+  const setSentinelRef = useCallback((node: HTMLDivElement | null) => {
+    if (observerRef.current) {
+      observerRef.current.disconnect();
     }
-
-    return () => {
-      if (sentinel) {
-        observer.unobserve(sentinel);
-      }
-    };
-  }, [hasMore, isLoadingMore, currentPage]);
+    if (node) {
+      observerRef.current = new IntersectionObserver(
+        (entries) => {
+          console.log('loadMore');
+          
+          if (entries[0].isIntersecting && hasMore && !isLoadingMore) {
+            loadMore();
+            console.log('loadMore');
+          }
+        },
+        { threshold: 0.1 }
+      );
+      observerRef.current.observe(node);
+    }
+  }, [hasMore, isLoadingMore, loadMore]);
 
   useEffect(() => {
-    fetchListings(1);
+    fetchListings(1, false);
   }, []);
+
+  useEffect(() => {
+    if (selectedRegion) {
+      fetchListings(1, false, selectedRegion);
+    }
+  }, [selectedRegion]);
 
   // Логирование данных listings
   useEffect(() => {
@@ -233,9 +279,31 @@ console.log(listings)
             <Search size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <input
               type="text"
-              placeholder="Поиск недвижимости..."
+              placeholder="Выберите город..."
               className="w-full pl-10 pr-12 py-3 bg-gray-50 rounded-2xl text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#016a80]"
+              value={searchValue}
+              onChange={e => setSearchValue(e.target.value)}
+              onFocus={() => setShowSuggestions(true)}
+              onBlur={() => setTimeout(() => setShowSuggestions(false), 100)} // чтобы успеть кликнуть
+              autoComplete="off"
             />
+            {showSuggestions && (
+              <ul className="absolute left-0 right-0 top-full bg-white border border-gray-200 rounded-b-lg shadow z-10 max-h-40 overflow-y-auto">
+                {filteredRegions.map(region => (
+                  <li
+                    key={region.id}
+                    className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                    onMouseDown={() => {
+                      setSearchValue(region.name);
+                      setSelectedRegion(region.id);
+                      setShowSuggestions(false);
+                    }}
+                  >
+                    {region.name}
+                  </li>
+                ))}
+              </ul>
+            )}
             <button
               onClick={() => setIsFilterModalOpen(true)}
               className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
@@ -243,6 +311,8 @@ console.log(listings)
               <img src="/filter_icon.svg" alt="filter" className="w-5 h-5" />
             </button>
           </div>
+
+          {/* Suggestions dropdown */}
         </div>
       </div>
 
@@ -514,7 +584,7 @@ console.log(listings)
       <div className="px-4 pb-4">
         <div className="max-w-screen-md mx-auto">
           <div className="grid grid-cols-2 gap-3">
-            {listings.map((listing) => (
+            {Array.isArray(listings) && listings.map((listing) => (
               <div key={listing.id} className="bg-white rounded-xl border border-[#F3F4F6] p-0.5">
                 <Link href={`/listings/view/${listing.id}`} className="block">
                   <div className="relative">
@@ -539,10 +609,13 @@ console.log(listings)
                         {new Intl.NumberFormat('ru-RU').format(listing.price)} ₸
                       </div>
                       <div className="text-xs text-[#6B7280] font-light">
+                        {listing.city}
+                      </div>
+                      <div className="text-xs text-[#6B7280] font-light">
                         {listing.area}
                       </div>
                       <div className="text-xs text-[#6B7280] font-light">
-                        {listing.city}
+                        {listing.region}
                       </div>
                     </div>
                   </div>
@@ -552,7 +625,7 @@ console.log(listings)
           </div>
           
           {/* Sentinel для бесконечной прокрутки */}
-          <div id="scroll-sentinel" className="h-1"></div>
+          <div ref={setSentinelRef} className="h-1" />
           
           {/* Индикатор загрузки */}
           {isLoadingMore && (
