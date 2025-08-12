@@ -1,91 +1,93 @@
 'use client';
 
 import { useState } from 'react';
-import { Search } from 'lucide-react';
+import { Plus, Search, MessageCircle, Mail, Phone, MapPin, HelpCircle } from 'lucide-react';
 import Link from 'next/link';
 
-interface Message {
-  id: string;
-  name: string;
-  avatar: string;
-  lastMessage: string;
-  time: string;
-  isOnline: boolean;
-  isRead: boolean;
-  unreadCount?: number;
-  hasImage?: boolean;
-  imagePreview?: string;
-}
-
-const mockMessages: Message[] = [
+// FAQ вопросы и ответы
+const faqData = [
   {
-    id: '1',
-    name: 'Анна Петрова',
-    avatar: 'https://images.unsplash.com/photo-1494790108755-2616b2e0c4fb?w=100&h=100&fit=crop&crop=face',
-    lastMessage: 'Когда можно посмотреть квартиру?',
-    time: '14:22',
-    isOnline: true,
-    isRead: true,
-    unreadCount: 2,
-    hasImage: true,
-    imagePreview: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=60&h=60&fit=crop'
+    id: 'faq-1',
+    question: 'Как снять квартиру?',
+    answer: 'Выберите понравившийся вариант на сайте, свяжитесь с владельцем через форму или по телефону, указанному в объявлении.'
   },
   {
-    id: '2',
-    name: 'Михаил Иванов',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face',
-    lastMessage: 'Здравствуйте, интересует стоимость...',
-    time: '12:45',
-    isOnline: false,
-    isRead: true,
-    hasImage: true,
-    imagePreview: 'https://images.unsplash.com/photo-1560448075-bb485b067938?w=60&h=60&fit=crop'
+    id: 'faq-2',
+    question: 'Как арендовать квартиру без посредников?',
+    answer: 'Используйте фильтр "Без посредников" и проверяйте объявления напрямую от собственников.'
   },
   {
-    id: '3',
-    name: 'Елена Сидорова',
-    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face',
-    lastMessage: 'Спасибо за информацию!',
-    time: 'Вчера',
-    isOnline: false,
-    isRead: true
+    id: 'faq-3',
+    question: 'Как посмотреть квартиру?',
+    answer: 'Договоритесь с владельцем о встрече через контактные данные в объявлении.'
   },
   {
-    id: '4',
-    name: 'Дмитрий Козлов',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face',
-    lastMessage: 'Можно узнать адрес объекта?',
-    time: 'Вчера',
-    isOnline: true,
-    isRead: false,
-    unreadCount: 1,
-    hasImage: true,
-    imagePreview: 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=60&h=60&fit=crop'
+    id: 'faq-4',
+    question: 'Что входит в стоимость аренды?',
+    answer: 'Обычно это аренда и коммунальные услуги. Некоторые владельцы включают интернет и ТВ.'
   },
   {
-    id: '5',
-    name: 'Ольга Новикова',
-    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop&crop=face',
-    lastMessage: 'Договорились, до встреч!',
-    time: 'Пн',
-    isOnline: false,
-    isRead: true
+    id: 'faq-5',
+    question: 'Можно ли снять квартиру с животными?',
+    answer: 'В фильтрах есть опция "Разрешено с животными". Также уточните этот момент у владельца.'
+  },
+  {
+    id: 'faq-6',
+    question: 'Как оставить заявку на аренду?',
+    answer: 'Нажмите кнопку "Оставить заявку", заполните форму и ждите ответа от владельца.'
+  },
+  {
+    id: 'faq-7',
+    question: 'Как проверить документы на квартиру?',
+    answer: 'Запросите у владельца свидетельство о праве собственности и договор аренды.'
+  },
+  {
+    id: 'faq-8',
+    question: 'Как найти квартиру в нужном районе?',
+    answer: 'Используйте карту на сайте или укажите район в поисковом фильтре.'
+  },
+  {
+    id: 'faq-9',
+    question: 'Как забронировать квартиру?',
+    answer: 'После договорённости с владельцем внесите предоплату и подпишите договор.'
+  },
+  {
+    id: 'faq-10',
+    question: 'Что делать, если владелец не выходит на связь?',
+    answer: 'Попробуйте связаться повторно. Если ответа нет, обратитесь в поддержку.'
   }
 ];
 
 export default function MessagesPage() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [showFaq, setShowFaq] = useState(true);
+  const [selectedFaq, setSelectedFaq] = useState<string | null>(null);
 
-  const filteredMessages = mockMessages.filter(message =>
-    message.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const handleFaqSelect = (faqId: string) => {
+    setSelectedFaq(faqId);
+    setShowFaq(false);
+  };
+
+  const handleBackToFaq = () => {
+    setSelectedFaq(null);
+    setShowFaq(true);
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white px-4 py-4">
+      <header className="bg-white px-4 py-4 border-b border-gray-200">
         <div className="max-w-screen-md mx-auto">
-          <h1 className="text-2xl font-bold text-gray-900">Сообщения</h1>
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-bold text-gray-900">Сообщения</h1>
+            <Link
+              href="/messages/new"
+              className="flex items-center px-4 py-2 bg-[#016a80] text-white rounded-lg hover:bg-[#015a6b] transition-colors"
+            >
+              <Plus size={20} className="mr-2" />
+              Новое сообщение
+            </Link>
+          </div>
         </div>
       </header>
 
@@ -96,7 +98,7 @@ export default function MessagesPage() {
             <Search size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <input
               type="text"
-              placeholder="Поиск по чатам..."
+              placeholder="Поиск по сообщениям..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-3 bg-[#F5F5F5] rounded-[38px] text-[#999999] text-sm font-light placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-colors"
@@ -105,103 +107,83 @@ export default function MessagesPage() {
         </div>
       </div>
 
-      {/* Messages List */}
-      <div className="flex-1 bg-white">
+      {/* Contact Info */}
+      <div className="bg-white px-4 py-6 border-b border-gray-200">
         <div className="max-w-screen-md mx-auto">
-          {filteredMessages.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-16 px-4">
-              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                <Search size={24} className="text-gray-400" />
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Свяжитесь с нами</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="flex items-center space-x-3">
+              <Mail size={20} className="text-[#016a80]" />
+              <div>
+                <p className="text-sm font-medium text-gray-900">Email</p>
+                <p className="text-sm text-gray-600">support@example.com</p>
               </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Чаты не найдены</h3>
-              <p className="text-gray-500 text-center">
-                Попробуйте изменить поисковый запрос
-              </p>
+            </div>
+            <div className="flex items-center space-x-3">
+              <Phone size={20} className="text-[#016a80]" />
+              <div>
+                <p className="text-sm font-medium text-gray-900">Телефон</p>
+                <p className="text-sm text-gray-600">+7 (999) 123-45-67</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-3">
+              <MapPin size={20} className="text-[#016a80]" />
+              <div>
+                <p className="text-sm font-medium text-gray-900">Адрес</p>
+                <p className="text-sm text-gray-600">Москва, ул. Примерная, 1</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* FAQ Section */}
+      <div className="flex-1 bg-white px-4 py-6">
+        <div className="max-w-screen-md mx-auto">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-gray-900 flex items-center">
+              <HelpCircle size={20} className="mr-2 text-[#016a80]" />
+              Часто задаваемые вопросы
+            </h2>
+            {!showFaq && (
+              <button
+                onClick={handleBackToFaq}
+                className="text-sm text-[#016a80] hover:text-[#015a6b] transition-colors"
+              >
+                ← Вернуться к вопросам
+              </button>
+            )}
+          </div>
+          
+          {showFaq ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {faqData.map((faq) => (
+                <button
+                  key={faq.id}
+                  onClick={() => handleFaqSelect(faq.id)}
+                  className="text-left p-4 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors hover:border-[#016a80]"
+                >
+                  <h3 className="font-medium text-gray-900 text-sm mb-2 line-clamp-2">
+                    {faq.question}
+                  </h3>
+                  <p className="text-xs text-gray-500">
+                    Нажмите для получения ответа
+                  </p>
+                </button>
+              ))}
             </div>
           ) : (
-            <div className="divide-y divide-gray-100">
-              {filteredMessages.map((message) => (
-                <Link 
-                  key={message.id} 
-                  href={`/messages/${message.id}`}
-                  className="flex items-center px-4 py-4 hover:bg-gray-50 transition-colors"
-                >
-                  {/* Avatar */}
-                  <div className="relative flex-shrink-0 mr-3">
-                    <div className="w-12 h-12 bg-gray-300 rounded-full overflow-hidden">
-                      <img 
-                        src={message.avatar} 
-                        alt={message.name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    {message.isOnline && (
-                      <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 border-2 border-white rounded-full"></div>
-                    )}
-                  </div>
-
-                  {/* Content */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between mb-1">
-                      <h3 className="text-base font-medium text-gray-900 truncate">
-                        {message.name}
-                      </h3>
-                      <div className="flex items-center space-x-2">
-                        <span className="text-sm text-[#999999] font-light">{message.time}</span>
-                        {message.unreadCount && (
-                          <div className="w-5 h-5 bg-[#016a80] rounded-full flex items-center justify-center">
-                            <span className="text-xs text-white font-medium">
-                              {message.unreadCount}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center space-x-2">
-                      {/* Read indicator */}
-                      <div className="flex-shrink-0">
-                        <svg 
-                          className={`w-4 h-4 ${message.isRead ? 'text-[#016a80]' : 'text-gray-400'}`} 
-                          fill="none" 
-                          stroke="currentColor" 
-                          viewBox="0 0 24 24"
-                        >
-                          <path 
-                            strokeLinecap="round" 
-                            strokeLinejoin="round" 
-                            strokeWidth="2" 
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
-                      </div>
-                      
-                      {/* Message preview */}
-                      <p className={`text-sm truncate flex-1 ${
-                        message.unreadCount ? 'text-gray-900 font-light' : 'text-[#666666] font-light'
-                      
-                      }`}>
-                        {message.lastMessage}
-                      </p>
-                    </div>
-                    
-                    {/* Image preview under message */}
-                    {message.hasImage && (
-                      <div className="mt-2 ml-6">
-                        <img 
-                          src={message.imagePreview} 
-                          alt="preview"
-                          className="w-[32px] h-[24px] rounded object-cover"
-                        />
-                      </div>
-                    )}
-                  </div>
-                </Link>
-              ))}
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <h3 className="font-medium text-blue-900 mb-3">
+                {faqData.find(faq => faq.id === selectedFaq)?.question}
+              </h3>
+              <p className="text-blue-800 text-sm leading-relaxed">
+                {faqData.find(faq => faq.id === selectedFaq)?.answer}
+              </p>
             </div>
           )}
         </div>
       </div>
     </div>
   );
-} 
+}

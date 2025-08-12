@@ -69,6 +69,11 @@ function HomeContent() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedCity, setSelectedCity] = useState<string | null>(null);
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [chatMessages, setChatMessages] = useState([
+    { from: 'support', text: 'Здравствуйте! Готов ответить на ваши вопросы.', time: '20:52' }
+  ]);
+  const [chatInput, setChatInput] = useState('');
 
   // const regions = [
   //   'Астана', 'Алматы', 'Шымкент', 'Караганда', 'Актобе', 'Тараз', 'Павлодар', 'Усть-Каменогорск', 'Семей', 'Костанай'
@@ -202,6 +207,21 @@ function HomeContent() {
       console.log('=== КОНЕЦ ВЫВОДА ===');
     }
   }, [listings]);
+
+  const sendMessage = () => {
+    if (!chatInput.trim()) return;
+    setChatMessages(prev => [
+      ...prev,
+      { from: 'user', text: chatInput, time: new Date().toLocaleTimeString().slice(0,5) }
+    ]);
+    setTimeout(() => {
+      setChatMessages(prev => [
+        ...prev,
+        { from: 'support', text: 'Спасибо за обращение! Ожидайте ответа оператора.', time: new Date().toLocaleTimeString().slice(0,5) }
+      ]);
+    }, 1200);
+    setChatInput('');
+  };
 
   if (isLoading) {
     return (
@@ -639,8 +659,92 @@ console.log(listings)
           
           {/* Сообщение об окончании списка */}
           {!hasMore && listings.length > 0 && (
-            <div className="mt-6 text-center text-gray-500 text-sm">
-              Все объявления загружены
+            <div className="mt-8 flex flex-col items-center">
+              <div className="w-full max-w-md bg-white rounded-xl shadow border border-gray-200">
+                <div className="flex items-center justify-between px-4 py-3 border-b">
+                  <span className="font-semibold text-lg">Чаты</span>
+                  <div className="flex gap-2">
+                    <button className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100">
+                      <img src="/chat_icon.svg" alt="chat" className="w-5 h-5" />
+                    </button>
+                    <button className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100">
+                      <img src="/settings_icon.svg" alt="settings" className="w-5 h-5" />
+                    </button>
+                  </div>
+                </div>
+                <div className="px-4 py-2 border-b">
+                  <input
+                    type="text"
+                    placeholder="Только непрочитанные"
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-gray-50"
+                    disabled
+                  />
+                </div>
+                <button
+                  className="w-full flex items-center px-4 py-3 hover:bg-gray-50 transition text-left"
+                  onClick={() => setIsChatOpen(true)}
+                >
+                  <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center mr-3">
+                    <img src="/support_icon.svg" alt="support" className="w-6 h-6" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex justify-between items-center">
+                      <span className="font-semibold text-gray-900">Техническая поддержка</span>
+                      <span className="text-xs text-gray-400">{chatMessages[chatMessages.length-1].time}</span>
+                    </div>
+                    <div className="text-xs text-gray-500 truncate">Всегда рядом</div>
+                    <div className="text-xs text-gray-400 truncate">{chatMessages[chatMessages.length-1].text}</div>
+                  </div>
+                </button>
+              </div>
+
+              {/* Окно самого чата */}
+              {isChatOpen && (
+                <div className="fixed bottom-4 right-4 w-96 max-w-full bg-white rounded-xl shadow-lg border border-gray-200 z-50 flex flex-col">
+                  <div className="flex items-center justify-between px-4 py-2 border-b">
+                    <span className="font-semibold text-[#016a80]">Техническая поддержка</span>
+                    <button onClick={() => setIsChatOpen(false)} className="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+                  </div>
+                  <div className="flex-1 overflow-y-auto p-3 space-y-4" style={{maxHeight: 400}}>
+                    {chatMessages.map((msg, idx) => (
+                      <div key={idx} className={`flex ${msg.from === 'user' ? 'justify-end' : 'justify-start'}`}>
+                        <div className={`flex items-end gap-2 ${msg.from === 'user' ? 'flex-row-reverse' : ''}`}>
+                          <div className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center text-xs font-bold text-[#016a80]">
+                            {msg.from === 'user' ? 'ВЫ' : <img src="/support_icon.svg" alt="support" className="w-6 h-6" />}
+                          </div>
+                          <div>
+                            <div className={`px-3 py-2 rounded-2xl text-sm ${msg.from === 'user' ? 'bg-[#016a80] text-white' : 'bg-gray-100 text-gray-800'}`}>
+                              {msg.text}
+                            </div>
+                            <div className="text-xs text-gray-400 mt-0.5">{msg.time}</div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <form
+                    className="flex border-t p-2 gap-2"
+                    onSubmit={e => {
+                      e.preventDefault();
+                      sendMessage();
+                    }}
+                  >
+                    <input
+                      type="text"
+                      className="flex-1 border rounded-lg px-2 py-1 text-sm"
+                      placeholder="Ваш вопрос..."
+                      value={chatInput}
+                      onChange={e => setChatInput(e.target.value)}
+                    />
+                    <button
+                      type="submit"
+                      className="bg-[#016a80] text-white px-3 py-1 rounded-lg hover:bg-[#015a70] transition"
+                    >
+                      Отправить
+                    </button>
+                  </form>
+                </div>
+              )}
             </div>
           )}
         </div>
