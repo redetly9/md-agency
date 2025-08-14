@@ -19,6 +19,9 @@ export default function ArendaSVykupomPage() {
     message: ''
   });
 
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [fileName, setFileName] = useState('');
+
   const [calculator, setCalculator] = useState({
     propertyValue: 6000000,
     monthlyPayment: 100000,
@@ -31,6 +34,14 @@ export default function ArendaSVykupomPage() {
       ...prev,
       [name]: value
     }));
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+      setFileName(file.name);
+    }
   };
 
   const handleCalculatorChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -55,6 +66,9 @@ export default function ArendaSVykupomPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
+    if (selectedFile) {
+      console.log('Selected file:', selectedFile.name, selectedFile.size);
+    }
   };
 
   const formatNumber = (num: number) => {
@@ -670,6 +684,31 @@ export default function ArendaSVykupomPage() {
                    className="w-full px-4 py-3 bg-white bg-opacity-5 rounded-lg focus:ring-2 focus:ring-white focus:border-transparent text-white placeholder-white placeholder-opacity-70 backdrop-blur-sm"
                    placeholder="E-mail"
                  />
+               </div>
+
+               <div>
+                 <label className="block w-full px-4 py-3 bg-white bg-opacity-5 rounded-lg focus-within:ring-2 focus-within:ring-white focus-within:border-transparent cursor-pointer hover:bg-opacity-10 transition-colors backdrop-blur-sm">
+                   <div className="flex items-center justify-between text-white">
+                     <span className="opacity-70">
+                       {selectedFile ? fileName : 'Прикрепите документ'}
+                     </span>
+                     <span className="text-sm opacity-70 bg-white bg-opacity-20 px-2 py-1 rounded">
+                       Выбрать файл
+                     </span>
+                   </div>
+                   <input
+                     type="file"
+                     name="file"
+                     onChange={handleFileChange}
+                     className="hidden"
+                     accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                   />
+                 </label>
+                 {selectedFile && (
+                   <p className="mt-2 text-sm text-green-400 flex items-center">
+                     ✓ Файл успешно загружен
+                   </p>
+                 )}
                </div>
 
                <button

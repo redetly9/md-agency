@@ -14,6 +14,9 @@ export default function RefinancePage() {
     message: ''
   });
 
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [fileName, setFileName] = useState('');
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -22,9 +25,20 @@ export default function RefinancePage() {
     }));
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+      setFileName(file.name);
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
+    if (selectedFile) {
+      console.log('Selected file:', selectedFile.name, selectedFile.size);
+    }
   };
 
   return (
@@ -286,7 +300,31 @@ export default function RefinancePage() {
                 required
               />
             </div>
-            
+            <div>
+              <label className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus-within:ring-2 focus-within:ring-red-500 focus-within:border-transparent cursor-pointer hover:border-gray-400 transition-colors bg-white">
+                <div className="flex items-center justify-between">
+                  <span className="text-gray-500">
+                    {selectedFile ? fileName : 'Прикрепите документ'}
+                  </span>
+                  <span className="text-sm text-gray-400 bg-gray-100 px-2 py-1 rounded">
+                    Выбрать файл
+                  </span>
+                </div>
+                <input
+                  type="file"
+                  name="file"
+                  onChange={handleFileChange}
+                  className="hidden"
+                  accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                />
+              </label>
+              {selectedFile && (
+                <p className="mt-2 text-sm text-green-600 flex items-center">
+                  <CheckCircle size={16} className="mr-1" />
+                  Файл успешно загружен
+                </p>
+              )}
+            </div>
             <div>
               <textarea
                 name="message"
