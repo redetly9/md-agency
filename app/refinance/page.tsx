@@ -203,15 +203,15 @@ export default function RefinancePage() {
             <div className="space-y-3">
               <div className="flex items-center gap-3">
                 <div className="w-2 h-2 bg-[#016a80] rounded-full"></div>
-                <span className="text-gray-700">Сумма от 1 000 000 ₸</span>
+                <span className="text-gray-700">Ставки: от 7% до 13,8% годовых</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-2 h-2 bg-[#016a80] rounded-full"></div>
-                <span className="text-gray-700">Срок до 20 лет</span>
+                <span className="text-gray-700">Срок: от 60 до 240 месяцев</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-2 h-2 bg-[#016a80] rounded-full"></div>
-                <span className="text-gray-700">Ставка от 7% годовых</span>
+                <span className="text-gray-700">Первоначальный накопительный взнос: 10%</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-2 h-2 bg-[#016a80] rounded-full"></div>
@@ -233,7 +233,7 @@ export default function RefinancePage() {
               </div>
               <div className="flex items-center gap-3">
                 <CheckCircle size={16} className="text-green-600" />
-                <span className="text-gray-700">Положительная кредитная история</span>
+                <span className="text-gray-700">Без подтверждения доходов</span>
               </div>
             </div>
           </div>
@@ -242,16 +242,40 @@ export default function RefinancePage() {
             <h3 className="font-semibold text-gray-900 mb-4">Погашение ипотеки</h3>
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-[#016a80] rounded-full"></div>
-                <span className="text-gray-700">Аннуитетные платежи</span>
+                <span className="text-gray-700">Мы закрываем/выкупаем ваш ипотечный займ из любого банка РК и конвертируем в "ДОГОВОР С ВЫКУПОМ" между ТОО "MD home" и Вами по сниженным ставкам от 7% до 13,8%.</span>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-[#016a80] rounded-full"></div>
-                <span className="text-gray-700">Гибкий график погашения</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Costs Section */}
+      <section className="px-4 py-6 bg-gray-50">
+        <div className="max-w-screen-md mx-auto">
+          <h2 className="text-xl font-bold text-center mb-8 text-gray-900">
+            Стоимость наших услуг
+          </h2>
+          <div className="bg-white rounded-lg p-6 shadow-sm">
+            <div className="space-y-3">
+              <div className="flex items-start gap-3">
+                <div className="w-2 min-w-2 h-2 bg-[#016a80] rounded-full mt-2"></div>
+                <span className="text-gray-700">Консультация - 35000 тг</span>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-[#016a80] rounded-full"></div>
-                <span className="text-gray-700">Досрочное погашение</span>
+              <div className="flex items-start gap-3">
+                <div className="w-2 min-w-2 h-2 bg-[#016a80] rounded-full mt-2"></div>
+                <span className="text-gray-700">Оплата оценки квартиры - оплачивает покупатель</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-2 min-w-2 h-2 bg-[#016a80] rounded-full mt-2"></div>
+                <span className="text-gray-700">Страховка - оплачивает покупатель</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-2 min-w-2 h-2 bg-[#016a80] rounded-full mt-2"></div>
+                <span className="text-gray-700">Нотариальные услуги - оплачивает покупатель</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-2 min-w-2 h-2 bg-[#016a80] rounded-full mt-2"></div>
+                <span className="text-gray-700">Комиссия за рефинансирование - 10% от суммы рефинансирования (данная оплата производится при расторжении договора или ежемесячной оплате)</span>
               </div>
             </div>
           </div>
