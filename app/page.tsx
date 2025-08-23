@@ -56,6 +56,8 @@ function HomeContent() {
   const [hasMore, setHasMore] = useState(true);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [priceValue, setPriceValue] = useState(50);
+  const [priceFrom, setPriceFrom] = useState<string>('');
+  const [priceTo, setPriceTo] = useState<string>('');
   const [areaValue, setAreaValue] = useState(70);
   const [amenities, setAmenities] = useState([
     { name: 'Балкон/Лоджия', enabled: true },
@@ -69,6 +71,7 @@ function HomeContent() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedCity, setSelectedCity] = useState<string | null>(null);
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
+  const [selectedRooms, setSelectedRooms] = useState<string[]>([]);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [chatMessages, setChatMessages] = useState([
     { from: 'support', text: 'Здравствуйте! Готов ответить на ваши вопросы.', time: '20:52' }
@@ -111,7 +114,12 @@ function HomeContent() {
     setAmenities(newAmenities);
   };
 
-  const fetchListings = async (page: number, append: boolean = false, region?: string | null) => {
+  const fetchListings = async (
+    page: number,
+    append: boolean = false,
+    region?: string | null,
+    filters?: { rooms?: string[]; priceFrom?: string; priceTo?: string }
+  ) => {
     if (append) {
       setIsLoadingMore(true);
     } else {
@@ -127,6 +135,15 @@ function HomeContent() {
       
       if (region) {
         url.searchParams.set('region', region);
+      }
+      if (filters?.rooms && filters.rooms.length > 0) {
+        url.searchParams.set('rooms', filters.rooms.join(','));
+      }
+      if (filters?.priceFrom) {
+        url.searchParams.set('priceFrom', filters.priceFrom);
+      }
+      if (filters?.priceTo) {
+        url.searchParams.set('priceTo', filters.priceTo);
       }
 
       const response = await fetch(url);
@@ -153,7 +170,7 @@ function HomeContent() {
 
   const loadMore = () => {
     if (!isLoadingMore && hasMore) {
-      fetchListings(currentPage + 1, true, selectedRegion);
+      fetchListings(currentPage + 1, true, selectedRegion, { rooms: selectedRooms, priceFrom, priceTo });
     }
   };
 
@@ -186,9 +203,13 @@ function HomeContent() {
 
   useEffect(() => {
     if (selectedRegion) {
-      fetchListings(1, false, selectedRegion);
+      fetchListings(1, false, selectedRegion, { rooms: selectedRooms, priceFrom, priceTo });
     }
   }, [selectedRegion]);
+
+  const toggleRoom = (room: string) => {
+    setSelectedRooms(prev => prev.includes(room) ? prev.filter(r => r !== room) : [...prev, room]);
+  };
 
   // Логирование данных listings
   useEffect(() => {
@@ -427,11 +448,15 @@ console.log(listings)
                       type="text"
                       placeholder="От 0"
                       className="w-20 px-2 py-1.5 border border-gray-300 rounded-lg text-xs"
+                      value={priceFrom}
+                      onChange={(e) => setPriceFrom(e.target.value.replace(/[^\d]/g, ''))}
                     />
                     <input
                       type="text"
                       placeholder="До ∞"
                       className="w-20 px-2 py-1.5 border border-gray-300 rounded-lg text-xs"
+                      value={priceTo}
+                      onChange={(e) => setPriceTo(e.target.value.replace(/[^\d]/g, ''))}
                     />
                   </div>
                   <div className="flex gap-1.5 text-[#7F8C8D] font-light">
@@ -447,9 +472,13 @@ console.log(listings)
                 <div className="mb-4">
                   <h3 className="text-sm text-[#2C3E50] font-medium mb-2">Комнаты</h3>
                   <div className="grid grid-cols-6 gap-1 text-[#7F8C8D] font-light">
-                    {['Студия', '1', '2', '3', '4', '5+'].map((room) => (
-                      <button key={room} className="px-1 py-1 border border-gray-300 rounded text-xs hover:border-blue-500 hover:text-blue-500 min-h-[28px] flex items-center justify-center">
-                        {room}
+                    {['1','2','3','4','5'].map((room) => (
+                      <button
+                        key={room}
+                        onClick={() => toggleRoom(room)}
+                        className={`px-1 py-1 border rounded text-xs min-h-[28px] flex items-center justify-center ${selectedRooms.includes(room) ? 'border-[#016a80] text-[#016a80] bg-blue-50' : 'border-gray-300 hover:border-blue-500 hover:text-blue-500'}`}
+                      >
+                        {room === '5' ? '5+' : room}
                       </button>
                     ))}
                   </div>
@@ -526,7 +555,10 @@ console.log(listings)
                 </div>
                 <div className="p-3 border-t">
                 <button
-                  onClick={() => setIsFilterModalOpen(false)}
+                  onClick={() => {
+                    fetchListings(1, false, selectedRegion, { rooms: selectedRooms, priceFrom, priceTo });
+                    setIsFilterModalOpen(false);
+                  }}
                   className="w-full py-2.5 text-white rounded-lg font-medium transition-colors text-sm"
                   style={{ backgroundColor: '#016a80' }}
                   onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#015a70'}
@@ -545,7 +577,7 @@ console.log(listings)
       <div
         className="relative h-44 overflow-hidden bg-cover bg-center bg-no-repeat mb-2"
         style={{
-          backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6)), url('/main_img.jpeg')`,
+          backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6)), url('/main_img1.jpeg')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
           imageRendering: 'crisp-edges',

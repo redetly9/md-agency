@@ -43,7 +43,16 @@ export async function GET(request: Request) {
   
   // Получаем параметры фильтрации
   const region = searchParams.get('region') || 'almaty';
-  const rooms = searchParams.get('rooms');
+  // Поддерживаем оба варианта: rooms=1,2 и rooms=1&rooms=2
+  const roomsRaw = searchParams.getAll('rooms');
+  const rooms = roomsRaw.length > 0
+    ? roomsRaw
+        .flatMap((v) => v.split(','))
+        .map((s) => s.trim())
+        .filter(Boolean)
+        .join(',')
+    : null;
+  const building = searchParams.get('building');
   const priceFrom = searchParams.get('priceFrom');
   const priceTo = searchParams.get('priceTo');
   const areaFrom = searchParams.get('areaFrom');
@@ -68,13 +77,23 @@ export async function GET(request: Request) {
     if (rooms) {
       const roomsArray = rooms.split(',');
       roomsArray.forEach(room => {
-        filterParams.append('das[live.rooms]', room);
+        // Используем массивную форму параметра как на Krisha: das[live.rooms][]=1
+        filterParams.append('das[live.rooms][]', room);
       });
     }
     
-    // Цена
-    if (priceFrom) filterParams.append('das[price][from]', priceFrom);
-    if (priceTo) filterParams.append('das[price][to]', priceTo);
+    // Тип дома (кирпичный/панельный/монолитный/иной)
+    if (building) {
+      const buildingArray = building.split(',');
+      buildingArray.forEach(code => {
+        // Krisha ожидает числовые коды: 1-кирпичный, 2-панельный, 3-монолитный, 4-прочее
+        filterParams.append('das[flat.building]', code);
+      });
+    }
+    
+    // Цена (в тенге), как на Krisha: das[price][from]=...&das[price][to]=...
+    if (priceFrom && /^\d+$/.test(priceFrom)) filterParams.append('das[price][from]', priceFrom);
+    if (priceTo && /^\d+$/.test(priceTo)) filterParams.append('das[price][to]', priceTo);
     
     // Площадь
     if (areaFrom) filterParams.append('das[live.square][from]', areaFrom);
@@ -138,8 +157,20 @@ export async function GET(request: Request) {
       const subtitle = $(element).find('.a-card__subtitle').text().trim();
       const [district, street] = subtitle.split(',').map(item => item.trim());
       const link = $(element).find('a').attr('href');
-      const id = link ? link.match(/\/show\/(\d+)/)?.[1] : null;
-      const roomCount = parseInt(title.match(/\d+/)?.[0] || '0');
+      const idMatch = link ? link.match(/\/show\/(\d+)/) : null;
+      if (!idMatch) {
+        // Пропускаем рекламные/промо карточки без ссылки вида /show/{id}
+        return;
+      }
+      const id = idMatch[1];
+      // Определяем количество комнат по шаблону "N-комнатн..." (чтобы не путать с площадью/этажом)
+      let roomCount = 0;
+      const roomsMatch = title.toLowerCase().match(/(\d+)\s*[-–]?\s*комнат/);
+      if (roomsMatch) {
+        roomCount = parseInt(roomsMatch[1], 10);
+      } else if (/студ/i.test(title)) {
+        roomCount = 0; // студия
+      }
       
       // Парсим площадь из статистики карточки
       const area = $(element).find('.a-card__stats-item').toArray()
@@ -172,6 +203,27 @@ export async function GET(request: Request) {
       });
     });
 
+    // Локальная фильтрация по комнатности на случай, если Krisha вернула промо-блоки
+    let outputListings: Listing[] = listings;
+    if (rooms) {
+      const requested = rooms.split(',').map((r) => parseInt(r, 10)).filter((n) => !isNaN(n));
+      outputListings = listings.filter((l) => {
+        return requested.some((n) => (n >= 5 ? l.roomCount >= 5 : l.roomCount === n));
+      });
+    }
+
+    // Строгая фильтрация по цене (иногда в ответе Krisha могут быть промо или соседние значения)
+    const minPrice = priceFrom ? parseInt(priceFrom, 10) : undefined;
+    const maxPrice = priceTo ? parseInt(priceTo, 10) : undefined;
+    if (minPrice !== undefined || maxPrice !== undefined) {
+      outputListings = outputListings.filter((l) => {
+        if (typeof l.price !== 'number' || Number.isNaN(l.price)) return false;
+        if (minPrice !== undefined && l.price < minPrice) return false;
+        if (maxPrice !== undefined && l.price > maxPrice) return false;
+        return true;
+      });
+    }
+
     const pagination = $('.paginator');
     const lastPage = pagination.find('a').last().prev().text() || '1';
     
@@ -179,7 +231,7 @@ export async function GET(request: Request) {
     const totalCount = $('.search-results-nb').text().match(/\d+/g)?.join('') || '0';
     
     const apiResponse: ApiResponse = {
-      listings,
+      listings: outputListings,
       pagination: {
         currentPage: parseInt(page),
         totalPages: parseInt(lastPage),
