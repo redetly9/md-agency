@@ -410,7 +410,7 @@ console.log(listings)
                 <div className="mb-4">
                   <h3 className="text-sm text-[#2C3E50] font-medium mb-2">Цена, ₸</h3>
                   <div className="mb-2">
-                    <input 
+                    {/* <input 
                       type="range" 
                       min="0" 
                       max="100" 
@@ -420,7 +420,7 @@ console.log(listings)
                       style={{
                         background: `linear-gradient(to right, #016a80 0%, #016a80 ${priceValue}%, #e5e7eb ${priceValue}%, #e5e7eb 100%)`
                       }}
-                    />
+                    /> */}
                     <style jsx>{`
                       .slider::-webkit-slider-thumb {
                         appearance: none;
@@ -459,13 +459,13 @@ console.log(listings)
                       onChange={(e) => setPriceTo(e.target.value.replace(/[^\d]/g, ''))}
                     />
                   </div>
-                  <div className="flex gap-1.5 text-[#7F8C8D] font-light">
+                  {/* <div className="flex gap-1.5 text-[#7F8C8D] font-light">
                     {['До 50К', '50-100К', '100-200К', '200К+'].map((range) => (
                       <button key={range} className="px-2 py-1 text-xs bg-gray-100 rounded-full hover:bg-gray-200">
                         {range}
                       </button>
                     ))}
-                  </div>
+                  </div> */}
                 </div>
 
                 {/* Rooms */}
