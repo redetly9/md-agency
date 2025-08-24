@@ -24,7 +24,7 @@ export default function ArendaSVykupomPage() {
 
   const [calculator, setCalculator] = useState({
     propertyValue: 6000000,
-    monthlyPayment: 100000,
+    monthlyPayment: 150000,
     duration: 60
   });
 
@@ -209,10 +209,10 @@ export default function ArendaSVykupomPage() {
             Рассчитайте свой вариант аренды с выкупом
           </h2>
           
-          {/* Информер 5% */}
+          {/* Информер 10% */}
           <div className="mb-4 text-center bg-gray-50 border border-gray-100 rounded-lg p-3">
             <h3 className="text-sm text-black mb-1">Первоначальный накопительный взнос</h3>
-            <p className="text-lg font-semibold text-[#016a80]">5 %</p>
+            <p className="text-lg font-semibold text-[#016a80]">10 %</p>
           </div>
 
           {/* Property Value Slider */}
@@ -252,19 +252,19 @@ export default function ArendaSVykupomPage() {
             <div className="mb-2">
               <input
                 type="range"
-                min="100000"
+                min="150000"
                 max="10000000"
                 step="10000"
                 value={calculator.monthlyPayment}
                 onChange={(e) => setCalculator(prev => enforceCalculatorConstraints({ ...prev, monthlyPayment: parseInt(e.target.value, 10) || 0 }))}
                 className="w-full h-[3px] bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
                 style={{
-                  background: `linear-gradient(to right, #016a80 0%, #016a80 ${(calculator.monthlyPayment / 10000000) * 100}%, #E5E7EB ${(calculator.monthlyPayment / 10000000) * 100}%, #E5E7EB 100%)`
+                  background: `linear-gradient(to right, #016a80 0%, #016a80 ${((calculator.monthlyPayment - 150000) / (10000000 - 150000)) * 100}%, #E5E7EB ${((calculator.monthlyPayment - 150000) / (10000000 - 150000)) * 100}%, #E5E7EB 100%)`
                 }}
               />
             </div>
             <p className="text-sm text-[#6B7280] font-light">
-              Минимальная сумма пополнения: 100 000 ₸
+              Минимальная сумма пополнения: 150 000 ₸
             </p>
             <div className="text-right text-sm text-black font-medium mt-1">
               {calculator.monthlyPayment.toLocaleString('ru-RU')} ₸/мес
@@ -294,6 +294,9 @@ export default function ArendaSVykupomPage() {
             <div className="flex justify-between text-sm text-[#6B7280] font-light">
               <span>60 мес</span>
               <span>240 мес</span>
+            </div>
+            <div className="text-right text-sm text-black font-medium mt-1">
+              {calculator.duration.toLocaleString('ru-RU')} мес
             </div>
         </div>
 
@@ -352,7 +355,7 @@ export default function ArendaSVykupomPage() {
                       Первоначальный накопительный взнос
                     </h3>
                     <p className="text-gray-600 text-sm">
-                      Всего 5% от стоимости квартиры вместо 20-30% при ипотеке
+                      Всего 10% от стоимости квартиры вместо 20-30% при ипотеке
                     </p>
                   </div>
                 </div>
@@ -464,7 +467,7 @@ export default function ArendaSVykupomPage() {
                            {/* Первоначальный накопительный взнос */}
                            <div className="grid grid-cols-3 py-4 px-4 border-b border-gray-200">
                              <div className="text-gray-900 text-sm font-light">Первоначальный накопительный взнос</div>
-                             <div className="text-[#016a80] font-light text-center text-sm">От 5%</div>
+                             <div className="text-[#016a80] font-light text-center text-sm">От 10%</div>
                              <div className="text-gray-900 text-center text-sm font-light">От 20-30%</div>
                            </div>
                            
@@ -615,7 +618,7 @@ export default function ArendaSVykupomPage() {
                       Внесение первоначального взноса
                     </h3>
                     <p className="text-gray-600 text-sm">
-                      Внесите первоначальный взнос в размере 5% от стоимости жилья
+                      Внесите первоначальный взнос в размере 10% от стоимости жилья
                     </p>
                   </div>
                 </div>
