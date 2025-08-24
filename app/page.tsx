@@ -392,7 +392,7 @@ console.log(listings)
               </div>
 
               {/* Filter Content */}
-              <div className="flex-1 overflow-y-auto p-3">
+              <div className="flex-1 overflow-y-auto p-3 pb-24">
                 {/* Property Type */}
                 <div className="mb-4">
                   <h3 className="text-sm text-[#2C3E50] font-medium mb-2">Тип недвижимости</h3>
@@ -553,20 +553,20 @@ console.log(listings)
                     ))}
                   </div>
                 </div>
-                <div className="p-3 border-t">
-                <button
-                  onClick={() => {
-                    fetchListings(1, false, selectedRegion, { rooms: selectedRooms, priceFrom, priceTo });
-                    setIsFilterModalOpen(false);
-                  }}
-                  className="w-full py-2.5 text-white rounded-lg font-medium transition-colors text-sm"
-                  style={{ backgroundColor: '#016a80' }}
-                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#015a70'}
-                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#016a80'}
-                >
-                  Применить
-                </button>
-              </div>
+                <div className="sticky bottom-0 left-0 right-0 bg-white p-3 border-t -mx-3">
+                  <button
+                    onClick={() => {
+                      fetchListings(1, false, selectedRegion, { rooms: selectedRooms, priceFrom, priceTo });
+                      setIsFilterModalOpen(false);
+                    }}
+                    className="w-full py-2.5 text-white rounded-lg font-medium transition-colors text-sm"
+                    style={{ backgroundColor: '#016a80' }}
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#015a70'}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#016a80'}
+                  >
+                    Применить
+                  </button>
+                </div>
               </div>
               
             </div>
