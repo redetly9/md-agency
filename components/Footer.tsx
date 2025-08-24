@@ -12,12 +12,12 @@ const Footer: React.FC = () => {
 
 
     return (
-        <footer className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 h-20">
-            <div className="max-w-screen-md mx-auto h-full">
-                <div className="flex items-center justify-around h-full">
+        <footer className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 pb-[env(safe-area-inset-bottom)]">
+            <div className="max-w-screen-md mx-auto">
+                <div className="flex items-center justify-around py-3">
                     <Link 
                         href="/" 
-                        className={`flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-colors h-16 ${
+                        className={`flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-colors ${
                             isActive('/') ? 'text-[#016a80]' : 'text-gray-600'
                         }`}
                     >
@@ -27,7 +27,7 @@ const Footer: React.FC = () => {
                     
                     <Link 
                         href="/favoritess" 
-                        className={`flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-colors h-16 ${
+                        className={`flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-colors ${
                             isActive('/favoritess') ? 'text-[#016a80]' : 'text-gray-600'
                         }`}
                     >
@@ -37,7 +37,7 @@ const Footer: React.FC = () => {
                     
                     <Link 
                         href="/add-listing" 
-                        className="flex flex-col items-center justify-center py-2 px-3 h-16"
+                        className="flex flex-col items-center justify-center py-2 px-3"
                     >
                         <div className="w-12 h-12 bg-[#016a80] rounded-full flex items-center justify-center flex-shrink-0" style={{ borderRadius: '50%', minWidth: '48px', minHeight: '48px', maxWidth: '48px', maxHeight: '48px' }}>
                             <Plus size={24} className="text-white" />
@@ -47,7 +47,7 @@ const Footer: React.FC = () => {
                     
                     <Link 
                         href="/messages" 
-                        className={`flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-colors h-16 ${
+                        className={`flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-colors ${
                             isActive('/messages') ? 'text-[#016a80]' : 'text-gray-600'
                         }`}
                     >
@@ -57,7 +57,7 @@ const Footer: React.FC = () => {
                     
                     <Link 
                         href="/profiles" 
-                        className={`flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-colors h-16 ${
+                        className={`flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-colors ${
                             isActive('/profiles') ? 'text-[#016a80]' : 'text-gray-600'
                         }`}
                     >
