@@ -56,7 +56,8 @@
     "stripe": "^17.2.1",
     "swiper": "^9.4.1",
     "tailwind-merge": "^2.2.0",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",

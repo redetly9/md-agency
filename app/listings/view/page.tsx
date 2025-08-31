@@ -59,7 +59,7 @@ const ListingPage = ({ params: { listingId } }: { params: IParams }) => {
         owner={listing.user}
       >
         <ListingInfo
-          city={listing.additionalDetails?.city}
+          city={listing.city || listing.additionalDetails?.city}
           buildYear={listing.additionalDetails?.buildYear}
           user={listing.user}
           category={category}
@@ -70,6 +70,7 @@ const ListingPage = ({ params: { listingId } }: { params: IParams }) => {
           floor={listing.additionalDetails?.floor}
           condition={listing.additionalDetails?.condition}
           latlng={listing.latlng}
+          street={listing.street}
         />
       </ListingClient>
     </section>

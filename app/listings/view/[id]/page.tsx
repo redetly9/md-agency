@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, User, Camera } from 'lucide-react';
@@ -49,6 +50,33 @@ export default function ListingViewPage() {
   const [currentImage, setCurrentImage] = useState(0);
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [mapCenter, setMapCenter] = useState<number[] | null>(null);
+
+  // Dynamically import Map to avoid SSR issues with Leaflet
+  const Map = dynamic(() => import('@/components/Map'), { 
+    ssr: false,
+    loading: () => <div className="h-full bg-gray-100 animate-pulse rounded-lg" />
+  });
+
+  // Fallback centers for major cities in Kazakhstan
+  const cityCenters: Record<string, number[]> = {
+    'алматы': [43.238949, 76.889709],
+    'астана': [51.169392, 71.449074],
+    'нур-султан': [51.169392, 71.449074],
+    'шымкент': [42.3417, 69.5901],
+    'карагандa': [49.806, 73.085],
+    'караганда': [49.806, 73.085],
+    'актау': [43.6500, 51.1500],
+    'актобе': [50.2839, 57.1660],
+    'кокшетау': [53.2833, 69.3833],
+    'костанай': [53.214, 63.624],
+    'ускараган': [49.948, 82.627],
+    'усть-каменогорск': [49.948, 82.627],
+    'павлодар': [52.287, 76.967],
+    'тара́з': [42.9, 71.3667],
+    'тараз': [42.9, 71.3667],
+    'талдыкорган': [45.0167, 78.3667],
+  };
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -109,7 +137,10 @@ export default function ListingViewPage() {
       try {
         const response = await fetch(`/api/krisha/listings/${params.id}`);
         const data = await response.json();
+        console.log('Listing data:', data);
         setListing(data);
+        // Принудительно установим центр Алматы
+        setMapCenter([43.238949, 76.889709]);
       } catch (error) {
         console.error('Error fetching listing:', error);
       } finally {
@@ -119,6 +150,48 @@ export default function ListingViewPage() {
 
     fetchListing();
   }, [params.id]);
+
+  // Geocode address to coordinates when we don't have lat/lng
+  useEffect(() => {
+    const geocode = async (query: string) => {
+      try {
+        const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(query)}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          const { lat, lon } = data[0];
+          setMapCenter([parseFloat(lat), parseFloat(lon)]);
+        }
+      } catch (e) {
+        // ignore
+      }
+    };
+
+    if (listing) {
+      // Try street + city, then district + city, then city
+      const attempts = [
+        [listing.street, listing.city].filter(Boolean).join(', '),
+        [listing.district, listing.city].filter(Boolean).join(', '),
+        [listing.city].filter(Boolean).join(', '),
+      ]
+        .filter(Boolean)
+        .map(q => `${q}, Казахстан`);
+
+      (async () => {
+        let found = false;
+        for (const q of attempts) {
+          if (!q) continue;
+          await geocode(q);
+          if (mapCenter) { found = true; break; }
+        }
+        if (!found) {
+          const key = (listing.city || '').toLowerCase();
+          const center = cityCenters[key];
+          if (center) setMapCenter(center);
+        }
+      })();
+    }
+  }, [listing]);
 
   if (isLoading) {
     return (
@@ -330,12 +403,14 @@ export default function ListingViewPage() {
           <div className="flex items-center gap-2 text-gray-600">
             <img src="/location_color.svg" alt="Местоположение" className="w-[12.5px] h-[17.5px] mr-2" />
             <span className='text-[#333333] font-light'>
-              {listing.street && `ул. ${listing.district}`}
-              {listing.street && listing.district && ', '}
-              {listing.district}
-              {(listing.street || listing.district) && listing.city && ', '}
-              {listing.city}
+              {listing.street ? `ул. ${listing.street}` : listing.district}
+              {(listing.street || listing.district) && listing.city ? `, ${listing.city}` : ''}
             </span>
+          </div>
+
+          {/* Map */}
+          <div className="mt-4 h-[300px] rounded-lg overflow-hidden border border-gray-200">
+            {mapCenter && <Map center={mapCenter} />}
           </div>
         </div>
 
@@ -358,7 +433,7 @@ export default function ListingViewPage() {
                   <path fillRule="evenodd" clipRule="evenodd" d="M17.0011 3.81601H0.987061V5.97027H17.0011V3.81601ZM2.91182 8.7708V9.48888C2.91182 9.52416 2.91367 9.55936 2.91738 9.59446C2.92108 9.62957 2.92662 9.66442 2.93401 9.69902C2.94139 9.73362 2.95056 9.7678 2.96154 9.80155C2.97252 9.83531 2.98525 9.86849 2.99972 9.90108C3.0142 9.93367 3.03035 9.96552 3.04818 9.99664C3.06601 10.0277 3.08543 10.058 3.10645 10.0873C3.12746 10.1166 3.14996 10.1449 3.17395 10.1722C3.19795 10.1995 3.22332 10.2256 3.25006 10.2505C3.27681 10.2755 3.3048 10.2991 3.33403 10.3215C3.36327 10.3439 3.39362 10.3649 3.42507 10.3845C3.45651 10.4041 3.48892 10.4222 3.52228 10.4388C3.55563 10.4554 3.58978 10.4705 3.62472 10.484C3.65967 10.4975 3.69524 10.5094 3.73143 10.5196C3.76763 10.5299 3.80427 10.5384 3.84136 10.5453C3.87846 10.5522 3.91583 10.5574 3.95347 10.5608C3.99112 10.5643 4.02885 10.566 4.06667 10.566H5.91443C5.95226 10.566 5.98999 10.5643 6.02763 10.5608C6.06527 10.5574 6.10264 10.5522 6.13974 10.5453C6.17683 10.5384 6.21347 10.5299 6.24967 10.5196C6.28586 10.5094 6.32143 10.4975 6.35638 10.484C6.39132 10.4705 6.42547 10.4554 6.45883 10.4388C6.49219 10.4222 6.52459 10.4041 6.55604 10.3845C6.58748 10.3649 6.61783 10.3439 6.64707 10.3215C6.6763 10.2991 6.70429 10.2755 6.73104 10.2505C6.75778 10.2256 6.78315 10.1995 6.80715 10.1722C6.83114 10.1449 6.85364 10.1166 6.87466 10.0873C6.89567 10.058 6.91509 10.0277 6.93292 9.99664C6.95075 9.96552 6.9669 9.93367 6.98137 9.90108C6.99585 9.86849 7.00858 9.83531 7.01956 9.80155C7.03054 9.7678 7.03972 9.73362 7.0471 9.69902C7.05448 9.66442 7.06002 9.62957 7.06373 9.59446C7.06743 9.55936 7.06929 9.52416 7.06929 9.48888V8.7708C7.06929 8.73552 7.06743 8.70033 7.06373 8.66522C7.06002 8.63011 7.05448 8.59526 7.0471 8.56066C7.03972 8.52606 7.03054 8.49188 7.01956 8.45813C7.00858 8.42437 6.99585 8.39119 6.98137 8.3586C6.9669 8.32601 6.95075 8.29416 6.93292 8.26304C6.91509 8.23193 6.89567 8.20171 6.87466 8.17238C6.85364 8.14305 6.83114 8.11474 6.80715 8.08747C6.78315 8.0602 6.75778 8.0341 6.73104 8.00915C6.70429 7.98421 6.6763 7.96054 6.64707 7.93816C6.61783 7.91579 6.58748 7.8948 6.55604 7.8752C6.52459 7.8556 6.49219 7.83748 6.45883 7.82086C6.42547 7.80423 6.39132 7.78916 6.35638 7.77566C6.32143 7.76216 6.28586 7.75029 6.24967 7.74005C6.21347 7.72981 6.17683 7.72125 6.13974 7.71437C6.10264 7.70748 6.06527 7.70231 6.02763 7.69886C5.98999 7.6954 5.95226 7.69367 5.91443 7.69367H4.06667C4.02885 7.69367 3.99112 7.6954 3.95347 7.69886C3.91583 7.70231 3.87846 7.70748 3.84136 7.71437C3.80427 7.72125 3.76763 7.72981 3.73143 7.74005C3.69524 7.75029 3.65967 7.76216 3.62472 7.77566C3.58978 7.78916 3.55563 7.80423 3.52228 7.82086C3.48892 7.83748 3.45651 7.8556 3.42507 7.8752C3.39362 7.8948 3.36327 7.91579 3.33403 7.93816C3.3048 7.96054 3.27681 7.98421 3.25006 8.00915C3.22332 8.0341 3.19795 8.0602 3.17395 8.08747C3.14996 8.11474 3.12746 8.14305 3.10645 8.17238C3.08543 8.20171 3.06601 8.23193 3.04818 8.26304C3.03035 8.29416 3.0142 8.32601 2.99972 8.3586C2.98525 8.39119 2.97252 8.42437 2.96154 8.45813C2.95056 8.49188 2.94139 8.52606 2.93401 8.56066C2.92662 8.59526 2.92108 8.63011 2.91738 8.66522C2.91367 8.70033 2.91182 8.73552 2.91182 8.7708Z" fill="#086072"/>
                 </svg>
               </div>
-              <span className="text-xs text-[#086072] font-light">Рефинансирование</span>
+              <span className="text-xs text-[#086072] font-light">Рефинансирование ипотечных кредитов</span>
             </Link>
             <Link href="/arenda-s-vykupom" className="text-center">
               <div className="w-16 h-16 flex items-center justify-center mx-auto">

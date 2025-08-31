@@ -23,6 +23,7 @@ interface ListingInfoProps {
   city: string;
   condition: string;
   floor: string;
+  street?: string;
 }
 
 const Map = dynamic(() => import('@/components/Map'), {
@@ -62,7 +63,24 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
   city,
   floor,
   condition,
+  street,
 }) => {
+  const [mapCenter, setMapCenter] = React.useState<number[] | undefined>(Array.isArray(latlng) && latlng.length === 2 ? latlng : undefined);
+  React.useEffect(() => {
+    if ((!latlng || latlng.length !== 2) && (street || city)) {
+      const query = encodeURIComponent([street, city].filter(Boolean).join(', '));
+      fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (Array.isArray(data) && data.length > 0) {
+            const { lat, lon } = data[0];
+            setMapCenter([parseFloat(lat), parseFloat(lon)]);
+          }
+        })
+        .catch(() => {})
+      ;
+    }
+  }, [latlng, street, city]);
   const parsedDetails = parseDescription(description);
 
   const cleanDescription = (description: any) => {
@@ -114,10 +132,9 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
           </div>
         ))}
       </div> */}
-
-      <div className="h-[210px]">
-        <Map center={latlng} />
-      </div>
+<div className="h-[210px]">
+          <Map center={(mapCenter || latlng) as number[]} />
+        </div>
     </div>
   );
 };

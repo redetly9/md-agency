@@ -1,7 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
+import { useLanguage } from '@/store/useLanguage';
+import { translations } from '@/translations';
+type Language = 'ru' | 'en';
+type TranslationType = typeof translations;
 import { 
   ArrowLeft, 
   User, 
@@ -11,7 +16,9 @@ import {
   Link as LinkIcon,
   Search,
   HelpCircle,
-  ChevronRight
+  ChevronRight,
+  Globe,
+  MapPin
 } from 'lucide-react';
 
 const ProfileSettingsPage = () => {
@@ -19,6 +26,22 @@ const ProfileSettingsPage = () => {
     name: 'Александр Петров',
     email: 'alex.petrov@gmail.com',
     avatar: null
+  });
+
+  const { language, setLanguage } = useLanguage() as { language: Language; setLanguage: (lang: Language) => void };
+  const [showLocationModal, setShowLocationModal] = useState(false);
+  const [location, setLocation] = useState('Алматы');
+  const [mapCenter, setMapCenter] = useState([43.238949, 76.889709]);
+
+  const languages = {
+    ru: 'Русский',
+    en: 'English'
+  };
+
+  // Динамически импортируем карту чтобы избежать проблем с SSR
+  const Map = dynamic(() => import('@/components/Map'), { 
+    ssr: false,
+    loading: () => <div className="h-full bg-gray-100 animate-pulse rounded-lg" />
   });
 
   return (
@@ -29,7 +52,7 @@ const ProfileSettingsPage = () => {
           <Link href="/profiles" className="mr-4">
             <ArrowLeft size={24} className="text-gray-700" />
           </Link>
-          <h1 className="text-xl font-semibold text-gray-900">Настройки профиля</h1>
+          <h1 className="text-xl font-semibold text-gray-900">{translations[language].settings.title}</h1>
         </div>
       </header>
 
@@ -67,7 +90,7 @@ const ProfileSettingsPage = () => {
             <Link href="/profiles/settings/personal" className="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors">
               <div className="flex items-center gap-3">
                 <User size={20} className="text-gray-600" />
-                <span className="text-gray-900">Личные данные</span>
+                <span className="text-gray-900">{translations[language].settings.personalData}</span>
               </div>
               <ChevronRight size={20} className="text-gray-400" />
             </Link>
@@ -76,7 +99,7 @@ const ProfileSettingsPage = () => {
             <Link href="/profiles/settings/notifications" className="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors">
               <div className="flex items-center gap-3">
                 <Bell size={20} className="text-gray-600" />
-                <span className="text-gray-900">Настройки уведомлений</span>
+                <span className="text-gray-900">{translations[language].settings.notifications}</span>
               </div>
               <ChevronRight size={20} className="text-gray-400" />
             </Link>
@@ -85,7 +108,7 @@ const ProfileSettingsPage = () => {
             <Link href="/profiles/settings/privacy" className="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors">
               <div className="flex items-center gap-3">
                 <Shield size={20} className="text-gray-600" />
-                <span className="text-gray-900">Настройки приватности</span>
+                <span className="text-gray-900">{translations[language].settings.privacy}</span>
               </div>
               <ChevronRight size={20} className="text-gray-400" />
             </Link>
@@ -94,7 +117,7 @@ const ProfileSettingsPage = () => {
             <Link href="/profiles/settings/security" className="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors">
               <div className="flex items-center gap-3">
                 <Lock size={20} className="text-gray-600" />
-                <span className="text-gray-900">Безопасность</span>
+                <span className="text-gray-900">{translations[language].settings.security}</span>
               </div>
               <ChevronRight size={20} className="text-gray-400" />
             </Link>
@@ -103,7 +126,7 @@ const ProfileSettingsPage = () => {
             <Link href="/profiles/settings/social" className="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors">
               <div className="flex items-center gap-3">
                 <LinkIcon size={20} className="text-gray-600" />
-                <span className="text-gray-900">Привязка соцсетей</span>
+                <span className="text-gray-900">{translations[language].settings.social}</span>
               </div>
               <ChevronRight size={20} className="text-gray-400" />
             </Link>
@@ -112,16 +135,99 @@ const ProfileSettingsPage = () => {
             <Link href="/profiles/settings/search" className="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors">
               <div className="flex items-center gap-3">
                 <Search size={20} className="text-gray-600" />
-                <span className="text-gray-900">Настройки поиска</span>
+                <span className="text-gray-900">{translations[language].settings.search}</span>
               </div>
               <ChevronRight size={20} className="text-gray-400" />
             </Link>
+
+            {/* Language */}
+            <div className="flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors">
+              <div className="flex items-center gap-3">
+                <Globe size={20} className="text-gray-600" />
+                <span className="text-gray-900">{translations[language].settings.language}</span>
+              </div>
+              <div className="flex items-center gap-4">
+                {Object.entries(languages).map(([code, name]) => (
+                  <button
+                    key={code}
+                    onClick={() => setLanguage(code as Language)}
+                    className={`px-3 py-1 rounded-full text-sm transition-colors ${
+                      language === code 
+                        ? 'bg-[#016a80] text-white' 
+                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    }`}
+                  >
+                    {name}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Location */}
+            <button 
+              onClick={() => setShowLocationModal(true)}
+              className="w-full flex items-center justify-between p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors"
+            >
+              <div className="flex items-center gap-3">
+                <MapPin size={20} className="text-gray-600" />
+                <span className="text-gray-900">{translations[language].settings.location}</span>
+              </div>
+              <div className="text-gray-600">{location}</div>
+            </button>
+
+            {/* Location Modal */}
+            {showLocationModal && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center">
+                <div 
+                  className="absolute inset-0 bg-black bg-opacity-50"
+                  onClick={() => setShowLocationModal(false)}
+                ></div>
+                
+                <div className="relative bg-white rounded-xl p-6 w-full max-w-lg m-4">
+                  <div className="flex justify-between items-center mb-4">
+                    <h3 className="text-xl font-semibold">{translations[language].settings.chooseCity}</h3>
+                    <button 
+                      onClick={() => setShowLocationModal(false)}
+                      className="text-gray-400 hover:text-gray-600"
+                    >
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  <div className="h-[300px] rounded-lg overflow-hidden mb-4 border border-gray-200">
+                    <Map center={mapCenter} onLocationChange={(loc) => {
+                      setMapCenter([loc.lat, loc.lng]);
+                    }} />
+                  </div>
+
+                  <div className="flex justify-end gap-3">
+                    <button
+                      onClick={() => setShowLocationModal(false)}
+                      className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                    >
+                      {translations[language].settings.cancel}
+                    </button>
+                    <button
+                      onClick={() => {
+                        setLocation('Алматы'); // В реальном приложении здесь будет геокодинг
+                        setShowLocationModal(false);
+                      }}
+                      className="px-4 py-2 bg-[#016a80] text-white rounded-lg hover:bg-[#015566]"
+                    >
+                      {translations[language].settings.confirm}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Support */}
             <Link href="/profiles/settings/support" className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors">
               <div className="flex items-center gap-3">
                 <HelpCircle size={20} className="text-gray-600" />
-                <span className="text-gray-900">Служба поддержки</span>
+                <span className="text-gray-900">{translations[language].settings.support}</span>
               </div>
               <ChevronRight size={20} className="text-gray-400" />
             </Link>
@@ -147,13 +253,13 @@ const ProfileSettingsPage = () => {
           {/* Logout */}
           <div className="bg-white rounded-xl p-4">
             <button className="w-full text-red-500 font-medium py-3 text-center">
-              Выйти из аккаунта
+              {translations[language].settings.logout}
             </button>
           </div>
 
           {/* Version */}
           <div className="text-center py-4">
-            <p className="text-gray-400 text-sm">Версия 2.1.0</p>
+            <p className="text-gray-400 text-sm">{translations[language].settings.version} 2.1.0</p>
           </div>
         </div>
       </main>
