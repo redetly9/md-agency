@@ -7,6 +7,7 @@ import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import Providers from '@/components/Provider';
 import Navigation from '@/components/Navigation';
+import { Toaster } from 'react-hot-toast';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -34,6 +35,29 @@ export default function RootLayout({
                 {children}
               </main>
               <Footer />
+              <Toaster
+                position="bottom-center"
+                toastOptions={{
+                  duration: 5000,
+                  style: {
+                    fontSize: '16px',
+                    padding: '16px',
+                    maxWidth: '500px',
+                  },
+                  success: {
+                    style: {
+                      background: '#10B981',
+                      color: '#fff',
+                    },
+                  },
+                  error: {
+                    style: {
+                      background: '#EF4444',
+                      color: '#fff',
+                    },
+                  },
+                }}
+              />
             </div>
           </Providers>
         </AuthProvider>

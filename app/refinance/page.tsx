@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, X, Percent, TrendingDown, Shield, Clock, CheckCircle, Facebook, Instagram, Twitter, CreditCard, Banknote } from 'lucide-react';
+import toast from 'react-hot-toast';
 import { useMoveBack } from '@/hooks/useMoveBack';
 
 export default function RefinancePage() {
@@ -16,6 +17,7 @@ export default function RefinancePage() {
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -33,11 +35,56 @@ export default function RefinancePage() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    if (selectedFile) {
-      console.log('Selected file:', selectedFile.name, selectedFile.size);
+    
+    if (isSubmitting) return;
+    
+    setIsSubmitting(true);
+    const loadingToast = toast.loading('Отправка заявки...', {
+      position: 'bottom-center'
+    });
+    
+    try {
+      // В реальном приложении здесь будет API запрос
+      await new Promise(resolve => setTimeout(resolve, 1500)); // Имитация запроса
+      
+      toast.dismiss(loadingToast);
+      toast.success('Заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.', {
+        duration: 5000,
+        position: 'bottom-center',
+        style: {
+          background: '#10B981',
+          color: '#fff',
+          fontSize: '16px',
+          padding: '16px'
+        }
+      });
+      
+      // Очищаем форму
+      setFormData({
+        name: '',
+        phone: '',
+        message: ''
+      });
+      setSelectedFile(null);
+      setFileName('');
+      
+    } catch (error) {
+      toast.dismiss(loadingToast);
+      toast.error('Произошла ошибка при отправке заявки. Пожалуйста, попробуйте позже.', {
+        duration: 5000,
+        position: 'bottom-center',
+        style: {
+          background: '#EF4444',
+          color: '#fff',
+          fontSize: '16px',
+          padding: '16px'
+        }
+      });
+      console.error('Error submitting form:', error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -362,9 +409,21 @@ export default function RefinancePage() {
             
             <button
               type="submit"
-              className="w-full bg-[#016a80] text-white py-3 rounded-lg font-semibold hover:bg-[#016a80] transition-colors"
+              disabled={isSubmitting}
+              className={`w-full bg-[#016a80] text-white py-3 rounded-lg font-semibold transition-colors relative ${
+                isSubmitting ? 'opacity-75 cursor-not-allowed' : 'hover:bg-[#015566]'
+              }`}
             >
-              Отправить заявку
+              {isSubmitting ? (
+                <>
+                  <span className="opacity-0">Отправить заявку</span>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  </div>
+                </>
+              ) : (
+                'Отправить заявку'
+              )}
             </button>
           </form>
         </div>

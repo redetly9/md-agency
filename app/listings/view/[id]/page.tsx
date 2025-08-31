@@ -50,6 +50,7 @@ export default function ListingViewPage() {
   const [currentImage, setCurrentImage] = useState(0);
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [mapCenter, setMapCenter] = useState<number[] | null>(null);
 
   // Dynamically import Map to avoid SSR issues with Leaflet
@@ -96,12 +97,51 @@ export default function ListingViewPage() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    toast.success('Заявка отправлена!');
-    setShowModal(false);
-    setFormData({ name: '', phone: '', email: '' });
+    
+    if (isSubmitting) return;
+    
+    setIsSubmitting(true);
+    const loadingToast = toast.loading('Отправка заявки...', {
+      position: 'bottom-center'
+    });
+    
+    try {
+      // В реальном приложении здесь будет API запрос
+      await new Promise(resolve => setTimeout(resolve, 1500)); // Имитация запроса
+      
+      toast.dismiss(loadingToast);
+      toast.success('Заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.', {
+        duration: 5000,
+        position: 'bottom-center',
+        style: {
+          background: '#10B981',
+          color: '#fff',
+          fontSize: '16px',
+          padding: '16px'
+        }
+      });
+      
+      setShowModal(false);
+      setFormData({ name: '', phone: '', email: '' });
+      
+    } catch (error) {
+      toast.dismiss(loadingToast);
+      toast.error('Произошла ошибка при отправке заявки. Пожалуйста, попробуйте позже.', {
+        duration: 5000,
+        position: 'bottom-center',
+        style: {
+          background: '#EF4444',
+          color: '#fff',
+          fontSize: '16px',
+          padding: '16px'
+        }
+      });
+      console.error('Error submitting form:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const openModal = () => {
@@ -520,9 +560,21 @@ export default function ListingViewPage() {
 
               <button
                 type="submit"
-                className="w-full bg-[#016a80] hover:bg-[#014d5e] text-white py-3 px-6 rounded-lg font-semibold transition-colors mt-6"
+                disabled={isSubmitting}
+                className={`w-full bg-[#016a80] text-white py-3 px-6 rounded-lg font-semibold transition-colors mt-6 relative ${
+                  isSubmitting ? 'opacity-75 cursor-not-allowed' : 'hover:bg-[#014d5e]'
+                }`}
               >
-                Отправить заявку
+                {isSubmitting ? (
+                  <>
+                    <span className="opacity-0">Отправить заявку</span>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                  </>
+                ) : (
+                  'Отправить заявку'
+                )}
               </button>
             </form>
           </div>
