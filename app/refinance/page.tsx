@@ -289,7 +289,7 @@ export default function RefinancePage() {
             <h3 className="font-semibold text-gray-900 mb-4">Погашение ипотеки</h3>
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <span className="text-gray-700">Мы закрываем/выкупаем ваш ипотечный займ из любого банка РК и конвертируем в &quot;ДОГОВОР С ВЫКУПОМ&quot; между ТОО &quot;MD home&quot; и Вами по сниженным ставкам от 7% до 13,8%.</span>
+                <span className="text-gray-700">Мы закрываем/выкупаем ваш ипотечный займ из любого банка РК и конвертируем в &quot;Договор аренда с выкупом&quot; между ТОО &quot;MD home&quot; и Вами по сниженным ставкам от 7% до 13,8%.</span>
               </div>
             </div>
           </div>

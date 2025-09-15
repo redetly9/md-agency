@@ -17,6 +17,7 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
   
   // Состояния для фильтров
   const [region, setRegion] = useState<string>('astana');
+  const [city, setCity] = useState<string>('');
   const [complex, setComplex] = useState<string>('');
   const [rooms, setRooms] = useState<number[]>([]);
   const [priceFrom, setPriceFrom] = useState<string>('');
@@ -30,9 +31,11 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
   const [fromDeveloper, setFromDeveloper] = useState<boolean>(false);
   const [fromAgents, setFromAgents] = useState<boolean>(false);
   
-  // Состояние для отображения выпадающего списка регионов
+  // Состояние для отображения выпадающих списков
   const [showRegionDropdown, setShowRegionDropdown] = useState(false);
+  const [showCityDropdown, setShowCityDropdown] = useState(false);
   const regionRef = useRef<HTMLDivElement>(null);
+  const cityRef = useRef<HTMLDivElement>(null);
   
   // Список регионов Казахстана
   const regions = [
@@ -57,18 +60,55 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
     { id: 'turkestan-obl', name: 'Туркестанская обл.' },
     { id: 'ulytau-obl', name: 'Улытауская обл.' }
   ];
+
+  // Список городов Казахстана
+  const cities = [
+    { id: 'astana', name: 'Астана' },
+    { id: 'almaty', name: 'Алматы' },
+    { id: 'shymkent', name: 'Шымкент' },
+    { id: 'aktobe', name: 'Актобе' },
+    { id: 'taraz', name: 'Тараз' },
+    { id: 'pavlodar', name: 'Павлодар' },
+    { id: 'semey', name: 'Семей' },
+    { id: 'ust-kamenogorsk', name: 'Усть-Каменогорск' },
+    { id: 'oral', name: 'Уральск' },
+    { id: 'atyrau', name: 'Атырау' },
+    { id: 'aktau', name: 'Актау' },
+    { id: 'kostanay', name: 'Костанай' },
+    { id: 'kyzylorda', name: 'Кызылорда' },
+    { id: 'petropavlovsk', name: 'Петропавловск' },
+    { id: 'turkestan', name: 'Туркестан' },
+    { id: 'karaganda', name: 'Караганда' },
+    { id: 'temirtau', name: 'Темиртау' },
+    { id: 'zhanaozen', name: 'Жанаозен' },
+    { id: 'ekibastuz', name: 'Экибастуз' },
+    { id: 'rudny', name: 'Рудный' },
+    { id: 'kokshetau', name: 'Кокшетау' },
+    { id: 'taldykorgan', name: 'Талдыкорган' },
+    { id: 'shymkent-obl', name: 'Шымкент (обл.)' },
+    { id: 'other', name: 'Другие города' }
+  ];
   
   // Функция для получения названия региона по его id
   const getRegionName = (regionId: string) => {
     const foundRegion = regions.find(r => r.id === regionId);
     return foundRegion ? foundRegion.name : 'Выберите регион';
   };
+
+  // Функция для получения названия города по его id
+  const getCityName = (cityId: string) => {
+    const foundCity = cities.find(c => c.id === cityId);
+    return foundCity ? foundCity.name : 'Выберите город';
+  };
   
-  // Закрытие выпадающего списка при клике вне его
+  // Закрытие выпадающих списков при клике вне их
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (regionRef.current && !regionRef.current.contains(event.target as Node)) {
         setShowRegionDropdown(false);
+      }
+      if (cityRef.current && !cityRef.current.contains(event.target as Node)) {
+        setShowCityDropdown(false);
       }
     };
     
@@ -82,6 +122,7 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
   useEffect(() => {
     if (isOpen) {
       setRegion(searchParams.get('region') || 'astana');
+      setCity(searchParams.get('city') || '');
       setComplex(searchParams.get('complex') || '');
       setRooms(searchParams.get('rooms') ? searchParams.get('rooms')!.split(',').map(Number) : []);
       setPriceFrom(searchParams.get('priceFrom') || '');
@@ -100,6 +141,7 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
   // Сброс всех фильтров
   const handleReset = () => {
     setRegion('astana');
+    setCity('');
     setComplex('');
     setRooms([]);
     setPriceFrom('');
@@ -119,6 +161,7 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
     const params = new URLSearchParams();
     
     if (region) params.set('region', region);
+    if (city) params.set('city', city);
     if (complex) params.set('complex', complex);
     if (rooms.length > 0) params.set('rooms', rooms.join(','));
     if (priceFrom) params.set('priceFrom', priceFrom);
@@ -152,6 +195,12 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
   const selectRegion = (regionId: string) => {
     setRegion(regionId);
     setShowRegionDropdown(false);
+  };
+
+  // Обработчик выбора города
+  const selectCity = (cityId: string) => {
+    setCity(cityId);
+    setShowCityDropdown(false);
   };
   
   return (
@@ -218,6 +267,44 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
                       onClick={() => selectRegion(r.id)}
                     >
                       {r.name}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+          
+          {/* Город */}
+          <div className="mb-4" ref={cityRef}>
+            <label className="block text-gray-700 mb-2 text-sm">Город</label>
+            <div className="relative">
+              <div 
+                className="w-full p-2 border rounded flex justify-between items-center cursor-pointer text-xs"
+                onClick={() => setShowCityDropdown(!showCityDropdown)}
+              >
+                <span>{getCityName(city)}</span>
+                {city && (
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCity('');
+                    }}
+                    className="text-gray-400"
+                  >
+                    <X size={14} />
+                  </button>
+                )}
+              </div>
+              
+              {showCityDropdown && (
+                <div className="absolute z-10 mt-1 w-full bg-white border rounded shadow-lg max-h-48 overflow-y-auto">
+                  {cities.map((c) => (
+                    <div 
+                      key={c.id}
+                      className={`p-2 cursor-pointer hover:bg-gray-100 text-xs ${city === c.id ? 'bg-blue-50 text-blue-500' : ''}`}
+                      onClick={() => selectCity(c.id)}
+                    >
+                      {c.name}
                     </div>
                   ))}
                 </div>

@@ -72,6 +72,7 @@ function HomeContent() {
   const [selectedCity, setSelectedCity] = useState<string | null>(null);
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
   const [selectedRooms, setSelectedRooms] = useState<string[]>([]);
+  const [showCityDropdown, setShowCityDropdown] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [chatMessages, setChatMessages] = useState([
     { from: 'support', text: 'Здравствуйте! Готов ответить на ваши вопросы.', time: '20:52' }
@@ -104,6 +105,33 @@ function HomeContent() {
     { id: 'ulytau', name: 'Улытауская обл.' }
   ];
 
+  const cities = [
+    { id: 'astana', name: 'Астана' },
+    { id: 'almaty', name: 'Алматы' },
+    { id: 'shymkent', name: 'Шымкент' },
+    { id: 'aktobe', name: 'Актобе' },
+    { id: 'taraz', name: 'Тараз' },
+    { id: 'pavlodar', name: 'Павлодар' },
+    { id: 'semey', name: 'Семей' },
+    { id: 'ust-kamenogorsk', name: 'Усть-Каменогорск' },
+    { id: 'oral', name: 'Уральск' },
+    { id: 'atyrau', name: 'Атырау' },
+    { id: 'aktau', name: 'Актау' },
+    { id: 'kostanay', name: 'Костанай' },
+    { id: 'kyzylorda', name: 'Кызылорда' },
+    { id: 'petropavlovsk', name: 'Петропавловск' },
+    { id: 'turkestan', name: 'Туркестан' },
+    { id: 'karaganda', name: 'Караганда' },
+    { id: 'temirtau', name: 'Темиртау' },
+    { id: 'zhanaozen', name: 'Жанаозен' },
+    { id: 'ekibastuz', name: 'Экибастуз' },
+    { id: 'rudny', name: 'Рудный' },
+    { id: 'kokshetau', name: 'Кокшетау' },
+    { id: 'taldykorgan', name: 'Талдыкорган' },
+    { id: 'shymkent-obl', name: 'Шымкент (обл.)' },
+    { id: 'other', name: 'Другие города' }
+  ];
+
   const filteredRegions = searchValue
     ? regions.filter(region => region.name.toLowerCase().includes(searchValue.toLowerCase()))
     : regions;
@@ -118,6 +146,7 @@ function HomeContent() {
     page: number,
     append: boolean = false,
     region?: string | null,
+    city?: string | null,
     filters?: { rooms?: string[]; priceFrom?: string; priceTo?: string }
   ) => {
     if (append) {
@@ -135,6 +164,9 @@ function HomeContent() {
       
       if (region) {
         url.searchParams.set('region', region);
+      }
+      if (city) {
+        url.searchParams.set('city', city);
       }
       if (filters?.rooms && filters.rooms.length > 0) {
         url.searchParams.set('rooms', filters.rooms.join(','));
@@ -170,7 +202,7 @@ function HomeContent() {
 
   const loadMore = () => {
     if (!isLoadingMore && hasMore) {
-      fetchListings(currentPage + 1, true, selectedRegion, { rooms: selectedRooms, priceFrom, priceTo });
+      fetchListings(currentPage + 1, true, selectedRegion, selectedCity, { rooms: selectedRooms, priceFrom, priceTo });
     }
   };
 
@@ -203,9 +235,9 @@ function HomeContent() {
 
   useEffect(() => {
     if (selectedRegion) {
-      fetchListings(1, false, selectedRegion, { rooms: selectedRooms, priceFrom, priceTo });
+      fetchListings(1, false, selectedRegion, selectedCity, { rooms: selectedRooms, priceFrom, priceTo });
     }
-  }, [selectedRegion]);
+  }, [selectedRegion, selectedCity]);
 
   const toggleRoom = (room: string) => {
     setSelectedRooms(prev => prev.includes(room) ? prev.filter(r => r !== room) : [...prev, room]);
@@ -406,6 +438,37 @@ console.log(listings)
                   </div>
                 </div>
 
+                {/* City Filter */}
+                <div className="mb-4">
+                  <h3 className="text-sm text-[#2C3E50] font-medium mb-2">Город</h3>
+                  <div className="relative">
+                    <div 
+                      className="w-full p-2 border border-gray-300 rounded-lg flex justify-between items-center cursor-pointer text-xs"
+                      onClick={() => setShowCityDropdown(!showCityDropdown)}
+                    >
+                      <span>{selectedCity ? cities.find(c => c.id === selectedCity)?.name : 'Выберите город'}</span>
+                      <span className="text-gray-400">▼</span>
+                    </div>
+                    
+                    {showCityDropdown && (
+                      <div className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-48 overflow-y-auto">
+                        {cities.map((city) => (
+                          <div 
+                            key={city.id}
+                            className={`p-2 cursor-pointer hover:bg-gray-100 text-xs ${selectedCity === city.id ? 'bg-blue-50 text-blue-500' : ''}`}
+                            onClick={() => {
+                              setSelectedCity(city.id);
+                              setShowCityDropdown(false);
+                            }}
+                          >
+                            {city.name}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
                 {/* Price Range */}
                 <div className="mb-4">
                   <h3 className="text-sm text-[#2C3E50] font-medium mb-2">Цена, ₸</h3>
@@ -556,7 +619,7 @@ console.log(listings)
                 <div className="sticky bottom-0 left-0 right-0 bg-white p-3 border-t -mx-3">
                   <button
                     onClick={() => {
-                      fetchListings(1, false, selectedRegion, { rooms: selectedRooms, priceFrom, priceTo });
+                      fetchListings(1, false, selectedRegion, selectedCity, { rooms: selectedRooms, priceFrom, priceTo });
                       setIsFilterModalOpen(false);
                     }}
                     className="w-full py-2.5 text-white rounded-lg font-medium transition-colors text-sm"

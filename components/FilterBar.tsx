@@ -15,6 +15,7 @@ const FilterBar = ({ onOpenModal, dealType, propertyType }: FilterBarProps) => {
 
   // Получаем текущие значения фильтров
   const region = searchParams.get('region') || 'astana';
+  const city = searchParams.get('city') || '';
   const rooms = searchParams.get('rooms')?.split(',') || [];
   const priceFrom = searchParams.get('priceFrom');
   const priceTo = searchParams.get('priceTo');
@@ -36,6 +37,38 @@ const FilterBar = ({ onOpenModal, dealType, propertyType }: FilterBarProps) => {
     return foundRegion ? foundRegion.name : 'Выберите регион';
   };
 
+  // Получаем название города
+  const getCityName = (cityId: string) => {
+    const cities = [
+      { id: 'astana', name: 'Астана' },
+      { id: 'almaty', name: 'Алматы' },
+      { id: 'shymkent', name: 'Шымкент' },
+      { id: 'aktobe', name: 'Актобе' },
+      { id: 'taraz', name: 'Тараз' },
+      { id: 'pavlodar', name: 'Павлодар' },
+      { id: 'semey', name: 'Семей' },
+      { id: 'ust-kamenogorsk', name: 'Усть-Каменогорск' },
+      { id: 'oral', name: 'Уральск' },
+      { id: 'atyrau', name: 'Атырау' },
+      { id: 'aktau', name: 'Актау' },
+      { id: 'kostanay', name: 'Костанай' },
+      { id: 'kyzylorda', name: 'Кызылорда' },
+      { id: 'petropavlovsk', name: 'Петропавловск' },
+      { id: 'turkestan', name: 'Туркестан' },
+      { id: 'karaganda', name: 'Караганда' },
+      { id: 'temirtau', name: 'Темиртау' },
+      { id: 'zhanaozen', name: 'Жанаозен' },
+      { id: 'ekibastuz', name: 'Экибастуз' },
+      { id: 'rudny', name: 'Рудный' },
+      { id: 'kokshetau', name: 'Кокшетау' },
+      { id: 'taldykorgan', name: 'Талдыкорган' },
+      { id: 'shymkent-obl', name: 'Шымкент (обл.)' },
+      { id: 'other', name: 'Другие города' }
+    ];
+    const foundCity = cities.find(c => c.id === cityId);
+    return foundCity ? foundCity.name : '';
+  };
+
   return (
     <div className="bg-white border-b">
       <div className="max-w-screen-md mx-auto py-2 px-4">
@@ -45,6 +78,14 @@ const FilterBar = ({ onOpenModal, dealType, propertyType }: FilterBarProps) => {
             <span className="text-gray-500">Регион:</span>
             <span className="font-medium">{getRegionName(region)}</span>
           </div>
+
+          {/* Город */}
+          {city && (
+            <div className="flex items-center gap-2">
+              <span className="text-gray-500">Город:</span>
+              <span className="font-medium">{getCityName(city)}</span>
+            </div>
+          )}
 
           {/* Комнаты */}
           {rooms.length > 0 && (

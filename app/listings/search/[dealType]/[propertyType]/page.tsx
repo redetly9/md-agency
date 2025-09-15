@@ -54,7 +54,7 @@ export default function ListingsPage() {
         
         // Добавляем параметры фильтрации
         const filterParams = [
-          'region', 'complex', 'rooms', 'priceFrom', 'priceTo', 
+          'region', 'city', 'complex', 'rooms', 'priceFrom', 'priceTo', 
           'areaFrom', 'areaTo', 'floorFrom', 'floorTo', 
           'notFirstFloor', 'notLastFloor', 'fromDeveloper', 'fromAgents'
         ];
