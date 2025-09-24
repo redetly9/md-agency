@@ -162,8 +162,11 @@ function HomeContent() {
       url.searchParams.set('page', page.toString());
       console.log('regionregion', region);
       
+      // Передаём регион в API. Если регион не выбран, но выбран город, используем город как регион (формат Krisha в URL)
       if (region) {
         url.searchParams.set('region', region);
+      } else if (city) {
+        url.searchParams.set('region', city);
       }
       if (city) {
         url.searchParams.set('city', city);
@@ -233,9 +236,12 @@ function HomeContent() {
     fetchListings(1, false);
   }, []);
 
+  // Подгружаем при изменении региона или города. Если региона нет, но есть город — тоже грузим
   useEffect(() => {
-    if (selectedRegion) {
-      fetchListings(1, false, selectedRegion, selectedCity, { rooms: selectedRooms, priceFrom, priceTo });
+    if (selectedRegion || selectedCity) {
+      const effectiveRegion = selectedRegion ?? null;
+      const effectiveCity = selectedCity ?? null;
+      fetchListings(1, false, effectiveRegion, effectiveCity, { rooms: selectedRooms, priceFrom, priceTo });
     }
   }, [selectedRegion, selectedCity]);
 
