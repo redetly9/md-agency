@@ -345,9 +345,7 @@ console.log(listings)
           <Link href="/" className="text-2xl font-medium">
             md.kz
           </Link>
-          <Link href="/profiles" className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors">
-            <User size={20} className="text-gray-600" />
-          </Link>
+          {/* Удалено: ссылка на кабинет */}
         </div>
       </header>
 
