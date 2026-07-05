@@ -25,8 +25,11 @@ export default function ArendaSVykupomPage() {
   const [calculator, setCalculator] = useState({
     propertyValue: 6000000,
     monthlyPayment: 150000,
-    duration: 60
+    duration: 60,
+    initialPaymentPercent: 50
   });
+
+  const rentPercent = calculator.initialPaymentPercent === 50 ? 10 : 12;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -44,12 +47,13 @@ export default function ArendaSVykupomPage() {
     }
   };
 
-  // Применяет правила калькулятора из HTML: цель 30% от стоимости,
+  // Применяет правила калькулятора: цель = выбранный первоначальный взнос от стоимости,
   // авто-повышение ежемесячного пополнения/срока до минимально достаточных значений
-  const enforceCalculatorConstraints = (next: { propertyValue: number; monthlyPayment: number; duration: number }) => {
+  const enforceCalculatorConstraints = (next: { propertyValue: number; monthlyPayment: number; duration: number; initialPaymentPercent: number }) => {
     const price = Number(next.propertyValue) || 0;
     const currentMonthly = Math.max(0, Number(next.monthlyPayment) || 0);
     const currentMonths = Math.max(0, Number(next.duration) || 0);
+    const targetPercent = (Number(next.initialPaymentPercent) || 30) / 100;
 
     let adjustedMonthly = currentMonthly;
     let adjustedMonths = currentMonths;
@@ -58,10 +62,10 @@ export default function ArendaSVykupomPage() {
     const minMonthly = 100000;
     const maxMonthly = 10000000;
     const minMonths = 60;
-    const maxMonths = 240;
+    const maxMonths = 120;
 
     if (price > 0) {
-      const targetAmount = price * 0.3; // 30% от стоимости
+      const targetAmount = price * targetPercent;
 
       const requiredMonthlyIfFixedMonths = adjustedMonths > 0 ? Math.ceil(targetAmount / adjustedMonths) : 0;
       const requiredMonthsIfFixedMonthly = adjustedMonthly > 0 ? Math.ceil(targetAmount / adjustedMonthly) : 0;
@@ -209,10 +213,33 @@ export default function ArendaSVykupomPage() {
             Рассчитайте свой вариант аренды с выкупом
           </h2>
           
-          {/* Информер 10% */}
+          {/* Выбор первоначального взноса */}
           <div className="mb-4 text-center bg-gray-50 border border-gray-100 rounded-lg p-3">
-            <h3 className="text-sm text-black mb-1">Первоначальный накопительный взнос</h3>
-            <p className="text-lg font-semibold text-[#016a80]">10 %</p>
+            <h3 className="text-sm text-black mb-2">Первоначальный накопительный взнос</h3>
+            <div className="flex justify-center gap-2">
+              <button
+                type="button"
+                onClick={() => setCalculator(prev => enforceCalculatorConstraints({ ...prev, initialPaymentPercent: 50 }))}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  calculator.initialPaymentPercent === 50
+                    ? 'bg-[#016a80] text-white'
+                    : 'bg-white text-[#016a80] border border-[#016a80]'
+                }`}
+              >
+                50%
+              </button>
+              <button
+                type="button"
+                onClick={() => setCalculator(prev => enforceCalculatorConstraints({ ...prev, initialPaymentPercent: 30 }))}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  calculator.initialPaymentPercent === 30
+                    ? 'bg-[#016a80] text-white'
+                    : 'bg-white text-[#016a80] border border-[#016a80]'
+                }`}
+              >
+                30%
+              </button>
+            </div>
           </div>
 
           {/* Property Value Slider */}
@@ -281,19 +308,19 @@ export default function ArendaSVykupomPage() {
                 type="range"
                 name="duration"
                 min="60"
-                max="240"
+                max="120"
                 step="1"
                 value={calculator.duration}
                 onChange={(e) => setCalculator(prev => ({ ...prev, duration: parseInt(e.target.value) }))}
                 className="w-full h-[3px] bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
                 style={{
-                  background: `linear-gradient(to right, #016a80 0%, #016a80 ${((calculator.duration - 60) / (240 - 60)) * 100}%, #E5E7EB ${((calculator.duration - 60) / (240 - 60)) * 100}%, #E5E7EB 100%)`
+                  background: `linear-gradient(to right, #016a80 0%, #016a80 ${((calculator.duration - 60) / (120 - 60)) * 100}%, #E5E7EB ${((calculator.duration - 60) / (120 - 60)) * 100}%, #E5E7EB 100%)`
                 }}
               />
             </div>
             <div className="flex justify-between text-sm text-[#6B7280] font-light">
               <span>60 мес</span>
-              <span>240 мес</span>
+              <span>120 мес</span>
             </div>
             <div className="text-right text-sm text-black font-medium mt-1">
               {calculator.duration.toLocaleString('ru-RU')} мес
@@ -323,8 +350,8 @@ export default function ArendaSVykupomPage() {
               </div>
               
               <div>
-                <p className="text-gray-700">Ежемесячная аренда (1.14%):</p>
-                <p className="text-xl font-bold text-gray-900">{Math.round(calculator.propertyValue * 0.01).toLocaleString('ru-RU')} ₸/мес</p>
+                <p className="text-gray-700">Ежемесячная аренда ({rentPercent}%):</p>
+                <p className="text-xl font-bold text-gray-900">{Math.round(calculator.propertyValue * (rentPercent / 100) / 12).toLocaleString('ru-RU')} ₸/мес</p>
               </div>
             </div>
           </div>
