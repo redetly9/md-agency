@@ -29,7 +29,8 @@ export default function ArendaSVykupomPage() {
     initialPaymentPercent: 50
   });
 
-  const rentPercent = calculator.initialPaymentPercent === 50 ? 10 : 12;
+  const remainingAmount = calculator.propertyValue - calculator.propertyValue * (calculator.initialPaymentPercent / 100);
+  const monthlyRent = Math.round(remainingAmount * 0.006);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -350,8 +351,8 @@ export default function ArendaSVykupomPage() {
               </div>
               
               <div>
-                <p className="text-gray-700">Ежемесячная аренда ({rentPercent}%):</p>
-                <p className="text-xl font-bold text-gray-900">{Math.round(calculator.propertyValue * (rentPercent / 100) / 12).toLocaleString('ru-RU')} ₸/мес</p>
+                <p className="text-gray-700">Ежемесячная аренда (0,6% от остатка):</p>
+                <p className="text-xl font-bold text-gray-900">{monthlyRent.toLocaleString('ru-RU')} ₸/мес</p>
               </div>
             </div>
           </div>
