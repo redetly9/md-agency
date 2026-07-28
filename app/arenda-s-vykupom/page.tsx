@@ -383,7 +383,7 @@ export default function ArendaSVykupomPage() {
                       Первоначальный накопительный взнос
                     </h3>
                     <p className="text-gray-600 text-sm">
-                      Всего 10% от стоимости квартиры вместо 20-30% при ипотеке
+                      От 30% до 50% от стоимости квартиры
                     </p>
                   </div>
                 </div>
@@ -495,7 +495,7 @@ export default function ArendaSVykupomPage() {
                            {/* Первоначальный накопительный взнос */}
                            <div className="grid grid-cols-3 py-4 px-4 border-b border-gray-200">
                              <div className="text-gray-900 text-sm font-light">Первоначальный накопительный взнос</div>
-                             <div className="text-[#016a80] font-light text-center text-sm">От 10%</div>
+                             <div className="text-[#016a80] font-light text-center text-sm">От 30% до 50%</div>
                              <div className="text-gray-900 text-center text-sm font-light">От 20-30%</div>
                            </div>
                            
@@ -646,7 +646,7 @@ export default function ArendaSVykupomPage() {
                       Внесение первоначального взноса
                     </h3>
                     <p className="text-gray-600 text-sm">
-                      Внесите первоначальный взнос в размере 10% от стоимости жилья
+                      Внесите первоначальный взнос в размере от 30% до 50% от стоимости жилья
                     </p>
                   </div>
                 </div>
