@@ -483,7 +483,7 @@ export default function ArendaSVykupomPage() {
                        <div className="overflow-hidden rounded-lg shadow-sm">
                          {/* Table Header */}
                          <div className="bg-gray-900 text-white">
-                           <div className="grid grid-cols-3 py-4 px-4">
+                           <div className="grid grid-cols-[1.4fr_1fr_1fr] gap-x-3 items-center py-4 px-4">
                              <div className="font-medium">Параметр</div>
                              <div className="font-medium text-center">Аренда с выкупом</div>
                              <div className="font-medium text-center">Ипотека</div>
@@ -493,42 +493,42 @@ export default function ArendaSVykupomPage() {
                          {/* Table Body */}
                          <div className="bg-gray-50">
                            {/* Первоначальный накопительный взнос */}
-                           <div className="grid grid-cols-3 py-4 px-4 border-b border-gray-200">
+                           <div className="grid grid-cols-[1.4fr_1fr_1fr] gap-x-3 items-center py-4 px-4 border-b border-gray-200">
                              <div className="text-gray-900 text-sm font-light">Первоначальный накопительный взнос</div>
                              <div className="text-[#016a80] font-light text-center text-sm">От 30% до 50%</div>
                              <div className="text-gray-900 text-center text-sm font-light">От 20-30%</div>
                            </div>
                            
                            {/* Проверка кредитной истории */}
-                           <div className="grid grid-cols-3 py-4 px-4 border-b border-gray-200">
+                           <div className="grid grid-cols-[1.4fr_1fr_1fr] gap-x-3 items-center py-4 px-4 border-b border-gray-200">
                              <div className="text-gray-900 text-sm font-light">Проверка кредитной истории</div>
                              <div className="text-[#016a80] font-light text-center text-sm">Минимальная</div>
                              <div className="text-gray-900 text-center text-sm font-light">Строгая</div>
                            </div>
                            
                            {/* Процентная ставка */}
-                           <div className="grid grid-cols-3 py-4 px-4 border-b border-gray-200">
+                           <div className="grid grid-cols-[1.4fr_1fr_1fr] gap-x-3 items-center py-4 px-4 border-b border-gray-200">
                              <div className="text-gray-900 text-sm font-light">Процентная ставка</div>
                              <div className="text-[#016a80] font-light text-center text-sm">От 7% до 13.8%</div>
                              <div className="text-gray-900 text-center text-sm font-light">От 19% до 24.5%</div>
                            </div>
                            
                            {/* Возможность тестировать жильё */}
-                           <div className="grid grid-cols-3 py-4 px-4 border-b border-gray-200">
+                           <div className="grid grid-cols-[1.4fr_1fr_1fr] gap-x-3 items-center py-4 px-4 border-b border-gray-200">
                              <div className="text-gray-900 text-sm font-light">Возможность тестировать жильё</div>
                              <div className="text-[#016a80] font-light text-center text-sm">Да</div>
                              <div className="text-gray-900 text-center text-sm font-light">Нет</div>
                            </div>
                            
                            {/* Гибкость условий */}
-                           <div className="grid grid-cols-3 py-4 px-4 border-b border-gray-200">
+                           <div className="grid grid-cols-[1.4fr_1fr_1fr] gap-x-3 items-center py-4 px-4 border-b border-gray-200">
                              <div className="text-gray-900 text-sm font-light">Гибкость условий</div>
                              <div className="text-[#016a80] font-light text-center text-sm">Высокая</div>
                              <div className="text-gray-900 text-center text-sm font-light">Низкая</div>
                            </div>
                            
                            {/* Подходит для нестабильного дохода */}
-                           <div className="grid grid-cols-3 py-4 px-4">
+                           <div className="grid grid-cols-[1.4fr_1fr_1fr] gap-x-3 items-center py-4 px-4">
                              <div className="text-gray-900 text-sm font-light">Подходит для нестабильного дохода</div>
                              <div className="text-[#016a80] font-light text-center text-sm">Да</div>
                              <div className="text-gray-900 text-center text-sm font-light">Нет</div>
