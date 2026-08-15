@@ -28,7 +28,7 @@ export default function ArendaSVykupomPage() {
     initialPaymentPercent: 50
   });
 
-  const DURATION_OPTIONS = [60, 90, 120];
+  const DURATION_OPTIONS = [60, 120, 180, 240, 360];
 
   const initialPaymentTarget = calculator.propertyValue * (calculator.initialPaymentPercent / 100);
   const monthlyPayment = calculator.duration > 0
