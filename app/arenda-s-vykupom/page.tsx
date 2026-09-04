@@ -31,10 +31,10 @@ export default function ArendaSVykupomPage() {
   const DURATION_OPTIONS = [60, 120, 180, 240, 360];
 
   const initialPaymentTarget = calculator.propertyValue * (calculator.initialPaymentPercent / 100);
-  const monthlyPayment = calculator.duration > 0
-    ? Math.ceil(initialPaymentTarget / calculator.duration / 1000) * 1000
-    : 0;
   const remainingAmount = calculator.propertyValue - initialPaymentTarget;
+  const monthlyPayment = calculator.duration > 0
+    ? Math.ceil(remainingAmount / calculator.duration / 1000) * 1000
+    : 0;
   const monthlyRent = Math.round(remainingAmount * 0.006);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
