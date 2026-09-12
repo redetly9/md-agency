@@ -4,10 +4,14 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, X, Phone, Mail, MapPin, Instagram, Facebook, Twitter, Linkedin } from 'lucide-react';
 import { useMoveBack } from '@/hooks/useMoveBack';
+import CountrySelectModal, { useSelectedCountry } from '@/components/modals/CountrySelectModal';
 
 export default function ArendaSVykupomPage() {
   const moveBack = useMoveBack();
-  
+  const { country, select: selectCountry, loaded: countryLoaded } = useSelectedCountry();
+  const [countryModalOpen, setCountryModalOpen] = useState(false);
+  const showCountryModal = countryModalOpen || (countryLoaded && !country);
+
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -126,11 +130,32 @@ export default function ArendaSVykupomPage() {
             </button>
             <span className="text-2xl font-medium text-[#016a80]">md.kz</span>
           </div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setCountryModalOpen(true)}
+              className="flex items-center gap-1 border border-gray-200 rounded-lg px-2 py-2 text-sm hover:border-[#016a80] transition-colors"
+              aria-label="Выбрать страну"
+            >
+              <span className="text-lg leading-none">{country?.flag ?? '🌍'}</span>
+              <span className="hidden sm:inline text-black">{country?.name ?? 'Страна'}</span>
+            </button>
           <button className="bg-[#016a80] text-white px-5 py-2 rounded-lg font-light hover:bg-[#016a80] transition-colors text-sm">
             Связаться с нами
           </button>
+          </div>
         </div>
       </header>
+
+      <CountrySelectModal
+        isOpen={showCountryModal}
+        selected={country}
+        onClose={country ? () => setCountryModalOpen(false) : undefined}
+        onSelect={(c) => {
+          selectCountry(c);
+          setCountryModalOpen(false);
+        }}
+      />
       
       {/* Divider Line */}
       <div className="border-b border-[#F3F4F6] mb-2"></div>
