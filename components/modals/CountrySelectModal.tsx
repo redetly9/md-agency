@@ -7,7 +7,7 @@ export interface Country {
   code: string;
   name: string;
   flag: string;
-  /** Страна доступна для выбора. Остальные показываются как «Скоро». */
+  /** Страна доступна для выбора; остальные показываются как недоступные. */
   available: boolean;
 }
 
@@ -59,15 +59,28 @@ interface Props {
   selected?: Country | null;
 }
 
+const UNAVAILABLE_NOTICE = 'Не доступно. Сейчас можно выбрать только Казахстан.';
+
 export default function CountrySelectModal({ isOpen, onClose, onSelect, selected }: Props) {
+  const [notice, setNotice] = useState<string | null>(null);
+
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen) {
+      setNotice(null);
+      return;
+    }
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     return () => {
       document.body.style.overflow = prev;
     };
   }, [isOpen]);
+
+  useEffect(() => {
+    if (!notice) return;
+    const timer = setTimeout(() => setNotice(null), 2500);
+    return () => clearTimeout(timer);
+  }, [notice]);
 
   if (!isOpen) return null;
 
@@ -77,7 +90,7 @@ export default function CountrySelectModal({ isOpen, onClose, onSelect, selected
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md max-h-full bg-white rounded-2xl p-6 max-[374px]:p-4 shadow-xl flex flex-col"
+        className="relative w-full max-w-md max-h-full bg-white rounded-2xl p-6 max-[374px]:p-4 shadow-xl flex flex-col"
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
@@ -102,8 +115,8 @@ export default function CountrySelectModal({ isOpen, onClose, onSelect, selected
               <li key={c.code}>
                 <button
                   type="button"
-                  disabled={!c.available}
-                  onClick={() => c.available && onSelect(c)}
+                  aria-disabled={!c.available}
+                  onClick={() => (c.available ? onSelect(c) : setNotice(UNAVAILABLE_NOTICE))}
                   className={`w-full flex items-center gap-3 px-4 py-3 max-[374px]:px-3 max-[374px]:py-2.5 max-[374px]:gap-2 rounded-lg border text-left transition-colors ${
                     active
                       ? 'bg-[#016a80] text-white border-[#016a80]'
@@ -114,14 +127,21 @@ export default function CountrySelectModal({ isOpen, onClose, onSelect, selected
                 >
                   <span className={`text-2xl max-[374px]:text-xl leading-none ${c.available ? '' : 'grayscale opacity-60'}`}>{c.flag}</span>
                   <span className="font-medium max-[374px]:text-sm flex-1">{c.name}</span>
-                  {!c.available && (
-                    <span className="text-xs max-[374px]:text-[11px] text-gray-400 whitespace-nowrap">Скоро</span>
-                  )}
                 </button>
               </li>
             );
           })}
         </ul>
+
+        {notice && (
+          <div
+            role="status"
+            aria-live="polite"
+            className="pointer-events-none absolute left-4 right-4 bottom-4 max-[374px]:left-3 max-[374px]:right-3 max-[374px]:bottom-3 rounded-lg bg-gray-900/95 text-white text-sm max-[374px]:text-[13px] px-4 py-3 text-center shadow-lg"
+          >
+            {notice}
+          </div>
+        )}
       </div>
     </div>
   );
