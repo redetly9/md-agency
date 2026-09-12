@@ -7,16 +7,18 @@ export interface Country {
   code: string;
   name: string;
   flag: string;
+  /** Страна доступна для выбора. Остальные показываются как «Скоро». */
+  available: boolean;
 }
 
 export const COUNTRIES: Country[] = [
-  { code: 'kz', name: 'Казахстан', flag: '🇰🇿' },
-  { code: 'uz', name: 'Узбекистан', flag: '🇺🇿' },
-  { code: 'ge', name: 'Грузия', flag: '🇬🇪' },
-  { code: 'tr', name: 'Турция', flag: '🇹🇷' },
-  { code: 'ae', name: 'ОАЭ', flag: '🇦🇪' },
-  { code: 'eu', name: 'Европа', flag: '🇪🇺' },
-  { code: 'id', name: 'Индонезия', flag: '🇮🇩' },
+  { code: 'kz', name: 'Казахстан', flag: '🇰🇿', available: true },
+  { code: 'uz', name: 'Узбекистан', flag: '🇺🇿', available: false },
+  { code: 'ge', name: 'Грузия', flag: '🇬🇪', available: false },
+  { code: 'tr', name: 'Турция', flag: '🇹🇷', available: false },
+  { code: 'ae', name: 'ОАЭ', flag: '🇦🇪', available: false },
+  { code: 'eu', name: 'Европа', flag: '🇪🇺', available: false },
+  { code: 'id', name: 'Индонезия', flag: '🇮🇩', available: false },
 ];
 
 const STORAGE_KEY = 'md_country';
@@ -30,7 +32,7 @@ export function useSelectedCountry() {
     const read = () => {
       try {
         const saved = localStorage.getItem(STORAGE_KEY);
-        setCountry(COUNTRIES.find((c) => c.code === saved) ?? null);
+        setCountry(COUNTRIES.find((c) => c.code === saved && c.available) ?? null);
       } catch {}
     };
     read();
@@ -71,11 +73,11 @@ export default function CountrySelectModal({ isOpen, onClose, onSelect, selected
 
   return (
     <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 px-4 py-6"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 px-4 pt-4 pb-24 sm:pb-6"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md max-h-full bg-white rounded-2xl p-6 shadow-xl flex flex-col"
+        className="w-full max-w-md max-h-full bg-white rounded-2xl p-6 max-[374px]:p-4 shadow-xl flex flex-col"
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
@@ -83,7 +85,7 @@ export default function CountrySelectModal({ isOpen, onClose, onSelect, selected
         <div className="flex items-start justify-between mb-1">
           <div>
             <p className="text-xs uppercase tracking-wide text-[#016a80] font-semibold">MD international</p>
-            <h2 className="text-lg font-bold text-black">Цифровая платформа «Аренда с выкупом»</h2>
+            <h2 className="text-lg max-[374px]:text-base font-bold text-black leading-snug">Цифровая платформа «Аренда с выкупом»</h2>
           </div>
           {onClose && (
             <button onClick={onClose} className="text-gray-400 hover:text-gray-600 ml-3" aria-label="Закрыть">
@@ -91,24 +93,30 @@ export default function CountrySelectModal({ isOpen, onClose, onSelect, selected
             </button>
           )}
         </div>
-        <p className="text-sm text-gray-500 mb-4">Выберите страну</p>
+        <p className="text-sm text-gray-500 mb-4 max-[374px]:mb-3">Выберите страну</p>
 
-        <ul className="space-y-2 overflow-y-auto">
+        <ul className="space-y-2 max-[374px]:space-y-1.5 overflow-y-auto">
           {COUNTRIES.map((c) => {
             const active = selected?.code === c.code;
             return (
               <li key={c.code}>
                 <button
                   type="button"
-                  onClick={() => onSelect(c)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg border text-left transition-colors ${
+                  disabled={!c.available}
+                  onClick={() => c.available && onSelect(c)}
+                  className={`w-full flex items-center gap-3 px-4 py-3 max-[374px]:px-3 max-[374px]:py-2.5 max-[374px]:gap-2 rounded-lg border text-left transition-colors ${
                     active
                       ? 'bg-[#016a80] text-white border-[#016a80]'
-                      : 'bg-white text-black border-gray-200 hover:border-[#016a80]'
+                      : c.available
+                        ? 'bg-white text-black border-gray-200 hover:border-[#016a80]'
+                        : 'bg-gray-50 text-gray-400 border-gray-100 cursor-not-allowed'
                   }`}
                 >
-                  <span className="text-2xl leading-none">{c.flag}</span>
-                  <span className="font-medium">{c.name}</span>
+                  <span className={`text-2xl max-[374px]:text-xl leading-none ${c.available ? '' : 'grayscale opacity-60'}`}>{c.flag}</span>
+                  <span className="font-medium max-[374px]:text-sm flex-1">{c.name}</span>
+                  {!c.available && (
+                    <span className="text-xs max-[374px]:text-[11px] text-gray-400 whitespace-nowrap">Скоро</span>
+                  )}
                 </button>
               </li>
             );
