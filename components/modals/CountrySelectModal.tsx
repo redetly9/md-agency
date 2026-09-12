@@ -65,11 +65,11 @@ export default function CountrySelectModal({ isOpen, onClose, onSelect, selected
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center bg-black/60 px-4"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 px-4 py-6"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md bg-white rounded-t-2xl sm:rounded-2xl p-6 shadow-xl"
+        className="w-full max-w-md max-h-full bg-white rounded-2xl p-6 shadow-xl flex flex-col"
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
@@ -87,7 +87,7 @@ export default function CountrySelectModal({ isOpen, onClose, onSelect, selected
         </div>
         <p className="text-sm text-gray-500 mb-4">Выберите страну</p>
 
-        <ul className="space-y-2">
+        <ul className="space-y-2 overflow-y-auto">
           {COUNTRIES.map((c) => {
             const active = selected?.code === c.code;
             return (
