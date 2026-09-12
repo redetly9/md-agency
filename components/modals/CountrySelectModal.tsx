@@ -20,18 +20,23 @@ export const COUNTRIES: Country[] = [
 ];
 
 const STORAGE_KEY = 'md_country';
+const CHANGE_EVENT = 'md:country-changed';
 
 export function useSelectedCountry() {
   const [country, setCountry] = useState<Country | null>(null);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      const found = COUNTRIES.find((c) => c.code === saved) ?? null;
-      setCountry(found);
-    } catch {}
+    const read = () => {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        setCountry(COUNTRIES.find((c) => c.code === saved) ?? null);
+      } catch {}
+    };
+    read();
     setLoaded(true);
+    window.addEventListener(CHANGE_EVENT, read);
+    return () => window.removeEventListener(CHANGE_EVENT, read);
   }, []);
 
   const select = (c: Country) => {
@@ -39,6 +44,7 @@ export function useSelectedCountry() {
     try {
       localStorage.setItem(STORAGE_KEY, c.code);
     } catch {}
+    window.dispatchEvent(new Event(CHANGE_EVENT));
   };
 
   return { country, select, loaded };

@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import ListingCard from '@/components/ListingCard';
 import Link from 'next/link';
 import { Search, User, Filter } from 'lucide-react';
+import CountryGate, { CountryButton } from '@/components/CountryGate';
 
 const arr = [
   {
@@ -345,7 +346,7 @@ console.log(listings)
           <Link href="/" className="text-2xl font-medium">
             md.kz
           </Link>
-          {/* Удалено: ссылка на кабинет */}
+          <CountryButton />
         </div>
       </header>
 
@@ -881,6 +882,7 @@ export default function Home() {
       </div>
     }>
       <HomeContent />
+      <CountryGate />
     </Suspense>
   );
 }
