@@ -700,6 +700,24 @@ console.log(listings)
         </div>
       </div>
 
+      {/* Investor teaser banner */}
+      <div className="px-4 mb-4">
+        <div className="max-w-screen-md mx-auto">
+          <Link href="/teaser" className="relative block overflow-hidden rounded-2xl bg-[#0b1626] text-white">
+            <img src="/teaser/mobile-1.jpg" alt="" className="absolute inset-0 w-full h-full object-cover opacity-50" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0b1626] via-[#0b1626]/80 to-transparent" />
+            <div className="relative p-4 flex items-center justify-between gap-3">
+              <div>
+                <div className="text-[10px] tracking-[0.2em] uppercase text-[#e6c87a]">Инвестиционный teaser</div>
+                <div className="text-base font-semibold leading-tight mt-1">Digital Rent-to-Own Platform</div>
+                <div className="text-xs text-white/70 mt-1">Привлекаем $500 000 – $1 000 000</div>
+              </div>
+              <span className="shrink-0 text-xs font-semibold px-3 py-2 rounded-full bg-gradient-to-r from-[#e6c87a] to-[#b8892e] text-[#0b1626]">Смотреть</span>
+            </div>
+          </Link>
+        </div>
+      </div>
+
       {/* Listings grid */}
       <div className="px-4 pb-4">
         <div className="max-w-screen-md mx-auto">
