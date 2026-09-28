@@ -130,7 +130,7 @@ export default function TeaserPage() {
             <button onClick={moveBack} aria-label="Назад" className="text-white/80 hover:text-white">
               <ArrowLeft size={22} />
             </button>
-            <img src="/teaser/logo.jpg" alt="MD — Rent · Live · Own" className="h-8 rounded-sm" />
+            <img src="/teaser/logo.svg" alt="MD — Rent · Live · Own" className="h-9" />
           </div>
           <a href="#contact" className="text-xs md:text-sm px-4 py-2 rounded-full bg-gradient-to-r from-[#e6c87a] to-[#b8892e] text-[#0b1626] font-semibold">
             Стать инвестором
@@ -229,7 +229,7 @@ export default function TeaserPage() {
               </div>
             </div>
             <div className="mt-4 rounded-2xl bg-[#0b1626] text-white p-4 flex items-center gap-4">
-              <img src="/teaser/logo.jpg" alt="MD" className="h-9 rounded-sm" />
+              <img src="/teaser/logo.svg" alt="MD" className="h-10" />
               <p className="text-sm"><b className="text-[#e6c87a]">MD соединяет эти две стороны</b> через модель аренды с последующим выкупом.</p>
             </div>
           </div>
