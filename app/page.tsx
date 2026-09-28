@@ -704,7 +704,7 @@ console.log(listings)
       <div className="px-4 mb-4">
         <div className="max-w-screen-md mx-auto">
           <Link href="/teaser" className="relative block overflow-hidden rounded-2xl bg-[#0b1626] text-white">
-            <img src="/teaser/mobile-1.jpg" alt="" className="absolute inset-0 w-full h-full object-cover opacity-50" />
+            <img src="/teaser/slide-1.jpg" alt="" className="absolute inset-0 w-full h-full object-cover object-right opacity-60" />
             <div className="absolute inset-0 bg-gradient-to-r from-[#0b1626] via-[#0b1626]/80 to-transparent" />
             <div className="relative p-4 flex items-center justify-between gap-3">
               <div>

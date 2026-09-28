@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { Playfair_Display } from 'next/font/google';
 import {
-  ArrowLeft, ArrowRight, X, ChevronLeft, ChevronRight, RotateCw,
+  ArrowLeft, ArrowRight, X, ChevronLeft, ChevronRight,
   Home, Laptop, ShieldCheck, Users, Search, Calculator, FileText, CreditCard,
   UserCheck, TrendingUp, Coins, CalendarDays, RefreshCw, Building2, Globe,
   Landmark, Handshake, HeartHandshake, PiggyBank, Gem, Leaf, MapPin, Phone,
@@ -80,12 +80,12 @@ function Section({ id, children, light = false, className = '' }: { id?: string;
 function Visual({ i, className = '' }: { i: number; className?: string }) {
   const s = SLIDES[i];
   return (
-    <div className={`relative overflow-hidden rounded-3xl ring-1 ring-white/10 ${className}`}>
+    <div className={`relative overflow-hidden rounded-3xl ring-1 ring-white/10 aspect-[9/16] md:aspect-auto ${className}`}>
       <picture>
         <source media="(min-width: 768px)" srcSet={s.src} />
         <img src={s.mobile} alt={s.title} className="w-full h-full object-cover" loading="lazy" />
       </picture>
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0b1626] via-transparent to-transparent" />
+      <div className="absolute inset-0 hidden md:block bg-gradient-to-t from-[#0b1626] via-transparent to-transparent" />
     </div>
   );
 }
@@ -95,7 +95,6 @@ function Visual({ i, className = '' }: { i: number; className?: string }) {
 export default function TeaserPage() {
   const moveBack = useMoveBack();
   const [open, setOpen] = useState<number | null>(null);
-  const [rotated, setRotated] = useState(false);
   const [touchX, setTouchX] = useState<number | null>(null);
 
   const next = useCallback(() => setOpen(o => (o === null ? null : (o + 1) % SLIDES.length)), []);
@@ -140,13 +139,27 @@ export default function TeaserPage() {
       </header>
 
       {/* ================= HERO ================= */}
-      <section className="relative min-h-[92vh] md:min-h-[80vh] flex items-end overflow-hidden">
-        <picture className="absolute inset-0">
-          <source media="(min-width: 768px)" srcSet="/teaser/slide-1.jpg" />
-          <img src="/teaser/mobile-1.jpg" alt="" className="w-full h-full object-cover object-top" />
-        </picture>
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0b1626] via-[#0b1626]/80 to-[#0b1626]/20 md:bg-gradient-to-r md:from-[#0b1626] md:via-[#0b1626]/80 md:to-transparent" />
-        <div className="relative max-w-5xl mx-auto px-5 pb-12 pt-40 md:py-24 w-full">
+      {/* mobile hero: ready-made portrait poster */}
+      <section className="md:hidden">
+        <img src="/teaser/mobile-1.jpg" alt="Аренда жилья с выкупом — цифровая платформа MD" className="w-full aspect-[9/16] object-cover" />
+        <div className="px-5 py-6 grid grid-cols-2 gap-3">
+          {[
+            [<Home key="h" size={18} />, 'Современные квартиры'],
+            [<Laptop key="l" size={18} />, 'Цифровая платформа'],
+            [<ShieldCheck key="s" size={18} />, 'Прозрачные условия'],
+            [<Users key="u" size={18} />, 'Доступно большему числу семей'],
+          ].map(([icon, label], i) => (
+            <div key={i} className="flex items-center gap-2 text-xs text-white/85 rounded-xl border border-white/10 bg-white/5 px-3 py-2.5">
+              <span className="text-[#e6c87a]">{icon}</span>{label as string}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="relative hidden md:flex min-h-[80vh] items-end overflow-hidden">
+        <img src="/teaser/slide-1.jpg" alt="" className="absolute inset-0 w-full h-full object-cover object-top" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0b1626] via-[#0b1626]/80 to-transparent" />
+        <div className="relative max-w-5xl mx-auto px-5 py-24 w-full">
           <Eyebrow>Инвестиционный teaser</Eyebrow>
           <h1 className={`${serif.className} mt-4 text-4xl s:text-5xl md:text-6xl leading-[1.05]`}>
             Digital<br />
@@ -189,25 +202,29 @@ export default function TeaserPage() {
           <div>
             <Eyebrow light>Проблема</Eyebrow>
             <h2 className={`${serif.className} mt-4 text-3xl md:text-4xl leading-tight`}>
-              Жильё есть.<br />Доступа к ипотеке — нет.
+              Жильё есть.<br />Несоответствие требованиям ипотек.
             </h2>
             <p className="mt-4 text-[#4b5563] leading-relaxed">
               Многие потенциальные покупатели жилья не соответствуют стандартным требованиям банковской ипотеки.
               Одновременно собственникам недвижимости нужен понятный и быстрый способ продажи.
             </p>
             <div className="mt-6 grid grid-cols-1 s:grid-cols-2 gap-3">
-              <div className="rounded-2xl bg-white border border-[#e7dcc4] p-4">
-                <GoldIcon light><Users size={20} /></GoldIcon>
-                <div className="mt-3 text-xs font-bold tracking-wide uppercase text-[#0b1626]">Проблемы покупателей</div>
-                <ul className="mt-2 text-sm text-[#4b5563] space-y-1 list-disc list-inside">
-                  <li>не проходят ипотеку</li><li>нет достаточного дохода</li><li>высокая ставка</li><li>длительный процесс</li>
+              <div className="rounded-2xl bg-white border border-red-200 p-4">
+                <div className="w-11 h-11 rounded-full flex items-center justify-center border border-red-300 bg-red-50 text-red-600"><Users size={20} /></div>
+                <div className="mt-3 text-xs font-bold tracking-wide uppercase text-red-700">Проблемы покупателей</div>
+                <ul className="mt-2 text-sm text-red-700 space-y-1.5">
+                  {['не проходят ипотеку', 'нет достаточного дохода', 'высокая ставка', 'длительный процесс'].map(t => (
+                    <li key={t} className="flex gap-2"><X size={14} className="shrink-0 mt-0.5" />{t}</li>
+                  ))}
                 </ul>
               </div>
-              <div className="rounded-2xl bg-white border border-[#e7dcc4] p-4">
-                <GoldIcon light><Home size={20} /></GoldIcon>
-                <div className="mt-3 text-xs font-bold tracking-wide uppercase text-[#0b1626]">Потребности собственников</div>
-                <ul className="mt-2 text-sm text-[#4b5563] space-y-1 list-disc list-inside">
-                  <li>быстрая реализация объекта</li><li>юридическая безопасность</li><li>стабильный денежный поток</li><li>надёжный партнёр</li>
+              <div className="rounded-2xl bg-white border border-green-200 p-4">
+                <div className="w-11 h-11 rounded-full flex items-center justify-center border border-green-300 bg-green-50 text-green-700"><Home size={20} /></div>
+                <div className="mt-3 text-xs font-bold tracking-wide uppercase text-green-700">Потребности покупателей</div>
+                <ul className="mt-2 text-sm text-green-700 space-y-1.5">
+                  {['без подтверждения доходности', 'низкий процент годовой ставки', 'низкая сумма ежемесячных платежей', 'срок не менее 20–40 лет'].map(t => (
+                    <li key={t} className="flex gap-2"><BadgeCheck size={14} className="shrink-0 mt-0.5" />{t}</li>
+                  ))}
                 </ul>
               </div>
             </div>
@@ -512,9 +529,12 @@ export default function TeaserPage() {
         </div>
         <div className="mt-6 -mx-5 px-5 flex gap-3 overflow-x-auto scrollbar-hide t-snap md:grid md:grid-cols-2 md:overflow-visible md:mx-0 md:px-0">
           {SLIDES.map((s, i) => (
-            <button key={s.src} onClick={() => { setOpen(i); setRotated(false); }}
-              className="relative shrink-0 w-[85vw] max-w-[440px] md:w-auto md:max-w-none rounded-2xl overflow-hidden ring-1 ring-white/10 hover:ring-[#d4af5a]/60 transition">
-              <img src={s.src} alt={s.title} className="w-full aspect-video object-cover" loading="lazy" />
+            <button key={s.src} onClick={() => setOpen(i)}
+              className="relative shrink-0 w-[70vw] max-w-[320px] md:w-auto md:max-w-none rounded-2xl overflow-hidden ring-1 ring-white/10 hover:ring-[#d4af5a]/60 transition">
+              <picture>
+                <source media="(min-width: 768px)" srcSet={s.src} />
+                <img src={s.mobile} alt={s.title} className="w-full aspect-[9/16] md:aspect-video object-cover" loading="lazy" />
+              </picture>
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-4 py-3 text-left">
                 <div className="text-[10px] text-[#e6c87a] tracking-widest">{String(i + 1).padStart(2, '0')} / {String(SLIDES.length).padStart(2, '0')}</div>
                 <div className="text-sm font-medium">{s.title}</div>
@@ -541,18 +561,13 @@ export default function TeaserPage() {
           <div className="absolute top-0 inset-x-0 h-14 flex items-center justify-between px-4 text-white z-10">
             <div className="text-xs text-white/70">{open + 1} / {SLIDES.length} · {SLIDES[open].title}</div>
             <div className="flex items-center gap-2">
-              <button onClick={() => setRotated(r => !r)} aria-label="Повернуть" className="md:hidden p-2 rounded-full bg-white/10"><RotateCw size={18} /></button>
               <button onClick={() => setOpen(null)} aria-label="Закрыть" className="p-2 rounded-full bg-white/10"><X size={20} /></button>
             </div>
           </div>
-          <img
-            src={SLIDES[open].src}
-            alt={SLIDES[open].title}
-            className="object-contain transition-transform"
-            style={rotated
-              ? { width: '100vh', height: '100vw', maxWidth: 'none', transform: 'rotate(90deg)', objectFit: 'contain' }
-              : { maxWidth: '100vw', maxHeight: '100vh', width: '100%' }}
-          />
+          <picture>
+            <source media="(min-width: 768px)" srcSet={SLIDES[open].src} />
+            <img src={SLIDES[open].mobile} alt={SLIDES[open].title} className="object-contain" style={{ maxWidth: '100vw', maxHeight: '100vh' }} />
+          </picture>
           <button onClick={prev} aria-label="Предыдущий" className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/10 text-white"><ChevronLeft size={24} /></button>
           <button onClick={next} aria-label="Следующий" className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/10 text-white"><ChevronRight size={24} /></button>
         </div>,
