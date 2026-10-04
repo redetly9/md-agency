@@ -9,7 +9,7 @@ import {
   Home, Laptop, ShieldCheck, Users, Search, Calculator, FileText, CreditCard,
   UserCheck, TrendingUp, Coins, CalendarDays, RefreshCw, Building2, Globe,
   Landmark, Handshake, HeartHandshake, PiggyBank, Gem, Leaf, MapPin, Phone,
-  Sparkles, BadgeCheck, Umbrella, Target, Layers, Database, Award, BarChart3,
+  Sparkles, BadgeCheck, Umbrella, Target, Layers, Database, Award, BarChart3, Percent,
 } from 'lucide-react';
 import { useMoveBack } from '@/hooks/useMoveBack';
 
@@ -20,6 +20,7 @@ const SLIDES = [
   { src: '/teaser/slide-2.jpg', mobile: '/teaser/mobile-2.jpg', title: 'Проблема' },
   { src: '/teaser/slide-3.jpg', mobile: '/teaser/mobile-3.jpg', title: 'Решение' },
   { src: '/teaser/slide-4.jpg', mobile: '/teaser/mobile-4.jpg', title: 'Бизнес-модель' },
+  { src: '/teaser/slide-9.jpg', mobile: '/teaser/mobile-9.jpg', title: 'Рассрочка под 7% годовых' },
   { src: '/teaser/slide-5.jpg', mobile: '/teaser/mobile-5.jpg', title: '5 шагов к масштабированию' },
   { src: '/teaser/slide-6.jpg', mobile: '/teaser/mobile-6.jpg', title: 'Для инвесторов и партнёров' },
   { src: '/teaser/slide-7.jpg', mobile: '/teaser/mobile-7.jpg', title: 'Защита инвесторов' },
@@ -312,6 +313,46 @@ export default function TeaserPage() {
         </div>
       </Section>
 
+      {/* ================= INSTALLMENT 7% ================= */}
+      <Section className="border-t border-white/5">
+        <div className="grid md:grid-cols-2 gap-8 items-center">
+          <div>
+            <Eyebrow>Финансовые условия</Eyebrow>
+            <h2 className={`${serif.className} mt-4 text-4xl md:text-5xl leading-tight`}>
+              Рассрочка<br /><span className="t-gold">под 7% годовых</span>
+            </h2>
+            <p className="mt-4 text-white/75 leading-relaxed">
+              Жильё в собственность без банковской ипотеки и без подтверждения дохода. Ставка и платёж фиксируются в договоре на весь срок.
+            </p>
+            <div className="mt-6 grid grid-cols-1 s:grid-cols-2 gap-4">
+              <Feature icon={<Percent size={20} />} title="Первый взнос 30–50%" />
+              <Feature icon={<CalendarDays size={20} />} title="Срок до 30 лет" />
+              <Feature icon={<UserCheck size={20} />} title="Без подтверждения дохода" />
+              <Feature icon={<Coins size={20} />} title="Фиксированный ежемесячный платёж" />
+              <Feature icon={<Home size={20} />} title="Собственность после полной оплаты" />
+              <Feature icon={<ShieldCheck size={20} />} title="Условия фиксируются в договоре" />
+            </div>
+            <div className="mt-8 rounded-2xl border border-[#d4af5a]/40 bg-gradient-to-br from-[#152238] to-[#0b1626] p-5 flex items-center justify-between gap-4">
+              <div>
+                <div className="text-[10px] tracking-[0.2em] uppercase text-[#d4af5a] font-semibold">Рассрочка MD</div>
+                <div className={`${serif.className} t-gold text-5xl md:text-6xl font-semibold leading-none mt-1`}>7%</div>
+              </div>
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#e6c87a] to-[#b8892e] text-[#0b1626] text-xs font-bold flex items-center justify-center shrink-0">VS</div>
+              <div className="text-right">
+                <div className="text-[10px] tracking-[0.2em] uppercase text-white/50 font-semibold">Ипотека в банке</div>
+                <div className={`${serif.className} text-3xl md:text-4xl text-white/70 line-through decoration-red-500 decoration-4 leading-none mt-1`}>19–24,5%</div>
+              </div>
+            </div>
+            <div className="mt-4">
+              <Link href="/arenda-s-vykupom" className="inline-flex items-center gap-2 text-sm text-[#e6c87a] hover:underline">
+                Рассчитать свой платёж <ArrowRight size={16} />
+              </Link>
+            </div>
+          </div>
+          <Visual i={4} className="aspect-[4/5] md:aspect-auto md:h-[520px]" />
+        </div>
+      </Section>
+
       {/* ================= SCALING ================= */}
       <Section className="border-t border-white/5">
         <div className="grid md:grid-cols-2 gap-8 items-center">
@@ -344,7 +385,7 @@ export default function TeaserPage() {
             </ol>
           </div>
           <div className="space-y-4">
-            <Visual i={4} className="aspect-[4/5] md:aspect-auto md:h-[380px]" />
+            <Visual i={5} className="aspect-[4/5] md:aspect-auto md:h-[380px]" />
             <div className="rounded-2xl border border-[#d4af5a]/40 p-5">
               <div className="text-[11px] tracking-[0.25em] uppercase text-[#d4af5a]">От Казахстана к Центральной Азии</div>
               <div className="text-xs text-white/50 mt-1">Дальше — по всему миру</div>
@@ -385,7 +426,7 @@ export default function TeaserPage() {
         </div>
 
         <div className="mt-8 grid md:grid-cols-2 gap-8 items-center">
-          <Visual i={5} className="aspect-[4/5] md:aspect-auto md:h-[420px]" />
+          <Visual i={6} className="aspect-[4/5] md:aspect-auto md:h-[420px]" />
           <div className="grid grid-cols-2 gap-4">
             <Feature light icon={<TrendingUp size={20} />} title="Стабильная доходность" text="Ежегодная прибыльность до 20%." />
             <Feature light icon={<Home size={20} />} title="Большой рынок" text="Объём рынка недвижимости в Казахстане — $30 млрд." />
@@ -445,7 +486,7 @@ export default function TeaserPage() {
             </div>
           </div>
           <div className="space-y-4">
-            <Visual i={6} className="aspect-[4/5] md:aspect-auto md:h-[320px]" />
+            <Visual i={7} className="aspect-[4/5] md:aspect-auto md:h-[320px]" />
             <div className="rounded-2xl border border-[#d4af5a]/40 p-5">
               <div className="text-[11px] tracking-[0.25em] uppercase text-[#d4af5a]">Почему MD — надёжный партнёр</div>
               <div className="mt-4 space-y-3">
@@ -481,7 +522,7 @@ export default function TeaserPage() {
       {/* ================= MISSION ================= */}
       <Section light id="contact">
         <div className="grid md:grid-cols-2 gap-8 items-center">
-          <Visual i={7} className="aspect-[4/5] md:aspect-auto md:h-[520px]" />
+          <Visual i={8} className="aspect-[4/5] md:aspect-auto md:h-[520px]" />
           <div>
             <Eyebrow light>Наша миссия · строить лучшее будущее вместе</Eyebrow>
             <h2 className={`${serif.className} mt-4 text-3xl md:text-5xl leading-tight`}>Больше, чем просто квартиры</h2>

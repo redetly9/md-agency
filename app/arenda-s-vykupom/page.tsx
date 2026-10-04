@@ -172,8 +172,42 @@ export default function ArendaSVykupomPage() {
       </section>
 
 
+  {/* Installment 7% */}
+  <section className="px-4 py-6 bg-white">
+    <div className="max-w-screen-md mx-auto rounded-2xl overflow-hidden bg-[#0b1626] text-white">
+      <div className="p-5 md:p-7">
+        <div className="text-[10px] tracking-[0.25em] uppercase text-[#d9b25b] font-semibold">Финансовые условия</div>
+        <div className="mt-2 flex items-end gap-3 flex-wrap">
+          <div className="text-5xl md:text-6xl font-bold leading-none bg-gradient-to-r from-[#f6e2a3] via-[#d9b25b] to-[#b8892e] bg-clip-text text-transparent">7%</div>
+          <div className="pb-1">
+            <div className="text-xl md:text-2xl font-semibold leading-tight">Рассрочка под 7% годовых</div>
+            <div className="text-sm text-white/70">вместо 19–24,5% по банковской ипотеке</div>
+          </div>
+        </div>
+        <ul className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2.5 text-sm">
+          {[
+            'Первый взнос от 30% до 50%',
+            'Срок до 30 лет',
+            'Без подтверждения дохода',
+            'Фиксированный ежемесячный платёж',
+            'Условия фиксируются в договоре',
+            'Собственность после полной оплаты',
+          ].map(t => (
+            <li key={t} className="flex items-start gap-2">
+              <span className="mt-[3px] w-4 h-4 rounded-full border border-[#d9b25b] text-[#d9b25b] text-[10px] flex items-center justify-center shrink-0">✓</span>
+              <span className="text-white/90">{t}</span>
+            </li>
+          ))}
+        </ul>
+        <a href="#calculator" className="mt-5 inline-block bg-gradient-to-r from-[#e6c87a] to-[#b8892e] text-[#0b1626] font-semibold px-5 py-2.5 rounded-lg text-sm">
+          Рассчитать платёж
+        </a>
+      </div>
+    </div>
+  </section>
+
   {/* Calculator Section */}
-  <section className="px-2 py-6 bg-white">
+  <section id="calculator" className="px-2 py-6 bg-white scroll-mt-4">
         <div className="max-w-screen-md mx-auto">
           <h2 className="text-m font-bold text-gray-900 mb-4 text-center">
             Рассчитайте свой вариант аренды с выкупом
@@ -374,16 +408,16 @@ export default function ArendaSVykupomPage() {
                 </div>
               </div>
 
-              {/* Отсутствие процентной ставки */}
+              {/* Рассрочка под 7% */}
               <div className="bg-white rounded-xl p-4 shadow-sm">
                 <div className="">
                     <span className="text-[#016a80] text-2xl font-bold">$</span>
                   <div>
                     <h3 className="text-base font-semibold text-black mb-2">
-                      Отсутствие процентной ставки
+                      Рассрочка под 7% годовых
                     </h3>
                     <p className="text-gray-600 text-sm">
-                      В рассрочку или сразу, без дополнительных процентов
+                      Вместо 19–24,5% по банковской ипотеке. Ставка фиксируется в договоре
                     </p>
                   </div>
                 </div>
