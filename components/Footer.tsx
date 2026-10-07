@@ -2,7 +2,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Heart, Plus, MessageCircle } from 'lucide-react';
+import { Home, Heart, Plus, MessageCircle, User } from 'lucide-react';
 
 const Footer: React.FC = () => {
     const pathname = usePathname();
@@ -55,6 +55,16 @@ const Footer: React.FC = () => {
                     >
                         <MessageCircle size={24} />
                         <span className="text-xs mt-1 text-[#4B5563] font-light">Сообщения</span>
+                    </Link>
+
+                    <Link 
+                        href="/profiles" 
+                        className={`flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-colors h-16 ${
+                            pathname.startsWith('/profiles') ? 'text-[#016a80]' : 'text-gray-600'
+                        }`}
+                    >
+                        <User size={24} />
+                        <span className="text-xs mt-1 text-[#4B5563] font-light">Кабинет</span>
                     </Link>
                 </div>
             </div>
