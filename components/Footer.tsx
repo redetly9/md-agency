@@ -17,54 +17,54 @@ const Footer: React.FC = () => {
                 <div className="flex items-center justify-around h-full">
                     <Link 
                         href="/" 
-                        className={`flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-colors h-16 ${
+                        className={`flex flex-col items-center justify-center py-2 px-1 flex-1 min-w-0 rounded-lg transition-colors h-16 ${
                             isActive('/') ? 'text-[#016a80]' : 'text-gray-600'
                         }`}
                     >
                         <Home size={24} />
-                        <span className="text-xs mt-1 text-[#4B5563] font-light">Главная</span>
+                        <span className="text-[11px] mt-1 text-[#4B5563] font-light whitespace-nowrap">Главная</span>
                     </Link>
                     
                     <Link 
                         href="/favoritess" 
-                        className={`flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-colors h-16 ${
+                        className={`flex flex-col items-center justify-center py-2 px-1 flex-1 min-w-0 rounded-lg transition-colors h-16 ${
                             isActive('/favoritess') ? 'text-[#016a80]' : 'text-gray-600'
                         }`}
                     >
                         <Heart size={24} />
-                        <span className="text-xs mt-1 text-[#4B5563] font-light">Избранное</span>
+                        <span className="text-[11px] mt-1 text-[#4B5563] font-light whitespace-nowrap">Избранное</span>
                     </Link>
                     
 				<Link 
 						href="/add-listing" 
-						className={`flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-colors h-16 ${
+						className={`flex flex-col items-center justify-center py-2 px-1 flex-1 min-w-0 rounded-lg transition-colors h-16 ${
 							isActive('/add-listing') ? 'text-[#016a80]' : 'text-gray-600'
 						}`}
 					>
 						<div className="w-10 h-10 bg-[#016a80] rounded-full flex items-center justify-center">
 							<Plus size={20} className="text-white" />
 						</div>
-						<span className="text-xs mt-1 text-[#4B5563] font-light">Подать</span>
+						<span className="text-[11px] mt-1 text-[#4B5563] font-light whitespace-nowrap">Подать</span>
 					</Link>
 				
                     <Link 
                         href="/messages" 
-                        className={`flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-colors h-16 ${
+                        className={`flex flex-col items-center justify-center py-2 px-1 flex-1 min-w-0 rounded-lg transition-colors h-16 ${
                             isActive('/messages') ? 'text-[#016a80]' : 'text-gray-600'
                         }`}
                     >
                         <MessageCircle size={24} />
-                        <span className="text-xs mt-1 text-[#4B5563] font-light">Сообщения</span>
+                        <span className="text-[11px] mt-1 text-[#4B5563] font-light whitespace-nowrap">Сообщения</span>
                     </Link>
 
                     <Link 
                         href="/profiles" 
-                        className={`flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-colors h-16 ${
+                        className={`flex flex-col items-center justify-center py-2 px-1 flex-1 min-w-0 rounded-lg transition-colors h-16 ${
                             pathname.startsWith('/profiles') ? 'text-[#016a80]' : 'text-gray-600'
                         }`}
                     >
                         <User size={24} />
-                        <span className="text-xs mt-1 text-[#4B5563] font-light">Кабинет</span>
+                        <span className="text-[11px] mt-1 text-[#4B5563] font-light whitespace-nowrap">Кабинет</span>
                     </Link>
                 </div>
             </div>
