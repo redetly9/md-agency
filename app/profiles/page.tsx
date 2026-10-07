@@ -1,11 +1,18 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Settings, User, ChevronRight, Plus } from 'lucide-react';
+import { Settings, User, ChevronRight, Plus, SlidersHorizontal } from 'lucide-react';
+import PaymentSchedule, { CalcParams, DEFAULT_CALC, loadCalcParams, saveCalcParams } from '@/components/PaymentSchedule';
+
+const DURATIONS = [60, 120, 180, 240, 360];
 
 const ProfilePage = () => {
     const [activeTab, setActiveTab] = useState('active');
+    const [calc, setCalc] = useState<CalcParams>(DEFAULT_CALC);
+    const [calcReady, setCalcReady] = useState(false);
+    useEffect(() => { setCalc(loadCalcParams()); setCalcReady(true); }, []);
+    useEffect(() => { if (calcReady) saveCalcParams(calc); }, [calc, calcReady]);
 
     return (
         <div className="flex flex-col min-h-screen bg-gray-50">
@@ -56,6 +63,49 @@ const ProfilePage = () => {
                             <span className="text-gray-900 font-medium">Счёт и платежи</span>
                             <ChevronRight size={20} className="text-gray-400" />
                         </div>
+                    </div>
+
+                    {/* Payment schedule */}
+                    <div className="bg-white rounded-xl p-4">
+                        <div className="flex items-center justify-between mb-3">
+                            <span className="text-gray-900 font-medium">Мой график платежей</span>
+                            <Link href="/arenda-s-vykupom#calculator" className="inline-flex items-center gap-1 text-xs text-[#016a80]">
+                                <SlidersHorizontal size={14} /> Калькулятор
+                            </Link>
+                        </div>
+                        <div className="grid grid-cols-[1fr_auto] gap-2 mb-2">
+                            <label className="text-xs text-gray-500">
+                                Стоимость жилья, ₸
+                                <input
+                                    type="number"
+                                    min={0}
+                                    step={500000}
+                                    value={calc.propertyValue}
+                                    onChange={e => setCalc(c => ({ ...c, propertyValue: Math.max(0, parseInt(e.target.value, 10) || 0) }))}
+                                    className="mt-1 w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900"
+                                />
+                            </label>
+                            <div className="text-xs text-gray-500">
+                                Взнос
+                                <div className="mt-1 flex gap-1">
+                                    {[30, 50].map(v => (
+                                        <button key={v} type="button" onClick={() => setCalc(c => ({ ...c, initialPaymentPercent: v }))}
+                                            className={`px-3 py-2 rounded-lg text-sm font-medium ${calc.initialPaymentPercent === v ? 'bg-[#016a80] text-white' : 'bg-white text-[#016a80] border border-[#016a80]'}`}>
+                                            {v}%
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex gap-1 mb-3">
+                            {DURATIONS.map(d => (
+                                <button key={d} type="button" onClick={() => setCalc(c => ({ ...c, duration: d }))}
+                                    className={`flex-1 py-1.5 rounded-lg text-xs font-medium ${calc.duration === d ? 'bg-[#016a80] text-white' : 'bg-white text-[#016a80] border border-[#016a80]'}`}>
+                                    {d} мес
+                                </button>
+                            ))}
+                        </div>
+                        <PaymentSchedule params={calc} compact title="Платежи по рассрочке" />
                     </div>
 
                     {/* My Listings */}

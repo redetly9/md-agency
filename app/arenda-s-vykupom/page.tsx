@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, X, Phone, Mail, MapPin, Instagram, Facebook, Twitter, Linkedin } from 'lucide-react';
 import { useMoveBack } from '@/hooks/useMoveBack';
 import CountryGate, { CountryButton } from '@/components/CountryGate';
+import PaymentSchedule, { loadCalcParams, saveCalcParams } from '@/components/PaymentSchedule';
 
 export default function ArendaSVykupomPage() {
   const moveBack = useMoveBack();
@@ -29,6 +30,11 @@ export default function ArendaSVykupomPage() {
   });
 
   const DURATION_OPTIONS = [60, 120, 180, 240, 360];
+
+  // восстановить последние параметры и сохранять изменения для кабинета
+  const [calcReady, setCalcReady] = useState(false);
+  useEffect(() => { setCalculator(loadCalcParams()); setCalcReady(true); }, []);
+  useEffect(() => { if (calcReady) saveCalcParams(calculator); }, [calculator, calcReady]);
 
   const initialPaymentTarget = calculator.propertyValue * (calculator.initialPaymentPercent / 100);
   const remainingAmount = calculator.propertyValue - initialPaymentTarget;
@@ -321,6 +327,11 @@ export default function ArendaSVykupomPage() {
                 <p className="text-xl font-bold text-gray-900">{monthlyRent.toLocaleString('ru-RU')} ₸/мес</p>
               </div>
             </div>
+          </div>
+
+          {/* Payment schedule */}
+          <div className="mb-6">
+            <PaymentSchedule params={calculator} />
           </div>
 
           {/* Action Button */}
