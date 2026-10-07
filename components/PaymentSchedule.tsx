@@ -155,35 +155,35 @@ export default function PaymentSchedule({ params, compact = false, title = 'Гр
 
       {/* table */}
       <div className="overflow-x-auto -mx-4 px-4">
-        <table className="w-full text-xs">
+        <table className="w-full text-[11px] sm:text-xs">
           <thead>
             <tr className="text-left text-gray-500 border-b border-gray-200">
-              <th className="py-2 pr-2 font-medium">№</th>
-              <th className="py-2 pr-2 font-medium">Месяц</th>
-              <th className="py-2 pr-2 font-medium text-right">Накопление</th>
-              <th className="py-2 pr-2 font-medium text-right">Аренда</th>
-              <th className="py-2 pr-2 font-medium text-right">Итого</th>
+              <th className="py-2 pr-1.5 font-medium">№</th>
+              <th className="py-2 pr-1.5 font-medium">Месяц</th>
+              <th className="py-2 pr-1.5 font-medium text-right">Накопление</th>
+              <th className="py-2 pr-1.5 font-medium text-right">Аренда</th>
+              <th className="py-2 pr-1.5 font-medium text-right">Итого</th>
               <th className="py-2 font-medium text-right hidden sm:table-cell">Остаток</th>
             </tr>
           </thead>
           <tbody>
             {visible.map(r => (
               <tr key={r.n} className="border-b border-gray-100 text-gray-800">
-                <td className="py-1.5 pr-2 text-gray-400">{r.n}</td>
-                <td className="py-1.5 pr-2 whitespace-nowrap">{fmtDate(r.date)}</td>
-                <td className="py-1.5 pr-2 text-right text-[#016a80] font-medium whitespace-nowrap">{fmt(r.principal)}</td>
-                <td className="py-1.5 pr-2 text-right whitespace-nowrap">{fmt(r.rent)}</td>
-                <td className="py-1.5 pr-2 text-right font-semibold whitespace-nowrap">{fmt(r.total)}</td>
+                <td className="py-1.5 pr-1.5 text-gray-400">{r.n}</td>
+                <td className="py-1.5 pr-1.5 whitespace-nowrap">{fmtDate(r.date)}</td>
+                <td className="py-1.5 pr-1.5 text-right text-[#016a80] font-medium whitespace-nowrap">{fmt(r.principal)}</td>
+                <td className="py-1.5 pr-1.5 text-right whitespace-nowrap">{fmt(r.rent)}</td>
+                <td className="py-1.5 pr-1.5 text-right font-semibold whitespace-nowrap">{fmt(r.total)}</td>
                 <td className="py-1.5 text-right text-gray-500 whitespace-nowrap hidden sm:table-cell">{fmt(r.balance)}</td>
               </tr>
             ))}
           </tbody>
           <tfoot>
             <tr className="text-gray-900 font-semibold">
-              <td className="py-2 pr-2 whitespace-nowrap" colSpan={2}>Итого</td>
-              <td className="py-2 pr-2 text-right text-[#016a80] whitespace-nowrap">{fmt(totals.principal)}</td>
-              <td className="py-2 pr-2 text-right whitespace-nowrap">{fmt(totals.rent)}</td>
-              <td className="py-2 pr-2 text-right whitespace-nowrap">{fmt(totals.total)}</td>
+              <td className="py-2 pr-1.5 whitespace-nowrap" colSpan={2}>Итого</td>
+              <td className="py-2 pr-1.5 text-right text-[#016a80] whitespace-nowrap">{fmt(totals.principal)}</td>
+              <td className="py-2 pr-1.5 text-right whitespace-nowrap">{fmt(totals.rent)}</td>
+              <td className="py-2 pr-1.5 text-right whitespace-nowrap">{fmt(totals.total)}</td>
               <td className="py-2 text-right text-gray-500 hidden sm:table-cell">0</td>
             </tr>
           </tfoot>
