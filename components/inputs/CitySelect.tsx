@@ -32,7 +32,7 @@ const CitySelect: React.FC<CitySelectProps> = ({ handleChange }) => {
         <div className="flex flex-row items-center gap-3 z-[10]">
           <div>
             {option.label}
-            <span className="text-neutral-500 ml-1 bg-white"></span>
+            <span className="text-neutral-500 ml-1 bg-[#122037]"></span>
           </div>
         </div>
       )}

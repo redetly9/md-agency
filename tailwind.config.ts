@@ -9,17 +9,24 @@ const config: Config = {
   theme: {
     extend: {
       // Расширение стандартной темы
+      fontFamily: {
+        serif: ['var(--font-serif)', 'Georgia', 'serif'],
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))', // Градиент круговой
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))', // Конусный градиент
       },
       colors: {
-        primary: '#016a80',
-        secondary: '#f3f4f6',
-        accent: '#016a80',
-        background: '#f9fafb',
-        textPrimary: '#111827',
-        textSecondary: '#6b7280',
+        primary: '#d4af5a',
+        secondary: '#122037',
+        accent: '#e6c87a',
+        background: '#0b1626',
+        navy: '#0b1626',
+        navy2: '#122037',
+        gold: '#d4af5a',
+        goldLight: '#e6c87a',
+        textPrimary: '#ffffff',
+        textSecondary: 'rgba(255,255,255,0.55)',
       },
     },
     screens: {

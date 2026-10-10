@@ -31,15 +31,15 @@ const Modal = ({ isOpen, openModal, closeModal, onCreateReservation }) => {
       {/* Модальное окно */}
       {isOpen && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6">
+          <div className="bg-[#122037] rounded-lg shadow-none max-w-lg w-full p-6">
             {/* Заголовок */}
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold text-gray-800">
+              <h2 className="text-xl font-semibold text-white">
                 Заявка
               </h2>
               <button
                 onClick={closeModal}
-                className="text-gray-500 hover:text-gray-800"
+                className="text-white/55 hover:text-white"
               >
                 ✕
               </button>
@@ -49,7 +49,7 @@ const Modal = ({ isOpen, openModal, closeModal, onCreateReservation }) => {
                 <div>
                   <label
                     htmlFor="firstName"
-                    className="block font-medium text-gray-700"
+                    className="block font-medium text-white/75"
                   >
                     Имя
                   </label>
@@ -59,7 +59,7 @@ const Modal = ({ isOpen, openModal, closeModal, onCreateReservation }) => {
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleChange}
-                    className="mt-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 border-2 border-blue-500 focus:border-blue-500 p-3"
+                    className="mt-2 block w-full border-white/10 rounded-md shadow-none focus:ring-[#d4af5a] border-2 border-[#d4af5a]/40 focus:border-[#d4af5a]/40 p-3"
                     required
                   />
                 </div>
@@ -68,7 +68,7 @@ const Modal = ({ isOpen, openModal, closeModal, onCreateReservation }) => {
                 <div>
                   <label
                     htmlFor="lastName"
-                    className="block font-medium text-gray-700"
+                    className="block font-medium text-white/75"
                   >
                     Фамилия
                   </label>
@@ -78,7 +78,7 @@ const Modal = ({ isOpen, openModal, closeModal, onCreateReservation }) => {
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleChange}
-                    className="mt-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 border-2 border-blue-500 focus:border-blue-500 p-3"
+                    className="mt-2 block w-full border-white/10 rounded-md shadow-none focus:ring-[#d4af5a] border-2 border-[#d4af5a]/40 focus:border-[#d4af5a]/40 p-3"
                     required
                   />
                 </div>
@@ -87,7 +87,7 @@ const Modal = ({ isOpen, openModal, closeModal, onCreateReservation }) => {
                 <div>
                   <label
                     htmlFor="phone"
-                    className="block font-medium text-gray-700"
+                    className="block font-medium text-white/75"
                   >
                     Телефон
                   </label>
@@ -97,7 +97,7 @@ const Modal = ({ isOpen, openModal, closeModal, onCreateReservation }) => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="mt-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 border-2 border-blue-500 focus:border-blue-500 p-3"
+                    className="mt-2 block w-full border-white/10 rounded-md shadow-none focus:ring-[#d4af5a] border-2 border-[#d4af5a]/40 focus:border-[#d4af5a]/40 p-3"
                     required
                   />
                 </div>
@@ -108,13 +108,13 @@ const Modal = ({ isOpen, openModal, closeModal, onCreateReservation }) => {
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="bg-gray-300 text-gray-700 px-6 py-3 rounded-md mr-3 hover:bg-gray-400 text-lg w-full"
+                  className="bg-white/15 text-white/75 px-6 py-3 rounded-md mr-3 hover:bg-gray-400 text-lg w-full"
                 >
                   Отменить
                 </button>
                 <button
                   type="submit"
-                  className="bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 text-lg w-full"
+                  className="bg-[#d4af5a] text-[#0b1626] px-6 py-3 rounded-md hover:bg-[#e6c87a] text-lg w-full"
                 >
                   Подать
                 </button>

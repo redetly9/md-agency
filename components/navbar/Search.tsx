@@ -43,22 +43,22 @@ const Search = () => {
       <Modal.Trigger name="search">
         <button
           type="button"
-          className="border-[1px] w-[55%] py-2 rounded-full shadow-sm hover:shadow-md transition duration-300 cursor-pointer"
+          className="border-[1px] w-[55%] py-2 rounded-full shadow-none hover:shadow-none transition duration-300 cursor-pointer"
         >
           <div className="flex flex-row justify-between items-center">
-            <small className="text-sm font-bold px-6 text-[#585858]">
+            <small className="text-sm font-bold px-6 text-white/75">
              
             </small>
 
-            <small className="hidden sm:block text-sm font-bold px-6 border-x-[1px] flex-1 text-center text-[#585858]">
+            <small className="hidden sm:block text-sm font-bold px-6 border-x-[1px] flex-1 text-center text-white/75">
              
             </small>
 
-            <div className="text-sm pl-6 pr-2 text-gray-600 flex flex-row items-center gap-4">
+            <div className="text-sm pl-6 pr-2 text-white/75 flex flex-row items-center gap-4">
               <small className="hidden sm:block font-normal text-sm">
                
               </small>
-              <div className="p-2  bg-blue-500 rounded-full  text-white">
+              <div className="p-2  bg-[#d4af5a] rounded-full  text-[#0b1626]">
                 <FaSearch className="text-[12px] " />
               </div>
             </div>

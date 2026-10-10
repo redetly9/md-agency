@@ -5,7 +5,7 @@ const LoginPage = () => {
     return (
         <div className="flex flex-col min-h-screen bg-background">
             {/* Шапка */}
-            <header className="bg-white border-b px-4 py-3">
+            <header className="bg-[#122037] border-b border-white/10 px-4 py-3">
                 <div className="max-w-screen-md mx-auto">
                     <h1 className="text-2xl font-bold text-textPrimary">Вход</h1>
                 </div>

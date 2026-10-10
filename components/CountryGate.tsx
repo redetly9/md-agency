@@ -12,11 +12,11 @@ export function CountryButton({ className = '' }: { className?: string }) {
     <button
       type="button"
       onClick={() => window.dispatchEvent(new Event(OPEN_EVENT))}
-      className={`flex items-center gap-1 border border-gray-200 rounded-lg px-2 py-2 text-sm hover:border-[#016a80] transition-colors ${className}`}
+      className={`flex items-center gap-1 border border-white/10 rounded-lg px-2 py-2 text-sm hover:border-[#d4af5a] transition-colors ${className}`}
       aria-label="Выбрать страну"
     >
       <span className="text-lg leading-none">{country?.flag ?? '🌍'}</span>
-      <span className="hidden sm:inline text-black">{country?.name ?? 'Страна'}</span>
+      <span className="hidden sm:inline text-white">{country?.name ?? 'Страна'}</span>
     </button>
   );
 }

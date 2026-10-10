@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Inter, Playfair_Display } from 'next/font/google';
 import './globals.css';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { AuthProvider } from '@/hooks/useAuth';
@@ -10,9 +10,16 @@ import Navigation from '@/components/Navigation';
 import { Toaster } from 'react-hot-toast';
 
 const inter = Inter({ 
-  subsets: ['latin'],
+  subsets: ['latin', 'cyrillic'],
   display: 'swap',
   preload: false
+});
+
+const playfair = Playfair_Display({
+  subsets: ['latin', 'cyrillic'],
+  weight: ['500', '600', '700'],
+  display: 'swap',
+  variable: '--font-serif',
 });
 
 export const metadata: Metadata = {
@@ -27,10 +34,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ru">
-      <body className={inter.className}>
+      <body className={`${inter.className} ${playfair.variable}`}>
         <AuthProvider>
           <Providers>
-            <div className="flex flex-col min-h-screen bg-gray-50">
+            <div className="flex flex-col min-h-screen bg-[#0b1626] text-white">
               <main className="flex-grow pb-20">
                 {children}
               </main>

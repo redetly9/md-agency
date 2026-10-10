@@ -72,40 +72,40 @@ export default function MessagesPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <div className="flex flex-col min-h-screen bg-[#0b1626]">
       {/* Header */}
-      <header className="bg-white px-4 py-4 border-b border-gray-200">
+      <header className="bg-[#122037] px-4 py-4 border-b border-white/10">
         <div className="max-w-screen-md mx-auto">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-gray-900">Сообщения</h1>
+            <h1 className="text-2xl font-bold text-white">Сообщения</h1>
           </div>
         </div>
       </header>
 
       {/* Contact Info */}
-      <div className="bg-white px-4 py-6 border-b border-gray-200">
+      <div className="bg-[#122037] px-4 py-6 border-b border-white/10">
         <div className="max-w-screen-md mx-auto">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Свяжитесь с нами</h2>
+          <h2 className="text-lg font-semibold text-white mb-4">Свяжитесь с нами</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="flex items-center space-x-3">
-              <Mail size={20} className="text-[#016a80]" />
+              <Mail size={20} className="text-[#e6c87a]" />
               <div>
-                <p className="text-sm font-medium text-gray-900">Email</p>
-                <p className="text-sm text-gray-600">support@example.com</p>
+                <p className="text-sm font-medium text-white">Email</p>
+                <p className="text-sm text-white/75">support@example.com</p>
               </div>
             </div>
             <div className="flex items-center space-x-3">
-              <Phone size={20} className="text-[#016a80]" />
+              <Phone size={20} className="text-[#e6c87a]" />
               <div>
-                <p className="text-sm font-medium text-gray-900">Телефон</p>
-                <p className="text-sm text-gray-600">+7 (999) 123-45-67</p>
+                <p className="text-sm font-medium text-white">Телефон</p>
+                <p className="text-sm text-white/75">+7 (999) 123-45-67</p>
               </div>
             </div>
             <div className="flex items-center space-x-3">
-              <MapPin size={20} className="text-[#016a80]" />
+              <MapPin size={20} className="text-[#e6c87a]" />
               <div>
-                <p className="text-sm font-medium text-gray-900">Адрес</p>
-                <p className="text-sm text-gray-600">Москва, ул. Примерная, 1</p>
+                <p className="text-sm font-medium text-white">Адрес</p>
+                <p className="text-sm text-white/75">Москва, ул. Примерная, 1</p>
               </div>
             </div>
           </div>
@@ -113,17 +113,17 @@ export default function MessagesPage() {
       </div>
 
       {/* FAQ Section */}
-      <div className="flex-1 bg-white px-4 py-6">
+      <div className="flex-1 bg-[#122037] px-4 py-6">
         <div className="max-w-screen-md mx-auto">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900 flex items-center">
-              <HelpCircle size={20} className="mr-2 text-[#016a80]" />
+            <h2 className="text-lg font-semibold text-white flex items-center">
+              <HelpCircle size={20} className="mr-2 text-[#e6c87a]" />
               Часто задаваемые вопросы
             </h2>
             {!showFaq && (
               <button
                 onClick={handleBackToFaq}
-                className="text-sm text-[#016a80] hover:text-[#015a6b] transition-colors"
+                className="text-sm text-[#e6c87a] hover:text-[#015a6b] transition-colors"
               >
                 ← Вернуться к вопросам
               </button>
@@ -136,23 +136,23 @@ export default function MessagesPage() {
                 <button
                   key={faq.id}
                   onClick={() => handleFaqSelect(faq.id)}
-                  className="text-left p-4 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors hover:border-[#016a80]"
+                  className="text-left p-4 bg-[#0b1626] hover:bg-white/10 rounded-lg border border-white/10 transition-colors hover:border-[#d4af5a]"
                 >
-                  <h3 className="font-medium text-gray-900 text-sm mb-2 line-clamp-2">
+                  <h3 className="font-medium text-white text-sm mb-2 line-clamp-2">
                     {faq.question}
                   </h3>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-white/55">
                     Нажмите для получения ответа
                   </p>
                 </button>
               ))}
             </div>
           ) : (
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <h3 className="font-medium text-blue-900 mb-3">
+            <div className="bg-[#d4af5a]/15 border border-[#d4af5a]/40 rounded-lg p-4">
+              <h3 className="font-medium text-[#e6c87a] mb-3">
                 {faqData.find(faq => faq.id === selectedFaq)?.question}
               </h3>
-              <p className="text-blue-800 text-sm leading-relaxed">
+              <p className="text-[#e6c87a] text-sm leading-relaxed">
                 {faqData.find(faq => faq.id === selectedFaq)?.answer}
               </p>
             </div>

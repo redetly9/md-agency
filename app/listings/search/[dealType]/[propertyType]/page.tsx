@@ -83,10 +83,10 @@ export default function ListingsPage() {
   if (isLoading) {
     return (
       <>
-        <header className="bg-white border-b px-4 py-3">
+        <header className="bg-[#122037] border-b px-4 py-3">
           <div className="max-w-screen-md mx-auto flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Link href="/" className="text-gray-500">
+              <Link href="/" className="text-white/55">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"/>
                 </svg>
@@ -96,7 +96,7 @@ export default function ListingsPage() {
               </h1>
             </div>
             <button 
-              className="text-gray-500 p-2"
+              className="text-white/55 p-2"
               onClick={() => setIsFilterModalOpen(true)}
             >
               <Filter size={24} />
@@ -110,16 +110,16 @@ export default function ListingsPage() {
           propertyType={params.propertyType as string}
         />
 
-        <div className="flex flex-col min-h-screen bg-gray-100">
+        <div className="flex flex-col min-h-screen bg-white/5">
           <main className="flex-grow py-4">
             <div className="max-w-screen-md mx-auto">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[1,2,3,4,5,6].map((i) => (
-                  <div key={i} className="bg-white rounded-lg shadow animate-pulse">
-                    <div className="h-48 bg-gray-200 rounded-t-lg"></div>
+                  <div key={i} className="bg-[#122037] rounded-lg shadow animate-pulse">
+                    <div className="h-48 bg-white/10 rounded-t-lg"></div>
                     <div className="p-4">
-                      <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-                      <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+                      <div className="h-4 bg-white/10 rounded w-3/4 mb-2"></div>
+                      <div className="h-4 bg-white/10 rounded w-1/2"></div>
                     </div>
                   </div>
                 ))}
@@ -127,7 +127,7 @@ export default function ListingsPage() {
               <div className="mt-4 pb-16">
                 <div className="flex justify-center gap-2">
                   {[1,2,3].map((i) => (
-                    <div key={i} className="w-8 h-8 bg-gray-200 rounded animate-pulse"></div>
+                    <div key={i} className="w-8 h-8 bg-white/10 rounded animate-pulse"></div>
                   ))}
                 </div>
               </div>
@@ -147,10 +147,10 @@ export default function ListingsPage() {
 
   return (
     <>
-      <header className="bg-white border-b px-4 py-3">
+      <header className="bg-[#122037] border-b px-4 py-3">
         <div className="max-w-screen-md mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Link href="/" className="text-gray-500">
+            <Link href="/" className="text-white/55">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"/>
               </svg>
@@ -160,7 +160,7 @@ export default function ListingsPage() {
             </h1>
           </div>
           <button 
-            className="text-gray-500 p-2"
+            className="text-white/55 p-2"
             onClick={() => setIsFilterModalOpen(true)}
           >
             <Filter size={24} />
@@ -174,7 +174,7 @@ export default function ListingsPage() {
         propertyType={params.propertyType as string}
       />
 
-      <div className="flex flex-col min-h-screen bg-gray-100">
+      <div className="flex flex-col min-h-screen bg-white/5">
         {/* Список объявлений */}
         <main className="flex-grow py-4">
           <div className="max-w-screen-md mx-auto">

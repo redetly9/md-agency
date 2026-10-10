@@ -8,7 +8,7 @@ const BackButton = () => {
   return (
     <button
       type="button"
-      className="flex flex-row gap-2 items-center text-[15px] font-semibold py-2 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer text-[#585858]"
+      className="flex flex-row gap-2 items-center text-[15px] font-semibold py-2 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer text-white/75"
       onClick={back}
     >
     <MdKeyboardBackspace size={18}/>

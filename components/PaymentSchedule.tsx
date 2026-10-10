@@ -93,36 +93,36 @@ export default function PaymentSchedule({ params, compact = false, title = 'Гр
   };
 
   if (rows.length === 0) {
-    return <div className="text-sm text-gray-500">Укажите стоимость жилья, чтобы увидеть график платежей.</div>;
+    return <div className="text-sm text-white/55">Укажите стоимость жилья, чтобы увидеть график платежей.</div>;
   }
 
   return (
-    <div className="bg-white rounded-xl border border-gray-100 p-4">
+    <div className="bg-[#122037] rounded-xl border border-white/5 p-4">
       <div className="flex items-start justify-between gap-3 mb-3">
         <div>
-          <h3 className="text-base font-semibold text-gray-900">{title}</h3>
-          <p className="text-xs text-gray-500 mt-0.5">
+          <h3 className="text-base font-semibold text-white">{title}</h3>
+          <p className="text-xs text-white/55 mt-0.5">
             Взнос {params.initialPaymentPercent}% · {fmt(initial)} ₸ · срок {params.duration} мес · аренда 0,6% от остатка
           </p>
         </div>
-        <button type="button" onClick={downloadCsv} className="shrink-0 inline-flex items-center gap-1 text-xs text-[#016a80] border border-[#016a80]/40 rounded-lg px-2.5 py-1.5">
+        <button type="button" onClick={downloadCsv} className="shrink-0 inline-flex items-center gap-1 text-xs text-[#e6c87a] border border-[#d4af5a]/40 rounded-lg px-2.5 py-1.5">
           <Download size={14} /> CSV
         </button>
       </div>
 
       {/* summary */}
       <div className="grid grid-cols-3 gap-1.5 mb-4">
-        <div className="bg-gray-50 rounded-lg p-2 min-w-0 overflow-hidden">
-          <div className="text-[10px] uppercase tracking-wide text-gray-500">Накопления</div>
-          <div className="text-[13px] font-bold text-[#016a80] mt-0.5 whitespace-nowrap">{fmt(totals.principal)} ₸</div>
+        <div className="bg-[#0b1626] rounded-lg p-2 min-w-0 overflow-hidden">
+          <div className="text-[10px] uppercase tracking-wide text-white/55">Накопления</div>
+          <div className="text-[13px] font-bold text-[#e6c87a] mt-0.5 whitespace-nowrap">{fmt(totals.principal)} ₸</div>
         </div>
-        <div className="bg-gray-50 rounded-lg p-2 min-w-0 overflow-hidden">
-          <div className="text-[10px] uppercase tracking-wide text-gray-500">Аренда за срок</div>
-          <div className="text-[13px] font-bold text-gray-900 mt-0.5 whitespace-nowrap">{fmt(totals.rent)} ₸</div>
+        <div className="bg-[#0b1626] rounded-lg p-2 min-w-0 overflow-hidden">
+          <div className="text-[10px] uppercase tracking-wide text-white/55">Аренда за срок</div>
+          <div className="text-[13px] font-bold text-white mt-0.5 whitespace-nowrap">{fmt(totals.rent)} ₸</div>
         </div>
-        <div className="bg-gray-50 rounded-lg p-2 min-w-0 overflow-hidden">
-          <div className="text-[10px] uppercase tracking-wide text-gray-500">Первый платёж</div>
-          <div className="text-[13px] font-bold text-gray-900 mt-0.5 whitespace-nowrap">{fmt(rows[0].total)} ₸</div>
+        <div className="bg-[#0b1626] rounded-lg p-2 min-w-0 overflow-hidden">
+          <div className="text-[10px] uppercase tracking-wide text-white/55">Первый платёж</div>
+          <div className="text-[13px] font-bold text-white mt-0.5 whitespace-nowrap">{fmt(rows[0].total)} ₸</div>
         </div>
       </div>
 
@@ -136,19 +136,19 @@ export default function PaymentSchedule({ params, compact = false, title = 'Гр
               return (
                 <div key={y.label} className="flex-1 flex flex-col justify-end h-full" title={`${y.label}: ${fmt(y.principal + y.rent)} ₸`}>
                   <div className="w-full rounded-t-sm overflow-hidden flex flex-col" style={{ height: `${Math.max(4, h * 100)}%` }}>
-                    <div className="bg-gray-300" style={{ height: `${(1 - pr) * 100}%` }} />
-                    <div className="bg-[#016a80] flex-1" />
+                    <div className="bg-white/15" style={{ height: `${(1 - pr) * 100}%` }} />
+                    <div className="bg-[#d4af5a] flex-1" />
                   </div>
                 </div>
               );
             })}
           </div>
-          <div className="flex justify-between text-[10px] text-gray-500 mt-1">
+          <div className="flex justify-between text-[10px] text-white/55 mt-1">
             <span>{years[0].label}</span><span>{years[years.length - 1].label}</span>
           </div>
-          <div className="flex gap-4 text-[11px] text-gray-500 mt-1">
-            <span className="inline-flex items-center gap-1"><i className="w-2.5 h-2.5 rounded-sm bg-[#016a80]" />накопление</span>
-            <span className="inline-flex items-center gap-1"><i className="w-2.5 h-2.5 rounded-sm bg-gray-300" />аренда</span>
+          <div className="flex gap-4 text-[11px] text-white/55 mt-1">
+            <span className="inline-flex items-center gap-1"><i className="w-2.5 h-2.5 rounded-sm bg-[#d4af5a]" />накопление</span>
+            <span className="inline-flex items-center gap-1"><i className="w-2.5 h-2.5 rounded-sm bg-white/15" />аренда</span>
           </div>
         </div>
       )}
@@ -157,7 +157,7 @@ export default function PaymentSchedule({ params, compact = false, title = 'Гр
       <div className="overflow-x-auto -mx-4 px-4">
         <table className="w-full text-[11px] sm:text-xs">
           <thead>
-            <tr className="text-left text-gray-500 border-b border-gray-200">
+            <tr className="text-left text-white/55 border-b border-white/10">
               <th className="py-2 pr-1.5 font-medium">№</th>
               <th className="py-2 pr-1.5 font-medium">Месяц</th>
               <th className="py-2 pr-1.5 font-medium text-right">Накопление</th>
@@ -168,34 +168,34 @@ export default function PaymentSchedule({ params, compact = false, title = 'Гр
           </thead>
           <tbody>
             {visible.map(r => (
-              <tr key={r.n} className="border-b border-gray-100 text-gray-800">
-                <td className="py-1.5 pr-1.5 text-gray-400">{r.n}</td>
+              <tr key={r.n} className="border-b border-white/5 text-white">
+                <td className="py-1.5 pr-1.5 text-white/40">{r.n}</td>
                 <td className="py-1.5 pr-1.5 whitespace-nowrap">{fmtDate(r.date)}</td>
-                <td className="py-1.5 pr-1.5 text-right text-[#016a80] font-medium whitespace-nowrap">{fmt(r.principal)}</td>
+                <td className="py-1.5 pr-1.5 text-right text-[#e6c87a] font-medium whitespace-nowrap">{fmt(r.principal)}</td>
                 <td className="py-1.5 pr-1.5 text-right whitespace-nowrap">{fmt(r.rent)}</td>
                 <td className="py-1.5 pr-1.5 text-right font-semibold whitespace-nowrap">{fmt(r.total)}</td>
-                <td className="py-1.5 text-right text-gray-500 whitespace-nowrap hidden sm:table-cell">{fmt(r.balance)}</td>
+                <td className="py-1.5 text-right text-white/55 whitespace-nowrap hidden sm:table-cell">{fmt(r.balance)}</td>
               </tr>
             ))}
           </tbody>
           <tfoot>
-            <tr className="text-gray-900 font-semibold">
+            <tr className="text-white font-semibold">
               <td className="py-2 pr-1.5 whitespace-nowrap" colSpan={2}>Итого</td>
-              <td className="py-2 pr-1.5 text-right text-[#016a80] whitespace-nowrap">{fmt(totals.principal)}</td>
+              <td className="py-2 pr-1.5 text-right text-[#e6c87a] whitespace-nowrap">{fmt(totals.principal)}</td>
               <td className="py-2 pr-1.5 text-right whitespace-nowrap">{fmt(totals.rent)}</td>
               <td className="py-2 pr-1.5 text-right whitespace-nowrap">{fmt(totals.total)}</td>
-              <td className="py-2 text-right text-gray-500 hidden sm:table-cell">0</td>
+              <td className="py-2 text-right text-white/55 hidden sm:table-cell">0</td>
             </tr>
           </tfoot>
         </table>
       </div>
 
       {rows.length > previewCount && (
-        <button type="button" onClick={() => setExpanded(e => !e)} className="mt-3 w-full inline-flex items-center justify-center gap-1 text-sm text-[#016a80] py-2 rounded-lg bg-gray-50">
+        <button type="button" onClick={() => setExpanded(e => !e)} className="mt-3 w-full inline-flex items-center justify-center gap-1 text-sm text-[#e6c87a] py-2 rounded-lg bg-[#0b1626]">
           {expanded ? <>Свернуть <ChevronUp size={16} /></> : <>Показать все {rows.length} платежей <ChevronDown size={16} /></>}
         </button>
       )}
-      <p className="text-[11px] text-gray-400 mt-2">Расчёт ориентировочный. Точные условия фиксируются в договоре.</p>
+      <p className="text-[11px] text-white/40 mt-2">Расчёт ориентировочный. Точные условия фиксируются в договоре.</p>
     </div>
   );
 }

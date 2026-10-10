@@ -70,19 +70,19 @@ const FilterBar = ({ onOpenModal, dealType, propertyType }: FilterBarProps) => {
   };
 
   return (
-    <div className="bg-white border-b">
+    <div className="bg-[#122037] border-b">
       <div className="max-w-screen-md mx-auto py-2 px-4">
         <div className="flex items-center gap-4 text-sm">
           {/* Регион */}
           <div className="flex items-center gap-2">
-            <span className="text-gray-500">Регион:</span>
+            <span className="text-white/55">Регион:</span>
             <span className="font-medium">{getRegionName(region)}</span>
           </div>
 
           {/* Город */}
           {city && (
             <div className="flex items-center gap-2">
-              <span className="text-gray-500">Город:</span>
+              <span className="text-white/55">Город:</span>
               <span className="font-medium">{getCityName(city)}</span>
             </div>
           )}
@@ -90,7 +90,7 @@ const FilterBar = ({ onOpenModal, dealType, propertyType }: FilterBarProps) => {
           {/* Комнаты */}
           {rooms.length > 0 && (
             <div className="flex items-center gap-2">
-              <span className="text-gray-500">Комнат:</span>
+              <span className="text-white/55">Комнат:</span>
               <span className="font-medium">
                 {rooms.map(room => room === '5' ? '5+' : room).join(', ')}
               </span>
@@ -100,7 +100,7 @@ const FilterBar = ({ onOpenModal, dealType, propertyType }: FilterBarProps) => {
           {/* Цена */}
           {(priceFrom || priceTo) && (
             <div className="flex items-center gap-2">
-              <span className="text-gray-500">Цена:</span>
+              <span className="text-white/55">Цена:</span>
               <span className="font-medium">
                 {priceFrom && formatPrice(priceFrom)}
                 {priceFrom && priceTo && ' - '}
@@ -112,7 +112,7 @@ const FilterBar = ({ onOpenModal, dealType, propertyType }: FilterBarProps) => {
           {/* Кнопка открытия модального окна с полными фильтрами */}
           <button
             onClick={onOpenModal}
-            className="ml-auto flex items-center gap-2 text-blue-500 hover:text-blue-600"
+            className="ml-auto flex items-center gap-2 text-[#e6c87a] hover:text-[#e6c87a]"
           >
             <Filter size={16} />
             <span>Все фильтры</span>

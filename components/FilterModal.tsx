@@ -213,18 +213,18 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
       onClick={onClose}
     >
       <div 
-        className={`fixed right-0 top-0 h-full w-[80%] bg-white shadow-xl transform transition-transform duration-300 ease-in-out flex flex-col rounded-l-2xl overflow-hidden ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`fixed right-0 top-0 h-full w-[80%] bg-[#122037] shadow-xl transform transition-transform duration-300 ease-in-out flex flex-col rounded-l-2xl overflow-hidden ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="p-3 border-b flex justify-between items-center relative">
           <button 
             onClick={handleReset} 
-            className="text-blue-500 font-medium text-sm"
+            className="text-[#e6c87a] font-medium text-sm"
           >
             Сбросить
           </button>
           <h2 className="text-base font-medium absolute left-1/2 transform -translate-x-1/2">Фильтр</h2>
-          <button onClick={onClose} className="text-gray-500">
+          <button onClick={onClose} className="text-white/55">
             <X size={20} />
           </button>
         </div>
@@ -238,7 +238,7 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
           
           {/* Регион */}
           <div className="mb-4" ref={regionRef}>
-            <label className="block text-gray-700 mb-2 text-sm">Регион</label>
+            <label className="block text-white/75 mb-2 text-sm">Регион</label>
             <div className="relative">
               <div 
                 className="w-full p-2 border rounded flex justify-between items-center cursor-pointer text-xs"
@@ -251,7 +251,7 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
                       e.stopPropagation();
                       setRegion('');
                     }}
-                    className="text-gray-400"
+                    className="text-white/40"
                   >
                     <X size={14} />
                   </button>
@@ -259,11 +259,11 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
               </div>
               
               {showRegionDropdown && (
-                <div className="absolute z-10 mt-1 w-full bg-white border rounded shadow-lg max-h-48 overflow-y-auto">
+                <div className="absolute z-10 mt-1 w-full bg-[#122037] border rounded shadow-none max-h-48 overflow-y-auto">
                   {regions.map((r) => (
                     <div 
                       key={r.id}
-                      className={`p-2 cursor-pointer hover:bg-gray-100 text-xs ${region === r.id ? 'bg-blue-50 text-blue-500' : ''}`}
+                      className={`p-2 cursor-pointer hover:bg-white/10 text-xs ${region === r.id ? 'bg-[#d4af5a]/15 text-[#e6c87a]' : ''}`}
                       onClick={() => selectRegion(r.id)}
                     >
                       {r.name}
@@ -276,7 +276,7 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
           
           {/* Город */}
           <div className="mb-4" ref={cityRef}>
-            <label className="block text-gray-700 mb-2 text-sm">Город</label>
+            <label className="block text-white/75 mb-2 text-sm">Город</label>
             <div className="relative">
               <div 
                 className="w-full p-2 border rounded flex justify-between items-center cursor-pointer text-xs"
@@ -289,7 +289,7 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
                       e.stopPropagation();
                       setCity('');
                     }}
-                    className="text-gray-400"
+                    className="text-white/40"
                   >
                     <X size={14} />
                   </button>
@@ -297,11 +297,11 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
               </div>
               
               {showCityDropdown && (
-                <div className="absolute z-10 mt-1 w-full bg-white border rounded shadow-lg max-h-48 overflow-y-auto">
+                <div className="absolute z-10 mt-1 w-full bg-[#122037] border rounded shadow-none max-h-48 overflow-y-auto">
                   {cities.map((c) => (
                     <div 
                       key={c.id}
-                      className={`p-2 cursor-pointer hover:bg-gray-100 text-xs ${city === c.id ? 'bg-blue-50 text-blue-500' : ''}`}
+                      className={`p-2 cursor-pointer hover:bg-white/10 text-xs ${city === c.id ? 'bg-[#d4af5a]/15 text-[#e6c87a]' : ''}`}
                       onClick={() => selectCity(c.id)}
                     >
                       {c.name}
@@ -314,16 +314,16 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
           
           {/* Жилой комплекс
           <div className="mb-4">
-            <label className="block text-gray-700 mb-2">Жилой комплекс</label>
+            <label className="block text-white/75 mb-2">Жилой комплекс</label>
             <div className="flex justify-between items-center border rounded-lg p-3">
-              <div className="text-gray-500">Выбрать</div>
-              <div className="text-gray-400">›</div>
+              <div className="text-white/55">Выбрать</div>
+              <div className="text-white/40">›</div>
             </div>
           </div> */}
           
           {/* Количество комнат */}
           <div className="mb-4">
-            <label className="block text-gray-700 mb-2 text-sm">Количество комнат</label>
+            <label className="block text-white/75 mb-2 text-sm">Количество комнат</label>
             <div className="grid grid-cols-5 gap-1.5">
               {[1, 2, 3, 4, '5+'].map((room, index) => (
                 <button
@@ -331,8 +331,8 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
                   onClick={() => toggleRoom(typeof room === 'string' ? 5 : room as number)}
                   className={`py-2 border rounded text-xs min-h-[28px] flex items-center justify-center ${
                     rooms.includes(typeof room === 'string' ? 5 : room as number)
-                      ? 'bg-blue-500 text-white border-blue-500'
-                      : 'bg-white text-gray-700'
+                      ? 'bg-[#d4af5a] text-[#0b1626] border-[#d4af5a]/40'
+                      : 'bg-[#122037] text-white/75'
                   }`}
                 >
                   {room}
@@ -343,7 +343,7 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
           
           {/* Цена */}
           <div className="mb-4">
-            <label className="block text-gray-700 mb-2 text-sm">Цена, тг</label>
+            <label className="block text-white/75 mb-2 text-sm">Цена, тг</label>
             <div className="flex gap-2">
               <input
                 type="number"
@@ -364,7 +364,7 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
           
           {/* Общая площадь */}
           <div className="mb-4">
-            <label className="block text-gray-700 mb-2 text-sm">Общая площадь, м²</label>
+            <label className="block text-white/75 mb-2 text-sm">Общая площадь, м²</label>
             <div className="flex gap-2">
               <input
                 type="number"
@@ -385,7 +385,7 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
           
           {/* Этаж */}
           <div className="mb-4">
-            <label className="block text-gray-700 mb-2 text-sm">Этаж</label>
+            <label className="block text-white/75 mb-2 text-sm">Этаж</label>
             <div className="flex gap-2 mb-2">
               <input
                 type="number"
@@ -428,7 +428,7 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
           
           {/* От застройщика */}
           <div className="mb-3 flex items-center">
-            <label className="flex-grow text-gray-700 text-sm">От застройщика</label>
+            <label className="flex-grow text-white/75 text-sm">От застройщика</label>
             <input
               type="checkbox"
               checked={fromDeveloper}
@@ -439,7 +439,7 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
           
           {/* От Крыша Агентов */}
           <div className="mb-3 flex items-center">
-            <label className="flex-grow text-gray-700 text-sm">От Крыша Агентов</label>
+            <label className="flex-grow text-white/75 text-sm">От Крыша Агентов</label>
             <input
               type="checkbox"
               checked={fromAgents}
@@ -449,10 +449,10 @@ const FilterModal = ({ isOpen, onClose, dealType, propertyType }: FilterModalPro
           </div>
         </div>
         
-        <div className="p-3 border-t sticky bottom-0 bg-white">
+        <div className="p-3 border-t sticky bottom-0 bg-[#122037]">
           <button
             onClick={applyFilters}
-            className="w-full py-2.5 bg-blue-500 text-white rounded-lg font-medium text-sm"
+            className="w-full py-2.5 bg-[#d4af5a] text-[#0b1626] rounded-lg font-medium text-sm"
           >
             Показать результаты
           </button>

@@ -32,7 +32,7 @@ export default function Auth() {
   };
 
   return (
-    <div className="bg-white p-8 rounded-lg shadow-md">
+    <div className="bg-[#122037] p-8 rounded-lg shadow-none">
       <h2 className="text-2xl font-bold mb-6 text-textPrimary">
         {isLogin ? 'Вход' : 'Регистрация'}
       </h2>
@@ -43,7 +43,7 @@ export default function Auth() {
             placeholder="Имя"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full p-2 border rounded"
+            className="w-full p-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:border-[#d4af5a]"
             required
           />
         )}
@@ -52,7 +52,7 @@ export default function Auth() {
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full p-2 border rounded"
+          className="w-full p-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:border-[#d4af5a]"
           required
         />
         <input
@@ -60,20 +60,20 @@ export default function Auth() {
           placeholder="Пароль"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-2 border rounded"
+          className="w-full p-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:border-[#d4af5a]"
           required
         />
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-primary text-white p-2 rounded hover:bg-primary/90 disabled:opacity-50"
+          className="w-full bg-gradient-to-r from-[#e6c87a] to-[#b8892e] text-[#0b1626] font-semibold p-3 rounded-lg hover:opacity-90 disabled:opacity-50"
         >
           {loading ? 'Загрузка...' : isLogin ? 'Войти' : 'Зарегистрироваться'}
         </button>
       </form>
       <button
         onClick={() => setIsLogin(!isLogin)}
-        className="mt-4 text-primary hover:underline"
+        className="mt-4 text-[#e6c87a] hover:underline text-sm"
         disabled={loading}
       >
         {isLogin ? 'Создать аккаунт' : 'Уже есть аккаунт?'}

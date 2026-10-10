@@ -20,7 +20,7 @@ const EmptyState: React.FC<EmptyProps> = ({
         {showReset && (
           <Link
             href="/"
-            className="bg-white border-[1px] border-gray-500 text-[#4e4e4e] rounded hover:opacity-80 transition "
+            className="bg-[#122037] border-[1px] border-gray-500 text-[#4e4e4e] rounded hover:opacity-80 transition "
           >
             Remove all filters
           </Link>

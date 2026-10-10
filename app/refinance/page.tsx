@@ -89,15 +89,15 @@ export default function RefinancePage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#122037]">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+      <header className="bg-[#122037] border-b border-white/10 sticky top-0 z-50">
         <div className="max-w-screen-md mx-auto px-4 py-4">
           <div className="flex items-center">
             <button onClick={moveBack} className="mr-4">
-              <ArrowLeft size={24} className="text-gray-700" />
+              <ArrowLeft size={24} className="text-white/75" />
           </button>
-            <h1 className="text-xl font-semibold text-gray-900">Рефинансирование</h1>
+            <h1 className="text-xl font-semibold text-white">Рефинансирование</h1>
           </div>
         </div>
       </header>
@@ -120,7 +120,7 @@ export default function RefinancePage() {
             </p>
             <a 
               href="#contact" 
-              className="inline-block bg-[#016a80] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#016a80] transition-colors"
+              className="inline-block bg-[#d4af5a] text-[#0b1626] px-6 py-3 rounded-lg font-semibold hover:bg-[#e6c87a] transition-colors"
             >
               Получить консультацию
             </a>
@@ -129,54 +129,54 @@ export default function RefinancePage() {
       </section>
 
       {/* Questions Section */}
-      <section className="px-4 py-6 bg-gray-50">
+      <section className="px-4 py-6 bg-[#0b1626]">
         <div className="max-w-screen-md mx-auto">
-          <h2 className="text-xl font-bold text-center mb-8 text-gray-900">
+          <h2 className="text-xl font-bold text-center mb-8 text-white">
             Задайте себе эти вопросы
           </h2>
           <div className="space-y-4">
-            <div className="bg-white rounded-lg p-4 shadow-sm">
+            <div className="bg-[#122037] rounded-lg p-4 shadow-none">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-[#016a80] rounded-full flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 bg-[#d4af5a] rounded-full flex items-center justify-center flex-shrink-0">
                   <Percent size={24} className="text-white" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-2">
+                  <h3 className="font-semibold text-white mb-2">
                     Устраивает ли вас текущая ставка по ипотеке?
                   </h3>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-white/75 text-sm">
                     Мы предлагаем ипотеки с более выгодными условиями, которые могут значительно снизить ваши расходы.
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white rounded-lg p-4 shadow-sm">
+            <div className="bg-[#122037] rounded-lg p-4 shadow-none">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-[#016a80] rounded-full flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 bg-[#d4af5a] rounded-full flex items-center justify-center flex-shrink-0">
                   <Banknote size={24} className="text-white" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-2">
+                  <h3 className="font-semibold text-white mb-2">
                     Хотели бы вы снизить ежемесячный платёж?
                   </h3>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-white/75 text-sm">
                     Наша программа рефинансирования позволяет снизить ежемесячный платеж благодаря рефинансированию.
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white rounded-lg p-4 shadow-sm">
+            <div className="bg-[#122037] rounded-lg p-4 shadow-none">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-[#016a80] rounded-full flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 bg-[#d4af5a] rounded-full flex items-center justify-center flex-shrink-0">
                   <CreditCard size={24} className="text-white" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-2">
+                  <h3 className="font-semibold text-white mb-2">
                     Есть ли у вас другие кредиты, которые вы хотели бы объединить?
                   </h3>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-white/75 text-sm">
                     Объедините все кредиты и снизьте их ипотечными условиями и их процентными ставками.
                   </p>
                 </div>
@@ -187,48 +187,48 @@ export default function RefinancePage() {
       </section>
 
       {/* Benefits Section */}
-      <section className="px-4 py-4 bg-white">
+      <section className="px-4 py-4 bg-[#122037]">
         <div className="max-w-screen-md mx-auto">
-          <h2 className="text-xl font-bold text-center mb-8 text-gray-900">
+          <h2 className="text-xl font-bold text-center mb-8 text-white">
             Преимущества рефинансирования
           </h2>
           <div className="space-y-4">
-            <div className="bg-white shadow-lg rounded-lg p-3">
+            <div className="bg-[#122037] shadow-none rounded-lg p-3">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-[#016a80] rounded-full flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 bg-[#d4af5a] rounded-full flex items-center justify-center flex-shrink-0">
                   <TrendingDown size={24} className="text-white" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-2">Снижение ежемесячного платежа</h3>
-                  <p className="text-gray-600 text-sm">
+                  <h3 className="font-semibold text-white mb-2">Снижение ежемесячного платежа</h3>
+                  <p className="text-white/75 text-sm">
                     Уменьшите ваш ежемесячный платеж на 25-35% процентов ставки и сэкономьте средства для других проектов.
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white shadow-lg rounded-lg p-6">
+            <div className="bg-[#122037] shadow-none rounded-lg p-6">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-[#016a80] rounded-full flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 bg-[#d4af5a] rounded-full flex items-center justify-center flex-shrink-0">
                   <Percent size={24} className="text-white" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-2">Выгодные процентные ставки</h3>
-                  <p className="text-gray-600 text-sm">
+                  <h3 className="font-semibold text-white mb-2">Выгодные процентные ставки</h3>
+                  <p className="text-white/75 text-sm">
                     Получите доступ к сниженным процентным ставкам от 7% годовых с более гибкими условиями погашения.
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white shadow-lg rounded-lg p-6">
+            <div className="bg-[#122037] shadow-none rounded-lg p-6">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-[#016a80] rounded-full flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 bg-[#d4af5a] rounded-full flex items-center justify-center flex-shrink-0">
                   <Shield size={24} className="text-white" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-2">Дополнительные возможности</h3>
-                  <p className="text-gray-600 text-sm">
+                  <h3 className="font-semibold text-white mb-2">Дополнительные возможности</h3>
+                  <p className="text-white/75 text-sm">
                     Получите возможность получения ипотечного недвижимости на льготных условиях для семейного бюджета.
                   </p>
                 </div>
@@ -239,57 +239,57 @@ export default function RefinancePage() {
       </section>
 
       {/* Conditions Section */}
-      <section className="px-4 py-6 bg-gray-50">
+      <section className="px-4 py-6 bg-[#0b1626]">
         <div className="max-w-screen-md mx-auto">
-          <h2 className="text-xl font-bold text-center mb-8 text-gray-900">
+          <h2 className="text-xl font-bold text-center mb-8 text-white">
             Условия рефинансирования
           </h2>
           
-          <div className="bg-white rounded-lg p-6 shadow-sm mb-6">
-            <h3 className="font-semibold text-gray-900 mb-4">Основные параметры</h3>
+          <div className="bg-[#122037] rounded-lg p-6 shadow-none mb-6">
+            <h3 className="font-semibold text-white mb-4">Основные параметры</h3>
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-[#016a80] rounded-full"></div>
-                <span className="text-gray-700">Ставки: от 7% до 13,8% годовых</span>
+                <div className="w-2 h-2 bg-[#d4af5a] rounded-full"></div>
+                <span className="text-white/75">Ставки: от 7% до 13,8% годовых</span>
               </div>
               <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-[#016a80] rounded-full"></div>
-                <span className="text-gray-700">Срок: от 60 до 240 месяцев</span>
+                <div className="w-2 h-2 bg-[#d4af5a] rounded-full"></div>
+                <span className="text-white/75">Срок: от 60 до 240 месяцев</span>
               </div>
               <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-[#016a80] rounded-full"></div>
-                <span className="text-gray-700">Первоначальный накопительный взнос: 10%</span>
+                <div className="w-2 h-2 bg-[#d4af5a] rounded-full"></div>
+                <span className="text-white/75">Первоначальный накопительный взнос: 10%</span>
               </div>
               <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-[#016a80] rounded-full"></div>
-                <span className="text-gray-700">Досрочное погашение без комиссий</span>
+                <div className="w-2 h-2 bg-[#d4af5a] rounded-full"></div>
+                <span className="text-white/75">Досрочное погашение без комиссий</span>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg p-6 shadow-sm mb-6">
-            <h3 className="font-semibold text-gray-900 mb-4">Требования к заёмщикам</h3>
+          <div className="bg-[#122037] rounded-lg p-6 shadow-none mb-6">
+            <h3 className="font-semibold text-white mb-4">Требования к заёмщикам</h3>
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <CheckCircle size={16} className="text-green-600" />
-                <span className="text-gray-700">Возраст от 21 года</span>
+                <CheckCircle size={16} className="text-green-300" />
+                <span className="text-white/75">Возраст от 21 года</span>
               </div>
               <div className="flex items-center gap-3">
-                <CheckCircle size={16} className="text-green-600" />
-                <span className="text-gray-700">Стаж работы от 6 месяцев</span>
+                <CheckCircle size={16} className="text-green-300" />
+                <span className="text-white/75">Стаж работы от 6 месяцев</span>
               </div>
               <div className="flex items-center gap-3">
-                <CheckCircle size={16} className="text-green-600" />
-                <span className="text-gray-700">Без подтверждения доходов</span>
+                <CheckCircle size={16} className="text-green-300" />
+                <span className="text-white/75">Без подтверждения доходов</span>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg p-6 shadow-sm">
-            <h3 className="font-semibold text-gray-900 mb-4">Погашение ипотеки</h3>
+          <div className="bg-[#122037] rounded-lg p-6 shadow-none">
+            <h3 className="font-semibold text-white mb-4">Погашение ипотеки</h3>
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <span className="text-gray-700">Мы закрываем/выкупаем ваш ипотечный займ из любого банка РК и конвертируем в &quot;Договор аренда с выкупом&quot; между ТОО &quot;MD home&quot; и Вами по сниженным ставкам от 7% до 13,8%.</span>
+                <span className="text-white/75">Мы закрываем/выкупаем ваш ипотечный займ из любого банка РК и конвертируем в &quot;Договор аренда с выкупом&quot; между ТОО &quot;MD home&quot; и Вами по сниженным ставкам от 7% до 13,8%.</span>
               </div>
             </div>
           </div>
@@ -297,32 +297,32 @@ export default function RefinancePage() {
       </section>
 
       {/* Costs Section */}
-      <section className="px-4 py-6 bg-gray-50">
+      <section className="px-4 py-6 bg-[#0b1626]">
         <div className="max-w-screen-md mx-auto">
-          <h2 className="text-xl font-bold text-center mb-8 text-gray-900">
+          <h2 className="text-xl font-bold text-center mb-8 text-white">
             Стоимость наших услуг
           </h2>
-          <div className="bg-white rounded-lg p-6 shadow-sm">
+          <div className="bg-[#122037] rounded-lg p-6 shadow-none">
             <div className="space-y-3">
               <div className="flex items-start gap-3">
-                <div className="w-2 min-w-2 h-2 bg-[#016a80] rounded-full mt-2"></div>
-                <span className="text-gray-700">Консультация - 35000 тг</span>
+                <div className="w-2 min-w-2 h-2 bg-[#d4af5a] rounded-full mt-2"></div>
+                <span className="text-white/75">Консультация - 35000 тг</span>
               </div>
               <div className="flex items-start gap-3">
-                <div className="w-2 min-w-2 h-2 bg-[#016a80] rounded-full mt-2"></div>
-                <span className="text-gray-700">Оплата оценки квартиры - оплачивает покупатель</span>
+                <div className="w-2 min-w-2 h-2 bg-[#d4af5a] rounded-full mt-2"></div>
+                <span className="text-white/75">Оплата оценки квартиры - оплачивает покупатель</span>
               </div>
               <div className="flex items-start gap-3">
-                <div className="w-2 min-w-2 h-2 bg-[#016a80] rounded-full mt-2"></div>
-                <span className="text-gray-700">Страховка - оплачивает покупатель</span>
+                <div className="w-2 min-w-2 h-2 bg-[#d4af5a] rounded-full mt-2"></div>
+                <span className="text-white/75">Страховка - оплачивает покупатель</span>
               </div>
               <div className="flex items-start gap-3">
-                <div className="w-2 min-w-2 h-2 bg-[#016a80] rounded-full mt-2"></div>
-                <span className="text-gray-700">Нотариальные услуги - оплачивает покупатель</span>
+                <div className="w-2 min-w-2 h-2 bg-[#d4af5a] rounded-full mt-2"></div>
+                <span className="text-white/75">Нотариальные услуги - оплачивает покупатель</span>
               </div>
               <div className="flex items-start gap-3">
-                <div className="w-2 min-w-2 h-2 bg-[#016a80] rounded-full mt-2"></div>
-                <span className="text-gray-700">Комиссия за рефинансирование - 10% от суммы рефинансирования (данная оплата производится при расторжении договора или ежемесячной оплате)</span>
+                <div className="w-2 min-w-2 h-2 bg-[#d4af5a] rounded-full mt-2"></div>
+                <span className="text-white/75">Комиссия за рефинансирование - 10% от суммы рефинансирования (данная оплата производится при расторжении договора или ежемесячной оплате)</span>
               </div>
             </div>
           </div>
@@ -354,7 +354,7 @@ export default function RefinancePage() {
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-white/10 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 placeholder="Ваше имя"
                 required
               />
@@ -366,18 +366,18 @@ export default function RefinancePage() {
                 name="phone"
                 value={formData.phone}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-white/10 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 placeholder="Номер телефона"
                 required
               />
             </div>
             <div>
-              <label className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus-within:ring-2 focus-within:ring-red-500 focus-within:border-transparent cursor-pointer hover:border-gray-400 transition-colors bg-white">
+              <label className="block w-full px-4 py-3 border border-white/10 rounded-lg focus-within:ring-2 focus-within:ring-red-500 focus-within:border-transparent cursor-pointer hover:border-gray-400 transition-colors bg-[#122037]">
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-500">
+                  <span className="text-white/55">
                     {selectedFile ? fileName : 'Прикрепите документ'}
                   </span>
-                  <span className="text-sm text-gray-400 bg-gray-100 px-2 py-1 rounded">
+                  <span className="text-sm text-white/40 bg-white/5 px-2 py-1 rounded">
                     Выбрать файл
                   </span>
                 </div>
@@ -390,7 +390,7 @@ export default function RefinancePage() {
                 />
               </label>
               {selectedFile && (
-                <p className="mt-2 text-sm text-green-600 flex items-center">
+                <p className="mt-2 text-sm text-green-300 flex items-center">
                   <CheckCircle size={16} className="mr-1" />
                   Файл успешно загружен
                 </p>
@@ -402,7 +402,7 @@ export default function RefinancePage() {
                 value={formData.message}
                 onChange={handleInputChange}
                 rows={4}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-white/10 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 placeholder="Сообщение"
               />
             </div>
@@ -410,7 +410,7 @@ export default function RefinancePage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`w-full bg-[#016a80] text-white py-3 rounded-lg font-semibold transition-colors relative ${
+              className={`w-full bg-[#d4af5a] text-[#0b1626] py-3 rounded-lg font-semibold transition-colors relative ${
                 isSubmitting ? 'opacity-75 cursor-not-allowed' : 'hover:bg-[#015566]'
               }`}
             >
@@ -436,7 +436,7 @@ export default function RefinancePage() {
             {/* About Company */}
             <div>
               <h3 className="font-semibold mb-4">О компании</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">
+              <p className="text-white/40 text-sm leading-relaxed">
                 md.kz - надёжный партнёр в сфере рефинансирования ипотечных кредитов в Казахстане.
               </p>
             </div>
@@ -445,9 +445,9 @@ export default function RefinancePage() {
             <div>
               <h3 className="font-semibold mb-4">Контакты</h3>
               <div className="space-y-2 text-sm">
-                <p className="text-gray-400">+7 777 777 77 77</p>
-                <p className="text-gray-400">md.kz</p>
-                <p className="text-gray-400">г. Алматы, ул. Толе би, 123</p>
+                <p className="text-white/40">+7 777 777 77 77</p>
+                <p className="text-white/40">md.kz</p>
+                <p className="text-white/40">г. Алматы, ул. Толе би, 123</p>
               </div>
             </div>
 
@@ -455,10 +455,10 @@ export default function RefinancePage() {
             <div>
               <h3 className="font-semibold mb-4">Услуги</h3>
               <div className="space-y-2 text-sm">
-                <p className="text-gray-400">Рефинансирование ипотеки</p>
-                <p className="text-gray-400">Консультации</p>
-                <p className="text-gray-400">Оценка недвижимости</p>
-                <p className="text-gray-400">Страхование</p>
+                <p className="text-white/40">Рефинансирование ипотеки</p>
+                <p className="text-white/40">Консультации</p>
+                <p className="text-white/40">Оценка недвижимости</p>
+                <p className="text-white/40">Страхование</p>
               </div>
             </div>
 
@@ -480,7 +480,7 @@ export default function RefinancePage() {
 
             {/* Copyright */}
             <div className="pt-8 border-t border-gray-800">
-              <p className="text-gray-500 text-sm text-center">
+              <p className="text-white/55 text-sm text-center">
                 © 2024 md.kz. Все права защищены.
               </p>
             </div>

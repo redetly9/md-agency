@@ -74,7 +74,7 @@ const ImageUpload: FC<ImageUploadProps> = ({ onChange, initialImage = '' }) => {
       {isLoading && (
         <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center z-20">
           {' '}
-          <SpinnerMini className="w-[32px] h-[32px] text-red-600" />
+          <SpinnerMini className="w-[32px] h-[32px] text-red-300" />
         </div>
       )}
       {image ? (

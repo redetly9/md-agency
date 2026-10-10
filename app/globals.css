@@ -3,17 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 11, 22, 38;
+  --background-end-rgb: 11, 22, 38;
+  --navy: #0b1626;
+  --navy-2: #122037;
+  --gold: #d4af5a;
+  --gold-light: #e6c87a;
+  color-scheme: dark;
 }
 
 body {
@@ -113,3 +110,17 @@ footer a {
 main {
   padding-bottom: 80px;
 }
+/* ---- MD brand theme (as in investor teaser) ---- */
+h1, h2, h3 {
+  font-family: var(--font-serif), Georgia, serif;
+  letter-spacing: -0.01em;
+}
+.t-gold {
+  background: linear-gradient(100deg, #f3dd9a 0%, #d4af5a 45%, #b8892e 70%, #f0d58a 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+input, select, textarea {
+  color-scheme: dark;
+}
+input::placeholder, textarea::placeholder { color: rgba(255,255,255,.4); }
+::selection { background: rgba(212,175,90,.35); }

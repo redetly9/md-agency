@@ -90,23 +90,23 @@ export default function CountrySelectModal({ isOpen, onClose, onSelect, selected
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-md max-h-full bg-white rounded-2xl p-6 max-[374px]:p-4 shadow-xl flex flex-col"
+        className="relative w-full max-w-md max-h-full bg-[#122037] rounded-2xl p-6 max-[374px]:p-4 shadow-xl flex flex-col"
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
       >
         <div className="flex items-start justify-between mb-1">
           <div>
-            <p className="text-xs uppercase tracking-wide text-[#016a80] font-semibold">MD international</p>
-            <h2 className="text-lg max-[374px]:text-base font-bold text-black leading-snug">Цифровая платформа «Аренда с выкупом»</h2>
+            <p className="text-xs uppercase tracking-wide text-[#e6c87a] font-semibold">MD international</p>
+            <h2 className="text-lg max-[374px]:text-base font-bold text-white leading-snug">Цифровая платформа «Аренда с выкупом»</h2>
           </div>
           {onClose && (
-            <button onClick={onClose} className="text-gray-400 hover:text-gray-600 ml-3" aria-label="Закрыть">
+            <button onClick={onClose} className="text-white/40 hover:text-white/75 ml-3" aria-label="Закрыть">
               <X size={22} />
             </button>
           )}
         </div>
-        <p className="text-sm text-gray-500 mb-4 max-[374px]:mb-3">Выберите страну</p>
+        <p className="text-sm text-white/55 mb-4 max-[374px]:mb-3">Выберите страну</p>
 
         <ul className="space-y-2 max-[374px]:space-y-1.5 overflow-y-auto">
           {COUNTRIES.map((c) => {
@@ -119,10 +119,10 @@ export default function CountrySelectModal({ isOpen, onClose, onSelect, selected
                   onClick={() => (c.available ? onSelect(c) : setNotice(UNAVAILABLE_NOTICE))}
                   className={`w-full flex items-center gap-3 px-4 py-3 max-[374px]:px-3 max-[374px]:py-2.5 max-[374px]:gap-2 rounded-lg border text-left transition-colors ${
                     active
-                      ? 'bg-[#016a80] text-white border-[#016a80]'
+                      ? 'bg-[#d4af5a] text-[#0b1626] border-[#d4af5a]'
                       : c.available
-                        ? 'bg-white text-black border-gray-200 hover:border-[#016a80]'
-                        : 'bg-gray-50 text-gray-400 border-gray-100 cursor-not-allowed'
+                        ? 'bg-[#122037] text-white border-white/10 hover:border-[#d4af5a]'
+                        : 'bg-[#0b1626] text-white/40 border-white/5 cursor-not-allowed'
                   }`}
                 >
                   <span className={`text-2xl max-[374px]:text-xl leading-none ${c.available ? '' : 'grayscale opacity-60'}`}>{c.flag}</span>
@@ -137,7 +137,7 @@ export default function CountrySelectModal({ isOpen, onClose, onSelect, selected
           <div
             role="status"
             aria-live="polite"
-            className="pointer-events-none absolute left-4 right-4 bottom-4 max-[374px]:left-3 max-[374px]:right-3 max-[374px]:bottom-3 rounded-lg bg-gray-900/95 text-white text-sm max-[374px]:text-[13px] px-4 py-3 text-center shadow-lg"
+            className="pointer-events-none absolute left-4 right-4 bottom-4 max-[374px]:left-3 max-[374px]:right-3 max-[374px]:bottom-3 rounded-lg bg-gray-900/95 text-white text-sm max-[374px]:text-[13px] px-4 py-3 text-center shadow-none"
           >
             {notice}
           </div>

@@ -18,7 +18,7 @@ const ListingCard: React.FC<ListingCardProps> = ({ data, reservation, hasFavorit
   const price = reservation ? reservation.totalPrice : data?.price;
 
   return (
-    <div className="bg-white border-b">
+    <div className="bg-[#122037] border-b">
       <Link href={`/listings/view/${data.id}`} className="block">
         <div className="p-4">
           {/* Цена */}
@@ -32,7 +32,7 @@ const ListingCard: React.FC<ListingCardProps> = ({ data, reservation, hasFavorit
           </div>
 
           {/* Основная информация о квартире */}
-          <div className="text-blue-600 mb-3">
+          <div className="text-[#e6c87a] mb-3">
             {data.roomCount}-комнатная квартира · {data.area} м² · {data.floor}
           </div>
 
@@ -52,16 +52,16 @@ const ListingCard: React.FC<ListingCardProps> = ({ data, reservation, hasFavorit
             </div>
             <div className="flex-1">
               <div className="text-base mb-1">{data.street || 'Улица не указана'}</div>
-              <div className="text-gray-500">{data.city}, {data.district}</div>
+              <div className="text-white/55">{data.city}, {data.district}</div>
             </div>
           </div>
 
           {/* Нижняя информация */}
           <div className="flex items-center justify-between mt-3">
-            <span className="bg-yellow-50 text-[13px] text-yellow-800 px-2 py-0.5 rounded">
+            <span className="bg-yellow-500/15 text-[13px] text-yellow-300 px-2 py-0.5 rounded">
               Хозяин недвижимости
             </span>
-            <div className="flex items-center gap-4 text-gray-500">
+            <div className="flex items-center gap-4 text-white/55">
               <span>{format(new Date(), 'd MMMM')}</span>
               <div className="flex items-center gap-1">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -84,7 +84,7 @@ export default ListingCard;
 
 export const ListingSkeleton = () => {
   return (
-    <div className="bg-white border-b p-4">
+    <div className="bg-[#122037] border-b p-4">
       <div className="flex justify-between mb-2">
         <Skeleton height={32} width={160} />
         <div className="flex gap-2">

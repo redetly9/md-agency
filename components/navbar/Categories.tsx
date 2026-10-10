@@ -40,7 +40,7 @@ const Categories = () => {
   return (
     <div
       className={` ${
-        isActive ? 'shadow-md shadow-[rgba(0,0,0,.045)]' : ''
+        isActive ? 'shadow-none shadow-[rgba(0,0,0,.045)]' : ''
       } transition-all duration-150`}>
       <div className="flex justify-center gap-[10px]">
         {categories.map((item: Category) => (

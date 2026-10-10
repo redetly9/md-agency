@@ -6,7 +6,7 @@ interface PercentageBadgeProps {
 
 const PercentageBadge: React.FC<PercentageBadgeProps> = ({ value }) => {
   return (
-    <span className="inline-block px-1.5 py-0.5 bg-red-500 text-white rounded text-xs font-medium shadow-sm">
+    <span className="inline-block px-1.5 py-0.5 bg-red-500 text-white rounded text-xs font-medium shadow-none">
       {value}
     </span>
   );

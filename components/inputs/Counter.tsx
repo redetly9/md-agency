@@ -34,7 +34,7 @@ const Counter: React.FC<CounterProps> = ({
     <div className="flex flex-row items-center justify-between">
       <div className="flex flex-col">
         <h3 className="font-semibold">{title}</h3>
-        <p className="font-light text-gray-600 text-[15.5px]">{subtitle}</p>
+        <p className="font-light text-white/75 text-[15.5px]">{subtitle}</p>
       </div>
       <div className="flex flex-row items-center gap-4">
         <button type="button"

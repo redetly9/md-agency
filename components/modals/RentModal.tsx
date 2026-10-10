@@ -255,7 +255,7 @@ const RentModal = ({ onCloseModal }: { onCloseModal?: () => void }) => {
     <div className="w-full h-full flex flex-col">
       <Modal.WindowHeader title="Подать объявление" />
       <form
-        className="flex-1  md:h-auto border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none "
+        className="flex-1  md:h-auto border-0 rounded-lg shadow-none relative flex flex-col w-full bg-[#122037] outline-none focus:outline-none "
         onSubmit={handleSubmit(onSubmit)}>
         <div className="relative p-6">{body()}</div>
         <div className="flex flex-col gap-2 px-6 pb-6 pt-3">

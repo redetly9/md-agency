@@ -62,7 +62,7 @@ export default function Gallery({ images }: GalleryProps) {
 
   return (
     <div className="relative bg-black">
-      <Link href="/" className="absolute top-4 left-4 z-10 bg-white rounded-full p-2">
+      <Link href="/" className="absolute top-4 left-4 z-10 bg-[#122037] rounded-full p-2">
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"/>
         </svg>
