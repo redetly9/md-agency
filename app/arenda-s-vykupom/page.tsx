@@ -323,7 +323,7 @@ export default function ArendaSVykupomPage() {
               </div>
 
               <div>
-                <p className="text-white/75">Ежемесячная аренда (0,6% от остатка):</p>
+                <p className="text-white/75">Ежемесячная аренда (0,6%, фиксированно на весь срок):</p>
                 <p className="text-xl font-bold text-white">{monthlyRent.toLocaleString('ru-RU')} ₸/мес</p>
               </div>
             </div>

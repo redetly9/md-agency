@@ -10,7 +10,7 @@ export type CalcParams = {
 };
 
 export const CALC_STORAGE_KEY = 'md_calc_params';
-export const RENT_RATE = 0.006; // 0,6% в месяц от остатка
+export const RENT_RATE = 0.006; // 0,6% в месяц от суммы выкупа, фиксированно на весь срок
 
 export const DEFAULT_CALC: CalcParams = { propertyValue: 6000000, initialPaymentPercent: 50, duration: 60 };
 
@@ -33,7 +33,7 @@ export type ScheduleRow = {
   n: number;
   date: Date;
   principal: number; // накопление (выкуп)
-  rent: number;      // аренда 0,6% от остатка
+  rent: number;      // аренда 0,6%, одинаковая каждый месяц
   total: number;
   balance: number;   // остаток после платежа
 };
@@ -42,10 +42,11 @@ export function buildSchedule(p: CalcParams, start = new Date()): ScheduleRow[] 
   const initial = p.propertyValue * (p.initialPaymentPercent / 100);
   const remaining = Math.max(0, p.propertyValue - initial);
   const principal = p.duration > 0 ? Math.ceil(remaining / p.duration / 1000) * 1000 : 0;
+  // аренда фиксированная на весь срок: взаиморасчёты производятся в конце срока
+  const rent = Math.round(remaining * RENT_RATE);
   const rows: ScheduleRow[] = [];
   let balance = remaining;
   for (let i = 1; i <= p.duration; i++) {
-    const rent = Math.round(balance * RENT_RATE);
     const pay = Math.min(principal, balance);
     balance = Math.max(0, balance - pay);
     const date = new Date(start.getFullYear(), start.getMonth() + i, 1);
@@ -102,7 +103,7 @@ export default function PaymentSchedule({ params, compact = false, title = 'Гр
         <div>
           <h3 className="text-base font-semibold text-white">{title}</h3>
           <p className="text-xs text-white/55 mt-0.5">
-            Взнос {params.initialPaymentPercent}% · {fmt(initial)} ₸ · срок {params.duration} мес · аренда 0,6% от остатка
+            Взнос {params.initialPaymentPercent}% · {fmt(initial)} ₸ · срок {params.duration} мес · аренда {fmt(rows[0]?.rent ?? 0)} ₸/мес фиксированно
           </p>
         </div>
         <button type="button" onClick={downloadCsv} className="shrink-0 inline-flex items-center gap-1 text-xs text-[#e6c87a] border border-[#d4af5a]/40 rounded-lg px-2.5 py-1.5">
@@ -121,7 +122,7 @@ export default function PaymentSchedule({ params, compact = false, title = 'Гр
           <div className="text-[13px] font-bold text-white mt-0.5 whitespace-nowrap">{fmt(totals.rent)} ₸</div>
         </div>
         <div className="bg-[#0b1626] rounded-lg p-2 min-w-0 overflow-hidden">
-          <div className="text-[10px] uppercase tracking-wide text-white/55">Первый платёж</div>
+          <div className="text-[10px] uppercase tracking-wide text-white/55">Платёж в месяц</div>
           <div className="text-[13px] font-bold text-white mt-0.5 whitespace-nowrap">{fmt(rows[0].total)} ₸</div>
         </div>
       </div>
@@ -195,7 +196,7 @@ export default function PaymentSchedule({ params, compact = false, title = 'Гр
           {expanded ? <>Свернуть <ChevronUp size={16} /></> : <>Показать все {rows.length} платежей <ChevronDown size={16} /></>}
         </button>
       )}
-      <p className="text-[11px] text-white/40 mt-2">Расчёт ориентировочный. Точные условия фиксируются в договоре.</p>
+      <p className="text-[11px] text-white/40 mt-2">Сумма платежа одинаковая на весь срок, взаиморасчёты производятся в конце срока. Покупатель вправе вернуть накопленные средства. Точные условия фиксируются в договоре.</p>
     </div>
   );
 }

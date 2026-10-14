@@ -73,3 +73,26 @@ $$ language 'plpgsql';
 CREATE TRIGGER update_support_tickets_updated_at 
   BEFORE UPDATE ON support_tickets 
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- =====================================================================
+-- Вопросы клиентов и инвесторов из раздела «Сообщения» (без авторизации)
+-- =====================================================================
+CREATE TABLE IF NOT EXISTS questions (
+  id BIGSERIAL PRIMARY KEY,
+  name TEXT,
+  contact TEXT NOT NULL,            -- телефон или email
+  message TEXT NOT NULL,
+  role TEXT NOT NULL DEFAULT 'client' CHECK (role IN ('client', 'investor', 'partner')),
+  source TEXT NOT NULL DEFAULT 'messages',
+  status TEXT NOT NULL DEFAULT 'new' CHECK (status IN ('new', 'answered', 'closed')),
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_questions_created_at ON questions(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_questions_status ON questions(status);
+
+ALTER TABLE questions ENABLE ROW LEVEL SECURITY;
+
+-- Любой посетитель может оставить вопрос, читать может только сервис (dashboard / service role)
+CREATE POLICY "Anyone can submit a question" ON questions
+  FOR INSERT TO anon, authenticated WITH CHECK (true);

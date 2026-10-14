@@ -1,10 +1,26 @@
 'use client';
 
 import { useState } from 'react';
-import { HelpCircle, Mail, Phone, MapPin } from 'lucide-react';
+import { HelpCircle, Mail, Phone, MapPin, Send, MessageCircle, CheckCircle2 } from 'lucide-react';
+
+const WHATSAPP = (process.env.NEXT_PUBLIC_WHATSAPP_PHONE || '').replace(/\D/g, '');
 
 // FAQ вопросы и ответы
 const faqData = [
+  {
+    id: 'faq-0',
+    question: 'Как получить квартиру в «Аренду с выкупом»?',
+    answer: `Чтобы получить квартиру в аренду с выкупом, нужно:
+
+• Выбрать квартиру из доступных предложений MD.
+• Зарегистрироваться и подать заявку.
+• Внести первоначальный взнос согласно условиям программы.
+• Заключить договор аренды с последующим выкупом.
+• Заселиться в квартиру и ежемесячно оплачивать аренду и платежи в счёт выкупа.
+• После выполнения условий договора стать полноправным собственником квартиры.
+
+MD — возможность жить в собственной будущей квартире уже сегодня, оплачивая её стоимость постепенно.`
+  },
   {
     id: 'faq-1',
     question: 'Как снять квартиру?',
@@ -60,6 +76,28 @@ const faqData = [
 export default function MessagesPage() {
   const [showFaq, setShowFaq] = useState(true);
   const [selectedFaq, setSelectedFaq] = useState<string | null>(null);
+  const [form, setForm] = useState({ name: '', contact: '', role: 'client', message: '' });
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [sendError, setSendError] = useState<string | null>(null);
+
+  const waText = encodeURIComponent(
+    `Здравствуйте! ${form.role === 'investor' ? 'Я инвестор.' : form.role === 'partner' ? 'Я партнёр.' : ''} ${form.message}${form.name ? `\n${form.name}` : ''}${form.contact ? `, ${form.contact}` : ''}`.trim()
+  );
+  const waLink = WHATSAPP ? `https://wa.me/${WHATSAPP}?text=${waText}` : null;
+
+  const submitQuestion = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.contact.trim() || !form.message.trim()) { setSendError('Укажите контакт и текст вопроса'); return; }
+    setSending(true); setSendError(null);
+    try {
+      const res = await fetch('/api/questions', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) });
+      if (!res.ok) throw new Error((await res.json()).error || 'Ошибка отправки');
+      setSent(true);
+    } catch (err: any) {
+      setSendError(err?.message || 'Не удалось отправить. Напишите нам в WhatsApp.');
+    } finally { setSending(false); }
+  };
 
   const handleFaqSelect = (faqId: string) => {
     setSelectedFaq(faqId);
@@ -81,6 +119,69 @@ export default function MessagesPage() {
           </div>
         </div>
       </header>
+
+      {/* Ask a question */}
+      <div className="px-4 py-6 border-b border-white/10">
+        <div className="max-w-screen-md mx-auto">
+          <div className="rounded-2xl border border-[#d4af5a]/40 bg-[#122037] p-5">
+            <h2 className="text-lg font-semibold text-white flex items-center">
+              <MessageCircle size={20} className="mr-2 text-[#e6c87a]" />
+              Задать вопрос
+            </h2>
+            <p className="text-sm text-white/60 mt-1">Для клиентов, инвесторов и партнёров. Ответим в рабочее время.</p>
+
+            {sent ? (
+              <div className="mt-4 flex items-start gap-3 rounded-xl bg-[#d4af5a]/15 border border-[#d4af5a]/40 p-4">
+                <CheckCircle2 className="text-[#e6c87a] shrink-0" size={22} />
+                <div>
+                  <div className="font-medium text-white">Вопрос отправлен</div>
+                  <div className="text-sm text-white/70 mt-0.5">Мы свяжемся с вами по указанному контакту.</div>
+                  {waLink && (
+                    <a href={waLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 mt-3 text-sm text-[#e6c87a] hover:underline">
+                      <MessageCircle size={16} /> Продублировать в WhatsApp
+                    </a>
+                  )}
+                  <button type="button" onClick={() => { setSent(false); setForm({ name: '', contact: '', role: 'client', message: '' }); }} className="block mt-3 text-xs text-white/50 hover:text-white">
+                    Задать ещё один вопрос
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <form onSubmit={submitQuestion} className="mt-4 space-y-3">
+                <div className="flex gap-1">
+                  {[['client', 'Клиент'], ['investor', 'Инвестор'], ['partner', 'Партнёр']].map(([v, l]) => (
+                    <button key={v} type="button" onClick={() => setForm(f => ({ ...f, role: v }))}
+                      className={`flex-1 py-2 rounded-lg text-sm font-medium ${form.role === v ? 'bg-[#d4af5a] text-[#0b1626]' : 'bg-white/5 text-white/80 border border-white/10'}`}>
+                      {l}
+                    </button>
+                  ))}
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="Ваше имя"
+                    className="w-full p-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:border-[#d4af5a]" />
+                  <input value={form.contact} onChange={e => setForm(f => ({ ...f, contact: e.target.value }))} placeholder="Телефон или email" required
+                    className="w-full p-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:border-[#d4af5a]" />
+                </div>
+                <textarea value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} placeholder="Ваш вопрос" rows={4} required
+                  className="w-full p-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:border-[#d4af5a] resize-y" />
+                {sendError && <div className="text-sm text-red-300">{sendError}</div>}
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <button type="submit" disabled={sending}
+                    className="flex-1 inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#e6c87a] to-[#b8892e] text-[#0b1626] font-semibold py-3 rounded-lg disabled:opacity-50">
+                    <Send size={16} /> {sending ? 'Отправка…' : 'Отправить вопрос'}
+                  </button>
+                  {waLink && (
+                    <a href={waLink} target="_blank" rel="noopener noreferrer"
+                      className="flex-1 inline-flex items-center justify-center gap-2 border border-[#d4af5a]/60 text-[#e6c87a] font-medium py-3 rounded-lg hover:bg-white/5">
+                      <MessageCircle size={16} /> Написать в WhatsApp
+                    </a>
+                  )}
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      </div>
 
       {/* Contact Info */}
       <div className="bg-[#122037] px-4 py-6 border-b border-white/10">
@@ -152,7 +253,7 @@ export default function MessagesPage() {
               <h3 className="font-medium text-[#e6c87a] mb-3">
                 {faqData.find(faq => faq.id === selectedFaq)?.question}
               </h3>
-              <p className="text-[#e6c87a] text-sm leading-relaxed">
+              <p className="text-white/90 text-sm leading-relaxed whitespace-pre-line">
                 {faqData.find(faq => faq.id === selectedFaq)?.answer}
               </p>
             </div>
