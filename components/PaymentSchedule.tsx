@@ -10,7 +10,26 @@ export type CalcParams = {
 };
 
 export const CALC_STORAGE_KEY = 'md_calc_params';
-export const RENT_RATE = 0.006; // 0,6% в месяц от суммы выкупа, фиксированно на весь срок
+// Аренда считается от остатка после первоначального взноса и уменьшается ступенями:
+// первая треть срока 0,8% в месяц, вторая 0,4%, третья 0,168% (для 30 лет: 10/10/10 лет).
+export const RENT_TIERS = [0.008, 0.004, 0.00168];
+
+export type RentTier = { from: number; to: number; rate: number; rent: number };
+
+export function rentTiers(remaining: number, duration: number): RentTier[] {
+  if (duration <= 0) return [];
+  const len = Math.ceil(duration / RENT_TIERS.length);
+  return RENT_TIERS.map((rate, k) => ({
+    from: k * len + 1,
+    to: Math.min(duration, (k + 1) * len),
+    rate,
+    rent: Math.round(remaining * rate),
+  })).filter(t => t.from <= duration);
+}
+
+export function rentForMonth(tiers: RentTier[], month: number): number {
+  return tiers.find(t => month >= t.from && month <= t.to)?.rent ?? 0;
+}
 
 export const DEFAULT_CALC: CalcParams = { propertyValue: 6000000, initialPaymentPercent: 50, duration: 60 };
 
@@ -42,11 +61,12 @@ export function buildSchedule(p: CalcParams, start = new Date()): ScheduleRow[] 
   const initial = p.propertyValue * (p.initialPaymentPercent / 100);
   const remaining = Math.max(0, p.propertyValue - initial);
   const principal = p.duration > 0 ? Math.ceil(remaining / p.duration / 1000) * 1000 : 0;
-  // аренда фиксированная на весь срок: взаиморасчёты производятся в конце срока
-  const rent = Math.round(remaining * RENT_RATE);
+  // аренда ступенями от суммы после взноса; внутри ступени сумма не меняется
+  const tiers = rentTiers(remaining, p.duration);
   const rows: ScheduleRow[] = [];
   let balance = remaining;
   for (let i = 1; i <= p.duration; i++) {
+    const rent = rentForMonth(tiers, i);
     const pay = Math.min(principal, balance);
     balance = Math.max(0, balance - pay);
     const date = new Date(start.getFullYear(), start.getMonth() + i, 1);
@@ -67,6 +87,7 @@ export default function PaymentSchedule({ params, compact = false, title = 'Гр
     { principal: 0, rent: 0, total: 0 },
   ), [rows]);
   const initial = params.propertyValue * (params.initialPaymentPercent / 100);
+  const tiers = useMemo(() => rentTiers(Math.max(0, params.propertyValue - initial), params.duration), [params, initial]);
   const previewCount = compact ? 6 : 12;
   const visible = expanded ? rows : rows.slice(0, previewCount);
 
@@ -103,7 +124,7 @@ export default function PaymentSchedule({ params, compact = false, title = 'Гр
         <div>
           <h3 className="text-base font-semibold text-white">{title}</h3>
           <p className="text-xs text-white/55 mt-0.5">
-            Взнос {params.initialPaymentPercent}% · {fmt(initial)} ₸ · срок {params.duration} мес · аренда {fmt(rows[0]?.rent ?? 0)} ₸/мес фиксированно
+            Взнос {params.initialPaymentPercent}% · {fmt(initial)} ₸ · срок {params.duration} мес · аренда {tiers.map(t => fmt(t.rent)).join(' → ')} ₸/мес
           </p>
         </div>
         <button type="button" onClick={downloadCsv} className="shrink-0 inline-flex items-center gap-1 text-xs text-[#e6c87a] border border-[#d4af5a]/40 rounded-lg px-2.5 py-1.5">
@@ -124,7 +145,19 @@ export default function PaymentSchedule({ params, compact = false, title = 'Гр
         <div className="bg-[#0b1626] rounded-lg p-2 min-w-0 overflow-hidden">
           <div className="text-[10px] uppercase tracking-wide text-white/55">Платёж в месяц</div>
           <div className="text-[13px] font-bold text-white mt-0.5 whitespace-nowrap">{fmt(rows[0].total)} ₸</div>
+          <div className="text-[10px] text-white/45 mt-0.5 whitespace-nowrap">в начале срока</div>
         </div>
+      </div>
+
+      {/* rent tiers */}
+      <div className="grid gap-1.5 mb-4" style={{ gridTemplateColumns: `repeat(${tiers.length}, minmax(0, 1fr))` }}>
+        {tiers.map((t, k) => (
+          <div key={k} className="rounded-lg border border-[#d4af5a]/30 p-2 min-w-0">
+            <div className="text-[10px] text-white/55 whitespace-nowrap">{k === 0 ? 'Первые' : k === 1 ? 'Вторые' : 'Третьи'} {Math.round((t.to - t.from + 1) / 12 * 10) / 10} лет · {(t.rate * 100).toLocaleString('ru-RU')}%</div>
+            <div className="text-[13px] font-bold text-[#e6c87a] mt-0.5 whitespace-nowrap">{fmt(t.rent)} ₸/мес</div>
+            <div className="text-[10px] text-white/45 whitespace-nowrap">аренда</div>
+          </div>
+        ))}
       </div>
 
       {/* yearly bars */}
@@ -196,7 +229,7 @@ export default function PaymentSchedule({ params, compact = false, title = 'Гр
           {expanded ? <>Свернуть <ChevronUp size={16} /></> : <>Показать все {rows.length} платежей <ChevronDown size={16} /></>}
         </button>
       )}
-      <p className="text-[11px] text-white/40 mt-2">Сумма платежа одинаковая на весь срок, взаиморасчёты производятся в конце срока. Покупатель вправе вернуть накопленные средства. Точные условия фиксируются в договоре.</p>
+      <p className="text-[11px] text-white/40 mt-2">Аренда считается от суммы после взноса и уменьшается ступенями по трети срока, внутри ступени сумма не меняется. Взаиморасчёты производятся в конце срока. Покупатель вправе вернуть накопленные средства. Точные условия фиксируются в договоре.</p>
     </div>
   );
 }

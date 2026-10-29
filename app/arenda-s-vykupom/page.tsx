@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { ArrowLeft, X, Phone, Mail, MapPin, Instagram, Facebook, Twitter, Linkedin } from 'lucide-react';
 import { useMoveBack } from '@/hooks/useMoveBack';
 import CountryGate, { CountryButton } from '@/components/CountryGate';
-import PaymentSchedule, { loadCalcParams, saveCalcParams } from '@/components/PaymentSchedule';
+import PaymentSchedule, { loadCalcParams, saveCalcParams, rentTiers } from '@/components/PaymentSchedule';
 
 export default function ArendaSVykupomPage() {
   const moveBack = useMoveBack();
@@ -41,7 +41,7 @@ export default function ArendaSVykupomPage() {
   const monthlyPayment = calculator.duration > 0
     ? Math.ceil(remainingAmount / calculator.duration / 1000) * 1000
     : 0;
-  const monthlyRent = Math.round(remainingAmount * 0.006);
+  const tiers = rentTiers(remainingAmount, calculator.duration);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -323,8 +323,20 @@ export default function ArendaSVykupomPage() {
               </div>
 
               <div>
-                <p className="text-white/75">Ежемесячная аренда (0,6%, фиксированно на весь срок):</p>
-                <p className="text-xl font-bold text-white">{monthlyRent.toLocaleString('ru-RU')} ₸/мес</p>
+                <p className="text-white/75">Ежемесячная аренда (от остатка, уменьшается ступенями):</p>
+                <div className="mt-2 grid grid-cols-3 gap-2">
+                  {tiers.map((t, k) => (
+                    <div key={k} className="rounded-lg bg-[#0b1626] border border-[#d4af5a]/30 p-2 min-w-0">
+                      <div className="text-[11px] text-white/55">{k === 0 ? 'Первые' : k === 1 ? 'Вторые' : 'Третьи'} {Math.round((t.to - t.from + 1) / 12 * 10) / 10} лет</div>
+                      <div className="text-base font-bold text-[#e6c87a] whitespace-nowrap">{t.rent.toLocaleString('ru-RU')} ₸</div>
+                      <div className="text-[11px] text-white/45">{(t.rate * 100).toLocaleString('ru-RU')}% в мес</div>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-sm text-white/75 mt-2">
+                  Итого в месяц: <b className="text-white">{(monthlyPayment + (tiers[0]?.rent ?? 0)).toLocaleString('ru-RU')} ₸</b> в начале срока,
+                  далее <b className="text-white">{(monthlyPayment + (tiers[tiers.length - 1]?.rent ?? 0)).toLocaleString('ru-RU')} ₸</b> в конце.
+                </p>
               </div>
             </div>
           </div>
