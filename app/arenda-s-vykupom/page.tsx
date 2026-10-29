@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { ArrowLeft, X, Phone, Mail, MapPin, Instagram, Facebook, Twitter, Linkedin } from 'lucide-react';
 import { useMoveBack } from '@/hooks/useMoveBack';
 import CountryGate, { CountryButton } from '@/components/CountryGate';
-import PaymentSchedule, { loadCalcParams, saveCalcParams, rentTiers } from '@/components/PaymentSchedule';
+import PaymentSchedule, { loadCalcParams, saveCalcParams, rentTiers, tierLength } from '@/components/PaymentSchedule';
 
 export default function ArendaSVykupomPage() {
   const moveBack = useMoveBack();
@@ -213,47 +213,36 @@ export default function ArendaSVykupomPage() {
   </section>
 
   {/* Calculator Section */}
-  <section id="calculator" className="px-2 py-6 bg-[#122037] scroll-mt-4">
+  <section id="calculator" className="px-4 py-8 bg-[#0b1626] scroll-mt-4">
         <div className="max-w-screen-md mx-auto">
-          <h2 className="text-m font-bold text-white mb-4 text-center">
-            Рассчитайте свой вариант аренды с выкупом
-          </h2>
-          
-          {/* Выбор первоначального взноса */}
-          <div className="mb-4 text-center bg-[#0b1626] border border-white/5 rounded-lg p-3">
-            <h3 className="text-sm text-white mb-2">Первоначальный накопительный взнос</h3>
-            <div className="flex justify-center gap-2">
-              <button
-                type="button"
-                onClick={() => setCalculator(prev => ({ ...prev, initialPaymentPercent: 50 }))}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  calculator.initialPaymentPercent === 50
-                    ? 'bg-[#d4af5a] text-[#0b1626]'
-                    : 'bg-[#122037] text-[#e6c87a] border border-[#d4af5a]'
-                }`}
-              >
-                50%
-              </button>
-              <button
-                type="button"
-                onClick={() => setCalculator(prev => ({ ...prev, initialPaymentPercent: 30 }))}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  calculator.initialPaymentPercent === 30
-                    ? 'bg-[#d4af5a] text-[#0b1626]'
-                    : 'bg-[#122037] text-[#e6c87a] border border-[#d4af5a]'
-                }`}
-              >
-                30%
-              </button>
-            </div>
+          <div className="flex items-center gap-3 text-[11px] tracking-[0.25em] uppercase text-[#d4af5a]">
+            <span className="h-px w-6 bg-[#d4af5a]" />Калькулятор
           </div>
+          <h2 className="mt-2 text-3xl md:text-4xl text-white leading-tight">
+            Рассчитайте <span className="t-gold">свой вариант</span>
+          </h2>
+          <p className="mt-2 text-sm text-white/60">Аренда с выкупом: взнос, срок и платёж по месяцам.</p>
 
-          {/* Property Value Slider */}
-          <div className="mb-1">
-            <label className="block text-white font-light mb-1 text-m">
-              Стоимость жилья:
-            </label>
-            <div className="mb-1">
+          <div className="mt-6 rounded-3xl border border-[#d4af5a]/30 bg-[#122037] p-5 md:p-7 shadow-[0_0_60px_rgba(212,175,90,0.08)]">
+            {/* Стоимость */}
+            <div>
+              <div className="flex items-end justify-between gap-3 flex-wrap">
+                <label className="text-sm text-white/70">Стоимость жилья</label>
+                <div className="flex items-baseline gap-1">
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    value={calculator.propertyValue.toLocaleString('ru-RU')}
+                    onChange={e => {
+                      const v = Math.min(100000000, parseInt(e.target.value.replace(/\D/g, ''), 10) || 0);
+                      setCalculator(prev => ({ ...prev, propertyValue: v }));
+                    }}
+                    className="w-[200px] md:w-[260px] bg-transparent text-right text-3xl md:text-4xl font-bold t-gold focus:outline-none"
+                    aria-label="Стоимость жилья"
+                  />
+                  <span className="text-2xl text-[#e6c87a]">₸</span>
+                </div>
+              </div>
               <input
                 type="range"
                 name="propertyValue"
@@ -262,95 +251,129 @@ export default function ArendaSVykupomPage() {
                 step="500000"
                 value={calculator.propertyValue}
                 onChange={handleCalculatorChange}
-                className="w-full h-[3px] bg-white/10 rounded-lg appearance-none cursor-pointer slider"
+                className="mt-3 w-full h-[4px] rounded-lg appearance-none cursor-pointer slider"
                 style={{
-                  background: `linear-gradient(to right, #d4af5a 0%, #d4af5a ${(calculator.propertyValue / 100000000) * 100}%, #E5E7EB ${(calculator.propertyValue / 100000000) * 100}%, #E5E7EB 100%)`
+                  background: `linear-gradient(to right, #e6c87a 0%, #b8892e ${(calculator.propertyValue / 100000000) * 100}%, rgba(255,255,255,0.12) ${(calculator.propertyValue / 100000000) * 100}%, rgba(255,255,255,0.12) 100%)`
                 }}
               />
-            </div>
-            <div className="flex justify-between items-center text-sm text-white/55 font-light mb-1">
-              <span>0 ₸</span>
-              <span>100 000 000 ₸</span>
-            </div>
-            <div className="text-right text-sm text-white font-medium">
-              {calculator.propertyValue.toLocaleString('ru-RU')} ₸
-            </div>
-            </div>
-
-          {/* Duration Buttons */}
-          <div className="mb-8 mt-4">
-            <label className="block text-white font-light mb-2 text-m">
-              Срок накопления, мес:
-            </label>
-            <div className="flex justify-between gap-2">
-              {DURATION_OPTIONS.map((option) => (
-                <button
-                  key={option}
-                  type="button"
-                  onClick={() => setCalculator(prev => ({ ...prev, duration: option }))}
-                  className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    calculator.duration === option
-                      ? 'bg-[#d4af5a] text-[#0b1626]'
-                      : 'bg-[#122037] text-[#e6c87a] border border-[#d4af5a]'
-                  }`}
-                >
-                  {option} мес
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Results */}
-          <div className="bg-[#122037] rounded-lg p-2 mb-6">
-            <h3 className="text-xl font-medium text-white mb-6">Результаты расчета</h3>
-            
-            <div className="space-y-4">
-              <div>
-                <p className="text-white/75 mb-2">Общая сумма накоплений:</p>
-                <p className="text-3xl font-bold text-[#e6c87a]">
-                  {(monthlyPayment * calculator.duration).toLocaleString('ru-RU')} ₸
-                </p>
-                <p className="text-sm text-white/55 font-light mt-1">
-                  Это ваши денежные средства, которые вы можете использовать для выкупа
-                </p>
+              <div className="mt-3 flex gap-2 overflow-x-auto scrollbar-hide -mx-1 px-1">
+                {[15, 25, 35, 50, 75].map(m => (
+                  <button key={m} type="button" onClick={() => setCalculator(prev => ({ ...prev, propertyValue: m * 1000000 }))}
+                    className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
+                      calculator.propertyValue === m * 1000000 ? 'bg-[#d4af5a] text-[#0b1626] border-[#d4af5a]' : 'border-white/15 text-white/75 hover:border-[#d4af5a]/60'
+                    }`}>
+                    {m} млн
+                  </button>
+                ))}
               </div>
+            </div>
 
+            {/* Взнос и срок */}
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-4">
               <div>
-                <p className="text-white font-light">Ежемесячная сумма накоплений:</p>
-                <p className="text-xl font-bold text-white">
-                  {monthlyPayment.toLocaleString('ru-RU')} ₸/мес
-                </p>
-              </div>
-
-              <div>
-                <p className="text-white/75">Ежемесячная аренда (от остатка, уменьшается ступенями):</p>
-                <div className="mt-2 grid grid-cols-3 gap-2">
-                  {tiers.map((t, k) => (
-                    <div key={k} className="rounded-lg bg-[#0b1626] border border-[#d4af5a]/30 p-2 min-w-0">
-                      <div className="text-[11px] text-white/55">{k === 0 ? 'Первые' : k === 1 ? 'Вторые' : 'Третьи'} {Math.round((t.to - t.from + 1) / 12 * 10) / 10} лет</div>
-                      <div className="text-base font-bold text-[#e6c87a] whitespace-nowrap">{t.rent.toLocaleString('ru-RU')} ₸</div>
-                      <div className="text-[11px] text-white/45">{(t.rate * 100).toLocaleString('ru-RU')}% в мес</div>
-                    </div>
+                <div className="text-sm text-white/70 mb-2">Первоначальный взнос</div>
+                <div className="inline-flex rounded-xl bg-[#0b1626] p-1 border border-white/10">
+                  {[30, 50].map(v => (
+                    <button key={v} type="button" onClick={() => setCalculator(prev => ({ ...prev, initialPaymentPercent: v }))}
+                      className={`px-5 py-2 rounded-lg text-sm font-semibold transition-colors ${
+                        calculator.initialPaymentPercent === v ? 'bg-gradient-to-r from-[#e6c87a] to-[#b8892e] text-[#0b1626]' : 'text-white/75'
+                      }`}>
+                      {v}%
+                    </button>
                   ))}
                 </div>
-                <p className="text-sm text-white/75 mt-2">
-                  Итого в месяц: <b className="text-white">{(monthlyPayment + (tiers[0]?.rent ?? 0)).toLocaleString('ru-RU')} ₸</b> в начале срока,
-                  далее <b className="text-white">{(monthlyPayment + (tiers[tiers.length - 1]?.rent ?? 0)).toLocaleString('ru-RU')} ₸</b> в конце.
-                </p>
+                <div className="mt-1.5 text-xs text-white/50">{initialPaymentTarget.toLocaleString('ru-RU')} ₸</div>
+              </div>
+              <div>
+                <div className="text-sm text-white/70 mb-2">Срок</div>
+                <div className="grid grid-cols-5 rounded-xl bg-[#0b1626] p-1 border border-white/10">
+                  {DURATION_OPTIONS.map(option => (
+                    <button key={option} type="button" onClick={() => setCalculator(prev => ({ ...prev, duration: option }))}
+                      className={`py-2 rounded-lg text-sm font-semibold transition-colors ${
+                        calculator.duration === option ? 'bg-gradient-to-r from-[#e6c87a] to-[#b8892e] text-[#0b1626]' : 'text-white/75'
+                      }`}>
+                      {option / 12}
+                    </button>
+                  ))}
+                </div>
+                <div className="mt-1.5 text-xs text-white/50">лет · {calculator.duration} месяцев</div>
               </div>
             </div>
+
+            {/* Платёж */}
+            <div className="mt-6 rounded-2xl bg-gradient-to-br from-[#0b1626] to-[#152238] border border-[#d4af5a]/40 p-5">
+              <div className="text-[10px] tracking-[0.2em] uppercase text-[#d4af5a] font-semibold">Платёж в месяц</div>
+              <div className="mt-1 flex items-end gap-3 flex-wrap">
+                <div className="text-4xl md:text-5xl font-bold t-gold leading-none">
+                  {(monthlyPayment + (tiers[0]?.rent ?? 0)).toLocaleString('ru-RU')} <span className="text-2xl">₸</span>
+                </div>
+                {tiers.length > 1 && (
+                  <div className="text-sm text-white/60 pb-1">
+                    в начале срока → <span className="text-white font-semibold">{(monthlyPayment + (tiers[tiers.length - 1]?.rent ?? 0)).toLocaleString('ru-RU')} ₸</span> в конце
+                  </div>
+                )}
+              </div>
+              <div className="mt-4 grid grid-cols-3 gap-2">
+                <div className="rounded-xl bg-white/5 p-3 min-w-0">
+                  <div className="text-[10px] uppercase tracking-wide text-white/50">Выкуп</div>
+                  <div className="text-sm font-bold text-white mt-0.5 whitespace-nowrap">{monthlyPayment.toLocaleString('ru-RU')} ₸</div>
+                  <div className="text-[10px] text-white/45">в месяц</div>
+                </div>
+                <div className="rounded-xl bg-white/5 p-3 min-w-0">
+                  <div className="text-[10px] uppercase tracking-wide text-white/50">Аренда</div>
+                  <div className="text-sm font-bold text-white mt-0.5 whitespace-nowrap">{(tiers[0]?.rent ?? 0).toLocaleString('ru-RU')} ₸</div>
+                  <div className="text-[10px] text-white/45">в начале</div>
+                </div>
+                <div className="rounded-xl bg-white/5 p-3 min-w-0">
+                  <div className="text-[10px] uppercase tracking-wide text-white/50">К выкупу</div>
+                  <div className="text-sm font-bold text-white mt-0.5 whitespace-nowrap">{remainingAmount.toLocaleString('ru-RU')} ₸</div>
+                  <div className="text-[10px] text-white/45">остаток</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Ступени аренды */}
+            {tiers.length > 0 && (
+              <div className="mt-5">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-white/70">Аренда снижается ступенями</span>
+                  <span className="text-xs text-white/45">от остатка {remainingAmount.toLocaleString('ru-RU')} ₸</span>
+                </div>
+                <div className="mt-3 grid gap-2" style={{ gridTemplateColumns: `repeat(${tiers.length}, minmax(0, 1fr))` }}>
+                  {tiers.map((t, k) => {
+                    const h = [100, 55, 30][k] ?? 30;
+                    return (
+                      <div key={k} className="min-w-0">
+                        <div className="h-14 flex items-end">
+                          <div className="w-full rounded-t-lg bg-gradient-to-t from-[#b8892e] to-[#e6c87a]" style={{ height: `${h}%`, opacity: 1 - k * 0.25 }} />
+                        </div>
+                        <div className="border-t border-[#d4af5a]/40 pt-2">
+                          <div className="text-[11px] text-white/55 whitespace-nowrap">{k === 0 ? 'Первые' : k === 1 ? 'Вторые' : 'Третьи'} {tierLength(t)}</div>
+                          <div className="text-sm font-bold text-[#e6c87a] whitespace-nowrap">{t.rent.toLocaleString('ru-RU')} ₸</div>
+                          <div className="text-[10px] text-white/45">{(t.rate * 100).toLocaleString('ru-RU')}% в мес</div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            <p className="mt-4 text-[11px] text-white/40">
+              Выкуп {remainingAmount.toLocaleString('ru-RU')} ₸ равными частями за {calculator.duration} месяцев. Накопления остаются вашими и идут в счёт выкупа.
+            </p>
           </div>
 
           {/* Payment schedule */}
-          <div className="mb-6">
-            <PaymentSchedule params={calculator} />
+          <div className="mt-4 mb-6">
+            <PaymentSchedule params={calculator} showTiers={false} />
           </div>
 
           {/* Action Button */}
           <div className="text-center">
-            <button className="bg-[#d4af5a] text-[#0b1626] px-8 py-4 rounded-lg font-medium text-base hover:bg-[#e6c87a]/90 transition-colors w-full">
+            <a href="#contact" className="block bg-gradient-to-r from-[#e6c87a] to-[#b8892e] text-[#0b1626] px-8 py-4 rounded-xl font-semibold text-base hover:opacity-90 transition-opacity w-full">
               Накопить и купить
-            </button>
+            </a>
           </div>
         </div>
       </section>
@@ -698,7 +721,7 @@ export default function ArendaSVykupomPage() {
       </section>
 
        {/* CTA Section with Background */}
-       <section 
+       <section id="contact" 
          className="relative bg-cover bg-center bg-no-repeat text-white px-6 py-16"
          style={{
            backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url('/start_row.png')`

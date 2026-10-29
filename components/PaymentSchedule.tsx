@@ -27,6 +27,12 @@ export function rentTiers(remaining: number, duration: number): RentTier[] {
   })).filter(t => t.from <= duration);
 }
 
+export function tierLength(t: RentTier): string {
+  const m = t.to - t.from + 1;
+  if (m % 12 === 0) { const y = m / 12; return `${y} ${y === 1 ? 'год' : y < 5 ? 'года' : 'лет'}`; }
+  return `${m} мес`;
+}
+
 export function rentForMonth(tiers: RentTier[], month: number): number {
   return tiers.find(t => month >= t.from && month <= t.to)?.rent ?? 0;
 }
@@ -79,7 +85,7 @@ const fmt = (n: number) => Math.round(n).toLocaleString('ru-RU');
 const MONTHS = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
 const fmtDate = (d: Date) => `${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
 
-export default function PaymentSchedule({ params, compact = false, title = 'График платежей' }: { params: CalcParams; compact?: boolean; title?: string }) {
+export default function PaymentSchedule({ params, compact = false, title = 'График платежей', showTiers = true }: { params: CalcParams; compact?: boolean; title?: string; showTiers?: boolean }) {
   const [expanded, setExpanded] = useState(false);
   const rows = useMemo(() => buildSchedule(params), [params]);
   const totals = useMemo(() => rows.reduce(
@@ -150,15 +156,15 @@ export default function PaymentSchedule({ params, compact = false, title = 'Гр
       </div>
 
       {/* rent tiers */}
-      <div className="grid gap-1.5 mb-4" style={{ gridTemplateColumns: `repeat(${tiers.length}, minmax(0, 1fr))` }}>
+      {showTiers && <div className="grid gap-1.5 mb-4" style={{ gridTemplateColumns: `repeat(${tiers.length}, minmax(0, 1fr))` }}>
         {tiers.map((t, k) => (
           <div key={k} className="rounded-lg border border-[#d4af5a]/30 p-2 min-w-0">
-            <div className="text-[10px] text-white/55 whitespace-nowrap">{k === 0 ? 'Первые' : k === 1 ? 'Вторые' : 'Третьи'} {Math.round((t.to - t.from + 1) / 12 * 10) / 10} лет · {(t.rate * 100).toLocaleString('ru-RU')}%</div>
+            <div className="text-[10px] text-white/55 whitespace-nowrap">{k === 0 ? 'Первые' : k === 1 ? 'Вторые' : 'Третьи'} {tierLength(t)} · {(t.rate * 100).toLocaleString('ru-RU')}%</div>
             <div className="text-[13px] font-bold text-[#e6c87a] mt-0.5 whitespace-nowrap">{fmt(t.rent)} ₸/мес</div>
             <div className="text-[10px] text-white/45 whitespace-nowrap">аренда</div>
           </div>
         ))}
-      </div>
+      </div>}
 
       {/* yearly bars */}
       {!compact && years.length > 1 && (
