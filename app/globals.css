@@ -3,124 +3,44 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 11, 22, 38;
-  --background-end-rgb: 11, 22, 38;
-  --navy: #0b1626;
-  --navy-2: #122037;
-  --gold: #d4af5a;
-  --gold-light: #e6c87a;
-  color-scheme: dark;
+  --brand: #0B7A4B;
+  --brand-dark: #085C38;
+  --brand-light: #E6F4EC;
+  --ink: #0F172A;
+  --ink-2: #475569;
+  --ink-3: #94A3B8;
+  color-scheme: light;
 }
 
+html { scroll-behavior: smooth; }
 body {
+  background: #ffffff;
+  color: var(--ink);
+  font-family: var(--font-sans), Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  overflow-y: scroll;
-  scroll-behavior: smooth;
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
 }
 
-.no-scroll {
-  position: fixed;
-  inline-size: 100%;
-}
+.main-container { @apply max-w-[1140px] mx-auto xl:px-0 px-4; }
+.leaflet-bottom, .leaflet-control, .leaflet-pane, .leaflet-top { z-index: 0 !important; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
 
-.main-container {
-  @apply max-w-[1140px] mx-auto xl:px-0 px-4;
-}
+/* v2 primitives */
+.v2-container { @apply max-w-6xl mx-auto px-4 sm:px-6; }
+.v2-h1 { @apply text-[2.25rem] leading-[1.05] sm:text-5xl lg:text-6xl font-extrabold tracking-[-0.02em] text-ink; }
+.v2-h2 { @apply text-2xl sm:text-3xl lg:text-4xl font-bold tracking-[-0.01em] text-ink; }
+.v2-card { @apply bg-white rounded-2xl border border-line; }
+.v2-input { @apply w-full h-12 px-4 rounded-xl border border-line bg-white text-ink placeholder:text-ink-3 focus:outline-none focus:border-brand focus:ring-4 focus:ring-brand/10 transition; }
 
-.swiper-wrapper {
-  @apply md:gap-2 gap-1 justify-between;
-}
+/* range slider */
+.v2-range { -webkit-appearance: none; appearance: none; height: 6px; border-radius: 999px; background: #E5E7EB; outline: none; }
+.v2-range::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; border-radius: 50%; background: #fff; border: 3px solid var(--brand); box-shadow: 0 2px 8px rgba(11,122,75,.25); cursor: pointer; }
+.v2-range::-moz-range-thumb { width: 24px; height: 24px; border-radius: 50%; background: #fff; border: 3px solid var(--brand); cursor: pointer; }
 
-.leaflet-bottom,
-.leaflet-control,
-.leaflet-pane,
-.leaflet-top {
-  z-index: 0 !important;
-}
+/* number tick animation */
+@keyframes v2-pop { 0% { transform: translateY(4px); opacity: .4 } 100% { transform: none; opacity: 1 } }
+.v2-pop { animation: v2-pop .25s ease-out; }
 
-/* Скрытие скроллбара */
-.scrollbar-hide {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
-
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;  /* Safari and Chrome */
-}
-
-.rdrMonth {
-  width: 100% !important;
-}
-
-.rdrCalendarWrapper {
-  width: 100% !important;
-  font-size: 16px !important;
-}
-
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
-}
-
-.hide-scrollbar::-webkit-scrollbar {
-  width: 0;
-}
-
-.min-h-screen {
-  min-height: 100vh;
-}
-
-.leaflet-control-container {
-  z-index: 0 !important;
-}
-
-.leaflet-control {
-  z-index: 0 !important;
-}
-
-footer {
-  z-index: 9999 !important;
-  pointer-events: auto !important;
-}
-
-footer a {
-  pointer-events: auto !important;
-}
-
-main {
-  padding-bottom: 80px;
-}
-/* ---- MD brand theme (as in investor teaser) ---- */
-h1, h2, h3 {
-  font-family: var(--font-serif), Georgia, serif;
-  letter-spacing: -0.01em;
-}
-.t-gold {
-  background: linear-gradient(100deg, #f3dd9a 0%, #d4af5a 45%, #b8892e 70%, #f0d58a 100%);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-}
-input, select, textarea {
-  color-scheme: dark;
-}
-input::placeholder, textarea::placeholder { color: rgba(255,255,255,.4); }
-::selection { background: rgba(212,175,90,.35); }
+/* keep legacy teaser helpers */
+.t-gold { background: linear-gradient(100deg, #f3dd9a 0%, #d4af5a 45%, #b8892e 70%, #f0d58a 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
