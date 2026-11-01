@@ -11,13 +11,17 @@ const config: Config = {
       // Расширение стандартной темы
       fontFamily: {
         serif: ['var(--font-serif)', 'Georgia', 'serif'],
+        sans: ['var(--font-sans)', 'Inter', 'system-ui', 'sans-serif'],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))', // Градиент круговой
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))', // Конусный градиент
       },
       colors: {
-        primary: '#d4af5a',
+        brand: { DEFAULT: '#0B7A4B', dark: '#085C38', light: '#E6F4EC', soft: '#F3FAF6', ring: '#9ED5B8' },
+        ink: { DEFAULT: '#0F172A', 2: '#475569', 3: '#94A3B8' },
+        line: '#E5E7EB',
+        primary: '#0B7A4B',
         secondary: '#122037',
         accent: '#e6c87a',
         background: '#0b1626',

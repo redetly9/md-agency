@@ -1,71 +1,33 @@
-import type { Metadata } from 'next';
-import { Inter, Playfair_Display } from 'next/font/google';
+import type { Metadata, Viewport } from 'next';
+import { Manrope, Playfair_Display } from 'next/font/google';
 import './globals.css';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { AuthProvider } from '@/hooks/useAuth';
-import Footer from '@/components/Footer';
-import Header from '@/components/Header';
 import Providers from '@/components/Provider';
-import Navigation from '@/components/Navigation';
 import { Toaster } from 'react-hot-toast';
+import Header from '@/components/v2/Header';
+import BottomNav from '@/components/v2/BottomNav';
 
-const inter = Inter({ 
-  subsets: ['latin', 'cyrillic'],
-  display: 'swap',
-  preload: false
-});
-
-const playfair = Playfair_Display({
-  subsets: ['latin', 'cyrillic'],
-  weight: ['500', '600', '700'],
-  display: 'swap',
-  variable: '--font-serif',
-});
+const manrope = Manrope({ subsets: ['latin', 'cyrillic'], weight: ['400', '500', '600', '700', '800'], display: 'swap', variable: '--font-sans' });
+const playfair = Playfair_Display({ subsets: ['latin', 'cyrillic'], weight: ['500', '600', '700'], display: 'swap', variable: '--font-serif' });
 
 export const metadata: Metadata = {
-  title: 'md.kz - Агентство недвижимости',
-  description: 'Найдите свою идеальную недвижимость',
+  title: 'MD — квартира в собственность без ипотеки',
+  description: 'Аренда с выкупом: живите в своей квартире уже сегодня и выкупайте её постепенно. Без подтверждения дохода, взнос от 30%, срок до 30 лет.',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export const viewport: Viewport = { themeColor: '#ffffff', width: 'device-width', initialScale: 1 };
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ru">
-      <body className={`${inter.className} ${playfair.variable}`}>
+    <html lang="ru" className={`${manrope.variable} ${playfair.variable}`}>
+      <body>
         <AuthProvider>
           <Providers>
-            <div className="flex flex-col min-h-screen bg-[#0b1626] text-white">
-              <main className="flex-grow pb-20">
-                {children}
-              </main>
-              <Footer />
-              <Toaster
-                position="bottom-center"
-                toastOptions={{
-                  duration: 5000,
-                  style: {
-                    fontSize: '16px',
-                    padding: '16px',
-                    maxWidth: '500px',
-                  },
-                  success: {
-                    style: {
-                      background: '#10B981',
-                      color: '#fff',
-                    },
-                  },
-                  error: {
-                    style: {
-                      background: '#EF4444',
-                      color: '#fff',
-                    },
-                  },
-                }}
-              />
-            </div>
+            <Header />
+            <main className="min-h-screen pb-24 md:pb-0">{children}</main>
+            <BottomNav />
+            <Toaster position="bottom-center" toastOptions={{ duration: 4000, style: { fontSize: '15px', borderRadius: '12px' } }} />
           </Providers>
         </AuthProvider>
       </body>
