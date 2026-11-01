@@ -6,7 +6,7 @@ import { Home, Search, Calculator, User } from 'lucide-react';
 
 const ITEMS = [
   { href: '/', label: 'Главная', icon: Home, match: (p: string) => p === '/' },
-  { href: '/#catalog', label: 'Квартиры', icon: Search, match: (p: string) => p.startsWith('/listings') },
+  { href: '/catalog', label: 'Квартиры', icon: Search, match: (p: string) => p.startsWith('/listings') || p.startsWith('/catalog') || p.startsWith('/compare') },
   { href: '/#calc', label: 'Расчёт', icon: Calculator, match: (p: string) => p.startsWith('/arenda') || p.startsWith('/calculator') },
   { href: '/profiles', label: 'Профиль', icon: User, match: (p: string) => p.startsWith('/profiles') },
 ];

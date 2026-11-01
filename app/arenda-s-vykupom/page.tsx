@@ -120,7 +120,7 @@ export default function ArendaPage() {
             <h2 className="v2-h2">Начните путь к собственному жилью</h2>
             <p className="mt-3 text-ink-2 leading-relaxed">Оставьте контакт, и мы подберём квартиру под ваш бюджет и взнос. Или пройдите <Link href="/start" className="text-brand font-semibold">предварительное одобрение</Link> за две минуты.</p>
           </div>
-          <LeadForm title="Заявка на аренду с выкупом" context="Страница: Аренда с выкупом" />
+          <LeadForm title="Заявка на аренду с выкупом" context="arenda-s-vykupom" kind="lead" />
         </div>
       </section>
     </>

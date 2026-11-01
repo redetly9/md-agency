@@ -6,9 +6,10 @@ import { Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import Logo from './Logo';
 import Button from './Button';
+import { useUser } from './useUser';
 
 const NAV = [
-  { href: '/#catalog', label: 'Квартиры' },
+  { href: '/catalog', label: 'Квартиры' },
   { href: '/#how', label: 'Как это работает' },
   { href: '/#calc', label: 'Калькулятор' },
   { href: '/teaser', label: 'Инвесторам' },
@@ -18,6 +19,7 @@ export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { user } = useUser();
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
@@ -36,7 +38,7 @@ export default function Header() {
           ))}
         </nav>
         <div className="hidden md:flex items-center gap-2">
-          <Button variant="ghost" href="/profiles">Войти</Button>
+          <Button variant="ghost" href={user ? "/profiles" : "/login"}>{user ? "Кабинет" : "Войти"}</Button>
           <Button href="/start">Узнать мой лимит</Button>
         </div>
         <button className="md:hidden p-2 -mr-2 rounded-lg hover:bg-slate-100" onClick={() => setOpen(o => !o)} aria-label="Меню">
@@ -50,7 +52,7 @@ export default function Header() {
               <Link key={n.href} href={n.href} className="py-3 text-[15px] text-ink border-b border-line last:border-0">{n.label}</Link>
             ))}
             <div className="pt-3 flex gap-2">
-              <Button variant="secondary" href="/profiles" full>Войти</Button>
+              <Button variant="secondary" href={user ? "/profiles" : "/login"} full>{user ? "Кабинет" : "Войти"}</Button>
               <Button href="/start" full>Узнать лимит</Button>
             </div>
           </div>

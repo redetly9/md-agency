@@ -30,7 +30,7 @@ export default function HomePage() {
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <Button size="lg" href="/start">Узнать мой лимит за 2 минуты <ArrowRight size={18} /></Button>
-              <Button size="lg" variant="secondary" href="#catalog">Смотреть квартиры</Button>
+              <Button size="lg" variant="secondary" href="/catalog">Смотреть квартиры</Button>
             </div>
             <div className="mt-8 grid grid-cols-3 gap-3 max-w-lg">
               {[
@@ -113,7 +113,7 @@ export default function HomePage() {
             <h2 className="v2-h2">Квартиры в аренду с выкупом</h2>
             <p className="mt-2 text-ink-2">На каждой карточке ваш ориентировочный платёж при взносе 30% и сроке 30 лет.</p>
           </div>
-          <Link href="/listings/search/prodazha/kvartiry" className="text-brand font-semibold inline-flex items-center gap-1">Все квартиры <ArrowRight size={16} /></Link>
+          <Link href="/catalog" className="text-brand font-semibold inline-flex items-center gap-1">Все квартиры <ArrowRight size={16} /></Link>
         </div>
         <div className="mt-8"><ListingsPreview limit={6} /></div>
       </section>

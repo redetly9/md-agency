@@ -35,7 +35,7 @@ export default function MessagesPage() {
       <div className="mt-10 grid lg:grid-cols-[1.2fr_0.8fr] gap-8 items-start">
         <Faq items={FAQ} />
         <div className="space-y-4 lg:sticky lg:top-24">
-          <LeadForm title="Задать вопрос" subtitle="Клиентам, инвесторам и партнёрам. Ответим по указанному контакту." context="Вопрос из раздела «Сообщения»" />
+          <LeadForm title="Задать вопрос" subtitle="Клиентам, инвесторам и партнёрам. Ответим по указанному контакту." context="messages" kind="question" />
           <div className="v2-card p-5 space-y-3 text-sm">
             <div className="flex items-center gap-3 text-ink-2"><Mail size={18} className="text-brand" /> support@md.kz</div>
             <div className="flex items-center gap-3 text-ink-2"><Phone size={18} className="text-brand" /> +7 (700) 000-00-00</div>

@@ -1,24 +1,13 @@
-import Auth from '@/components/Auth';
-import React from 'react';
+'use client';
 
-const LoginPage = () => {
-    return (
-        <div className="flex flex-col min-h-screen bg-background">
-            {/* Шапка */}
-            <header className="bg-white border-b border-line px-4 py-3">
-                <div className="max-w-screen-md mx-auto">
-                    <h1 className="text-2xl font-bold text-textPrimary">Вход</h1>
-                </div>
-            </header>
+import { useRouter } from 'next/navigation';
+import AuthForm from '@/components/v2/AuthForm';
 
-            {/* Основной контент */}
-            <main className="flex-grow flex items-center justify-center px-4 py-4">
-                <div className="w-full max-w-md">
-                    <Auth />
-                </div>
-            </main>
-        </div>
-    );
-};
-
-export default LoginPage; 
+export default function LoginPage() {
+  const router = useRouter();
+  return (
+    <div className="v2-container py-10 sm:py-16 max-w-md">
+      <AuthForm onDone={() => setTimeout(() => router.push('/profiles'), 800)} />
+    </div>
+  );
+}

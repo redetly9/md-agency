@@ -5,7 +5,7 @@ import { CheckCircle2, Send } from 'lucide-react';
 import Button from './Button';
 import { addRequest } from './requests';
 
-export default function LeadForm({ title = 'Оставить заявку', subtitle = 'Менеджер MD свяжется с вами в рабочее время.', context = '', role = 'client' }: { title?: string; subtitle?: string; context?: string; role?: 'client' | 'investor' | 'partner' }) {
+export default function LeadForm({ title = 'Оставить заявку', subtitle = 'Менеджер MD свяжется с вами в рабочее время.', context = '', role = 'client', kind = 'lead', extra = {} }: { title?: string; subtitle?: string; context?: string; role?: 'client' | 'investor' | 'partner'; kind?: 'lead' | 'question' | 'property' | 'investor'; extra?: Record<string, unknown> }) {
   const [f, setF] = useState({ name: '', contact: '', message: '' });
   const [state, setState] = useState<'idle' | 'sending' | 'ok' | 'fail'>('idle');
 
@@ -14,8 +14,8 @@ export default function LeadForm({ title = 'Оставить заявку', subt
     if (!f.contact.trim()) return;
     setState('sending');
     try {
-      const res = await fetch('/api/questions', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: f.name, contact: f.contact, role, message: `${context ? context + '\n' : ''}${f.message || 'Заявка с сайта'}` }) });
+      const res = await fetch('/api/leads', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ kind, name: f.name, contact: f.contact, role, source: context || title, message: f.message || null, ...extra }) });
       addRequest({ kind: title, name: f.name, contact: f.contact, note: f.message, sent: res.ok });
       setState(res.ok ? 'ok' : 'fail');
     } catch { addRequest({ kind: title, name: f.name, contact: f.contact, note: f.message, sent: false }); setState('fail'); }

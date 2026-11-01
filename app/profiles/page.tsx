@@ -8,17 +8,28 @@ import Button from '@/components/v2/Button';
 import Cascade from '@/components/v2/Cascade';
 import { fmt, quote } from '@/components/v2/calc';
 import { loadRequests, LocalRequest } from '@/components/v2/requests';
+import { useUser, authHeaders } from '@/components/v2/useUser';
+
+const STATUS: Record<string, [string, string]> = {
+  new: ['Новая', 'bg-slate-100 text-ink-2'], contacted: ['Менеджер связался', 'bg-brand-light text-brand'], selection: ['Подбор квартиры', 'bg-brand-light text-brand'],
+  contract: ['Договор', 'bg-brand-light text-brand'], moved_in: ['Заселение', 'bg-brand text-white'], closed: ['Завершена', 'bg-slate-100 text-ink-2'], rejected: ['Отклонена', 'bg-red-50 text-red-700'],
+};
+type ServerLead = { id: string; kind: string; status: string; created_at: string; city?: string; limit_price?: number; property_price?: number; listing_title?: string; message?: string };
+const KIND: Record<string, string> = { preapproval: 'Предварительное одобрение', question: 'Вопрос', property: 'Своя квартира', investor: 'Инвестору', lead: 'Заявка' };
 
 const DURATIONS = [60, 120, 180, 240, 360];
 type Start = { s?: { city?: string; budget?: number; down?: number; years?: number; name?: string; phone?: string }; done?: boolean };
 
 export default function ProfilePage() {
+  const { user, loading: userLoading, signOut } = useUser();
   const [calc, setCalc] = useState<CalcParams>(DEFAULT_CALC);
   const [ready, setReady] = useState(false);
   const [start, setStart] = useState<Start | null>(null);
   const [reqs, setReqs] = useState<LocalRequest[]>([]);
+  const [server, setServer] = useState<ServerLead[] | null>(null);
   useEffect(() => {
     setCalc(loadCalcParams()); setReady(true); setReqs(loadRequests());
+    authHeaders().then(h => fetch('/api/leads', { headers: h })).then(r => r.json()).then(d => setServer(Array.isArray(d.leads) ? d.leads : [])).catch(() => setServer([]));
     try { const r = localStorage.getItem('md_start'); if (r) setStart(JSON.parse(r)); } catch {}
   }, []);
   useEffect(() => { if (ready) saveCalcParams(calc); }, [calc, ready]);
@@ -32,10 +43,13 @@ export default function ProfilePage() {
 
       <div className="v2-card mt-5 p-5 flex items-center gap-4">
         <div className="w-14 h-14 rounded-2xl bg-brand-light text-brand flex items-center justify-center shrink-0"><User size={26} /></div>
-        <div className="min-w-0">
-          <div className="font-bold text-ink truncate">{name || 'Гость'}</div>
-          <div className="text-sm text-ink-2 truncate">{start?.s?.phone || 'Расчёты и заявки сохраняются на этом устройстве'}</div>
+        <div className="min-w-0 flex-1">
+          <div className="font-bold text-ink truncate">{name || (user?.email ? user.email.split('@')[0] : 'Гость')}</div>
+          <div className="text-sm text-ink-2 truncate">{user ? user.email : (start?.s?.phone || 'Войдите, чтобы заявки были доступны с любого устройства')}</div>
         </div>
+        {!userLoading && (user
+          ? <button type="button" onClick={() => signOut()} className="text-sm text-ink-3 hover:text-ink shrink-0">Выйти</button>
+          : <Button href="/login" variant="secondary" size="sm" className="shrink-0">Войти</Button>)}
       </div>
 
       {start?.done && start.s ? (
@@ -93,7 +107,31 @@ export default function ProfilePage() {
           <h2 className="text-lg font-bold text-ink">Мои заявки</h2>
           <Link href="/messages" className="inline-flex items-center gap-1 text-sm text-brand font-semibold"><MessageCircle size={14} /> Задать вопрос</Link>
         </div>
-        {reqs.length === 0 ? (
+        {(server && server.length > 0) ? (
+          <div className="v2-card divide-y divide-line">
+            {server.map(l => {
+              const [label, cls] = STATUS[l.status] ?? STATUS.new;
+              return (
+                <div key={l.id} className="p-4">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="font-semibold text-ink truncate">{KIND[l.kind] ?? 'Заявка'}{l.listing_title ? ` · ${l.listing_title}` : ''}</div>
+                    <span className={`shrink-0 text-[11px] font-semibold px-2 py-1 rounded-full ${cls}`}>{label}</span>
+                  </div>
+                  <div className="text-sm text-ink-2 mt-0.5 truncate">
+                    {[l.city, l.limit_price ? `лимит ${fmt(l.limit_price)} ₸` : null, l.property_price ? `квартира ${fmt(l.property_price)} ₸` : null, l.message].filter(Boolean).join(' · ')}
+                  </div>
+                  <div className="text-xs text-ink-3 mt-1 flex items-center gap-1"><Clock size={12} />{new Date(l.created_at).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</div>
+                  <div className="mt-3 flex items-center gap-1">
+                    {['new', 'contacted', 'selection', 'contract', 'moved_in'].map((st, i, arr) => {
+                      const idx = arr.indexOf(l.status); const done = i <= (idx < 0 ? 0 : idx);
+                      return <span key={st} className={`h-1.5 flex-1 rounded-full ${done ? 'bg-brand' : 'bg-slate-200'}`} title={STATUS[st][0]} />;
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ) : reqs.length === 0 ? (
           <div className="v2-card p-5 flex items-center gap-4">
             <span className="w-11 h-11 rounded-xl bg-slate-50 text-ink-3 flex items-center justify-center shrink-0"><FileText size={20} /></span>
             <div className="text-sm text-ink-2">Заявок пока нет. Пройдите <Link href="/start" className="text-brand font-semibold">предодобрение</Link> или оставьте заявку на странице <Link href="/arenda-s-vykupom#lead" className="text-brand font-semibold">аренды с выкупом</Link>.</div>

@@ -37,9 +37,9 @@ export default function StartPage() {
   const finish = async () => {
     setSending(true);
     try {
-      const res = await fetch('/api/questions', {
+      const res = await fetch('/api/leads', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: s.name, contact: s.phone, role: 'client', message: `Предодобрение: ${s.city}, платёж до ${fmt(s.budget)} ₸/мес, взнос ${fmt(s.down)} ₸, срок ${s.years} лет → лимит ${fmt(limit)} ₸` }),
+        body: JSON.stringify({ kind: 'preapproval', name: s.name, contact: s.phone, phone: s.phone, city: s.city, budget: s.budget, down_payment: s.down, term_months: s.years * 12, limit_price: limit, source: 'start' }),
       });
       setSent(res.ok ? 'ok' : 'fail');
       addRequest({ kind: 'Предварительное одобрение', name: s.name, contact: s.phone, note: `${s.city} · лимит ${fmt(limit)} ₸ · ${s.years} лет`, sent: res.ok });
