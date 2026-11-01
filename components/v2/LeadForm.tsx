@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { CheckCircle2, Send } from 'lucide-react';
 import Button from './Button';
+import { addRequest } from './requests';
 
 export default function LeadForm({ title = 'Оставить заявку', subtitle = 'Менеджер MD свяжется с вами в рабочее время.', context = '', role = 'client' }: { title?: string; subtitle?: string; context?: string; role?: 'client' | 'investor' | 'partner' }) {
   const [f, setF] = useState({ name: '', contact: '', message: '' });
@@ -15,8 +16,9 @@ export default function LeadForm({ title = 'Оставить заявку', subt
     try {
       const res = await fetch('/api/questions', { method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: f.name, contact: f.contact, role, message: `${context ? context + '\n' : ''}${f.message || 'Заявка с сайта'}` }) });
+      addRequest({ kind: title, name: f.name, contact: f.contact, note: f.message, sent: res.ok });
       setState(res.ok ? 'ok' : 'fail');
-    } catch { setState('fail'); }
+    } catch { addRequest({ kind: title, name: f.name, contact: f.contact, note: f.message, sent: false }); setState('fail'); }
   };
 
   if (state === 'ok') return (

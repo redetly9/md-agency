@@ -37,7 +37,7 @@ export function rentForMonth(tiers: RentTier[], month: number): number {
   return tiers.find(t => month >= t.from && month <= t.to)?.rent ?? 0;
 }
 
-export const DEFAULT_CALC: CalcParams = { propertyValue: 6000000, initialPaymentPercent: 50, duration: 60 };
+export const DEFAULT_CALC: CalcParams = { propertyValue: 30000000, initialPaymentPercent: 30, duration: 360 };
 
 export function loadCalcParams(): CalcParams {
   if (typeof window === 'undefined') return DEFAULT_CALC;

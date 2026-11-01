@@ -7,6 +7,7 @@ import Button from '@/components/v2/Button';
 import ListingsPreview from '@/components/v2/ListingsPreview';
 import { fmt, maxPrice, quote } from '@/components/v2/calc';
 import { saveCalcParams } from '@/components/PaymentSchedule';
+import { addRequest } from '@/components/v2/requests';
 
 const CITIES = ['Астана', 'Алматы', 'Шымкент', 'Караганда', 'Актобе', 'Другой город'];
 const BUDGETS = [150_000, 200_000, 250_000, 300_000, 400_000, 500_000];
@@ -41,7 +42,8 @@ export default function StartPage() {
         body: JSON.stringify({ name: s.name, contact: s.phone, role: 'client', message: `Предодобрение: ${s.city}, платёж до ${fmt(s.budget)} ₸/мес, взнос ${fmt(s.down)} ₸, срок ${s.years} лет → лимит ${fmt(limit)} ₸` }),
       });
       setSent(res.ok ? 'ok' : 'fail');
-    } catch { setSent('fail'); }
+      addRequest({ kind: 'Предварительное одобрение', name: s.name, contact: s.phone, note: `${s.city} · лимит ${fmt(limit)} ₸ · ${s.years} лет`, sent: res.ok });
+    } catch { setSent('fail'); addRequest({ kind: 'Предварительное одобрение', name: s.name, contact: s.phone, note: `${s.city} · лимит ${fmt(limit)} ₸`, sent: false }); }
     saveCalcParams({ propertyValue: limit, initialPaymentPercent: downPct >= 50 ? 50 : 30, duration: s.years * 12 });
     setSending(false); setDone(true);
   };
