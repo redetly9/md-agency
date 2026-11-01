@@ -8,6 +8,7 @@ import { Toaster } from 'react-hot-toast';
 import Header from '@/components/v2/Header';
 import BottomNav from '@/components/v2/BottomNav';
 import WhatsAppButton from '@/components/v2/WhatsAppButton';
+import { I18nProvider } from '@/components/v2/i18n';
 
 const manrope = Manrope({ subsets: ['latin', 'cyrillic'], weight: ['400', '500', '600', '700', '800'], display: 'swap', variable: '--font-sans' });
 const playfair = Playfair_Display({ subsets: ['latin', 'cyrillic'], weight: ['500', '600', '700'], display: 'swap', variable: '--font-serif' });
@@ -30,10 +31,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <AuthProvider>
           <Providers>
+            <I18nProvider>
             <Header />
             <main className="min-h-screen pb-24 md:pb-0">{children}</main>
             <BottomNav />
             <WhatsAppButton />
+            </I18nProvider>
             <Toaster position="bottom-center" toastOptions={{ duration: 4000, style: { fontSize: '15px', borderRadius: '12px' } }} />
           </Providers>
         </AuthProvider>

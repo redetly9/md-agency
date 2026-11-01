@@ -6,6 +6,7 @@ import Button from './Button';
 import Cascade from './Cascade';
 import { fmt, quote } from './calc';
 import PaymentSchedule, { loadCalcParams, saveCalcParams } from '@/components/PaymentSchedule';
+import { useT } from './i18n';
 
 const TERMS = [5, 10, 15, 20, 30];
 const QUICK = [15, 25, 35, 50, 75];
@@ -15,6 +16,7 @@ export default function MiniCalc({ compact = false, withSchedule = false }: { co
   const [down, setDown] = useState(30);
   const [years, setYears] = useState(30);
   const [ready, setReady] = useState(false);
+  const { t } = useT();
 
   useEffect(() => {
     if (!withSchedule) return;
@@ -36,7 +38,7 @@ export default function MiniCalc({ compact = false, withSchedule = false }: { co
           {/* inputs */}
           <div className="p-4 xs:p-5 sm:p-7 border-b lg:border-b-0 lg:border-r border-line min-w-0">
             <div className="flex flex-col xs:flex-row xs:items-end xs:justify-between gap-1 xs:gap-3">
-              <div className="text-sm font-medium text-ink-2">Стоимость квартиры</div>
+              <div className="text-sm font-medium text-ink-2">{t('mc.price')}</div>
               <div className="flex items-baseline gap-1 min-w-0">
                 <input type="text" inputMode="numeric" aria-label="Стоимость квартиры" value={fmt(price)}
                   onChange={e => setPrice(Math.min(120_000_000, Math.max(0, parseInt(e.target.value.replace(/\D/g, ''), 10) || 0)))}
@@ -49,12 +51,12 @@ export default function MiniCalc({ compact = false, withSchedule = false }: { co
             <div className="mt-3 flex gap-2 overflow-x-auto scrollbar-hide -mx-1 px-1">
               {QUICK.map(m => (
                 <button key={m} type="button" onClick={() => setPrice(m * 1_000_000)}
-                  className={`shrink-0 px-3 h-8 rounded-full text-xs font-semibold border transition ${price === m * 1_000_000 ? 'bg-brand text-white border-brand' : 'border-line text-ink-2 hover:border-ink-3'}`}>{m} млн</button>
+                  className={`shrink-0 px-3 h-8 rounded-full text-xs font-semibold border transition ${price === m * 1_000_000 ? 'bg-brand text-white border-brand' : 'border-line text-ink-2 hover:border-ink-3'}`}>{m} {t('mc.mln')}</button>
               ))}
             </div>
 
             <div className="mt-7">
-              <div className="flex items-center justify-between text-sm"><span className="font-medium text-ink-2">Первый взнос</span><span className="text-ink-3">{fmt(q.down)} ₸</span></div>
+              <div className="flex items-center justify-between text-sm"><span className="font-medium text-ink-2">{t('mc.down')}</span><span className="text-ink-3">{fmt(q.down)} ₸</span></div>
               <div className="mt-2 grid grid-cols-2 p-1 rounded-xl bg-slate-100">
                 {[30, 50].map(v => (
                   <button key={v} type="button" onClick={() => setDown(v)} className={`h-11 rounded-lg text-sm font-bold transition ${down === v ? 'bg-white text-ink shadow-sm' : 'text-ink-2'}`}>{v}%</button>
@@ -62,16 +64,16 @@ export default function MiniCalc({ compact = false, withSchedule = false }: { co
               </div>
             </div>
             <div className="mt-5">
-              <div className="flex items-center justify-between text-sm"><span className="font-medium text-ink-2">Срок выкупа</span><span className="text-ink-3">{months} месяцев</span></div>
+              <div className="flex items-center justify-between text-sm"><span className="font-medium text-ink-2">{t('mc.term')}</span><span className="text-ink-3">{months} {t('mc.months')}</span></div>
               <div className="mt-2 grid grid-cols-5 p-1 rounded-xl bg-slate-100">
                 {TERMS.map(v => (
-                  <button key={v} type="button" onClick={() => setYears(v)} className={`h-11 rounded-lg text-sm font-bold transition ${years === v ? 'bg-white text-ink shadow-sm' : 'text-ink-2'}`}>{v}<span className="hidden sm:inline text-[11px] font-medium text-ink-3"> лет</span></button>
+                  <button key={v} type="button" onClick={() => setYears(v)} className={`h-11 rounded-lg text-sm font-bold transition ${years === v ? 'bg-white text-ink shadow-sm' : 'text-ink-2'}`}>{v}<span className="hidden sm:inline text-[11px] font-medium text-ink-3"> {t('mc.years')}</span></button>
                 ))}
               </div>
             </div>
 
             <div className="mt-6 grid grid-cols-1 xs:grid-cols-3 gap-2">
-              {[['К выкупу', fmt(q.remaining)], ['В собственность', `${fmt(q.principal)}/мес`], ['Аренда за срок', fmt(totalRent)]].map(([k, v]) => (
+              {[[t('mc.toBuy'), fmt(q.remaining)], [t('mc.own'), `${fmt(q.principal)}`], [t('mc.rentTotal'), fmt(totalRent)]].map(([k, v]) => (
                 <div key={k} className="rounded-xl bg-slate-50 p-3 min-w-0"><div className="text-[11px] text-ink-3">{k}</div><div className="text-sm font-bold text-ink tabular-nums truncate">{v} ₸</div></div>
               ))}
             </div>
@@ -80,13 +82,13 @@ export default function MiniCalc({ compact = false, withSchedule = false }: { co
           {/* result */}
           <div className="p-4 xs:p-5 sm:p-7 bg-brand-soft/60 min-w-0">
             <div className="flex items-center justify-between">
-              <div className="text-sm font-medium text-ink-2">Ваш платёж в месяц</div>
-              <span className="text-[11px] font-semibold text-brand bg-brand-light px-2 py-1 rounded-full">снижается каскадом</span>
+              <div className="text-sm font-medium text-ink-2">{t('mc.your')}</div>
+              <span className="text-[11px] font-semibold text-brand bg-brand-light px-2 py-1 rounded-full">{t('mc.cascade')}</span>
             </div>
             <div className="mt-1 flex items-baseline gap-2 flex-wrap">
               <div className="text-4xl xs:text-5xl sm:text-6xl font-extrabold text-brand tabular-nums tracking-tight v2-pop" key={q.first}>{fmt(q.first)}</div>
               <div className="text-xl font-bold text-brand">₸</div>
-              <div className="text-sm text-ink-2 ml-1">в первые {Math.round(months / 3) % 12 === 0 ? `${months / 36} лет` : `${Math.round(months / 3)} мес`}</div>
+              <div className="text-sm text-ink-2 ml-1">{t('mc.first')} {Math.round(months / 3) % 12 === 0 ? `${months / 36} лет` : `${Math.round(months / 3)} мес`}</div>
             </div>
             <div className="mt-5"><Cascade tiers={q.tiers} principal={q.principal} months={months} /></div>
             <div className="mt-5 flex items-start gap-2 text-xs text-ink-2 leading-relaxed">
@@ -98,11 +100,11 @@ export default function MiniCalc({ compact = false, withSchedule = false }: { co
                 {withSchedule
                   ? <>
                       <Button href={`/offer?price=${price}&down=${down}&years=${years}&print=1`} variant="secondary" size="lg"><FileDown size={16} /> PDF</Button>
-                      <Button href="#lead" size="lg" className="sm:flex-1">Оставить заявку с этими условиями <ArrowRight size={16} /></Button>
+                      <Button href="#lead" size="lg" className="sm:flex-1">{t('mc.lead')} <ArrowRight size={16} /></Button>
                     </>
                   : <>
-                      <Button href="/arenda-s-vykupom#calculator" variant="secondary" size="lg" onClick={() => saveCalcParams({ propertyValue: price, initialPaymentPercent: down, duration: months })}>График по месяцам</Button>
-                      <Button href="/start" size="lg" className="sm:flex-1">Получить одобрение <ArrowRight size={16} /></Button>
+                      <Button href="/arenda-s-vykupom#calculator" variant="secondary" size="lg" onClick={() => saveCalcParams({ propertyValue: price, initialPaymentPercent: down, duration: months })}>{t('mc.schedule')}</Button>
+                      <Button href="/start" size="lg" className="sm:flex-1">{t('mc.approve')} <ArrowRight size={16} /></Button>
                     </>}
               </div>
             )}

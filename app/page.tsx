@@ -4,6 +4,7 @@ import Button from '@/components/v2/Button';
 import MiniCalc from '@/components/v2/MiniCalc';
 import ListingsPreview from '@/components/v2/ListingsPreview';
 import Faq from '@/components/v2/Faq';
+import T from '@/components/v2/T';
 
 const FAQ = [
   { q: 'Как получить квартиру в аренду с выкупом?', a: 'Выберите квартиру из предложений MD, пройдите предварительное одобрение, внесите первоначальный взнос от 30% и заключите договор аренды с последующим выкупом. Вы заселяетесь сразу и ежемесячно платите аренду и часть выкупа. После полной оплаты квартира переходит в вашу собственность.' },
@@ -28,23 +29,23 @@ export default function HomePage() {
         <div className="v2-container pt-10 pb-12 sm:pt-16 sm:pb-20 grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-center">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-brand-light bg-brand-soft px-3 py-1.5 text-xs font-semibold text-brand">
-              <span className="w-1.5 h-1.5 rounded-full bg-brand" /> Аренда с выкупом · Казахстан
+              <span className="w-1.5 h-1.5 rounded-full bg-brand" /> <T k="hero.badge" />
             </div>
-            <h1 className="v2-h1 mt-5">Квартира в собственность <span className="text-brand">без ипотеки</span></h1>
+            <h1 className="v2-h1 mt-5"><T k="hero.h1a" /> <span className="text-brand"><T k="hero.h1b" /></span></h1>
             <p className="mt-5 text-lg text-ink-2 max-w-xl leading-relaxed">
-              Живите в своей квартире уже сегодня и выкупайте её постепенно. Без подтверждения дохода, взнос от 30%, срок до 30 лет, платёж снижается со временем.
+              <T k="hero.p" />
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
-              <Button size="lg" href="/start" className="!whitespace-normal text-center">Узнать мой лимит за 2 минуты <ArrowRight size={18} className="shrink-0" /></Button>
-              <Button size="lg" variant="secondary" href="/catalog">Смотреть квартиры</Button>
+              <Button size="lg" href="/start" className="!whitespace-normal text-center"><T k="hero.cta" /> <ArrowRight size={18} className="shrink-0" /></Button>
+              <Button size="lg" variant="secondary" href="/catalog"><T k="hero.cta2" /></Button>
             </div>
             <div className="mt-8 grid grid-cols-1 xs:grid-cols-3 gap-2 max-w-lg">
               {[
-                [<UserCheck key="1" size={18} />, 'Без справок о доходах'],
-                [<Percent key="2" size={18} />, 'Взнос от 30%'],
-                [<CalendarDays key="3" size={18} />, 'Срок до 30 лет'],
+                [<UserCheck key="1" size={18} />, <T key="t1" k="hero.f1" />],
+                [<Percent key="2" size={18} />, <T key="t2" k="hero.f2" />],
+                [<CalendarDays key="3" size={18} />, <T key="t3" k="hero.f3" />],
               ].map(([icon, t], i) => (
-                <div key={i} className="flex items-center gap-2 text-sm text-ink-2"><span className="text-brand">{icon}</span>{t as string}</div>
+                <div key={i} className="flex items-center gap-2 text-sm text-ink-2"><span className="text-brand">{icon}</span>{t}</div>
               ))}
             </div>
           </div>
@@ -54,22 +55,22 @@ export default function HomePage() {
             <div className="absolute -inset-3 sm:-inset-6 -z-10 rounded-[2rem] bg-brand-light/60 blur-2xl" />
             <div className="v2-card p-6 shadow-[0_30px_80px_-40px_rgba(11,122,75,0.45)]">
               <div className="flex items-center justify-between">
-                <div className="text-sm text-ink-2">Предварительное одобрение</div>
-                <span className="text-[11px] font-semibold px-2 py-1 rounded-full bg-brand-light text-brand">2 минуты</span>
+                <div className="text-sm text-ink-2"><T k="hero.card" /></div>
+                <span className="text-[11px] font-semibold px-2 py-1 rounded-full bg-brand-light text-brand"><T k="hero.min" /></span>
               </div>
-              <div className="mt-3 text-sm text-ink-3">Доступны квартиры до</div>
+              <div className="mt-3 text-sm text-ink-3"><T k="hero.upto" /></div>
               <div className="text-3xl xs:text-4xl font-extrabold text-ink tabular-nums">42 000 000 ₸</div>
               <div className="mt-4 grid grid-cols-2 gap-3">
-                <div className="rounded-xl bg-slate-50 p-3"><div className="text-[11px] text-ink-3">Платёж в месяц</div><div className="font-bold text-ink">от 317 200 ₸</div></div>
-                <div className="rounded-xl bg-slate-50 p-3"><div className="text-[11px] text-ink-3">Первый взнос</div><div className="font-bold text-ink">12 600 000 ₸</div></div>
+                <div className="rounded-xl bg-slate-50 p-3"><div className="text-[11px] text-ink-3"><T k="hero.monthly" /></div><div className="font-bold text-ink">от 317 200 ₸</div></div>
+                <div className="rounded-xl bg-slate-50 p-3"><div className="text-[11px] text-ink-3"><T k="hero.down" /></div><div className="font-bold text-ink">12 600 000 ₸</div></div>
               </div>
               <div className="mt-4 space-y-2">
                 {['Город: Астана', 'Срок: 30 лет', 'Без подтверждения дохода'].map(t => (
                   <div key={t} className="flex items-center gap-2 text-sm text-ink-2"><span className="w-5 h-5 rounded-full bg-brand-light text-brand flex items-center justify-center"><Check size={12} /></span>{t}</div>
                 ))}
               </div>
-              <Button href="/start" full className="mt-5">Рассчитать мой лимит</Button>
-              <div className="mt-3 text-[11px] text-ink-3 text-center">Пример расчёта. Ваш лимит зависит от взноса и срока.</div>
+              <Button href="/start" full className="mt-5"><T k="hero.calc" /></Button>
+              <div className="mt-3 text-[11px] text-ink-3 text-center"><T k="hero.example" /></div>
             </div>
           </div>
         </div>
@@ -77,8 +78,8 @@ export default function HomePage() {
 
       {/* HOW */}
       <section id="how" className="v2-container py-14 sm:py-20 scroll-mt-20">
-        <h2 className="v2-h2">Как это работает</h2>
-        <p className="mt-2 text-ink-2 max-w-2xl">Четыре шага от заявки до ключей. Всё онлайн, договор подписываете в офисе MD.</p>
+        <h2 className="v2-h2"><T k="how.h" /></h2>
+        <p className="mt-2 text-ink-2 max-w-2xl"><T k="how.p" /></p>
         <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
             [<Search key="1" />, 'Выберите квартиру', 'Из каталога MD или предложите свою. Мы проверим объект и зафиксируем цену.'],
@@ -103,10 +104,10 @@ export default function HomePage() {
         <div className="v2-container py-14 sm:py-20">
           <div className="flex items-end justify-between gap-4 flex-wrap">
             <div>
-              <h2 className="v2-h2">Посчитайте платёж</h2>
-              <p className="mt-2 text-ink-2">Честные цифры без скрытых комиссий. Аренда снижается каждые треть срока.</p>
+              <h2 className="v2-h2"><T k="calc.h" /></h2>
+              <p className="mt-2 text-ink-2"><T k="calc.p" /></p>
             </div>
-            <Link href="/arenda-s-vykupom#calculator" className="text-brand font-semibold inline-flex items-center gap-1">Полный график по месяцам <ArrowRight size={16} /></Link>
+            <Link href="/arenda-s-vykupom#calculator" className="text-brand font-semibold inline-flex items-center gap-1"><T k="calc.full" /> <ArrowRight size={16} /></Link>
           </div>
           <div className="mt-8"><MiniCalc /></div>
         </div>
@@ -116,10 +117,10 @@ export default function HomePage() {
       <section id="catalog" className="v2-container py-14 sm:py-20 scroll-mt-20">
         <div className="flex items-end justify-between gap-4 flex-wrap">
           <div>
-            <h2 className="v2-h2">Квартиры в аренду с выкупом</h2>
-            <p className="mt-2 text-ink-2">На каждой карточке ваш ориентировочный платёж при взносе 30% и сроке 30 лет.</p>
+            <h2 className="v2-h2"><T k="catalog.h" /></h2>
+            <p className="mt-2 text-ink-2"><T k="catalog.p" /></p>
           </div>
-          <Link href="/catalog" className="text-brand font-semibold inline-flex items-center gap-1">Все квартиры <ArrowRight size={16} /></Link>
+          <Link href="/catalog" className="text-brand font-semibold inline-flex items-center gap-1"><T k="catalog.all" /> <ArrowRight size={16} /></Link>
         </div>
         <div className="mt-8"><ListingsPreview limit={6} /></div>
       </section>
@@ -158,9 +159,9 @@ export default function HomePage() {
       <section className="v2-container py-14 sm:py-20">
         <div className="grid lg:grid-cols-[0.8fr_1.2fr] gap-8">
           <div>
-            <h2 className="v2-h2">Частые вопросы</h2>
-            <p className="mt-2 text-ink-2">Не нашли ответ? Напишите нам, отвечаем в рабочее время.</p>
-            <Button href="/messages" variant="secondary" className="mt-5">Задать вопрос</Button>
+            <h2 className="v2-h2"><T k="faq.h" /></h2>
+            <p className="mt-2 text-ink-2"><T k="faq.p" /></p>
+            <Button href="/messages" variant="secondary" className="mt-5"><T k="faq.ask" /></Button>
           </div>
           <Faq items={FAQ} />
         </div>
@@ -171,10 +172,10 @@ export default function HomePage() {
         <div className="rounded-3xl bg-brand text-ink p-8 sm:p-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 overflow-hidden relative">
           <div className="absolute -right-20 -top-20 w-72 h-72 rounded-full bg-slate-100" />
           <div className="relative">
-            <div className="text-xl xs:text-2xl sm:text-3xl font-extrabold tracking-tight">Узнайте свой лимит сегодня</div>
-            <div className="mt-2 text-ink-2">Пять вопросов, никаких документов. Результат сразу на экране.</div>
+            <div className="text-xl xs:text-2xl sm:text-3xl font-extrabold tracking-tight"><T k="cta.h" /></div>
+            <div className="mt-2 text-white/80"><T k="cta.p" /></div>
           </div>
-          <Button href="/start" variant="dark" size="lg" className="relative bg-white !text-brand hover:bg-white/90">Начать <ArrowRight size={18} /></Button>
+          <Button href="/start" variant="dark" size="lg" className="relative bg-white !text-brand hover:bg-white/90"><T k="cta.btn" /> <ArrowRight size={18} /></Button>
         </div>
       </section>
 

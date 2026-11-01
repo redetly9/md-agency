@@ -8,6 +8,7 @@ import ListingsPreview from '@/components/v2/ListingsPreview';
 import { fmt, maxPrice, quote } from '@/components/v2/calc';
 import { saveCalcParams } from '@/components/PaymentSchedule';
 import { addRequest } from '@/components/v2/requests';
+import { useT } from '@/components/v2/i18n';
 
 const CITIES = ['Астана', 'Алматы', 'Шымкент', 'Караганда', 'Актобе', 'Другой город'];
 const BUDGETS = [150_000, 200_000, 250_000, 300_000, 400_000, 500_000];
@@ -19,6 +20,7 @@ type S = { city: string; budget: number; down: number; years: number; name: stri
 const KEY = 'md_start';
 
 export default function StartPage() {
+  const { t } = useT();
   const [step, setStep] = useState(0);
   const [s, setS] = useState<S>({ city: '', budget: 250_000, down: 10_000_000, years: 30, name: '', phone: '' });
   const [done, setDone] = useState(false);
@@ -53,37 +55,37 @@ export default function StartPage() {
   if (done) return (
     <div className="v2-container py-8 sm:py-14 max-w-3xl">
       <div className="v2-card p-6 sm:p-8 shadow-[0_30px_80px_-40px_rgba(11,122,75,0.45)]">
-        <div className="inline-flex items-center gap-2 rounded-full bg-brand-light text-brand px-3 py-1.5 text-xs font-semibold"><Sparkles size={14} /> Предварительное одобрение</div>
-        <div className="mt-4 text-ink-2">{s.name ? `${s.name}, вам` : 'Вам'} доступны квартиры в {s.city} до</div>
+        <div className="inline-flex items-center gap-2 rounded-full bg-brand-light text-brand px-3 py-1.5 text-xs font-semibold"><Sparkles size={14} /> {t('st.approved')}</div>
+        <div className="mt-4 text-ink-2">{s.name ? `${s.name}, ` : ''}{t('st.youUpTo')} {s.city}</div>
         <div className="mt-1 text-3xl xs:text-4xl sm:text-5xl font-extrabold text-ink tabular-nums">{fmt(limit)} ₸</div>
         <div className="mt-5 grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-4 gap-3">
-          {[['Платёж в месяц', `${fmt(q.first)} ₸`], ['Первый взнос', `${fmt(s.down)} ₸ · ${downPct}%`], ['Срок', `${s.years} лет`], ['Через ' + Math.round(s.years / 3) + ' лет платёж', `${fmt(q.principal + (q.tiers[1]?.rent ?? 0))} ₸`]].map(([k, v]) => (
+          {[[t('st.monthly'), `${fmt(q.first)} ₸`], [t('st.downL'), `${fmt(s.down)} ₸ · ${downPct}%`], [t('st.termL'), `${s.years} ${t('st.years')}`], [`${t('st.after')} ${Math.round(s.years / 3)} ${t('st.yearsPay')}`, `${fmt(q.principal + (q.tiers[1]?.rent ?? 0))} ₸`]].map(([k, v]) => (
             <div key={k} className="rounded-xl bg-slate-50 p-3"><div className="text-[11px] text-ink-3">{k}</div><div className="font-bold text-ink text-sm sm:text-base">{v}</div></div>
           ))}
         </div>
         {sent === 'ok' ? (
-          <div className="mt-4 text-sm text-ink-2 flex items-start gap-2"><Check size={16} className="text-brand shrink-0 mt-0.5" />Заявка отправлена. Менеджер MD свяжется с вами и подберёт квартиру под лимит.</div>
+          <div className="mt-4 text-sm text-ink-2 flex items-start gap-2"><Check size={16} className="text-brand shrink-0 mt-0.5" />{t('st.sent')}</div>
         ) : (
           <form onSubmit={e => { e.preventDefault(); if (phoneOk) finish(); }} className="mt-5 rounded-2xl bg-slate-50 border border-line p-4">
-            <div className="font-bold text-ink">Получить подборку квартир под лимит</div>
-            <div className="text-sm text-ink-2 mt-0.5">Оставьте номер, менеджер пришлёт варианты и ответит на вопросы. Без звонков без вашего согласия.</div>
+            <div className="font-bold text-ink">{t('st.get')}</div>
+            <div className="text-sm text-ink-2 mt-0.5">{t('st.getP')}</div>
             <div className="mt-3 grid sm:grid-cols-[1fr_1fr_auto] gap-2">
-              <input className="v2-input" placeholder="Ваше имя" value={s.name} onChange={e => setS({ ...s, name: e.target.value })} />
+              <input className="v2-input" placeholder={t('st.name')} value={s.name} onChange={e => setS({ ...s, name: e.target.value })} />
               <input className="v2-input" placeholder="+7 ___ ___ __ __" inputMode="tel" value={s.phone} onChange={e => setS({ ...s, phone: e.target.value })} />
-              <Button type="submit" disabled={!phoneOk || sending}>{sending ? 'Отправка…' : 'Отправить'}</Button>
+              <Button type="submit" disabled={!phoneOk || sending}>{sending ? t('st.sending') : t('st.send')}</Button>
             </div>
-            {sent === 'fail' && <div className="mt-2 text-xs text-red-600">Не удалось отправить, попробуйте ещё раз.</div>}
+            {sent === 'fail' && <div className="mt-2 text-xs text-red-600">{t('st.fail')}</div>}
           </form>
         )}
         <div className="mt-6 flex flex-col sm:flex-row gap-2">
-          <Button href="/arenda-s-vykupom#calculator" variant="secondary">Полный график платежей</Button>
-          <Button href="#fit" className="sm:flex-1">Смотреть квартиры до {fmt(limit / 1_000_000)} млн <ArrowRight size={16} /></Button>
+          <Button href="/arenda-s-vykupom#calculator" variant="secondary">{t('st.schedule')}</Button>
+          <Button href="#fit" className="sm:flex-1">{t('st.flats')} {fmt(limit / 1_000_000)} {t('mc.mln')} <ArrowRight size={16} /></Button>
         </div>
-        <button type="button" onClick={() => { setDone(false); setStep(0); setSent(null); }} className="mt-4 text-sm text-ink-3 hover:text-ink">Пересчитать</button>
+        <button type="button" onClick={() => { setDone(false); setStep(0); setSent(null); }} className="mt-4 text-sm text-ink-3 hover:text-ink">{t('st.recalc')}</button>
       </div>
       <div id="fit" className="mt-10 scroll-mt-24">
-        <h2 className="v2-h2">Квартиры под ваш лимит</h2>
-        <p className="mt-2 text-ink-2">До {fmt(limit)} ₸ в {s.city}.</p>
+        <h2 className="v2-h2">{t('st.fit')}</h2>
+        <p className="mt-2 text-ink-2">{t('st.upTo')} {fmt(limit)} ₸ · {s.city}.</p>
         <div className="mt-6"><ListingsPreview limit={6} maxPrice={limit} /></div>
       </div>
     </div>
@@ -92,8 +94,8 @@ export default function StartPage() {
   return (
     <div className="v2-container py-6 sm:py-12 max-w-2xl">
       <div className="flex items-center justify-between">
-        <Link href="/" className="inline-flex items-center gap-1 text-sm text-ink-2 hover:text-ink"><ArrowLeft size={16} /> На главную</Link>
-        <div className="text-sm text-ink-3">Шаг {step + 1} из {STEPS.length}</div>
+        <Link href="/" className="inline-flex items-center gap-1 text-sm text-ink-2 hover:text-ink"><ArrowLeft size={16} /> {t('st.home')}</Link>
+        <div className="text-sm text-ink-3">{t('st.step')} {step + 1} {t('st.of')} {STEPS.length}</div>
       </div>
       <div className="mt-4 flex gap-1.5">
         {STEPS.map((_, i) => <div key={i} className={`h-1.5 flex-1 rounded-full ${i <= step ? 'bg-brand' : 'bg-slate-200'}`} />)}
@@ -102,7 +104,7 @@ export default function StartPage() {
       <div className="v2-card mt-6 p-6 sm:p-8">
         {step === 0 && (
           <>
-            <StepHead icon={<MapPin />} title="В каком городе ищете квартиру?" sub="Мы работаем по всему Казахстану, начиная с крупных городов." />
+            <StepHead icon={<MapPin />} title={t('st.city.h')} sub={t('st.city.p')} />
             <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-2">
               {CITIES.map(c => <Choice key={c} active={s.city === c} onClick={() => setS({ ...s, city: c })}>{c}</Choice>)}
             </div>
@@ -110,41 +112,41 @@ export default function StartPage() {
         )}
         {step === 1 && (
           <>
-            <StepHead icon={<Wallet />} title="Сколько вы готовы платить в месяц?" sub="Аренда плюс выкуп. Сумма со временем будет только снижаться." />
+            <StepHead icon={<Wallet />} title={t('st.budget.h')} sub={t('st.budget.p')} />
             <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-2">
               {BUDGETS.map(b => <Choice key={b} active={s.budget === b} onClick={() => setS({ ...s, budget: b })}>{fmt(b)} ₸</Choice>)}
             </div>
-            <CustomNumber label="Другая сумма" value={s.budget} onChange={v => setS({ ...s, budget: v })} />
+            <CustomNumber label={t('st.other')} value={s.budget} onChange={v => setS({ ...s, budget: v })} />
           </>
         )}
         {step === 2 && (
           <>
-            <StepHead icon={<PiggyBank />} title="Сколько есть на первый взнос?" sub="Минимум 30% от стоимости квартиры. Чем больше взнос, тем выше лимит." />
+            <StepHead icon={<PiggyBank />} title={t('st.down.h')} sub={t('st.down.p')} />
             <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-2">
               {DOWNS.map(d => <Choice key={d} active={s.down === d} onClick={() => setS({ ...s, down: d })}>{fmt(d / 1_000_000)} млн ₸</Choice>)}
             </div>
-            <CustomNumber label="Другая сумма" value={s.down} onChange={v => setS({ ...s, down: v })} />
+            <CustomNumber label={t('st.other')} value={s.down} onChange={v => setS({ ...s, down: v })} />
           </>
         )}
         {step === 3 && (
           <>
-            <StepHead icon={<CalendarDays />} title="На какой срок?" sub="Чем дольше срок, тем ниже платёж. Досрочный выкуп возможен в любой момент." />
+            <StepHead icon={<CalendarDays />} title={t('st.term.h')} sub={t('st.term.p')} />
             <div className="mt-6 grid grid-cols-4 gap-2">
-              {TERMS.map(t => <Choice key={t} active={s.years === t} onClick={() => setS({ ...s, years: t })}>{t} лет</Choice>)}
+              {TERMS.map(y => <Choice key={y} active={s.years === y} onClick={() => setS({ ...s, years: y })}>{y} {t('st.years')}</Choice>)}
             </div>
             <div className="mt-6 rounded-xl bg-brand-soft border border-brand-light p-4">
-              <div className="text-sm text-ink-2">Предварительно вам доступны квартиры до</div>
+              <div className="text-sm text-ink-2">{t('st.prelim')}</div>
               <div className="text-3xl font-extrabold text-brand tabular-nums v2-pop" key={limit}>{fmt(limit)} ₸</div>
-              <div className="text-sm text-ink-2 mt-1">платёж от {fmt(q.first)} ₸/мес</div>
+              <div className="text-sm text-ink-2 mt-1">{t('st.from')} {fmt(q.first)} ₸</div>
             </div>
           </>
         )}
 
         <div className="mt-8 flex items-center justify-between gap-3">
-          <Button variant="ghost" onClick={() => setStep(x => Math.max(0, x - 1))} disabled={step === 0}><ArrowLeft size={16} /> Назад</Button>
+          <Button variant="ghost" onClick={() => setStep(x => Math.max(0, x - 1))} disabled={step === 0}><ArrowLeft size={16} /> {t('st.back')}</Button>
           {step < STEPS.length - 1
-            ? <Button onClick={() => setStep(x => x + 1)} disabled={!canNext}>Далее <ArrowRight size={16} /></Button>
-            : <Button onClick={() => { setSent(null); setDone(true); }} disabled={!canNext}>Показать результат <Check size={16} /></Button>}
+            ? <Button onClick={() => setStep(x => x + 1)} disabled={!canNext}>{t('st.next')} <ArrowRight size={16} /></Button>
+            : <Button onClick={() => { setSent(null); setDone(true); }} disabled={!canNext}>{t('st.result')} <Check size={16} /></Button>}
         </div>
       </div>
     </div>
