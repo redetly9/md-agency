@@ -33,6 +33,9 @@ function run(name: string, input: any) {
   return { error: 'unknown tool' };
 }
 
+/** Виджет чата показывается только если задан ключ. */
+export async function OPTIONS() { return new NextResponse(null, { status: process.env.ANTHROPIC_API_KEY ? 200 : 503 }); }
+
 export async function POST(req: NextRequest) {
   if (!process.env.ANTHROPIC_API_KEY) return NextResponse.json({ error: 'disabled' }, { status: 503 });
   const body = await req.json().catch(() => null);

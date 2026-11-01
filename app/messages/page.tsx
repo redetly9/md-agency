@@ -38,7 +38,7 @@ export default function MessagesPage() {
           <LeadForm title="Задать вопрос" subtitle="Клиентам, инвесторам и партнёрам. Ответим по указанному контакту." context="messages" kind="question" />
           <div className="v2-card p-5 space-y-3 text-sm">
             <div className="flex items-center gap-3 text-ink-2"><Mail size={18} className="text-brand" /> support@md.kz</div>
-            <div className="flex items-center gap-3 text-ink-2"><Phone size={18} className="text-brand" /> +7 (700) 000-00-00</div>
+            <a href="https://wa.me/77077004114" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-ink-2 hover:text-brand"><Phone size={18} className="text-brand" /> +7 (707) 700-41-14 · WhatsApp</a>
           </div>
         </div>
       </div>

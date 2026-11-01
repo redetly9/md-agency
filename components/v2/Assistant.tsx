@@ -15,9 +15,11 @@ export default function Assistant() {
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
   const [off, setOff] = useState(false);
+  const [enabled, setEnabled] = useState(false);
+  useEffect(() => { fetch('/api/chat', { method: 'OPTIONS' }).then(r => setEnabled(r.ok)).catch(() => setEnabled(false)); }, []);
   const box = useRef<HTMLDivElement>(null);
   useEffect(() => { box.current?.scrollTo({ top: 1e6, behavior: 'smooth' }); }, [msgs, open]);
-  if (pathname.startsWith('/teaser') || pathname.startsWith('/offer')) return null;
+  if (!enabled || pathname.startsWith('/teaser') || pathname.startsWith('/offer')) return null;
 
   const send = async (text: string) => {
     const t = text.trim(); if (!t || busy) return;
