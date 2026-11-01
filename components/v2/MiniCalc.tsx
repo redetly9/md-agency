@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowRight, Info } from 'lucide-react';
+import { ArrowRight, Info, FileDown } from 'lucide-react';
 import Button from './Button';
 import Cascade from './Cascade';
 import { fmt, quote } from './calc';
@@ -96,7 +96,10 @@ export default function MiniCalc({ compact = false, withSchedule = false }: { co
             {!compact && (
               <div className="mt-6 flex flex-col sm:flex-row gap-2">
                 {withSchedule
-                  ? <Button href="#lead" full size="lg">Оставить заявку с этими условиями <ArrowRight size={16} /></Button>
+                  ? <>
+                      <Button href={`/offer?price=${price}&down=${down}&years=${years}&print=1`} variant="secondary" size="lg"><FileDown size={16} /> PDF</Button>
+                      <Button href="#lead" size="lg" className="sm:flex-1">Оставить заявку с этими условиями <ArrowRight size={16} /></Button>
+                    </>
                   : <>
                       <Button href="/arenda-s-vykupom#calculator" variant="secondary" size="lg" onClick={() => saveCalcParams({ propertyValue: price, initialPaymentPercent: down, duration: months })}>График по месяцам</Button>
                       <Button href="/start" size="lg" className="sm:flex-1">Получить одобрение <ArrowRight size={16} /></Button>

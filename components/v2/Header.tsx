@@ -12,7 +12,8 @@ const NAV = [
   { href: '/catalog', label: 'Квартиры' },
   { href: '/#how', label: 'Как это работает' },
   { href: '/#calc', label: 'Калькулятор' },
-  { href: '/teaser', label: 'Инвесторам' },
+  { href: '/about', label: 'О компании' },
+  { href: '/investors', label: 'Инвесторам' },
 ];
 
 export default function Header() {

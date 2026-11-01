@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight, Check, MapPin, Wallet, PiggyBank, CalendarDays, Phone, Sparkles } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, MapPin, Wallet, PiggyBank, CalendarDays, Sparkles } from 'lucide-react';
 import Button from '@/components/v2/Button';
 import ListingsPreview from '@/components/v2/ListingsPreview';
 import { fmt, maxPrice, quote } from '@/components/v2/calc';
@@ -13,7 +13,7 @@ const CITIES = ['Астана', 'Алматы', 'Шымкент', 'Карага�
 const BUDGETS = [150_000, 200_000, 250_000, 300_000, 400_000, 500_000];
 const DOWNS = [5_000_000, 8_000_000, 10_000_000, 15_000_000, 20_000_000, 30_000_000];
 const TERMS = [10, 15, 20, 30];
-const STEPS = ['Город', 'Платёж', 'Взнос', 'Срок', 'Контакт'];
+const STEPS = ['Город', 'Платёж', 'Взнос', 'Срок'];
 
 type S = { city: string; budget: number; down: number; years: number; name: string; phone: string };
 const KEY = 'md_start';
@@ -32,9 +32,11 @@ export default function StartPage() {
   const q = useMemo(() => quote(limit, Math.max(30, Math.round(s.down / Math.max(1, limit) * 100)), s.years * 12), [limit, s.down, s.years]);
   const downPct = limit > 0 ? Math.round(s.down / limit * 100) : 0;
 
-  const canNext = [!!s.city, s.budget > 0, s.down > 0, s.years > 0, s.phone.replace(/\D/g, '').length >= 10][step];
+  const canNext = [!!s.city, s.budget > 0, s.down > 0, s.years > 0][step];
+  const phoneOk = s.phone.replace(/\D/g, '').length >= 10;
 
   const finish = async () => {
+    if (!phoneOk) return;
     setSending(true);
     try {
       const res = await fetch('/api/leads', {
@@ -45,7 +47,7 @@ export default function StartPage() {
       addRequest({ kind: 'Предварительное одобрение', name: s.name, contact: s.phone, note: `${s.city} · лимит ${fmt(limit)} ₸ · ${s.years} лет`, sent: res.ok });
     } catch { setSent('fail'); addRequest({ kind: 'Предварительное одобрение', name: s.name, contact: s.phone, note: `${s.city} · лимит ${fmt(limit)} ₸`, sent: false }); }
     saveCalcParams({ propertyValue: limit, initialPaymentPercent: downPct >= 50 ? 50 : 30, duration: s.years * 12 });
-    setSending(false); setDone(true);
+    setSending(false);
   };
 
   if (done) return (
@@ -59,7 +61,20 @@ export default function StartPage() {
             <div key={k} className="rounded-xl bg-slate-50 p-3"><div className="text-[11px] text-ink-3">{k}</div><div className="font-bold text-ink text-sm sm:text-base">{v}</div></div>
           ))}
         </div>
-        <div className="mt-4 text-sm text-ink-2 flex items-start gap-2"><Check size={16} className="text-brand shrink-0 mt-0.5" />{sent === 'ok' ? 'Заявка отправлена, менеджер свяжется с вами.' : 'Расчёт сохранён в вашем профиле. Менеджер свяжется с вами по указанному номеру.'}</div>
+        {sent === 'ok' ? (
+          <div className="mt-4 text-sm text-ink-2 flex items-start gap-2"><Check size={16} className="text-brand shrink-0 mt-0.5" />Заявка отправлена. Менеджер MD свяжется с вами и подберёт квартиру под лимит.</div>
+        ) : (
+          <form onSubmit={e => { e.preventDefault(); if (phoneOk) finish(); }} className="mt-5 rounded-2xl bg-slate-50 border border-line p-4">
+            <div className="font-bold text-ink">Получить подборку квартир под лимит</div>
+            <div className="text-sm text-ink-2 mt-0.5">Оставьте номер, менеджер пришлёт варианты и ответит на вопросы. Без звонков без вашего согласия.</div>
+            <div className="mt-3 grid sm:grid-cols-[1fr_1fr_auto] gap-2">
+              <input className="v2-input" placeholder="Ваше имя" value={s.name} onChange={e => setS({ ...s, name: e.target.value })} />
+              <input className="v2-input" placeholder="+7 ___ ___ __ __" inputMode="tel" value={s.phone} onChange={e => setS({ ...s, phone: e.target.value })} />
+              <Button type="submit" disabled={!phoneOk || sending}>{sending ? 'Отправка…' : 'Отправить'}</Button>
+            </div>
+            {sent === 'fail' && <div className="mt-2 text-xs text-red-600">Не удалось отправить, попробуйте ещё раз.</div>}
+          </form>
+        )}
         <div className="mt-6 flex flex-col sm:flex-row gap-2">
           <Button href="/arenda-s-vykupom#calculator" variant="secondary">Полный график платежей</Button>
           <Button href="#fit" className="sm:flex-1">Смотреть квартиры до {fmt(limit / 1_000_000)} млн <ArrowRight size={16} /></Button>
@@ -124,22 +139,12 @@ export default function StartPage() {
             </div>
           </>
         )}
-        {step === 4 && (
-          <>
-            <StepHead icon={<Phone />} title="Куда прислать расчёт?" sub="Менеджер MD свяжется, чтобы подобрать квартиру под ваш лимит." />
-            <div className="mt-6 grid gap-3">
-              <input className="v2-input" placeholder="Ваше имя" value={s.name} onChange={e => setS({ ...s, name: e.target.value })} />
-              <input className="v2-input" placeholder="+7 ___ ___ __ __" inputMode="tel" value={s.phone} onChange={e => setS({ ...s, phone: e.target.value })} />
-            </div>
-            <div className="mt-3 text-xs text-ink-3">Нажимая «Получить одобрение», вы соглашаетесь на обработку персональных данных.</div>
-          </>
-        )}
 
         <div className="mt-8 flex items-center justify-between gap-3">
           <Button variant="ghost" onClick={() => setStep(x => Math.max(0, x - 1))} disabled={step === 0}><ArrowLeft size={16} /> Назад</Button>
           {step < STEPS.length - 1
             ? <Button onClick={() => setStep(x => x + 1)} disabled={!canNext}>Далее <ArrowRight size={16} /></Button>
-            : <Button onClick={finish} disabled={!canNext || sending}>{sending ? 'Считаем…' : 'Получить одобрение'} <Check size={16} /></Button>}
+            : <Button onClick={() => { setSent(null); setDone(true); }} disabled={!canNext}>Показать результат <Check size={16} /></Button>}
         </div>
       </div>
     </div>

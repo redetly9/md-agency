@@ -176,9 +176,10 @@ export default function HomePage() {
         <div className="v2-container py-8 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between text-sm text-ink-3">
           <div className="flex items-center gap-2"><span className="w-7 h-7 rounded-lg bg-brand text-ink text-[10px] font-extrabold flex items-center justify-center">MD</span>© {new Date().getFullYear()} md.kz · Rent · Live · Own</div>
           <div className="flex gap-5">
-            <Link href="/refinance" className="hover:text-ink">Рефинансирование</Link>
-            <Link href="/mortgage" className="hover:text-ink">Ипотека</Link>
-            <Link href="/teaser" className="hover:text-ink">Инвесторам</Link>
+            <Link href="/about" className="hover:text-ink">О компании</Link>
+            <Link href="/legal" className="hover:text-ink">Юридическая схема</Link>
+            <Link href="/reviews" className="hover:text-ink">Отзывы</Link>
+            <Link href="/investors" className="hover:text-ink">Инвесторам</Link>
             <Link href="/messages" className="hover:text-ink">Контакты</Link>
           </div>
         </div>
