@@ -4,7 +4,7 @@ import { Suspense, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Printer } from 'lucide-react';
 import { fmt, quote } from '@/components/v2/calc';
-import { buildSchedule } from '@/components/PaymentSchedule';
+import { buildSchedule } from '@/components/v2/schedule-core';
 
 function OfferInner() {
   const sp = useSearchParams();

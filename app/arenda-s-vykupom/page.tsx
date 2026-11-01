@@ -37,7 +37,7 @@ export default function ArendaPage() {
             <Button size="lg" href="/start">Узнать мой лимит <ArrowRight size={18} /></Button>
             <Button size="lg" variant="secondary" href="#calculator">Рассчитать платёж</Button>
           </div>
-          <div className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <div className="mt-10 grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-3">
             {[
               [<Percent key="1" />, 'Взнос 30–50%', 'от стоимости квартиры'],
               [<CalendarDays key="2" />, 'До 30 лет', 'срок выкупа'],
@@ -82,13 +82,13 @@ export default function ArendaPage() {
           <h2 className="text-2xl sm:text-4xl font-bold tracking-tight">Сравнение с ипотекой</h2>
           <p className="mt-3 text-slate-300 max-w-2xl">По переплате банк может быть выгоднее, если вы проходите его требования. Мы даём квартиру тем, кому банк отказывает, и платёж, который известен на весь срок.</p>
           <div className="mt-8 rounded-2xl border border-white/10 overflow-hidden">
-            <div className="grid grid-cols-[1.4fr_1fr_1fr] text-sm">
-              <div className="p-4 text-slate-400">Параметр</div><div className="p-4 font-bold text-brand-ring">Аренда с выкупом</div><div className="p-4 text-slate-400">Ипотека</div>
+            <div className="grid grid-cols-[1.2fr_1fr_1fr] text-[11px] xs:text-xs sm:text-sm">
+              <div className="p-2.5 sm:p-4 text-slate-400">Параметр</div><div className="p-2.5 sm:p-4 font-bold text-brand-ring">Аренда с выкупом</div><div className="p-2.5 sm:p-4 text-slate-400">Ипотека</div>
               {COMPARE.map(([k, a, b], i) => (
                 <div key={i} className="contents">
-                  <div className="p-4 border-t border-white/10 text-slate-300">{k}</div>
-                  <div className="p-4 border-t border-white/10 font-semibold">{a === true ? <span className="inline-flex items-center gap-1 text-brand-ring"><Check size={16} /> не нужно</span> : a}</div>
-                  <div className="p-4 border-t border-white/10 text-slate-300">{b === false ? <span className="inline-flex items-center gap-1"><X size={16} /> требуется</span> : b}</div>
+                  <div className="p-2.5 sm:p-4 border-t border-white/10 text-slate-300">{k}</div>
+                  <div className="p-2.5 sm:p-4 border-t border-white/10 font-semibold">{a === true ? <span className="inline-flex items-center gap-1 text-brand-ring"><Check size={16} /> не нужно</span> : a}</div>
+                  <div className="p-2.5 sm:p-4 border-t border-white/10 text-slate-300">{b === false ? <span className="inline-flex items-center gap-1"><X size={16} /> требуется</span> : b}</div>
                 </div>
               ))}
             </div>

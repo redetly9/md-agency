@@ -1,4 +1,4 @@
-import { rentTiers } from '@/components/PaymentSchedule';
+import { rentTiers } from './schedule-core';
 
 export const fmt = (n: number) => Math.round(n).toLocaleString('ru-RU');
 

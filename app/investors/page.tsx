@@ -28,7 +28,7 @@ export default function InvestorsPage() {
           <Button size="lg" href="#invest">Обсудить участие <ArrowRight size={18} /></Button>
           <Button size="lg" variant="secondary" href="/teaser">Смотреть презентацию</Button>
         </div>
-        <div className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="mt-10 grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-3">
           {[['до 20%', 'годовая доходность по модели'], ['$30 млрд', 'рынок недвижимости Казахстана'], ['6 лет', 'горизонт инвестирования'], ['от $1 млн', 'инвестиционный билет']].map(([v, k]) => (
             <div key={k} className="v2-card p-4"><div className="text-2xl font-extrabold text-brand">{v}</div><div className="text-sm text-ink-2 mt-1">{k}</div></div>
           ))}

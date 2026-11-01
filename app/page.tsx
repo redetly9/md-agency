@@ -13,9 +13,15 @@ const FAQ = [
   { q: 'Чем это лучше ипотеки?', a: 'Без подтверждения дохода, без депозита и очередей, срок до 30 лет, платёж снижается со временем. Квартира фиксируется по сегодняшней цене.' },
 ];
 
+const LD = [
+  { '@context': 'https://schema.org', '@type': 'Organization', name: 'MD', alternateName: 'md.kz', url: 'https://marketplacedeposit.com', logo: 'https://marketplacedeposit.com/opengraph-image', areaServed: 'KZ' },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: FAQ.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+];
+
 export default function HomePage() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(LD) }} />
       {/* HERO */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(60%_50%_at_80%_0%,#E6F4EC_0%,rgba(230,244,236,0)_70%)]" />
@@ -29,10 +35,10 @@ export default function HomePage() {
               Живите в своей квартире уже сегодня и выкупайте её постепенно. Без подтверждения дохода, взнос от 30%, срок до 30 лет, платёж снижается со временем.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
-              <Button size="lg" href="/start">Узнать мой лимит за 2 минуты <ArrowRight size={18} /></Button>
+              <Button size="lg" href="/start" className="!whitespace-normal text-center">Узнать мой лимит за 2 минуты <ArrowRight size={18} className="shrink-0" /></Button>
               <Button size="lg" variant="secondary" href="/catalog">Смотреть квартиры</Button>
             </div>
-            <div className="mt-8 grid grid-cols-3 gap-3 max-w-lg">
+            <div className="mt-8 grid grid-cols-1 xs:grid-cols-3 gap-2 max-w-lg">
               {[
                 [<UserCheck key="1" size={18} />, 'Без справок о доходах'],
                 [<Percent key="2" size={18} />, 'Взнос от 30%'],
@@ -45,14 +51,14 @@ export default function HomePage() {
 
           {/* approval card */}
           <div className="relative">
-            <div className="absolute -inset-6 -z-10 rounded-[2rem] bg-brand-light/60 blur-2xl" />
+            <div className="absolute -inset-3 sm:-inset-6 -z-10 rounded-[2rem] bg-brand-light/60 blur-2xl" />
             <div className="v2-card p-6 shadow-[0_30px_80px_-40px_rgba(11,122,75,0.45)]">
               <div className="flex items-center justify-between">
                 <div className="text-sm text-ink-2">Предварительное одобрение</div>
                 <span className="text-[11px] font-semibold px-2 py-1 rounded-full bg-brand-light text-brand">2 минуты</span>
               </div>
               <div className="mt-3 text-sm text-ink-3">Доступны квартиры до</div>
-              <div className="text-4xl font-extrabold text-ink tabular-nums">42 000 000 ₸</div>
+              <div className="text-3xl xs:text-4xl font-extrabold text-ink tabular-nums">42 000 000 ₸</div>
               <div className="mt-4 grid grid-cols-2 gap-3">
                 <div className="rounded-xl bg-slate-50 p-3"><div className="text-[11px] text-ink-3">Платёж в месяц</div><div className="font-bold text-ink">от 317 200 ₸</div></div>
                 <div className="rounded-xl bg-slate-50 p-3"><div className="text-[11px] text-ink-3">Первый взнос</div><div className="font-bold text-ink">12 600 000 ₸</div></div>
@@ -127,8 +133,8 @@ export default function HomePage() {
             <Button href="/start" variant="primary" size="lg" className="mt-7">Проверить, подхожу ли я</Button>
           </div>
           <div className="rounded-2xl border border-line overflow-hidden">
-            <div className="grid grid-cols-[1.4fr_1fr_1fr] text-sm">
-              <div className="p-4 text-slate-400">Условие</div><div className="p-4 font-bold text-brand-ring">MD</div><div className="p-4 text-slate-400">Банк</div>
+            <div className="grid grid-cols-[1.2fr_1fr_1fr] text-[11px] xs:text-xs sm:text-sm">
+              <div className="p-2.5 sm:p-4 text-slate-400">Условие</div><div className="p-2.5 sm:p-4 font-bold text-brand-ring">MD</div><div className="p-2.5 sm:p-4 text-slate-400">Банк</div>
               {[
                 ['Подтверждение дохода', true, false],
                 ['Кредитная история', true, false],
@@ -165,7 +171,7 @@ export default function HomePage() {
         <div className="rounded-3xl bg-brand text-ink p-8 sm:p-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 overflow-hidden relative">
           <div className="absolute -right-20 -top-20 w-72 h-72 rounded-full bg-slate-100" />
           <div className="relative">
-            <div className="text-2xl sm:text-3xl font-extrabold tracking-tight">Узнайте свой лимит сегодня</div>
+            <div className="text-xl xs:text-2xl sm:text-3xl font-extrabold tracking-tight">Узнайте свой лимит сегодня</div>
             <div className="mt-2 text-ink-2">Пять вопросов, никаких документов. Результат сразу на экране.</div>
           </div>
           <Button href="/start" variant="dark" size="lg" className="relative bg-white !text-brand hover:bg-white/90">Начать <ArrowRight size={18} /></Button>
@@ -173,6 +179,10 @@ export default function HomePage() {
       </section>
 
       <footer className="border-t border-line">
+        <div className="v2-container pt-8 text-sm text-ink-3 flex flex-wrap gap-x-4 gap-y-1">
+          <span>Аренда с выкупом:</span>
+          {[['astana', 'Астана'], ['almaty', 'Алматы'], ['shymkent', 'Шымкент'], ['karaganda', 'Караганда'], ['aktobe', 'Актобе']].map(([s, n]) => <Link key={s} href={`/gorod/${s}`} className="hover:text-ink">{n}</Link>)}
+        </div>
         <div className="v2-container py-8 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between text-sm text-ink-3">
           <div className="flex items-center gap-2"><span className="w-7 h-7 rounded-lg bg-brand text-ink text-[10px] font-extrabold flex items-center justify-center">MD</span>© {new Date().getFullYear()} md.kz · Rent · Live · Own</div>
           <div className="flex gap-5">

@@ -41,7 +41,7 @@ export default function ProfilePage() {
     <div className="v2-container py-6 sm:py-10 max-w-3xl">
       <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-ink">Личный кабинет</h1>
 
-      <div className="v2-card mt-5 p-5 flex items-center gap-4">
+      <div className="v2-card mt-5 p-4 xs:p-5 flex items-center gap-3 xs:gap-4">
         <div className="w-14 h-14 rounded-2xl bg-brand-light text-brand flex items-center justify-center shrink-0"><User size={26} /></div>
         <div className="min-w-0 flex-1">
           <div className="font-bold text-ink truncate">{name || (user?.email ? user.email.split('@')[0] : 'Гость')}</div>
@@ -68,7 +68,7 @@ export default function ProfilePage() {
           </div>
         </div>
       ) : (
-        <div className="v2-card mt-4 p-5 flex items-center justify-between gap-4">
+        <div className="v2-card mt-4 p-5 flex flex-col xs:flex-row xs:items-center justify-between gap-3 xs:gap-4">
           <div><div className="font-bold text-ink">Узнайте свой лимит</div><div className="text-sm text-ink-2 mt-0.5">Пять вопросов, результат сразу на экране.</div></div>
           <Button href="/start" size="sm">Начать</Button>
         </div>
@@ -82,7 +82,7 @@ export default function ProfilePage() {
         </div>
         <div className="text-sm text-ink-2 mb-4">Квартира {fmt(calc.propertyValue)} ₸ · взнос {calc.initialPaymentPercent}% · {calc.duration / 12} лет. Платёж снижается каскадом.</div>
         <Cascade tiers={q.tiers} principal={q.principal} months={calc.duration} compact />
-        <div className="mt-4 grid grid-cols-[1fr_auto] gap-3">
+        <div className="mt-4 grid grid-cols-1 xs:grid-cols-[1fr_auto] gap-3">
           <input type="text" inputMode="numeric" aria-label="Стоимость жилья" value={calc.propertyValue.toLocaleString('ru-RU')}
             onChange={e => setCalc(c => ({ ...c, propertyValue: Math.max(0, parseInt(e.target.value.replace(/\D/g, ''), 10) || 0) }))}
             className="v2-input h-11 font-semibold" />

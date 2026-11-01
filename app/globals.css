@@ -27,8 +27,10 @@ body {
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 
 /* v2 primitives */
-.v2-container { @apply max-w-6xl mx-auto px-4 sm:px-6; }
-.v2-h1 { @apply text-[2.25rem] leading-[1.05] sm:text-5xl lg:text-6xl font-extrabold tracking-[-0.02em] text-ink; }
+.v2-container { @apply max-w-6xl mx-auto px-4 sm:px-6 min-w-0; }
+html, body { max-width: 100%; overflow-x: clip; }
+.v2-h1 { overflow-wrap: anywhere; }
+.v2-h1 { @apply text-[2rem] leading-[1.08] sm:text-5xl lg:text-6xl font-extrabold tracking-[-0.02em] text-ink; }
 .v2-h2 { @apply text-2xl sm:text-3xl lg:text-4xl font-bold tracking-[-0.01em] text-ink; }
 .v2-card { @apply bg-white rounded-2xl border border-line; }
 .v2-input { @apply w-full h-12 px-4 rounded-xl border border-line bg-white text-ink placeholder:text-ink-3 focus:outline-none focus:border-brand focus:ring-4 focus:ring-brand/10 transition; }

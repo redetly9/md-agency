@@ -82,10 +82,10 @@ export default function ListingPage() {
               <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-ink">{title}</h1>
               <div className="mt-1 text-ink-2 flex items-center gap-1"><MapPin size={16} className="shrink-0" />{addr}</div>
             </div>
-            <div className="text-3xl font-extrabold text-ink tabular-nums">{fmt(l.price)} ₸</div>
+            <div className="text-2xl xs:text-3xl font-extrabold text-ink tabular-nums">{fmt(l.price)} ₸</div>
           </div>
 
-          <div className="mt-6 grid grid-cols-3 sm:grid-cols-6 gap-2">
+          <div className="mt-6 grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-6 gap-2">
             {params.map(([icon, k, v], i) => (
               <div key={i} className="v2-card p-3 min-w-0"><div className="text-brand">{icon}</div><div className="text-[11px] text-ink-3 mt-1.5">{k as string}</div><div className="text-sm font-bold text-ink truncate">{v as string}</div></div>
             ))}

@@ -8,14 +8,15 @@ import { fmt, quote } from './calc';
 
 type L = { id: string; imageSrc: string; price: number; roomCount: number; street: string; district: string; city: string; area?: string };
 
-export default function ListingsPreview({ limit = 6, maxPrice }: { limit?: number; maxPrice?: number }) {
+export default function ListingsPreview({ limit = 6, maxPrice, region }: { limit?: number; maxPrice?: number; region?: string }) {
   const [items, setItems] = useState<L[] | null>(null);
   useEffect(() => {
     const url = new URL('/api/krisha/listings', window.location.origin);
     url.searchParams.set('dealType', 'prodazha'); url.searchParams.set('propertyType', 'kvartiry'); url.searchParams.set('page', '1');
     if (maxPrice) url.searchParams.set('priceTo', String(maxPrice));
+    if (region) url.searchParams.set('region', region);
     fetch(url).then(r => r.json()).then(d => setItems(Array.isArray(d.listings) ? d.listings.slice(0, limit) : [])).catch(() => setItems([]));
-  }, [limit, maxPrice]);
+  }, [limit, maxPrice, region]);
 
   if (items === null) return (
     <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">

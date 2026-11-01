@@ -13,8 +13,13 @@ const manrope = Manrope({ subsets: ['latin', 'cyrillic'], weight: ['400', '500',
 const playfair = Playfair_Display({ subsets: ['latin', 'cyrillic'], weight: ['500', '600', '700'], display: 'swap', variable: '--font-serif' });
 
 export const metadata: Metadata = {
-  title: 'MD — квартира в собственность без ипотеки',
+  metadataBase: new URL('https://marketplacedeposit.com'),
+  title: { default: 'MD — квартира в собственность без ипотеки', template: '%s' },
   description: 'Аренда с выкупом: живите в своей квартире уже сегодня и выкупайте её постепенно. Без подтверждения дохода, взнос от 30%, срок до 30 лет.',
+  openGraph: { type: 'website', siteName: 'MD · md.kz', locale: 'ru_KZ', url: 'https://marketplacedeposit.com', title: 'MD — квартира в собственность без ипотеки', description: 'Аренда с выкупом: взнос от 30%, срок до 30 лет, без справок о доходах. Платёж снижается каскадом.' },
+  twitter: { card: 'summary_large_image' },
+  alternates: { canonical: 'https://marketplacedeposit.com' },
+  robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = { themeColor: '#ffffff', width: 'device-width', initialScale: 1 };

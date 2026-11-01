@@ -1,7 +1,7 @@
 'use client';
 
 import { fmt } from './calc';
-import type { RentTier } from '@/components/PaymentSchedule';
+import type { RentTier } from './schedule-core';
 
 /** Каскад платежей: три ступени вниз, как в примере 200 000 → 100 000 → 42 000. */
 export default function Cascade({ tiers, principal, months, compact = false }: { tiers: RentTier[]; principal: number; months: number; compact?: boolean }) {
@@ -23,10 +23,10 @@ export default function Cascade({ tiers, principal, months, compact = false }: {
       <div className={`grid gap-2 ${compact ? 'h-32' : 'h-44'}`} style={{ gridTemplateColumns: `repeat(${tiers.length}, minmax(0, 1fr))` }}>
         {tiers.map((t, i) => (
           <div key={i} className="flex flex-col justify-end min-w-0">
-            <div className={`text-center ${compact ? 'text-sm' : 'text-base sm:text-lg'} font-extrabold text-ink tabular-nums whitespace-nowrap v2-pop`} key={totals[i]}>
+            <div className={`text-center ${compact ? 'text-xs xs:text-sm' : 'text-sm xs:text-base sm:text-lg'} font-extrabold text-ink tabular-nums whitespace-nowrap v2-pop`} key={totals[i]}>
               {fmt(totals[i])} <span className="text-xs font-semibold text-ink-3">₸</span>
             </div>
-            {!compact && <div className="text-center text-[11px] text-ink-3 mb-1.5 whitespace-nowrap">выкуп {fmt(principal)} + аренда {fmt(t.rent)}</div>}
+            {!compact && <div className="hidden sm:block text-center text-[11px] text-ink-3 mb-1.5 whitespace-nowrap">выкуп {fmt(principal)} + аренда {fmt(t.rent)}</div>}
             <div className="relative rounded-t-xl bg-gradient-to-b from-brand to-brand-dark shadow-[inset_0_1px_0_rgba(255,255,255,0.25)]"
               style={{ height: `${Math.max(18, heights[i] ?? 40)}%`, opacity: 1 - i * 0.18 }}>
               {i < tiers.length - 1 && (
@@ -39,8 +39,8 @@ export default function Cascade({ tiers, principal, months, compact = false }: {
       <div className="grid gap-2 mt-2 border-t border-line pt-2" style={{ gridTemplateColumns: `repeat(${tiers.length}, minmax(0, 1fr))` }}>
         {tiers.map((t, i) => (
           <div key={i} className="text-center min-w-0">
-            <div className="text-xs font-semibold text-ink whitespace-nowrap">{range(t)}</div>
-            <div className="text-[11px] text-ink-3 whitespace-nowrap">{years(t)} · {(t.rate * 100).toLocaleString('ru-RU')}%</div>
+            <div className="text-[11px] xs:text-xs font-semibold text-ink whitespace-nowrap">{range(t)}</div>
+            <div className="text-[10px] xs:text-[11px] text-ink-3 whitespace-nowrap">{years(t)} · {(t.rate * 100).toLocaleString('ru-RU')}%</div>
           </div>
         ))}
       </div>

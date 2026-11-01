@@ -11,7 +11,7 @@ export default function AboutPage() {
         <div className="inline-flex items-center gap-2 rounded-full border border-brand-light bg-brand-soft px-3 py-1.5 text-xs font-semibold text-brand">О компании</div>
         <h1 className="v2-h1 mt-5 max-w-3xl">Больше, чем просто квартиры</h1>
         <p className="mt-5 text-lg text-ink-2 max-w-2xl leading-relaxed">MD — цифровая платформа аренды жилья с выкупом. Мы покупаем квартиру, вы живёте в ней и выкупаете по заранее согласованным условиям. Без банковских проверок и справок о доходах.</p>
-        <div className="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="mt-8 grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-3">
           {[['30 лет', 'максимальный срок выкупа'], ['30–50%', 'первоначальный взнос'], ['3 ступени', 'снижения платежа'], ['Казахстан', 'Астана, Алматы, Шымкент и регионы']].map(([v, k]) => (
             <div key={k} className="v2-card p-4"><div className="text-2xl font-extrabold text-brand">{v}</div><div className="text-sm text-ink-2 mt-1">{k}</div></div>
           ))}

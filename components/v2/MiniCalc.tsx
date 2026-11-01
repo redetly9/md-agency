@@ -34,13 +34,13 @@ export default function MiniCalc({ compact = false, withSchedule = false }: { co
       <div className="v2-card overflow-hidden shadow-[0_30px_80px_-40px_rgba(15,23,42,0.35)]">
         <div className="grid lg:grid-cols-[1fr_1.15fr]">
           {/* inputs */}
-          <div className="p-5 sm:p-7 border-b lg:border-b-0 lg:border-r border-line">
-            <div className="flex items-end justify-between gap-3">
+          <div className="p-4 xs:p-5 sm:p-7 border-b lg:border-b-0 lg:border-r border-line min-w-0">
+            <div className="flex flex-col xs:flex-row xs:items-end xs:justify-between gap-1 xs:gap-3">
               <div className="text-sm font-medium text-ink-2">Стоимость квартиры</div>
-              <div className="flex items-baseline gap-1">
+              <div className="flex items-baseline gap-1 min-w-0">
                 <input type="text" inputMode="numeric" aria-label="Стоимость квартиры" value={fmt(price)}
                   onChange={e => setPrice(Math.min(120_000_000, Math.max(0, parseInt(e.target.value.replace(/\D/g, ''), 10) || 0)))}
-                  className="w-[190px] sm:w-[230px] bg-transparent text-right text-3xl sm:text-4xl font-extrabold text-ink tabular-nums focus:outline-none" />
+                  className="w-full xs:w-[190px] sm:w-[230px] min-w-0 bg-transparent xs:text-right text-[28px] sm:text-4xl font-extrabold text-ink tabular-nums focus:outline-none" />
                 <span className="text-xl font-bold text-ink-3">₸</span>
               </div>
             </div>
@@ -70,7 +70,7 @@ export default function MiniCalc({ compact = false, withSchedule = false }: { co
               </div>
             </div>
 
-            <div className="mt-6 grid grid-cols-3 gap-2">
+            <div className="mt-6 grid grid-cols-1 xs:grid-cols-3 gap-2">
               {[['К выкупу', fmt(q.remaining)], ['В собственность', `${fmt(q.principal)}/мес`], ['Аренда за срок', fmt(totalRent)]].map(([k, v]) => (
                 <div key={k} className="rounded-xl bg-slate-50 p-3 min-w-0"><div className="text-[11px] text-ink-3">{k}</div><div className="text-sm font-bold text-ink tabular-nums truncate">{v} ₸</div></div>
               ))}
@@ -78,13 +78,13 @@ export default function MiniCalc({ compact = false, withSchedule = false }: { co
           </div>
 
           {/* result */}
-          <div className="p-5 sm:p-7 bg-brand-soft/60">
+          <div className="p-4 xs:p-5 sm:p-7 bg-brand-soft/60 min-w-0">
             <div className="flex items-center justify-between">
               <div className="text-sm font-medium text-ink-2">Ваш платёж в месяц</div>
               <span className="text-[11px] font-semibold text-brand bg-brand-light px-2 py-1 rounded-full">снижается каскадом</span>
             </div>
             <div className="mt-1 flex items-baseline gap-2 flex-wrap">
-              <div className="text-5xl sm:text-6xl font-extrabold text-brand tabular-nums tracking-tight v2-pop" key={q.first}>{fmt(q.first)}</div>
+              <div className="text-4xl xs:text-5xl sm:text-6xl font-extrabold text-brand tabular-nums tracking-tight v2-pop" key={q.first}>{fmt(q.first)}</div>
               <div className="text-xl font-bold text-brand">₸</div>
               <div className="text-sm text-ink-2 ml-1">в первые {Math.round(months / 3) % 12 === 0 ? `${months / 36} лет` : `${Math.round(months / 3)} мес`}</div>
             </div>

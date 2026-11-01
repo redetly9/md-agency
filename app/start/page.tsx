@@ -55,8 +55,8 @@ export default function StartPage() {
       <div className="v2-card p-6 sm:p-8 shadow-[0_30px_80px_-40px_rgba(11,122,75,0.45)]">
         <div className="inline-flex items-center gap-2 rounded-full bg-brand-light text-brand px-3 py-1.5 text-xs font-semibold"><Sparkles size={14} /> Предварительное одобрение</div>
         <div className="mt-4 text-ink-2">{s.name ? `${s.name}, вам` : 'Вам'} доступны квартиры в {s.city} до</div>
-        <div className="mt-1 text-4xl sm:text-5xl font-extrabold text-ink tabular-nums">{fmt(limit)} ₸</div>
-        <div className="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div className="mt-1 text-3xl xs:text-4xl sm:text-5xl font-extrabold text-ink tabular-nums">{fmt(limit)} ₸</div>
+        <div className="mt-5 grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-4 gap-3">
           {[['Платёж в месяц', `${fmt(q.first)} ₸`], ['Первый взнос', `${fmt(s.down)} ₸ · ${downPct}%`], ['Срок', `${s.years} лет`], ['Через ' + Math.round(s.years / 3) + ' лет платёж', `${fmt(q.principal + (q.tiers[1]?.rent ?? 0))} ₸`]].map(([k, v]) => (
             <div key={k} className="rounded-xl bg-slate-50 p-3"><div className="text-[11px] text-ink-3">{k}</div><div className="font-bold text-ink text-sm sm:text-base">{v}</div></div>
           ))}

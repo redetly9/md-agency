@@ -4,7 +4,7 @@ import React from 'react';
 type Variant = 'primary' | 'secondary' | 'ghost' | 'dark';
 type Size = 'sm' | 'md' | 'lg';
 
-const base = 'inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap';
+const base = 'inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap max-w-full';
 const variants: Record<Variant, string> = {
   primary: 'bg-brand text-white hover:bg-brand-dark shadow-[0_8px_24px_-8px_rgba(11,122,75,0.6)]',
   secondary: 'bg-brand-light text-brand hover:bg-[#d9eee2]',
