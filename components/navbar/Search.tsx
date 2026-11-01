@@ -46,19 +46,19 @@ const Search = () => {
           className="border-[1px] w-[55%] py-2 rounded-full shadow-none hover:shadow-none transition duration-300 cursor-pointer"
         >
           <div className="flex flex-row justify-between items-center">
-            <small className="text-sm font-bold px-6 text-white/75">
+            <small className="text-sm font-bold px-6 text-ink-2">
              
             </small>
 
-            <small className="hidden sm:block text-sm font-bold px-6 border-x-[1px] flex-1 text-center text-white/75">
+            <small className="hidden sm:block text-sm font-bold px-6 border-x-[1px] flex-1 text-center text-ink-2">
              
             </small>
 
-            <div className="text-sm pl-6 pr-2 text-white/75 flex flex-row items-center gap-4">
+            <div className="text-sm pl-6 pr-2 text-ink-2 flex flex-row items-center gap-4">
               <small className="hidden sm:block font-normal text-sm">
                
               </small>
-              <div className="p-2  bg-[#d4af5a] rounded-full  text-[#0b1626]">
+              <div className="p-2  bg-brand rounded-full  text-ink">
                 <FaSearch className="text-[12px] " />
               </div>
             </div>

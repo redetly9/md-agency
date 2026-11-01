@@ -5,16 +5,16 @@ import { Plus, Search, MessageCircle, Clock, AlertCircle, CheckCircle, Mail, Pho
 import Link from 'next/link';
 
 const priorityColors = {
-  low: 'text-green-300 bg-green-500/15',
-  medium: 'text-yellow-300 bg-yellow-500/15',
-  high: 'text-orange-300 bg-orange-500/15',
-  urgent: 'text-red-300 bg-red-500/15'
+  low: 'text-green-700 bg-green-50',
+  medium: 'text-yellow-700 bg-yellow-50',
+  high: 'text-orange-700 bg-orange-50',
+  urgent: 'text-red-700 bg-red-50'
 };
 
 const statusColors = {
-  open: 'text-[#e6c87a] bg-[#d4af5a]/15',
-  in_progress: 'text-yellow-300 bg-yellow-500/15',
-  closed: 'text-white/75 bg-white/5'
+  open: 'text-brand bg-brand-light',
+  in_progress: 'text-yellow-700 bg-yellow-50',
+  closed: 'text-ink-2 bg-slate-50'
 };
 
 const statusIcons = {
@@ -88,15 +88,15 @@ export default function SupportPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#0b1626]">
+    <div className="flex flex-col min-h-screen bg-white">
       {/* Header */}
-      <header className="bg-[#122037] px-4 py-4 border-b border-white/10">
+      <header className="bg-white px-4 py-4 border-b border-line">
         <div className="max-w-screen-md mx-auto">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-white">Поддержка</h1>
+            <h1 className="text-2xl font-bold text-ink">Поддержка</h1>
             <Link
               href="/support/new"
-              className="flex items-center px-4 py-2 bg-[#d4af5a] text-[#0b1626] rounded-lg hover:bg-[#015a6b] transition-colors"
+              className="flex items-center px-4 py-2 bg-brand text-ink rounded-lg hover:bg-[#015a6b] transition-colors"
             >
               <Plus size={20} className="mr-2" />
               Новый тикет
@@ -106,45 +106,45 @@ export default function SupportPage() {
       </header>
 
       {/* Search */}
-      <div className="bg-[#122037] px-4 pb-4 border-b border-white/10">
+      <div className="bg-white px-4 pb-4 border-b border-line">
         <div className="max-w-screen-md mx-auto">
           <div className="relative">
-            <Search size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/40" />
+            <Search size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-ink-3" />
             <input
               type="text"
               placeholder="Поиск по тикетам..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 bg-white/5 rounded-[38px] text-white/40 text-sm font-light placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-colors"
+              className="w-full pl-10 pr-4 py-3 bg-slate-50 rounded-[38px] text-ink-3 text-sm font-light placeholder:text-ink-3 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-colors"
             />
           </div>
         </div>
       </div>
 
       {/* Contact Info */}
-      <div className="bg-[#122037] px-4 py-6 border-b border-white/10">
+      <div className="bg-white px-4 py-6 border-b border-line">
         <div className="max-w-screen-md mx-auto">
-          <h2 className="text-lg font-semibold text-white mb-4">Свяжитесь с нами</h2>
+          <h2 className="text-lg font-semibold text-ink mb-4">Свяжитесь с нами</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="flex items-center space-x-3">
-              <Mail size={20} className="text-[#e6c87a]" />
+              <Mail size={20} className="text-brand" />
               <div>
-                <p className="text-sm font-medium text-white">Email</p>
-                <p className="text-sm text-white/75">support@example.com</p>
+                <p className="text-sm font-medium text-ink">Email</p>
+                <p className="text-sm text-ink-2">support@example.com</p>
               </div>
             </div>
             <div className="flex items-center space-x-3">
-              <Phone size={20} className="text-[#e6c87a]" />
+              <Phone size={20} className="text-brand" />
               <div>
-                <p className="text-sm font-medium text-white">Телефон</p>
-                <p className="text-sm text-white/75">+7 (999) 123-45-67</p>
+                <p className="text-sm font-medium text-ink">Телефон</p>
+                <p className="text-sm text-ink-2">+7 (999) 123-45-67</p>
               </div>
             </div>
             <div className="flex items-center space-x-3">
-              <MapPin size={20} className="text-[#e6c87a]" />
+              <MapPin size={20} className="text-brand" />
               <div>
-                <p className="text-sm font-medium text-white">Адрес</p>
-                <p className="text-sm text-white/75">Москва, ул. Примерная, 1</p>
+                <p className="text-sm font-medium text-ink">Адрес</p>
+                <p className="text-sm text-ink-2">Москва, ул. Примерная, 1</p>
               </div>
             </div>
           </div>
@@ -152,17 +152,17 @@ export default function SupportPage() {
       </div>
 
       {/* Tickets List */}
-      <div className="flex-1 bg-[#122037]">
+      <div className="flex-1 bg-white">
         <div className="max-w-screen-md mx-auto">
           {filteredTickets.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16 px-4">
-              <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mb-4">
-                <MessageCircle size={24} className="text-white/40" />
+              <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4">
+                <MessageCircle size={24} className="text-ink-3" />
               </div>
-              <h3 className="text-lg font-medium text-white mb-2">
+              <h3 className="text-lg font-medium text-ink mb-2">
                 {searchQuery ? 'Тикеты не найдены' : 'Добро пожаловать в поддержку'}
               </h3>
-              <p className="text-white/55 text-center mb-6">
+              <p className="text-ink-2 text-center mb-6">
                 {searchQuery 
                   ? 'Попробуйте изменить поисковый запрос'
                   : 'Здесь вы можете получить помощь по любым вопросам'
@@ -170,12 +170,12 @@ export default function SupportPage() {
               </p>
               {!searchQuery && (
                 <div className="text-center">
-                  <p className="text-sm text-white/75 mb-4">
+                  <p className="text-sm text-ink-2 mb-4">
                     Для создания тикета необходимо войти в систему
                   </p>
                   <Link
                     href="/login"
-                    className="inline-block bg-[#d4af5a] text-[#0b1626] px-6 py-2 rounded-lg hover:bg-[#015a6b] transition-colors"
+                    className="inline-block bg-brand text-ink px-6 py-2 rounded-lg hover:bg-[#015a6b] transition-colors"
                   >
                     Войти в систему
                   </Link>
@@ -183,29 +183,29 @@ export default function SupportPage() {
               )}
             </div>
           ) : (
-            <div className="divide-y divide-white/10">
+            <div className="divide-y divide-line">
               {filteredTickets.map((ticket) => {
                 const StatusIcon = statusIcons[ticket.status as keyof typeof statusIcons];
                 return (
                   <div 
                     key={ticket.id} 
-                    className="flex items-center px-4 py-4 hover:bg-white/10 transition-colors"
+                    className="flex items-center px-4 py-4 hover:bg-slate-100 transition-colors"
                   >
                     {/* Status Icon */}
                     <div className="relative flex-shrink-0 mr-3">
-                      <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center">
-                        <StatusIcon size={20} className="text-white/75" />
+                      <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center">
+                        <StatusIcon size={20} className="text-ink-2" />
                       </div>
                     </div>
 
                     {/* Content */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between mb-1">
-                        <h3 className="text-base font-medium text-white truncate">
+                        <h3 className="text-base font-medium text-ink truncate">
                           {ticket.subject}
                         </h3>
                         <div className="flex items-center space-x-2">
-                          <span className="text-sm text-white/40 font-light">
+                          <span className="text-sm text-ink-3 font-light">
                             {formatDate(ticket.updated_at)}
                           </span>
                         </div>
@@ -223,12 +223,12 @@ export default function SupportPage() {
                           {ticket.priority === 'high' && 'Высокий'}
                           {ticket.priority === 'urgent' && 'Срочный'}
                         </span>
-                        <span className="text-xs text-white/55">
+                        <span className="text-xs text-ink-2">
                           {ticket.category}
                         </span>
                       </div>
                       
-                      <p className="text-sm text-white/75 font-light truncate">
+                      <p className="text-sm text-ink-2 font-light truncate">
                         {getLastMessage(ticket)}
                       </p>
                     </div>

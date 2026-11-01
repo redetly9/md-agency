@@ -62,7 +62,7 @@ export default function Gallery({ images }: GalleryProps) {
 
   return (
     <div className="relative bg-black">
-      <Link href="/" className="absolute top-4 left-4 z-10 bg-[#122037] rounded-full p-2">
+      <Link href="/" className="absolute top-4 left-4 z-10 bg-white rounded-full p-2">
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"/>
         </svg>
@@ -90,7 +90,7 @@ export default function Gallery({ images }: GalleryProps) {
         </div>
       </div>
 
-      <div className="absolute bottom-4 right-4 bg-black/50 text-white px-2 py-1 rounded text-sm">
+      <div className="absolute bottom-4 right-4 bg-black/50 text-ink px-2 py-1 rounded text-sm">
         {currentIndex + 1}/{images.length}
       </div>
     </div>

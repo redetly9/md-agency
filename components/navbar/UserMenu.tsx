@@ -31,7 +31,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
           <Modal.Trigger name={user ? 'share' : 'Login'}>
             <button
               type="button"
-              className="hidden md:block text-sm font-bold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer text-white/75">
+              className="hidden md:block text-sm font-bold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer text-ink-2">
               Подать объявление
             </button>
           </Modal.Trigger>
@@ -46,7 +46,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
                 </div>
               </button>
             </Menu.Toggle>
-            <Menu.List className="shadow-[0_0_36px_4px_rgba(0,0,0,0.075)] rounded-xl bg-[#122037] text-sm">
+            <Menu.List className="shadow-[0_0_36px_4px_rgba(0,0,0,0.075)] rounded-xl bg-white text-sm">
               {user ? (
                 <>
                   {menuItems.map((item) => (

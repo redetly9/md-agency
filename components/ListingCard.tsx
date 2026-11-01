@@ -18,7 +18,7 @@ const ListingCard: React.FC<ListingCardProps> = ({ data, reservation, hasFavorit
   const price = reservation ? reservation.totalPrice : data?.price;
 
   return (
-    <div className="bg-[#122037] border-b">
+    <div className="bg-white border-b">
       <Link href={`/listings/view/${data.id}`} className="block">
         <div className="p-4">
           {/* Цена */}
@@ -32,7 +32,7 @@ const ListingCard: React.FC<ListingCardProps> = ({ data, reservation, hasFavorit
           </div>
 
           {/* Основная информация о квартире */}
-          <div className="text-[#e6c87a] mb-3">
+          <div className="text-brand mb-3">
             {data.roomCount}-комнатная квартира · {data.area} м² · {data.floor}
           </div>
 
@@ -45,23 +45,23 @@ const ListingCard: React.FC<ListingCardProps> = ({ data, reservation, hasFavorit
                   alt={data.title}
                   className="object-cover w-full h-full rounded"
                 />
-                <div className="absolute bottom-2 right-2 bg-black/50 text-white px-2 py-0.5 rounded text-sm">
+                <div className="absolute bottom-2 right-2 bg-black/50 text-ink px-2 py-0.5 rounded text-sm">
                   1
                 </div>
               </div>
             </div>
             <div className="flex-1">
               <div className="text-base mb-1">{data.street || 'Улица не указана'}</div>
-              <div className="text-white/55">{data.city}, {data.district}</div>
+              <div className="text-ink-2">{data.city}, {data.district}</div>
             </div>
           </div>
 
           {/* Нижняя информация */}
           <div className="flex items-center justify-between mt-3">
-            <span className="bg-yellow-500/15 text-[13px] text-yellow-300 px-2 py-0.5 rounded">
+            <span className="bg-yellow-50 text-[13px] text-yellow-700 px-2 py-0.5 rounded">
               Хозяин недвижимости
             </span>
-            <div className="flex items-center gap-4 text-white/55">
+            <div className="flex items-center gap-4 text-ink-2">
               <span>{format(new Date(), 'd MMMM')}</span>
               <div className="flex items-center gap-1">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -84,7 +84,7 @@ export default ListingCard;
 
 export const ListingSkeleton = () => {
   return (
-    <div className="bg-[#122037] border-b p-4">
+    <div className="bg-white border-b p-4">
       <div className="flex justify-between mb-2">
         <Skeleton height={32} width={160} />
         <div className="flex gap-2">

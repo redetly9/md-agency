@@ -1,20 +1,27 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import Button from './Button';
 import { fmt, quote } from './calc';
-import { saveCalcParams } from '@/components/PaymentSchedule';
+import PaymentSchedule, { loadCalcParams, saveCalcParams } from '@/components/PaymentSchedule';
 
 const TERMS = [5, 10, 15, 20, 30];
 
-export default function MiniCalc({ compact = false }: { compact?: boolean }) {
+export default function MiniCalc({ compact = false, withSchedule = false }: { compact?: boolean; withSchedule?: boolean }) {
   const [price, setPrice] = useState(30_000_000);
   const [down, setDown] = useState(30);
   const [years, setYears] = useState(30);
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    if (!withSchedule) return;
+    const p = loadCalcParams(); setPrice(p.propertyValue || 30_000_000); setDown(p.initialPaymentPercent === 50 ? 50 : 30); setYears(Math.max(5, Math.round(p.duration / 12)) || 30); setReady(true);
+  }, [withSchedule]);
+  useEffect(() => { if (withSchedule && ready) saveCalcParams({ propertyValue: price, initialPaymentPercent: down, duration: years * 12 }); }, [withSchedule, ready, price, down, years]);
   const q = useMemo(() => quote(price, down, years * 12), [price, down, years]);
 
   return (
+    <>
     <div className="v2-card p-5 sm:p-7 shadow-[0_24px_60px_-30px_rgba(15,23,42,0.25)]">
       <div className="grid lg:grid-cols-[1.1fr_1fr] gap-7">
         <div className="space-y-6">
@@ -65,14 +72,19 @@ export default function MiniCalc({ compact = false }: { compact?: boolean }) {
           <div className="mt-4 text-xs text-ink-2 leading-relaxed">
             Выкуп {fmt(q.principal)} ₸/мес идёт в вашу собственность. Аренда 0,8% → 0,4% → 0,168% от остатка {fmt(q.remaining)} ₸.
           </div>
-          {!compact && (
+          {!compact && !withSchedule && (
             <div className="mt-auto pt-5 flex flex-col sm:flex-row gap-2">
               <Button href="/arenda-s-vykupom#calculator" variant="secondary" onClick={() => saveCalcParams({ propertyValue: price, initialPaymentPercent: down, duration: years * 12 })}>Полный график</Button>
               <Button href="/start" className="sm:flex-1">Получить одобрение <ArrowRight size={16} /></Button>
             </div>
           )}
+          {withSchedule && (
+            <div className="mt-auto pt-5"><Button href="#lead" full>Оставить заявку с этими условиями <ArrowRight size={16} /></Button></div>
+          )}
         </div>
       </div>
     </div>
+    {withSchedule && <div className="mt-4"><PaymentSchedule params={{ propertyValue: price, initialPaymentPercent: down, duration: years * 12 }} showTiers={false} /></div>}
+    </>
   );
 }

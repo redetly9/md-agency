@@ -1,883 +1,128 @@
-'use client';
-
-import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, X, Phone, Mail, MapPin, Instagram, Facebook, Twitter, Linkedin } from 'lucide-react';
-import { useMoveBack } from '@/hooks/useMoveBack';
-import CountryGate, { CountryButton } from '@/components/CountryGate';
-import PaymentSchedule, { loadCalcParams, saveCalcParams, rentTiers, tierLength } from '@/components/PaymentSchedule';
+import { ArrowRight, Percent, CalendarDays, UserCheck, ShieldCheck, Home, Check, X, Search, PiggyBank, FileSignature, KeyRound, Building2 } from 'lucide-react';
+import Button from '@/components/v2/Button';
+import MiniCalc from '@/components/v2/MiniCalc';
+import LeadForm from '@/components/v2/LeadForm';
 
-export default function ArendaSVykupomPage() {
-  const moveBack = useMoveBack();
-  const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: '',
-    propertyValue: '',
-    initialPayment: '',
-    duration: '60',
-    monthlyIncome: '',
-    message: ''
-  });
+export const metadata = { title: 'Аренда с выкупом — MD', description: 'Квартира в собственность без ипотеки: взнос от 30%, срок до 30 лет, платёж снижается со временем.' };
 
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [fileName, setFileName] = useState('');
+const STEPS = [
+  [<Search key="1" />, 'Выбор квартиры', 'Из базы MD или предложите свою. Мы проверяем объект и фиксируем цену.'],
+  [<PiggyBank key="2" />, 'Первоначальный взнос', 'От 30% до 50% стоимости жилья. Чем больше взнос, тем ниже платёж.'],
+  [<FileSignature key="3" />, 'Договор', 'Договор аренды с правом выкупа, все условия и ставка фиксируются на весь срок.'],
+  [<KeyRound key="4" />, 'Проживание и платежи', 'Вы въезжаете сразу и платите ежемесячно: аренда плюс часть выкупа.'],
+  [<Home key="5" />, 'Собственность', 'После последнего платежа квартира переходит в вашу собственность.'],
+];
 
-  const [calculator, setCalculator] = useState({
-    propertyValue: 6000000,
-    duration: 60,
-    initialPaymentPercent: 50
-  });
+const COMPARE: [string, string | boolean, string | boolean][] = [
+  ['Первоначальный взнос', '30–50%', '20–30%'],
+  ['Проверка кредитной истории', 'минимальная', 'строгая'],
+  ['Подтверждение дохода', true, false],
+  ['Платёж', 'снижается ступенями', 'фиксированный'],
+  ['Срок', 'до 30 лет', '19–25 лет'],
+  ['Подходит при нестабильном доходе', true, false],
+  ['Решение', '2 минуты онлайн', 'до 2 недель'],
+];
 
-  const DURATION_OPTIONS = [60, 120, 180, 240, 360];
-
-  // восстановить последние параметры и сохранять изменения для кабинета
-  const [calcReady, setCalcReady] = useState(false);
-  useEffect(() => { setCalculator(loadCalcParams()); setCalcReady(true); }, []);
-  useEffect(() => { if (calcReady) saveCalcParams(calculator); }, [calculator, calcReady]);
-
-  const initialPaymentTarget = calculator.propertyValue * (calculator.initialPaymentPercent / 100);
-  const remainingAmount = calculator.propertyValue - initialPaymentTarget;
-  const monthlyPayment = calculator.duration > 0
-    ? Math.ceil(remainingAmount / calculator.duration / 1000) * 1000
-    : 0;
-  const tiers = rentTiers(remainingAmount, calculator.duration);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setSelectedFile(file);
-      setFileName(file.name);
-    }
-  };
-
-  const handleCalculatorChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setCalculator(prev => {
-      const next = { ...prev };
-      if (name === 'propertyValue') {
-        next.propertyValue = parseInt(value, 10) || 0;
-      }
-      return next;
-    });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Form submitted:', formData);
-    if (selectedFile) {
-      console.log('Selected file:', selectedFile.name, selectedFile.size);
-    }
-  };
-
-  const formatNumber = (num: number) => {
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-  };
-
+export default function ArendaPage() {
   return (
     <>
-      <style jsx>{`
-        .slider::-webkit-slider-thumb {
-          appearance: none;
-          height: 20px;
-          width: 20px;
-          border-radius: 50%;
-          background: white;
-          border: 2px solid #d4af5a;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          cursor: pointer;
-        }
-        
-        .slider::-moz-range-thumb {
-          height: 20px;
-          width: 20px;
-          border-radius: 50%;
-          background: white;
-          border: 2px solid #d4af5a;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          cursor: pointer;
-        }
-        
-        .slider::-webkit-slider-track {
-          height: 4px;
-          border-radius: 2px;
-        }
-        
-        .slider::-moz-range-track {
-          height: 4px;
-          border-radius: 2px;
-          background: #E5E7EB;
-          border: none;
-        }
-        
-        .slider:focus {
-          outline: none;
-        }
-      `}</style>
-    <div className="min-h-screen bg-[#0b1626]">
-      {/* Header */}
-      <header className="bg-[#122037] px-4 py-3">
-        <div className="max-w-screen-md mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <button onClick={moveBack} className="text-white/55">
-              <ArrowLeft size={24} className="text-white/75" />
-            </button>
-            <img src="/teaser/logo.svg" alt="MD" className="h-8" />
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(50%_60%_at_100%_0%,#E6F4EC_0%,rgba(230,244,236,0)_70%)]" />
+        <div className="v2-container pt-10 pb-10 sm:pt-16 sm:pb-16">
+          <div className="inline-flex items-center gap-2 rounded-full border border-brand-light bg-brand-soft px-3 py-1.5 text-xs font-semibold text-brand">Аренда с выкупом</div>
+          <h1 className="v2-h1 mt-5 max-w-3xl">Накопить и выкупить: квартира без <span className="text-brand">ипотечного бремени</span></h1>
+          <p className="mt-5 text-lg text-ink-2 max-w-2xl leading-relaxed">MD покупает квартиру, вы в ней живёте и выкупаете её по заранее согласованным условиям. Без банковских проверок, без справок о доходах.</p>
+          <div className="mt-8 flex flex-col sm:flex-row gap-3">
+            <Button size="lg" href="/start">Узнать мой лимит <ArrowRight size={18} /></Button>
+            <Button size="lg" variant="secondary" href="#calculator">Рассчитать платёж</Button>
           </div>
-          <div className="flex items-center gap-2">
-            <CountryButton />
-          <button className="bg-[#d4af5a] text-[#0b1626] px-5 py-2 rounded-lg font-light hover:bg-[#e6c87a] transition-colors text-sm">
-            Связаться с нами
-          </button>
-          </div>
-        </div>
-      </header>
-
-      <CountryGate />
-      
-      {/* Divider Line */}
-      <div className="border-b border-white/5 mb-2"></div>
-
-      {/* Hero Section */}
-      <section 
-        className="relative bg-cover bg-center bg-no-repeat text-white px-4 py-12"
-        style={{
-          backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)), url('/arenda_s_vykupov.png')`
-        }}
-      >
-        <div className="max-w-screen-md mx-auto text-left px-4">
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">
-            АРЕНДА С ВЫКУПОМ
-          </h1>
-          <p className="text-lg md:text-xl font-semibold mb-4">
-            (НАКОПИТЬ И ВЫКУПИТЬ)
-          </p>
-          <p className="text-base md:text-lg mb-8 text-gray-100">
-            Ваш путь к собственному жилью без ипотечного бремени и сложных банковских проверок
-          </p>
-          <div className="flex flex-col gap-4 max-w-md">
-            <button className="bg-[#d4af5a] text-[#0b1626] px-8 py-4 rounded-lg font-semibold hover:bg-[#e6c87a] transition-colors">
-              Получить консультацию
-            </button>
-            <Link 
-              href="/"
-              className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-[#0b1626] transition-colors text-center"
-            >
-              Смотреть каталог
-            </Link>
+          <div className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-3">
+            {[
+              [<Percent key="1" />, 'Взнос 30–50%', 'от стоимости квартиры'],
+              [<CalendarDays key="2" />, 'До 30 лет', 'срок выкупа'],
+              [<UserCheck key="3" />, 'Без справок', 'о доходах и кредитах'],
+              [<ShieldCheck key="4" />, 'Условия в договоре', 'фиксируются на весь срок'],
+            ].map(([icon, t, d], i) => (
+              <div key={i} className="v2-card p-4 flex items-start gap-3">
+                <span className="w-10 h-10 rounded-xl bg-brand-light text-brand flex items-center justify-center shrink-0">{icon}</span>
+                <div><div className="font-bold text-ink">{t as string}</div><div className="text-xs text-ink-2 mt-0.5">{d as string}</div></div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-
-  {/* Installment 7% */}
-  <section className="px-4 py-6 bg-[#122037]">
-    <div className="max-w-screen-md mx-auto rounded-2xl overflow-hidden bg-[#0b1626] text-white border border-[#d4af5a]/50 shadow-[0_0_40px_rgba(212,175,90,0.12)]">
-      <div className="p-5 md:p-7">
-        <div className="text-[10px] tracking-[0.25em] uppercase text-[#d9b25b] font-semibold">Финансовые условия</div>
-        <div className="mt-2 flex items-end gap-3 flex-wrap">
-          <div className="text-5xl md:text-6xl font-bold leading-none bg-gradient-to-r from-[#f6e2a3] via-[#d9b25b] to-[#b8892e] bg-clip-text text-transparent">7%</div>
-          <div className="pb-1">
-            <div className="text-xl md:text-2xl font-semibold leading-tight">Рассрочка под 7% годовых</div>
-            <div className="text-sm text-white/70">вместо 19–24,5% по банковской ипотеке</div>
-          </div>
+      <section id="calculator" className="bg-slate-50 border-y border-line scroll-mt-20">
+        <div className="v2-container py-14 sm:py-20">
+          <h2 className="v2-h2">Рассчитайте свой вариант</h2>
+          <p className="mt-2 text-ink-2">Платёж состоит из выкупа и аренды. Аренда считается от остатка после взноса и снижается по третям срока: 0,8% → 0,4% → 0,168% в месяц.</p>
+          <div className="mt-8"><MiniCalc withSchedule /></div>
         </div>
-        <ul className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2.5 text-sm">
-          {[
-            'Первый взнос от 30% до 50%',
-            'Срок до 30 лет',
-            'Без подтверждения дохода',
-            'Фиксированный ежемесячный платёж',
-            'Условия фиксируются в договоре',
-            'Собственность после полной оплаты',
-          ].map(t => (
-            <li key={t} className="flex items-start gap-2">
-              <span className="mt-[3px] w-4 h-4 rounded-full border border-[#d9b25b] text-[#d9b25b] text-[10px] flex items-center justify-center shrink-0">✓</span>
-              <span className="text-white/90">{t}</span>
-            </li>
+      </section>
+
+      <section className="v2-container py-14 sm:py-20">
+        <h2 className="v2-h2">Как работает аренда с выкупом</h2>
+        <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          {STEPS.map(([icon, t, d], i) => (
+            <div key={i} className="v2-card p-5">
+              <div className="flex items-center justify-between">
+                <span className="w-11 h-11 rounded-xl bg-brand-light text-brand flex items-center justify-center">{icon}</span>
+                <span className="text-xs font-bold text-ink-3">0{i + 1}</span>
+              </div>
+              <div className="mt-4 font-bold text-ink">{t as string}</div>
+              <div className="mt-1.5 text-sm text-ink-2 leading-relaxed">{d as string}</div>
+            </div>
           ))}
-        </ul>
-        <a href="#calculator" className="mt-5 inline-block bg-gradient-to-r from-[#e6c87a] to-[#b8892e] text-[#0b1626] font-semibold px-5 py-2.5 rounded-lg text-sm">
-          Рассчитать платёж
-        </a>
-      </div>
-    </div>
-  </section>
-
-  {/* Calculator Section */}
-  <section id="calculator" className="px-4 py-8 bg-[#0b1626] scroll-mt-4">
-        <div className="max-w-screen-md mx-auto">
-          <div className="flex items-center gap-3 text-[11px] tracking-[0.25em] uppercase text-[#d4af5a]">
-            <span className="h-px w-6 bg-[#d4af5a]" />Калькулятор
-          </div>
-          <h2 className="mt-2 text-3xl md:text-4xl text-white leading-tight">
-            Рассчитайте <span className="t-gold">свой вариант</span>
-          </h2>
-          <p className="mt-2 text-sm text-white/60">Аренда с выкупом: взнос, срок и платёж по месяцам.</p>
-
-          <div className="mt-6 rounded-3xl border border-[#d4af5a]/30 bg-[#122037] p-5 md:p-7 shadow-[0_0_60px_rgba(212,175,90,0.08)]">
-            {/* Стоимость */}
-            <div>
-              <div className="flex items-end justify-between gap-3 flex-wrap">
-                <label className="text-sm text-white/70">Стоимость жилья</label>
-                <div className="flex items-baseline gap-1">
-                  <input
-                    type="text"
-                    inputMode="numeric"
-                    value={calculator.propertyValue.toLocaleString('ru-RU')}
-                    onChange={e => {
-                      const v = Math.min(100000000, parseInt(e.target.value.replace(/\D/g, ''), 10) || 0);
-                      setCalculator(prev => ({ ...prev, propertyValue: v }));
-                    }}
-                    className="w-[200px] md:w-[260px] bg-transparent text-right text-3xl md:text-4xl font-bold t-gold focus:outline-none"
-                    aria-label="Стоимость жилья"
-                  />
-                  <span className="text-2xl text-[#e6c87a]">₸</span>
-                </div>
-              </div>
-              <input
-                type="range"
-                name="propertyValue"
-                min="0"
-                max="100000000"
-                step="500000"
-                value={calculator.propertyValue}
-                onChange={handleCalculatorChange}
-                className="mt-3 w-full h-[4px] rounded-lg appearance-none cursor-pointer slider"
-                style={{
-                  background: `linear-gradient(to right, #e6c87a 0%, #b8892e ${(calculator.propertyValue / 100000000) * 100}%, rgba(255,255,255,0.12) ${(calculator.propertyValue / 100000000) * 100}%, rgba(255,255,255,0.12) 100%)`
-                }}
-              />
-              <div className="mt-3 flex gap-2 overflow-x-auto scrollbar-hide -mx-1 px-1">
-                {[15, 25, 35, 50, 75].map(m => (
-                  <button key={m} type="button" onClick={() => setCalculator(prev => ({ ...prev, propertyValue: m * 1000000 }))}
-                    className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
-                      calculator.propertyValue === m * 1000000 ? 'bg-[#d4af5a] text-[#0b1626] border-[#d4af5a]' : 'border-white/15 text-white/75 hover:border-[#d4af5a]/60'
-                    }`}>
-                    {m} млн
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Взнос и срок */}
-            <div className="mt-6 grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-4">
-              <div>
-                <div className="text-sm text-white/70 mb-2">Первоначальный взнос</div>
-                <div className="inline-flex rounded-xl bg-[#0b1626] p-1 border border-white/10">
-                  {[30, 50].map(v => (
-                    <button key={v} type="button" onClick={() => setCalculator(prev => ({ ...prev, initialPaymentPercent: v }))}
-                      className={`px-5 py-2 rounded-lg text-sm font-semibold transition-colors ${
-                        calculator.initialPaymentPercent === v ? 'bg-gradient-to-r from-[#e6c87a] to-[#b8892e] text-[#0b1626]' : 'text-white/75'
-                      }`}>
-                      {v}%
-                    </button>
-                  ))}
-                </div>
-                <div className="mt-1.5 text-xs text-white/50">{initialPaymentTarget.toLocaleString('ru-RU')} ₸</div>
-              </div>
-              <div>
-                <div className="text-sm text-white/70 mb-2">Срок</div>
-                <div className="grid grid-cols-5 rounded-xl bg-[#0b1626] p-1 border border-white/10">
-                  {DURATION_OPTIONS.map(option => (
-                    <button key={option} type="button" onClick={() => setCalculator(prev => ({ ...prev, duration: option }))}
-                      className={`py-2 rounded-lg text-sm font-semibold transition-colors ${
-                        calculator.duration === option ? 'bg-gradient-to-r from-[#e6c87a] to-[#b8892e] text-[#0b1626]' : 'text-white/75'
-                      }`}>
-                      {option / 12}
-                    </button>
-                  ))}
-                </div>
-                <div className="mt-1.5 text-xs text-white/50">лет · {calculator.duration} месяцев</div>
-              </div>
-            </div>
-
-            {/* Платёж */}
-            <div className="mt-6 rounded-2xl bg-gradient-to-br from-[#0b1626] to-[#152238] border border-[#d4af5a]/40 p-5">
-              <div className="text-[10px] tracking-[0.2em] uppercase text-[#d4af5a] font-semibold">Платёж в месяц</div>
-              <div className="mt-1 flex items-end gap-3 flex-wrap">
-                <div className="text-4xl md:text-5xl font-bold t-gold leading-none">
-                  {(monthlyPayment + (tiers[0]?.rent ?? 0)).toLocaleString('ru-RU')} <span className="text-2xl">₸</span>
-                </div>
-                {tiers.length > 1 && (
-                  <div className="text-sm text-white/60 pb-1">
-                    в начале срока → <span className="text-white font-semibold">{(monthlyPayment + (tiers[tiers.length - 1]?.rent ?? 0)).toLocaleString('ru-RU')} ₸</span> в конце
-                  </div>
-                )}
-              </div>
-              <div className="mt-4 grid grid-cols-3 gap-2">
-                <div className="rounded-xl bg-white/5 p-3 min-w-0">
-                  <div className="text-[10px] uppercase tracking-wide text-white/50">Выкуп</div>
-                  <div className="text-sm font-bold text-white mt-0.5 whitespace-nowrap">{monthlyPayment.toLocaleString('ru-RU')} ₸</div>
-                  <div className="text-[10px] text-white/45">в месяц</div>
-                </div>
-                <div className="rounded-xl bg-white/5 p-3 min-w-0">
-                  <div className="text-[10px] uppercase tracking-wide text-white/50">Аренда</div>
-                  <div className="text-sm font-bold text-white mt-0.5 whitespace-nowrap">{(tiers[0]?.rent ?? 0).toLocaleString('ru-RU')} ₸</div>
-                  <div className="text-[10px] text-white/45">в начале</div>
-                </div>
-                <div className="rounded-xl bg-white/5 p-3 min-w-0">
-                  <div className="text-[10px] uppercase tracking-wide text-white/50">К выкупу</div>
-                  <div className="text-sm font-bold text-white mt-0.5 whitespace-nowrap">{remainingAmount.toLocaleString('ru-RU')} ₸</div>
-                  <div className="text-[10px] text-white/45">остаток</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Ступени аренды */}
-            {tiers.length > 0 && (
-              <div className="mt-5">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-white/70">Аренда снижается ступенями</span>
-                  <span className="text-xs text-white/45">от остатка {remainingAmount.toLocaleString('ru-RU')} ₸</span>
-                </div>
-                <div className="mt-3 grid gap-2" style={{ gridTemplateColumns: `repeat(${tiers.length}, minmax(0, 1fr))` }}>
-                  {tiers.map((t, k) => {
-                    const h = [100, 55, 30][k] ?? 30;
-                    return (
-                      <div key={k} className="min-w-0">
-                        <div className="h-14 flex items-end">
-                          <div className="w-full rounded-t-lg bg-gradient-to-t from-[#b8892e] to-[#e6c87a]" style={{ height: `${h}%`, opacity: 1 - k * 0.25 }} />
-                        </div>
-                        <div className="border-t border-[#d4af5a]/40 pt-2">
-                          <div className="text-[11px] text-white/55 whitespace-nowrap">{k === 0 ? 'Первые' : k === 1 ? 'Вторые' : 'Третьи'} {tierLength(t)}</div>
-                          <div className="text-sm font-bold text-[#e6c87a] whitespace-nowrap">{t.rent.toLocaleString('ru-RU')} ₸</div>
-                          <div className="text-[10px] text-white/45">{(t.rate * 100).toLocaleString('ru-RU')}% в мес</div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
-            <p className="mt-4 text-[11px] text-white/40">
-              Выкуп {remainingAmount.toLocaleString('ru-RU')} ₸ равными частями за {calculator.duration} месяцев. Накопления остаются вашими и идут в счёт выкупа.
-            </p>
-          </div>
-
-          {/* Payment schedule */}
-          <div className="mt-4 mb-6">
-            <PaymentSchedule params={calculator} showTiers={false} />
-          </div>
-
-          {/* Action Button */}
-          <div className="text-center">
-            <a href="#contact" className="block bg-gradient-to-r from-[#e6c87a] to-[#b8892e] text-[#0b1626] px-8 py-4 rounded-xl font-semibold text-base hover:opacity-90 transition-opacity w-full">
-              Накопить и купить
-            </a>
-          </div>
         </div>
       </section>
 
-        {/* Advantages Section */}
-        <section className="px-4 py-4 bg-[#0b1626]">
-          <div className="max-w-screen-md mx-auto">
-            <h2 className="text-2xl font-medium text-white text-center mb-8">
-              Преимущества аренды с выкупом
-          </h2>
-          
-            <div className="grid gap-4">
-              {/* Первоначальный накопительный взнос */}
-              <div className="bg-[#122037] rounded-xl p-4 shadow-none">
-                <div className="">
-                    <span className="text-[#e6c87a] text-2xl font-bold">%</span>
-                  <div>
-                    <h3 className="text-base font-semibold text-white mb-2">
-                      Первоначальный накопительный взнос
-                    </h3>
-                    <p className="text-white/75 text-sm">
-                      От 30% до 50% от стоимости квартиры
-                    </p>
-                  </div>
+      <section className="bg-ink text-white">
+        <div className="v2-container py-14 sm:py-20">
+          <h2 className="text-2xl sm:text-4xl font-bold tracking-tight">Сравнение с ипотекой</h2>
+          <p className="mt-3 text-slate-300 max-w-2xl">По переплате банк может быть выгоднее, если вы проходите его требования. Мы даём квартиру тем, кому банк отказывает, и платёж, который известен на весь срок.</p>
+          <div className="mt-8 rounded-2xl border border-white/10 overflow-hidden">
+            <div className="grid grid-cols-[1.4fr_1fr_1fr] text-sm">
+              <div className="p-4 text-slate-400">Параметр</div><div className="p-4 font-bold text-brand-ring">Аренда с выкупом</div><div className="p-4 text-slate-400">Ипотека</div>
+              {COMPARE.map(([k, a, b], i) => (
+                <div key={i} className="contents">
+                  <div className="p-4 border-t border-white/10 text-slate-300">{k}</div>
+                  <div className="p-4 border-t border-white/10 font-semibold">{a === true ? <span className="inline-flex items-center gap-1 text-brand-ring"><Check size={16} /> не нужно</span> : a}</div>
+                  <div className="p-4 border-t border-white/10 text-slate-300">{b === false ? <span className="inline-flex items-center gap-1"><X size={16} /> требуется</span> : b}</div>
                 </div>
-              </div>
-
-              {/* Гибкие условия договора */}
-              <div className="bg-[#122037] rounded-xl p-4 shadow-none">
-                <div className="">
-                    <svg className="w-8 h-8 text-[#e6c87a]" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm0 2h12v8H4V6z"/>
-                      <path d="M6 8h8v2H6V8z"/>
-                      <path d="M6 11h8v1H6v-1z"/>
-                    </svg>
-                  <div>
-                    <h3 className="text-base font-semibold text-white mb-2">
-                      Гибкие условия договора
-                    </h3>
-                    <p className="text-white/75 text-sm">
-                      Индивидуальный подход к каждому клиенту
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Возможность тестировать жильё */}
-              <div className="bg-[#122037] rounded-xl p-4 shadow-none">
-                <div className="">
-                    <svg className="w-8 h-8 text-[#e6c87a]" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M9.243 3.03a1 1 0 01.727 1.213L9.53 6h2.94l.56-2.243a1 1 0 111.94.486L14.53 6H16a1 1 0 110 2h-1.265l-1.5 6H15a1 1 0 110 2h-1.735l-.552 2.207a1 1 0 11-1.94-.486L11.265 16H8.735l-.552 2.207a1 1 0 11-1.94-.486L6.735 16H5a1 1 0 110-2h1.265l1.5-6H6a1 1 0 010-2h1.735l.552-2.207a1 1 0 011.213-.727zM8.97 8l-1.5 6h2.56l1.5-6H8.97z" clipRule="evenodd"/>
-                    </svg>
-                  <div>
-                    <h3 className="text-base font-semibold text-white mb-2">
-                      Возможность тестировать жильё
-                    </h3>
-                    <p className="text-white/75 text-sm">
-                      Поживите в квартире до момента выкупа
-                    </p>
-                  </div>
-            </div>
-            </div>
-            
-              {/* Простой процесс оформления */}
-              <div className="bg-[#122037] rounded-xl p-4 shadow-none">
-                <div className="">
-                    <svg className="w-8 h-8 text-[#e6c87a]" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                    </svg>
-                  <div>
-                    <h3 className="text-base font-semibold text-white mb-2">
-                      Простой процесс оформления
-                    </h3>
-                    <p className="text-white/75 text-sm">
-                      Никаких сложных банковских проверок
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Рассрочка под 7% */}
-              <div className="bg-[#122037] rounded-xl p-4 shadow-none">
-                <div className="">
-                    <span className="text-[#e6c87a] text-2xl font-bold">$</span>
-                  <div>
-                    <h3 className="text-base font-semibold text-white mb-2">
-                      Рассрочка под 7% годовых
-                    </h3>
-                    <p className="text-white/75 text-sm">
-                      Вместо 19–24,5% по банковской ипотеке. Ставка фиксируется в договоре
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Защита от переплат */}
-              <div className="bg-[#122037] rounded-xl p-4 shadow-none">
-                <div className="">
-                    <svg className="w-8 h-8 text-[#e6c87a]" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
-                    </svg>
-                  <div>
-                    <h3 className="text-base font-semibold text-white mb-2">
-                      Защита от переплат
-                    </h3>
-                    <p className="text-white/75 text-sm">
-                      Стабильные платежи, независимо от рынка
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-                  </section>
-                                     {/* Comparison Table */}
-                   <section className="px-4 py-4 bg-[#122037]">
-                    <h3 className="text-2xl font-medium text-white text-center mb-4">Сравнение условий</h3>
-                     <div className="max-w-screen-md mx-auto">
-                       <div className="overflow-hidden rounded-lg shadow-none">
-                         {/* Table Header */}
-                         <div className="bg-gray-900 text-white">
-                           <div className="grid grid-cols-[1.4fr_1fr_1fr] gap-x-3 items-center py-4 px-4">
-                             <div className="font-medium">Параметр</div>
-                             <div className="font-medium text-center">Аренда с выкупом</div>
-                             <div className="font-medium text-center">Ипотека</div>
-                           </div>
-                         </div>
-                         
-                         {/* Table Body */}
-                         <div className="bg-[#0b1626]">
-                           {/* Первоначальный накопительный взнос */}
-                           <div className="grid grid-cols-[1.4fr_1fr_1fr] gap-x-3 items-center py-4 px-4 border-b border-white/10">
-                             <div className="text-white text-sm font-light">Первоначальный накопительный взнос</div>
-                             <div className="text-[#e6c87a] font-light text-center text-sm">От 30% до 50%</div>
-                             <div className="text-white text-center text-sm font-light">От 20-30%</div>
-                           </div>
-                           
-                           {/* Проверка кредитной истории */}
-                           <div className="grid grid-cols-[1.4fr_1fr_1fr] gap-x-3 items-center py-4 px-4 border-b border-white/10">
-                             <div className="text-white text-sm font-light">Проверка кредитной истории</div>
-                             <div className="text-[#e6c87a] font-light text-center text-sm">Минимальная</div>
-                             <div className="text-white text-center text-sm font-light">Строгая</div>
-                           </div>
-                           
-                           {/* Процентная ставка */}
-                           <div className="grid grid-cols-[1.4fr_1fr_1fr] gap-x-3 items-center py-4 px-4 border-b border-white/10">
-                             <div className="text-white text-sm font-light">Процентная ставка</div>
-                             <div className="text-[#e6c87a] font-light text-center text-sm">От 7% до 13.8%</div>
-                             <div className="text-white text-center text-sm font-light">От 19% до 24.5%</div>
-                           </div>
-                           
-                           {/* Возможность тестировать жильё */}
-                           <div className="grid grid-cols-[1.4fr_1fr_1fr] gap-x-3 items-center py-4 px-4 border-b border-white/10">
-                             <div className="text-white text-sm font-light">Возможность тестировать жильё</div>
-                             <div className="text-[#e6c87a] font-light text-center text-sm">Да</div>
-                             <div className="text-white text-center text-sm font-light">Нет</div>
-                           </div>
-                           
-                           {/* Гибкость условий */}
-                           <div className="grid grid-cols-[1.4fr_1fr_1fr] gap-x-3 items-center py-4 px-4 border-b border-white/10">
-                             <div className="text-white text-sm font-light">Гибкость условий</div>
-                             <div className="text-[#e6c87a] font-light text-center text-sm">Высокая</div>
-                             <div className="text-white text-center text-sm font-light">Низкая</div>
-                           </div>
-                           
-                           {/* Подходит для нестабильного дохода */}
-                           <div className="grid grid-cols-[1.4fr_1fr_1fr] gap-x-3 items-center py-4 px-4">
-                             <div className="text-white text-sm font-light">Подходит для нестабильного дохода</div>
-                             <div className="text-[#e6c87a] font-light text-center text-sm">Да</div>
-                             <div className="text-white text-center text-sm font-light">Нет</div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-                   {/* Services Cost Section */}
-      <section className="px-4 py-8 bg-[#0b1626]">
-        <div className="max-w-screen-md mx-auto">
-                       <h2 className="text-2xl font-medium text-white text-center mb-8">
-                         Стоимость наших услуг
-          </h2>
-          
-                       <div className="grid md:grid-cols-2 gap-8">
-                         {/* Services List */}
-                         <div className="space-y-4">
-                           <div className="flex items-center gap-3">
-                             <div className="w-6 h-6 bg-[#d4af5a] rounded flex items-center justify-center flex-shrink-0">
-                               <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                 <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                               </svg>
-                             </div>
-                             <span className="text-white text-sm">Консультация - 35000 тг</span>
-                           </div>
-                           
-                           <div className="flex items-center gap-3">
-                             <div className="w-6 h-6 bg-[#d4af5a] rounded flex items-center justify-center flex-shrink-0">
-                               <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                 <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                               </svg>
-                             </div>
-                             <span className="text-white text-sm">Оплата оценки квартиры - оплачивает арендатор</span>
-                           </div>
-                           
-                           <div className="flex items-center gap-3">
-                             <div className="w-6 h-6 bg-[#d4af5a] rounded flex items-center justify-center flex-shrink-0">
-                               <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                 <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                               </svg>
-                             </div>
-                             <span className="text-white text-sm">Страховка - оплачивает арендатор</span>
-                           </div>
-                           
-                           <div className="flex items-center gap-3">
-                             <div className="w-6 h-6 bg-[#d4af5a] rounded flex items-center justify-center flex-shrink-0">
-                               <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                 <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                               </svg>
-                             </div>
-                             <span className="text-white text-sm">Нотариальные услуги - оплачивает арендатор</span>
-                           </div>
-                           
-                           <div className="flex items-start gap-3">
-                             <div className="w-6 h-6 bg-[#d4af5a] rounded flex items-center justify-center flex-shrink-0 mt-1">
-                               <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                 <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                               </svg>
-                             </div>
-                             <div>
-                               <div className="text-white text-sm font-medium">Комиссия за оформление - 10% от стоимости объекта</div>
-                               <div className="text-white/75 text-xs">(данная оплата производится при расторжении договора или ежемесячной оплатой)</div>
-                             </div>
-                           </div>
-                         </div>
-                         
-                                                  {/* Interior Image */}
-                         <div className="rounded-lg overflow-hidden h-64">
-                           <img 
-                             src="/price_uslug.png" 
-                             alt="Интерьер квартиры" 
-                             className="w-full h-full object-cover"
-                           />
-                         </div>
-          </div>
+      <section className="v2-container py-14 sm:py-20 grid lg:grid-cols-2 gap-8">
+        <div>
+          <h2 className="v2-h2">Стоимость услуг</h2>
+          <p className="mt-2 text-ink-2">Без скрытых платежей. Всё, что оплачивается отдельно:</p>
+          <ul className="mt-6 space-y-3">
+            {[['Консультация', '35 000 ₸'], ['Комиссия за оформление', '10% от стоимости объекта'], ['Оценка квартиры', 'оплачивает арендатор'], ['Страховка', 'оплачивает арендатор'], ['Нотариальные услуги', 'оплачивает арендатор']].map(([k, v]) => (
+              <li key={k} className="flex items-center justify-between gap-4 py-3 border-b border-line text-[15px]"><span className="text-ink-2">{k}</span><span className="font-semibold text-ink text-right">{v}</span></li>
+            ))}
+          </ul>
+        </div>
+        <div className="v2-card p-6 bg-brand-soft border-brand-light">
+          <Building2 className="text-brand" size={28} />
+          <div className="mt-3 text-xl font-extrabold tracking-tight text-ink">Нет подходящей квартиры в каталоге?</div>
+          <p className="mt-2 text-ink-2">Предложите свою: мы проверим объект, договоримся с собственником и оформим сделку по той же схеме.</p>
+          <Button href="#lead" className="mt-5">Предложить квартиру</Button>
         </div>
       </section>
 
-           {/* How It Works Section */}
-          <section className="px-4 py-4 bg-[#122037]">
-        <div className="max-w-screen-md mx-auto">
-              <h2 className="text-2xl font-medium text-white text-center mb-8">
-                Как работает аренда с выкупом
-          </h2>
-          
-              <div className="space-y-8">
-                {/* Выбор объекта недвижимости */}
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-[#d4af5a] rounded-full flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-white mb-2">
-                      Выбор объекта недвижимости
-                    </h3>
-                    <p className="text-white/75 text-sm">
-                      Выберите подходящий объект из нашей базы или предложите свой вариант
-                    </p>
-                  </div>
-                </div>
-
-                {/* Внесение первоначального взноса */}
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-[#d4af5a] rounded-full flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"/>
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-white mb-2">
-                      Внесение первоначального взноса
-                    </h3>
-                    <p className="text-white/75 text-sm">
-                      Внесите первоначальный взнос в размере от 30% до 50% от стоимости жилья
-                    </p>
-                  </div>
-                </div>
-
-                {/* Заключение договора */}
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-[#d4af5a] rounded-full flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/>
-                      <path d="M8 8h4v1H8V8z"/>
-                      <path d="M8 10h4v1H8v-1z"/>
-                      <path d="M8 12h2v1H8v-1z"/>
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-white mb-2">
-                      Заключение договора
-                    </h3>
-                    <p className="text-white/75 text-sm">
-                      Подписание договора аренды с правом выкупа, где фиксируются все условия
-                    </p>
-                  </div>
-                </div>
-
-                {/* Проживание и выплаты */}
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-[#d4af5a] rounded-full flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M18 8a6 6 0 01-9.12 5.19L3 17a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707L5.88 9.12A6 6 0 1118 8zm-6 0a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd"/>
-                    </svg>
-                  </div>
-              <div>
-                    <h3 className="text-lg font-semibold text-white mb-2">
-                      Проживание и выплаты
-                    </h3>
-                    <p className="text-white/75 text-sm">
-                      Вы въезжаете в квартиру и вносите ежемесячные платежи
-                    </p>
-                  </div>
-              </div>
-              
-                {/* Полный выкуп объекта */}
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-[#d4af5a] rounded-full flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                    </svg>
-                  </div>
-              <div>
-                    <h3 className="text-lg font-semibold text-white mb-2">
-                      Полный выкуп объекта
-                    </h3>
-                    <p className="text-white/75 text-sm">
-                      По окончании срока договора вы становитесь владельцем недвижимости
-                    </p>
-              </div>
-            </div>
+      <section id="lead" className="bg-slate-50 border-t border-line scroll-mt-20">
+        <div className="v2-container py-14 sm:py-20 grid lg:grid-cols-[0.8fr_1.2fr] gap-8 items-start">
+          <div>
+            <h2 className="v2-h2">Начните путь к собственному жилью</h2>
+            <p className="mt-3 text-ink-2 leading-relaxed">Оставьте контакт, и мы подберём квартиру под ваш бюджет и взнос. Или пройдите <Link href="/start" className="text-brand font-semibold">предварительное одобрение</Link> за две минуты.</p>
           </div>
+          <LeadForm title="Заявка на аренду с выкупом" context="Страница: Аренда с выкупом" />
         </div>
       </section>
-
-       {/* CTA Section with Background */}
-       <section id="contact" 
-         className="relative bg-cover bg-center bg-no-repeat text-white px-6 py-16"
-         style={{
-           backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url('/start_row.png')`
-         }}
-       >
-         <div className="max-w-screen-md mx-auto">
-           <div className="text-left mb-12">
-             <h2 className="text-2xl font-bold mb-6">
-               Начните путь к собственному жилью сегодня
-             </h2>
-             <p className="text-lg opacity-90 mb-8 font-light">
-               Наши специалисты помогут подобрать оптимальные условия аренды с выкупом, 
-               учитывая ваши финансовые возможности и пожелания
-             </p>
-           </div>
-
-           <div className="bg-[#122037] bg-opacity-10 backdrop-blur-sm rounded-2xl p-8 max-w-lg mx-auto">
-             <h3 className="text-xl font-semibold mb-6 text-left">
-               Оставьте заявку на консультацию
-            </h3>
-             
-             <form onSubmit={handleSubmit} className="space-y-4">
-               <div>
-                 <input
-                   type="text"
-                   name="name"
-                   value={formData.name}
-                   onChange={handleInputChange}
-                   className="w-full px-4 py-3 bg-[#122037] bg-opacity-5 rounded-lg focus:ring-2 focus:ring-white focus:border-transparent text-white placeholder-white placeholder-opacity-70 backdrop-blur-sm"
-                   placeholder="Ваше имя"
-                 />
-               </div>
-               
-               <div>
-                 <input
-                   type="tel"
-                   name="phone"
-                   value={formData.phone}
-                   onChange={handleInputChange}
-                   className="w-full px-4 py-3 bg-[#122037] bg-opacity-5 rounded-lg focus:ring-2 focus:ring-white focus:border-transparent text-white placeholder-white placeholder-opacity-70 backdrop-blur-sm"
-                   placeholder="Номер телефона"
-                 />
-               </div>
-
-               <div>
-                 <input
-                   type="email"
-                   name="email"
-                   value={formData.email || ''}
-                   onChange={handleInputChange}
-                   className="w-full px-4 py-3 bg-[#122037] bg-opacity-5 rounded-lg focus:ring-2 focus:ring-white focus:border-transparent text-white placeholder-white placeholder-opacity-70 backdrop-blur-sm"
-                   placeholder="E-mail"
-                 />
-               </div>
-
-               <div>
-                 <label className="block w-full px-4 py-3 bg-[#122037] bg-opacity-5 rounded-lg focus-within:ring-2 focus-within:ring-white focus-within:border-transparent cursor-pointer hover:bg-opacity-10 transition-colors backdrop-blur-sm">
-                   <div className="flex items-center justify-between text-white">
-                     <span className="opacity-70">
-                       {selectedFile ? fileName : 'Прикрепите документ'}
-                     </span>
-                     <span className="text-sm opacity-70 bg-[#122037] bg-opacity-20 px-2 py-1 rounded">
-                       Выбрать файл
-                     </span>
-                   </div>
-                   <input
-                     type="file"
-                     name="file"
-                     onChange={handleFileChange}
-                     className="hidden"
-                     accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                   />
-                 </label>
-                 {selectedFile && (
-                   <p className="mt-2 text-sm text-green-400 flex items-center">
-                     ✓ Файл успешно загружен
-                   </p>
-                 )}
-               </div>
-
-               <button
-                 type="submit"
-                 className="w-full bg-[#d4af5a] hover:bg-[#e6c87a] text-[#0b1626] py-3 px-6 rounded-lg font-semibold transition-colors mt-6"
-               >
-                 Отправить заявку
-            </button>
-             </form>
-          </div>
-        </div>
-      </section>
-
-
-      {/* Footer */}
-      <footer className="bg-[#1A1A1A] text-white px-4 py-8">
-        <div className="max-w-screen-md mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div>
-              <h3 className="text-lg font-semibold mb-3">md.kz</h3>
-              <p className="text-white/40 text-xs">
-                Ваш надежный партнер в сфере недвижимости. Помогаем найти идеальное жилье и оформить выгодные условия покупки.
-              </p>
-            </div>
-            
-            <div>
-              <h4 className="font-semibold mb-3 text-sm">Услуги</h4>
-              <ul className="space-y-2 text-xs text-white/40">
-                <li><Link href="/rent-to-own" className="hover:text-white">Аренда</Link></li>
-                <li><Link href="/arenda-s-vykupom" className="hover:text-white">Аренда с выкупом</Link></li>
-                <li><Link href="/refinance" className="hover:text-white">Рефинансирование</Link></li>
-                <li><Link href="/mortgage" className="hover:text-white">Ипотека</Link></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h4 className="font-semibold mb-3 text-sm">Контакты</h4>
-              <div className="space-y-2 text-xs text-white/40">
-                <div className="flex items-center gap-2">
-                  <Phone size={14} />
-                  <span>+7 (727) 123-45-67</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Mail size={14} />
-                  <span>info@md.kz</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <MapPin size={14} />
-                  <span>г. Алматы, ул. Толе би, 101</span>
-                </div>
-              </div>
-            </div>
-            
-            <div>
-              <h4 className="font-semibold mb-3 text-sm">Социальные сети</h4>
-              <div className="flex gap-2">
-                <a href="#" className="w-6 h-6 bg-gray-700 rounded-full flex items-center justify-center hover:bg-gray-600 transition-colors">
-                  <Instagram size={12} />
-                </a>
-                <a href="#" className="w-6 h-6 bg-gray-700 rounded-full flex items-center justify-center hover:bg-gray-600 transition-colors">
-                  <Facebook size={12} />
-                </a>
-                <a href="#" className="w-6 h-6 bg-gray-700 rounded-full flex items-center justify-center hover:bg-gray-600 transition-colors">
-                  <Twitter size={12} />
-                </a>
-                <a href="#" className="w-6 h-6 bg-gray-700 rounded-full flex items-center justify-center hover:bg-gray-600 transition-colors">
-                  <Linkedin size={12} />
-                </a>
-              </div>
-            </div>
-          </div>
-          
-          <div className="border-t border-gray-800 mt-6 pt-6 text-center text-xs text-white/40">
-            <p>&copy; 2024 md.kz. Все права защищены.</p>
-          </div>
-        </div>
-      </footer>
-    </div>
     </>
   );
-} 
+}

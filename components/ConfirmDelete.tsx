@@ -29,8 +29,8 @@ const ConfirmDelete: React.FC<ConfirmDeleteProps> = ({
       >
         <IoMdClose size={20} />
       </button>
-      <h1 className="text-[22px] font-bold text-white">{title}</h1>
-      <p className="text-white/75  text-[16px] leading-[1.6] mb-4">
+      <h1 className="text-[22px] font-bold text-ink">{title}</h1>
+      <p className="text-ink-2  text-[16px] leading-[1.6] mb-4">
         Are you sure you want to do this? It can&apos;t be undone.
       </p>
 

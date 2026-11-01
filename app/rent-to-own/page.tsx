@@ -18,9 +18,9 @@ export default function RentToOwnPage() {
 
   return (
     <>
-      <header className="bg-[#122037] border-b px-4 py-3">
+      <header className="bg-white border-b px-4 py-3">
         <div className="max-w-screen-md mx-auto flex items-center gap-3">
-          <button onClick={moveBack} className="text-white/55">
+          <button onClick={moveBack} className="text-ink-2">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"/>
             </svg>
@@ -29,19 +29,19 @@ export default function RentToOwnPage() {
         </div>
       </header>
 
-      <div className="bg-[#122037]">
+      <div className="bg-white">
         <div className="max-w-screen-md mx-auto">
           <div className="divide-y">
             {propertyTypes.map((type) => (
               <Link
                 key={type.id}
                 href={`/listings/search/arenda/${type.id}`}
-                className="flex items-center justify-between p-4 hover:bg-white/10"
+                className="flex items-center justify-between p-4 hover:bg-slate-100"
               >
-                <span className="text-white">{type.name}</span>
+                <span className="text-ink">{type.name}</span>
                 <div className="flex items-center gap-2">
-                  <span className="text-white/55">{type.count}</span>
-                  <svg className="w-5 h-5 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <span className="text-ink-2">{type.count}</span>
+                  <svg className="w-5 h-5 text-ink-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"/>
                   </svg>
                 </div>

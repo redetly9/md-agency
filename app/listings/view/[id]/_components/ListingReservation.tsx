@@ -22,12 +22,12 @@ const ListingReservation: React.FC<ListingReservationProps> = ({ price, totalPri
 
   return (
     <>
-      <div className="bg-[#122037] rounded-xl border border-neutral-200 shadow-none overflow-hidden">
+      <div className="bg-white rounded-xl border border-neutral-200 shadow-none overflow-hidden">
         <div className="flex flex-row items-center gap-1 p-4">
           <span className="text-lg font-semibold">{price} тг.</span>
         </div>
         <div className="p-4">
-          <label htmlFor="options" className="block text-sm font-medium text-white/75 mb-2">
+          <label htmlFor="options" className="block text-sm font-medium text-ink-2 mb-2">
             Выберите вариант:
           </label>
           <div className="relative">
@@ -35,7 +35,7 @@ const ListingReservation: React.FC<ListingReservationProps> = ({ price, totalPri
               id="options"
               value={selectedOption}
               onChange={handleOptionChange}
-              className="block w-full appearance-none rounded-lg border border-white/10 bg-[#0b1626] p-3 text-sm font-medium text-white/75 focus:border-[#d4af5a]/40 focus:ring-2 focus:ring-[#d4af5a] transition"
+              className="block w-full appearance-none rounded-lg border border-line bg-white p-3 text-sm font-medium text-ink-2 focus:border-brand-light focus:ring-2 focus:ring-brand/30 transition"
             >
               <option value="Ипотека">Ипотека</option>
               <option value="Рефинансирование">Рефинансирование</option>
@@ -44,7 +44,7 @@ const ListingReservation: React.FC<ListingReservationProps> = ({ price, totalPri
             </select>
             <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
               <svg
-                className="w-5 h-5 text-white/40"
+                className="w-5 h-5 text-ink-3"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -58,7 +58,7 @@ const ListingReservation: React.FC<ListingReservationProps> = ({ price, totalPri
         <div className="flex p-4 gap-2 justify-center items-center">
           <button
             onClick={openModal}
-            className="w-full bg-[#d4af5a] text-[#0b1626] py-2 px-4 rounded-xl hover:bg-[#e6c87a] transition"
+            className="w-full bg-brand text-ink py-2 px-4 rounded-xl hover:bg-brand-dark transition"
           >
             Оставить заявку
           </button>

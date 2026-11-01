@@ -119,14 +119,14 @@ export default function HomePage() {
       </section>
 
       {/* COMPARE */}
-      <section className="bg-ink text-white">
+      <section className="bg-ink text-ink">
         <div className="v2-container py-14 sm:py-20 grid lg:grid-cols-2 gap-10 items-center">
           <div>
             <h2 className="text-2xl sm:text-4xl font-bold tracking-tight">Честно про ипотеку</h2>
             <p className="mt-3 text-slate-300 leading-relaxed">Мы не обещаем «дешевле банка». Мы даём квартиру тем, кому банк отказал, и делаем платёж предсказуемым: он известен на 30 лет вперёд и только снижается.</p>
             <Button href="/start" variant="primary" size="lg" className="mt-7">Проверить, подхожу ли я</Button>
           </div>
-          <div className="rounded-2xl border border-white/10 overflow-hidden">
+          <div className="rounded-2xl border border-line overflow-hidden">
             <div className="grid grid-cols-[1.4fr_1fr_1fr] text-sm">
               <div className="p-4 text-slate-400">Условие</div><div className="p-4 font-bold text-brand-ring">MD</div><div className="p-4 text-slate-400">Банк</div>
               {[
@@ -138,9 +138,9 @@ export default function HomePage() {
                 ['Решение', '2 минуты', 'до 2 недель'],
               ].map(([k, a, b], i) => (
                 <div key={i} className="contents">
-                  <div className="p-4 border-t border-white/10 text-slate-300">{k as string}</div>
-                  <div className="p-4 border-t border-white/10 font-semibold">{a === true ? <span className="inline-flex items-center gap-1 text-brand-ring"><Check size={16} /> не нужно</span> : (a as string)}</div>
-                  <div className="p-4 border-t border-white/10 text-slate-300">{b === false ? <span className="inline-flex items-center gap-1"><X size={16} /> требуется</span> : (b as string)}</div>
+                  <div className="p-4 border-t border-line text-slate-300">{k as string}</div>
+                  <div className="p-4 border-t border-line font-semibold">{a === true ? <span className="inline-flex items-center gap-1 text-brand-ring"><Check size={16} /> не нужно</span> : (a as string)}</div>
+                  <div className="p-4 border-t border-line text-slate-300">{b === false ? <span className="inline-flex items-center gap-1"><X size={16} /> требуется</span> : (b as string)}</div>
                 </div>
               ))}
             </div>
@@ -162,11 +162,11 @@ export default function HomePage() {
 
       {/* CTA */}
       <section className="v2-container pb-16">
-        <div className="rounded-3xl bg-brand text-white p-8 sm:p-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 overflow-hidden relative">
-          <div className="absolute -right-20 -top-20 w-72 h-72 rounded-full bg-white/10" />
+        <div className="rounded-3xl bg-brand text-ink p-8 sm:p-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 overflow-hidden relative">
+          <div className="absolute -right-20 -top-20 w-72 h-72 rounded-full bg-slate-100" />
           <div className="relative">
             <div className="text-2xl sm:text-3xl font-extrabold tracking-tight">Узнайте свой лимит сегодня</div>
-            <div className="mt-2 text-white/80">Пять вопросов, никаких документов. Результат сразу на экране.</div>
+            <div className="mt-2 text-ink-2">Пять вопросов, никаких документов. Результат сразу на экране.</div>
           </div>
           <Button href="/start" variant="dark" size="lg" className="relative bg-white !text-brand hover:bg-white/90">Начать <ArrowRight size={18} /></Button>
         </div>
@@ -174,7 +174,7 @@ export default function HomePage() {
 
       <footer className="border-t border-line">
         <div className="v2-container py-8 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between text-sm text-ink-3">
-          <div className="flex items-center gap-2"><span className="w-7 h-7 rounded-lg bg-brand text-white text-[10px] font-extrabold flex items-center justify-center">MD</span>© {new Date().getFullYear()} md.kz · Rent · Live · Own</div>
+          <div className="flex items-center gap-2"><span className="w-7 h-7 rounded-lg bg-brand text-ink text-[10px] font-extrabold flex items-center justify-center">MD</span>© {new Date().getFullYear()} md.kz · Rent · Live · Own</div>
           <div className="flex gap-5">
             <Link href="/refinance" className="hover:text-ink">Рефинансирование</Link>
             <Link href="/mortgage" className="hover:text-ink">Ипотека</Link>
