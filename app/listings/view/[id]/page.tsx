@@ -53,9 +53,9 @@ export default function ListingPage() {
   if (l === undefined) return <div className="v2-container py-10"><div className="aspect-[16/9] rounded-3xl bg-slate-100 animate-pulse" /><div className="mt-6 h-8 w-2/3 rounded bg-slate-100 animate-pulse" /></div>;
   if (l === null) return <div className="v2-container py-16 text-center"><h1 className="text-2xl font-extrabold text-ink">Объявление недоступно</h1><p className="mt-2 text-ink-2">Возможно, его сняли с публикации.</p><Button href="/catalog" className="mt-5">В каталог</Button></div>;
 
+  const img = l.imageSrc && /^https?:/.test(l.imageSrc) ? l.imageSrc : (fallbackImg || '/images/placeholder.jpg');
   const snap = { id: String(l.id), imageSrc: img, price: l.price, roomCount: l.roomCount, area: l.area, street: l.street, district: l.district, city: l.city, floor: l.floor };
   const addr = cleanAddr([l.street, l.district, l.city]);
-  const img = l.imageSrc && /^https?:/.test(l.imageSrc) ? l.imageSrc : (fallbackImg || '/images/placeholder.jpg');
   const title = `${l.roomCount || ''}-комн. квартира${l.area ? `, ${l.area} м²` : ''}`;
   const params = [
     [<BedDouble key="1" size={18} />, 'Комнат', l.roomCount], [<Ruler key="2" size={18} />, 'Площадь', l.area ? `${l.area} м²` : ''], [<Layers key="3" size={18} />, 'Этаж', l.additionalDetails?.floor || l.floor],
