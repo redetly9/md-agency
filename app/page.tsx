@@ -35,10 +35,12 @@ export default function HomePage() {
             <p className="mt-5 text-lg text-ink-2 max-w-xl leading-relaxed">
               <T k="hero.p" />
             </p>
-            <div className="mt-8 flex flex-col sm:flex-row gap-3">
-              <Button size="lg" href="/start" className="!whitespace-normal text-center"><T k="hero.cta" /> <ArrowRight size={18} className="shrink-0" /></Button>
-              <Button size="lg" variant="secondary" href="/catalog"><T k="hero.cta2" /></Button>
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl">
+              <Button size="lg" href="/catalog"><T k="hero.choose" /> <ArrowRight size={18} className="shrink-0" /></Button>
+              <Button size="lg" variant="secondary" href="/sellers"><T k="hero.sell" /></Button>
+              <Button size="lg" variant="secondary" href="/investors"><T k="hero.invest" /></Button>
             </div>
+            <Link href="/start" className="mt-4 inline-flex items-center gap-1 text-brand font-semibold"><T k="hero.cta" /> <ArrowRight size={16} /></Link>
             <div className="mt-8 grid grid-cols-1 xs:grid-cols-3 gap-2 max-w-lg">
               {[
                 [<UserCheck key="1" size={18} />, <T key="t1" k="hero.f1" />],
@@ -73,6 +75,38 @@ export default function HomePage() {
               <div className="mt-3 text-[11px] text-ink-3 text-center"><T k="hero.example" /></div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* STATS */}
+      <section className="v2-container pb-4">
+        <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-3">
+          {[
+            ['0,8% → 0,4% → 0,168%', 'stats.rent'],
+            ['5–30 лет', 'stats.term'],
+            ['−37%', 'stats.after'],
+            ['30–50%', 'stats.down'],
+          ].map(([v, k]) => (
+            <div key={k} className="v2-card p-5"><div className="text-2xl sm:text-3xl font-extrabold text-brand tabular-nums leading-tight">{v}</div><div className="mt-2 text-sm text-ink-2"><T k={k} /></div></div>
+          ))}
+        </div>
+      </section>
+
+      {/* CONDITIONS */}
+      <section id="conditions" className="v2-container py-14 sm:py-20 scroll-mt-20">
+        <div className="flex items-end justify-between gap-4 flex-wrap">
+          <div><h2 className="v2-h2"><T k="cond.h" /></h2><p className="mt-2 text-ink-2 max-w-2xl"><T k="cond.p" /></p></div>
+          <Link href="/arenda-s-vykupom" className="text-brand font-semibold inline-flex items-center gap-1"><T k="cond.all" /> <ArrowRight size={16} /></Link>
+        </div>
+        <div className="mt-8 divide-y divide-line border-y border-line">
+          {[
+            ['Выкуп 5–30 лет', 'Вы заезжаете сразу и выкупаете квартиру ежемесячными платежами. Досрочный выкуп в любой момент по остатку.'],
+            ['Взнос 30–50%', 'От стоимости квартиры. Без справок о доходах и проверки кредитной истории.'],
+            ['Аренда снижается ступенями', 'Считается от остатка после взноса: 0,8% в месяц первую треть срока, 0,4% вторую, 0,168% третью. Выкуп идёт равными частями в вашу долю.'],
+            ['Собственность после оплаты', 'Цена и условия фиксируются в договоре. После последнего платежа квартира переоформляется на вас.'],
+          ].map(([t, d]) => (
+            <div key={t} className="py-5 grid sm:grid-cols-[260px_1fr] gap-2 sm:gap-6"><div className="text-lg font-bold text-ink">{t}</div><div className="text-ink-2 leading-relaxed">{d}</div></div>
+          ))}
         </div>
       </section>
 
@@ -187,6 +221,7 @@ export default function HomePage() {
         <div className="v2-container py-8 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between text-sm text-ink-3">
           <div className="flex items-center gap-2"><span className="w-7 h-7 rounded-lg bg-brand text-ink text-[10px] font-extrabold flex items-center justify-center">MD</span>© {new Date().getFullYear()} md.kz · Rent · Live · Own</div>
           <div className="flex gap-5">
+            <Link href="/sellers" className="hover:text-ink">Продавцам</Link>
             <Link href="/about" className="hover:text-ink">О компании</Link>
             <Link href="/legal" className="hover:text-ink">Юридическая схема</Link>
             <Link href="/reviews" className="hover:text-ink">Отзывы</Link>
