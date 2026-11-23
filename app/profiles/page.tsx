@@ -64,7 +64,7 @@ export default function ProfilePage() {
           </div>
           <div className="mt-4 flex gap-2">
             <Button href="/start#fit" size="sm">Квартиры под лимит <ArrowRight size={14} /></Button>
-            <Button href="/start" variant="ghost" size="sm">Пересчитать</Button>
+            <Button href="/start" variant="secondary" size="sm" className="border-2 border-brand">Пересчитать</Button>
           </div>
         </div>
       ) : (

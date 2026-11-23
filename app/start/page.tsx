@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight, Check, MapPin, Wallet, PiggyBank, CalendarDays, Sparkles } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, MapPin, Wallet, PiggyBank, CalendarDays, Sparkles, RotateCcw } from 'lucide-react';
 import Button from '@/components/v2/Button';
 import ListingsPreview from '@/components/v2/ListingsPreview';
 import { fmt, maxPrice, quote } from '@/components/v2/calc';
@@ -55,7 +55,7 @@ export default function StartPage() {
   if (done) return (
     <div className="v2-container py-8 sm:py-14 max-w-3xl">
       <div className="v2-card p-6 sm:p-8 shadow-[0_30px_80px_-40px_rgba(11,122,75,0.45)]">
-        <div className="inline-flex items-center gap-2 rounded-full bg-brand-light text-brand px-3 py-1.5 text-xs font-semibold"><Sparkles size={14} /> {t('st.approved')}</div>
+        <div className="flex items-center justify-between gap-3 flex-wrap"><div className="inline-flex items-center gap-2 rounded-full bg-brand-light text-brand px-3 py-1.5 text-xs font-semibold"><Sparkles size={14} /> {t('st.approved')}</div><button type="button" onClick={() => { setDone(false); setStep(0); setSent(null); window.scrollTo({ top: 0 }); }} className="inline-flex items-center gap-2 h-10 px-4 rounded-xl border-2 border-brand text-brand text-sm font-bold hover:bg-brand-soft transition"><RotateCcw size={16} /> {t('st.recalc')}</button></div>
         <div className="mt-4 text-ink-2">{s.name ? `${s.name}, ` : ''}{t('st.youUpTo')} {s.city}</div>
         <div className="mt-1 text-3xl xs:text-4xl sm:text-5xl font-extrabold text-ink tabular-nums">{fmt(limit)} ₸</div>
         <div className="mt-5 grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-4 gap-3">
@@ -81,7 +81,6 @@ export default function StartPage() {
           <Button href="/arenda-s-vykupom#calculator" variant="secondary">{t('st.schedule')}</Button>
           <Button href="#fit" className="sm:flex-1">{t('st.flats')} {fmt(limit / 1_000_000)} {t('mc.mln')} <ArrowRight size={16} /></Button>
         </div>
-        <button type="button" onClick={() => { setDone(false); setStep(0); setSent(null); }} className="mt-4 text-sm text-ink-3 hover:text-ink">{t('st.recalc')}</button>
       </div>
       <div id="fit" className="mt-10 scroll-mt-24">
         <h2 className="v2-h2">{t('st.fit')}</h2>

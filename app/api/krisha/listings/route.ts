@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import axios from 'axios';
+import { krishaHtml } from '@/lib/krisha';
 import { load } from 'cheerio';
 
 interface Listing {
@@ -119,30 +119,7 @@ export async function GET(request: Request) {
     
     console.log('Fetching URL:', URL);
 
-    const axiosResponse = await axios.get(URL, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-        'Accept-Language': 'en-US,en;q=0.5',
-        'Connection': 'keep-alive',
-        'Upgrade-Insecure-Requests': '1',
-        'Cache-Control': 'max-age=0',
-        'Referer': 'https://krisha.kz'
-      },
-      timeout: 10000,
-      validateStatus: function (status) {
-        return status >= 200 && status < 300; // Принимаем только успешные статусы
-      }
-    });
-
-    // Проверяем ответ
-    console.log('Response status:', axiosResponse.status);
-    
-    if (!axiosResponse.data || typeof axiosResponse.data !== 'string') {
-      throw new Error('Invalid response data from Krisha');
-    }
-
-    const html = axiosResponse.data;
+    const html = await krishaHtml(URL, 'a-card__inc', 900);
     const $ = load(html);
 
     const listings: Listing[] = [];

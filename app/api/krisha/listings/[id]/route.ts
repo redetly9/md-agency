@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { load } from 'cheerio';
-import axios from 'axios';
+import { krishaHtml } from '@/lib/krisha';
 
 export async function GET(
   request: Request,
@@ -9,16 +9,7 @@ export async function GET(
   try {
     const URL = `https://krisha.kz/a/show/${params.id}`;
     
-    const response = await axios.get(URL, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-        'Accept-Language': 'en-US,en;q=0.5',
-        'Referer': 'https://krisha.kz'
-      }
-    });
-
-    const html = response.data;
+    const html = await krishaHtml(URL, 'offer__price', 3600);
     const $ = load(html);
 
     // Парсим все изображения

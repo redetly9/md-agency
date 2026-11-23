@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, MapPin, Scale, ExternalLink, BedDouble, Ruler, Building2, Layers, Calendar, Paintbrush } from 'lucide-react';
+import { ArrowLeft, ChevronLeft, ChevronRight, MapPin, Scale, ExternalLink, BedDouble, Ruler, Building2, Layers, Calendar, Paintbrush } from 'lucide-react';
 import Button from '@/components/v2/Button';
 import FavButton from '@/components/v2/FavButton';
 import Cascade from '@/components/v2/Cascade';
@@ -14,7 +14,7 @@ import { fmt, quote } from '@/components/v2/calc';
 import { loadCompare, toggleCompare } from '@/components/v2/compare';
 
 type Listing = {
-  id: string; title: string; description: string; imageSrc: string; price: number; city: string; district: string; street: string;
+  id: string; title: string; description: string; imageSrc: string | string[]; price: number; city: string; district: string; street: string;
   roomCount: string; area: string; floor: string;
   additionalDetails: { city: string; houseType: string; complex: string; buildYear: string; area: string; bathroom: string; ceilingHeight: string; floor: string; condition: string };
 };
@@ -40,6 +40,7 @@ export default function ListingPage() {
   const [down, setDown] = useState(30); const [years, setYears] = useState(30);
   const [cmp, setCmp] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [idx, setIdx] = useState(0);
 
   const [fallbackImg, setFallbackImg] = useState<string>('');
   useEffect(() => {
@@ -53,7 +54,12 @@ export default function ListingPage() {
   if (l === undefined) return <div className="v2-container py-10"><div className="aspect-[16/9] rounded-3xl bg-slate-100 animate-pulse" /><div className="mt-6 h-8 w-2/3 rounded bg-slate-100 animate-pulse" /></div>;
   if (l === null) return <div className="v2-container py-16 text-center"><h1 className="text-2xl font-extrabold text-ink">Объявление недоступно</h1><p className="mt-2 text-ink-2">Возможно, его сняли с публикации.</p><Button href="/catalog" className="mt-5">В каталог</Button></div>;
 
-  const img = l.imageSrc && /^https?:/.test(l.imageSrc) ? l.imageSrc : (fallbackImg || '/images/placeholder.jpg');
+  // у объявления может быть много фото — показываем все, а не только первое
+  const photos = (Array.isArray(l.imageSrc) ? l.imageSrc : [l.imageSrc]).filter((x): x is string => typeof x === 'string' && /^https?:/.test(x));
+  const images = photos.length ? photos : [fallbackImg || '/images/placeholder.jpg'];
+  const cur = Math.min(idx, images.length - 1);
+  const img = images[0];
+  const go = (d: number) => setIdx((cur + d + images.length) % images.length);
   const snap = { id: String(l.id), imageSrc: img, price: l.price, roomCount: l.roomCount, area: l.area, street: l.street, district: l.district, city: l.city, floor: l.floor };
   const addr = cleanAddr([l.street, l.district, l.city]);
   const title = `${l.roomCount || ''}-комн. квартира${l.area ? `, ${l.area} м²` : ''}`;
@@ -69,13 +75,29 @@ export default function ListingPage() {
       <div className="mt-4 grid lg:grid-cols-[1fr_400px] gap-8 items-start">
         <div>
           <div className="relative rounded-3xl overflow-hidden bg-slate-100 aspect-[4/3] sm:aspect-[16/10]">
-            <img src={img} alt={title} className="w-full h-full object-cover" onError={e => { (e.currentTarget as HTMLImageElement).src = fallbackImg || '/images/placeholder.jpg'; }} />
+            <img src={images[cur]} alt={title} className="w-full h-full object-cover" onError={e => { (e.currentTarget as HTMLImageElement).src = fallbackImg || '/images/placeholder.jpg'; }} />
             <div className="absolute top-3 right-3 flex gap-2">
               <FavButton id={String(l.id)} snapshot={snap} />
               <button type="button" onClick={() => setCmp(toggleCompare(snap))} aria-label="Сравнить" className={`w-9 h-9 rounded-full shadow-sm flex items-center justify-center ${cmp ? 'bg-brand text-white' : 'bg-white/95 text-ink-3'}`}><Scale size={15} /></button>
             </div>
             <span className="absolute bottom-3 left-3 px-2.5 py-1.5 rounded-lg bg-white/90 backdrop-blur text-xs font-semibold text-brand">от {fmt(q.first)} ₸/мес в аренду с выкупом</span>
+            {images.length > 1 && (
+              <>
+                <button type="button" onClick={() => go(-1)} aria-label="Предыдущее фото" className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/95 shadow-sm flex items-center justify-center text-ink"><ChevronLeft size={20} /></button>
+                <button type="button" onClick={() => go(1)} aria-label="Следующее фото" className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/95 shadow-sm flex items-center justify-center text-ink"><ChevronRight size={20} /></button>
+                <span className="absolute bottom-3 right-3 px-2.5 py-1.5 rounded-lg bg-black/60 text-white text-xs font-semibold tabular-nums">{cur + 1} / {images.length}</span>
+              </>
+            )}
           </div>
+          {images.length > 1 && (
+            <div className="mt-3 flex gap-2 overflow-x-auto scrollbar-hide">
+              {images.map((src, i) => (
+                <button key={i} type="button" onClick={() => setIdx(i)} aria-label={`Фото ${i + 1}`} className={`shrink-0 w-20 h-16 sm:w-24 sm:h-[72px] rounded-xl overflow-hidden border-2 transition ${i === cur ? 'border-brand' : 'border-transparent opacity-70 hover:opacity-100'}`}>
+                  <img src={src} alt="" loading="lazy" className="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
+          )}
 
           <div className="mt-6 flex items-start justify-between gap-4 flex-wrap">
             <div>

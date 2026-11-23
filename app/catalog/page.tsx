@@ -7,6 +7,7 @@ import ListingCard from '@/components/v2/ListingCard';
 import CompareBar from '@/components/v2/CompareBar';
 import Button from '@/components/v2/Button';
 import { fmt, maxPrice } from '@/components/v2/calc';
+import { fetchListings } from '@/components/v2/fetchListings';
 import type { Snap } from '@/components/v2/compare';
 
 const CITIES = [['almaty', 'Алматы'], ['astana', 'Астана'], ['shymkent', 'Шымкент'], ['karaganda', 'Караганда'], ['aktobe', 'Актобе'], ['taraz', 'Тараз'], ['pavlodar', 'Павлодар'], ['atyrau', 'Атырау']];
@@ -43,7 +44,9 @@ function CatalogInner() {
     if (rooms) url.searchParams.set('rooms', rooms);
     if (priceFrom) url.searchParams.set('priceFrom', priceFrom);
     if (effectivePriceTo) url.searchParams.set('priceTo', effectivePriceTo);
-    fetch(url).then(r => r.json()).then(d => setData({ listings: Array.isArray(d.listings) ? d.listings : [], totalPages: d.pagination?.totalPages || 1 })).catch(() => setData({ listings: [], totalPages: 1 }));
+    let alive = true;
+    fetchListings(url).then(d => { if (alive) setData(d); });
+    return () => { alive = false; };
   }, [region, rooms, priceFrom, effectivePriceTo, page]);
 
   const selectedRooms = rooms ? rooms.split(',') : [];

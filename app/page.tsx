@@ -156,7 +156,7 @@ export default function HomePage() {
           </div>
           <Link href="/catalog" className="text-brand font-semibold inline-flex items-center gap-1"><T k="catalog.all" /> <ArrowRight size={16} /></Link>
         </div>
-        <div className="mt-8"><ListingsPreview limit={6} /></div>
+        <div className="mt-8"><ListingsPreview limit={9} all /></div>
       </section>
 
       {/* COMPARE */}
