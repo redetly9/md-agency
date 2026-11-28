@@ -3,12 +3,12 @@
 import { usePathname } from 'next/navigation';
 import { MessageCircle } from 'lucide-react';
 
-// 8 707 700 41 14 → международный формат для wa.me
-const PHONE = (process.env.NEXT_PUBLIC_WHATSAPP_PHONE || '77077004114').replace(/\D/g, '').replace(/^8(\d{10})$/, '7$1');
+// WhatsApp менеджера: 8 707 700 41 14 в международном формате
+const PHONE = '77077004114';
 
 export default function WhatsAppButton() {
   const pathname = usePathname() || '';
-  if (!PHONE || pathname.startsWith('/teaser') || pathname.startsWith('/offer')) return null;
+  if (pathname.startsWith('/teaser') || pathname.startsWith('/offer')) return null;
   const text = encodeURIComponent('Здравствуйте! Хочу узнать про аренду с выкупом.');
   const url = `https://api.whatsapp.com/send?phone=${PHONE}&text=${text}`;
   // На телефонах новая вкладка часто блокируется (встроенные браузеры Instagram/Telegram, блокировщики всплывающих окон),

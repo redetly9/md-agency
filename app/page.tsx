@@ -133,6 +133,19 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* REFUND */}
+      <section id="refund" className="v2-container pb-14 sm:pb-20 scroll-mt-20">
+        <div className="v2-card p-6 sm:p-8 border-brand-light bg-brand-soft">
+          <div className="flex items-center gap-3">
+            <span className="w-11 h-11 shrink-0 rounded-xl bg-white text-brand flex items-center justify-center"><ShieldCheck /></span>
+            <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-ink">Возврат средств</h2>
+          </div>
+          <p className="mt-4 text-ink-2 leading-relaxed max-w-3xl">Ваши деньги защищены договором. Первоначальный взнос вносится только после подписания договора аренды с выкупом, а порядок возврата прописан в нём заранее, ещё до оплаты.</p>
+          <p className="mt-3 text-ink-2 leading-relaxed max-w-3xl">Если вы решите выйти из сделки, первоначальный взнос и платежи, внесённые в счёт выкупа, возвращаются в порядке и в сроки, указанные в договоре. Перед подписанием менеджер покажет этот раздел и ответит на все вопросы.</p>
+          <Link href="/legal" className="mt-4 inline-flex items-center gap-1 text-brand font-semibold">Как устроена сделка <ArrowRight size={16} /></Link>
+        </div>
+      </section>
+
       {/* CALC */}
       <section id="calc" className="bg-slate-50 border-y border-line scroll-mt-20">
         <div className="v2-container py-14 sm:py-20">
