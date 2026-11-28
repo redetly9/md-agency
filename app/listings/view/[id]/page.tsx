@@ -23,7 +23,7 @@ const strip = (html: string) => html.replace(/<br\s*\/?>/gi, '\n').replace(/<[^>
   .split('\n').map(l => l.trim()).filter(l => !/^(Перевести|Перевод может быть неточным|Показать оригинал)$/i.test(l)).join('\n').replace(/\n{3,}/g, '\n\n').trim();
 const cleanAddr = (parts: string[]) => {
   const out: string[] = [];
-  parts.map(p => (p || '').replace(/показать на карте/gi, '').trim()).filter(Boolean).forEach(p => { if (!out.some(o => o.toLowerCase() === p.toLowerCase())) out.push(p); });
+  parts.map(p => (p || '').replace(/показать на карте|неизвестн(ый район|ая улица)/gi, '').trim()).filter(Boolean).forEach(p => { if (!out.some(o => o.toLowerCase() === p.toLowerCase())) out.push(p); });
   return out.join(', ');
 };
 async function fetchListing(id: string, tries = 3): Promise<any> {
@@ -44,8 +44,18 @@ export default function ListingPage() {
 
   const [fallbackImg, setFallbackImg] = useState<string>('');
   useEffect(() => {
-    try { const c = sessionStorage.getItem(`md_snap_${id}`); if (c) setFallbackImg(JSON.parse(c).imageSrc || ''); } catch {}
-    fetchListing(String(id)).then(setL);
+    // Данные карточки из каталога: если подробности объявления не загрузились, открываем страницу по ним
+    let snap: any = null;
+    try { const c = sessionStorage.getItem(`md_snap_${id}`); if (c) { snap = JSON.parse(c); setFallbackImg(snap.imageSrc || ''); } } catch {}
+    // Показываем карточку сразу, а подробности (все фото, описание) подставляем, когда они загрузятся
+    const hasSnap = !!snap?.price;
+    if (hasSnap) setL({
+        id: String(id), title: '', description: '', imageSrc: snap.imageSrc || '', price: Number(snap.price) || 0,
+        city: snap.city || '', district: snap.district || '', street: snap.street || '',
+        roomCount: String(snap.roomCount || ''), area: String(snap.area || '').replace(/\s*м²/, ''), floor: String(snap.floor || ''),
+        additionalDetails: { city: '', houseType: '', complex: '', buildYear: '', area: '', bathroom: '', ceilingHeight: '', floor: '', condition: '' },
+      });
+    fetchListing(String(id)).then(d => { if (d || !hasSnap) setL(d); });
   }, [id]);
   useEffect(() => { const sync = () => setCmp(loadCompare().some(x => x.id === String(id))); sync(); window.addEventListener('md_compare', sync); return () => window.removeEventListener('md_compare', sync); }, [id]);
 
@@ -62,7 +72,7 @@ export default function ListingPage() {
   const go = (d: number) => setIdx((cur + d + images.length) % images.length);
   const snap = { id: String(l.id), imageSrc: img, price: l.price, roomCount: l.roomCount, area: l.area, street: l.street, district: l.district, city: l.city, floor: l.floor };
   const addr = cleanAddr([l.street, l.district, l.city]);
-  const title = `${l.roomCount || ''}-комн. квартира${l.area ? `, ${l.area} м²` : ''}`;
+  const title = `${Number(l.roomCount) ? `${l.roomCount}-комн. квартира` : 'Квартира'}${l.area ? `, ${l.area} м²` : ''}`;
   const params = [
     [<BedDouble key="1" size={18} />, 'Комнат', l.roomCount], [<Ruler key="2" size={18} />, 'Площадь', l.area ? `${l.area} м²` : ''], [<Layers key="3" size={18} />, 'Этаж', l.additionalDetails?.floor || l.floor],
     [<Building2 key="4" size={18} />, 'Дом', l.additionalDetails?.houseType], [<Calendar key="5" size={18} />, 'Год', l.additionalDetails?.buildYear], [<Paintbrush key="6" size={18} />, 'Состояние', l.additionalDetails?.condition],
